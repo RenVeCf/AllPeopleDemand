@@ -30,7 +30,6 @@
             android:id="@+id/riv_head"
             android:layout_width="@dimen/x120"
             android:layout_height="@dimen/y120"
-            android:src="@mipmap/ic_default_head"
             app:riv_is_circle="true" />
 
         <LinearLayout

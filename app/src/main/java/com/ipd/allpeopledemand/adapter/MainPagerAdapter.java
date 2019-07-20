@@ -13,6 +13,7 @@ import com.ipd.allpeopledemand.bean.MainListBean;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
 import com.ipd.allpeopledemand.utils.FormatCurrentData;
 import com.ipd.allpeopledemand.utils.SPUtil;
+import com.xuexiang.xui.widget.imageview.RadiusImageView;
 import com.xuexiang.xui.widget.textview.label.LabelImageView;
 
 import java.util.List;
@@ -38,6 +39,7 @@ public class MainPagerAdapter extends BaseMultiItemQuickAdapter<MainListBean.Dat
     protected void convert(BaseViewHolder helper, MainListBean.DataBean.ReleaseListBean item) {
         switch (helper.getItemViewType()) {
             case 1:
+                Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + item.getAvatar()).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into((RadiusImageView) helper.getView(R.id.riv_head));
                 CheckBox cbCollection = helper.getView(R.id.cb_collection);
                 switch (item.getIsFollow()) {
                     case "1":
