@@ -33,11 +33,11 @@ public class PointsAccountAdapter extends BaseQuickAdapter<AccountBean.DataBean.
             stvPointsDetails.setLeftString(item.getContent());
         switch (item.getAstype()) {
             case "1":
-                stvPointsDetails.setRightString("+" + item.getAstype())
+                stvPointsDetails.setRightString("+" + ("1".equals(item.getType()) ? item.getIntegralNum() : item.getMoney()))
                         .setRightTextColor(ApplicationUtil.getContext().getResources().getColor(R.color.tx_bottom_navigation_select));
                 break;
             case "2":
-                stvPointsDetails.setRightString("-" + item.getAstype())
+                stvPointsDetails.setRightString("-" + ("1".equals(item.getType()) ? item.getIntegralNum() : item.getMoney()))
                         .setRightTextColor(ApplicationUtil.getContext().getResources().getColor(R.color.black));
                 break;
         }
