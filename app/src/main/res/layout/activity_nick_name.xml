@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.NickNameActivity">
+
+    <com.ipd.allpeopledemand.common.view.TopView
+        android:id="@+id/tv_modify_nickname"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:gravity="bottom"
+        app:is_back="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="修改昵称" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y200"
+        android:layout_marginTop="@dimen/y20"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/x50"
+        android:paddingEnd="@dimen/x50"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_modify_nickname">
+
+        <EditText
+            android:id="@+id/et_modify_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y150"
+            android:background="@color/input_color"
+            android:hint="请输入昵称"
+            android:maxLength="6"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <com.xuexiang.xui.widget.button.RippleView
+        android:id="@+id/rv_modify_nickname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/x50"
+        android:layout_marginTop="@dimen/y100"
+        android:layout_marginEnd="@dimen/x50"
+        android:layout_marginBottom="@dimen/y50"
+        android:background="@drawable/bg_gradient_bt"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:rv_type="simpleRipple">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y150"
+            android:layout_gravity="center"
+            android:layout_marginStart="?attr/xui_config_content_spacing_horizontal"
+            android:layout_marginEnd="?attr/xui_config_content_spacing_horizontal"
+            android:gravity="center"
+            android:text="确认"
+            android:textColor="@color/xui_config_color_white"
+            android:textSize="18sp" />
+    </com.xuexiang.xui.widget.button.RippleView>
+</androidx.constraintlayout.widget.ConstraintLayout>

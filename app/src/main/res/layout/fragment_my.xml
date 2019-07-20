@@ -1,0 +1,260 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ipd.allpeopledemand.fragment.MyFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y650"
+        android:background="@mipmap/bg_my"
+        android:layout_marginTop="@dimen/y150"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.ipd.allpeopledemand.common.view.TopView
+            android:id="@+id/tv_my"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="bottom"
+            app:title="我的"
+            app:title_color="@color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/y100"
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/x50"
+            android:paddingStart="@dimen/x50">
+
+            <com.xuexiang.xui.widget.imageview.RadiusImageView
+                android:id="@+id/riv_head"
+                android:layout_width="@dimen/x180"
+                android:layout_height="@dimen/y180"
+                app:riv_border_color="@color/white"
+                app:riv_border_width="2dp"
+                app:riv_is_circle="true" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/x50"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_all_people_code"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x20"
+                        android:layout_weight="1"
+                        android:textColor="@color/white" />
+
+                    <ImageButton
+                        android:id="@+id/ib_check_in"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:paddingBottom="@dimen/y150"
+                        android:paddingEnd="@dimen/x50"
+                        android:paddingStart="@dimen/x150"
+                        android:paddingTop="@dimen/y150"
+                        android:src="@mipmap/ic_check_in" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_online_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_rank_lable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_class_room_text_label"
+                        android:paddingBottom="@dimen/y5"
+                        android:paddingEnd="@dimen/x15"
+                        android:paddingStart="@dimen/x15"
+                        android:paddingTop="@dimen/y5"
+                        android:text="平台股东"
+                        android:textColor="@color/white"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:id="@+id/tv_certification_lable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x50"
+                        android:background="@drawable/bg_class_room_audio_label"
+                        android:paddingBottom="@dimen/y5"
+                        android:paddingEnd="@dimen/x15"
+                        android:paddingStart="@dimen/x15"
+                        android:paddingTop="@dimen/y5"
+                        android:text="芝麻信用分认证"
+                        android:textColor="@color/white"
+                        android:textSize="10sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.ipd.allpeopledemand.common.view.BounceScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/x50"
+            android:layout_marginStart="@dimen/x50"
+            android:orientation="vertical">
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_information"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y150"
+                android:paddingEnd="@dimen/x50"
+                android:paddingStart="@dimen/x50"
+                app:sDividerLineType="none"
+                app:sLeftIconRes="@mipmap/ic_information"
+                app:sLeftTextSize="16sp"
+                app:sLeftTextString="个人资料"
+                app:sRightIconRes="@mipmap/ic_arrow_end"
+                app:sShapeCornersRadius="6dp"
+                app:sShapeSelectorPressedColor="@color/input_color"
+                app:sUseShape="true" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_account"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y150"
+                android:layout_marginTop="@dimen/y50"
+                android:paddingEnd="@dimen/x50"
+                android:paddingStart="@dimen/x50"
+                app:sDividerLineType="none"
+                app:sLeftIconRes="@mipmap/ic_account"
+                app:sLeftTextSize="16sp"
+                app:sLeftTextString="我的账户"
+                app:sRightIconRes="@mipmap/ic_arrow_end"
+                app:sShapeCornersRadius="6dp"
+                app:sShapeSelectorPressedColor="@color/input_color"
+                app:sUseShape="true" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_push"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y150"
+                android:layout_marginTop="@dimen/y50"
+                android:paddingEnd="@dimen/x50"
+                android:paddingStart="@dimen/x50"
+                app:sDividerLineType="none"
+                app:sLeftIconRes="@mipmap/ic_push"
+                app:sLeftTextSize="16sp"
+                app:sLeftTextString="我的发布"
+                app:sRightIconRes="@mipmap/ic_arrow_end"
+                app:sShapeCornersRadius="6dp"
+                app:sShapeSelectorPressedColor="@color/input_color"
+                app:sUseShape="true" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_attention"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y150"
+                android:layout_marginTop="@dimen/y50"
+                android:paddingEnd="@dimen/x50"
+                android:paddingStart="@dimen/x50"
+                app:sDividerLineType="none"
+                app:sLeftIconRes="@mipmap/ic_attention"
+                app:sLeftTextSize="16sp"
+                app:sLeftTextString="我的关注"
+                app:sRightIconRes="@mipmap/ic_arrow_end"
+                app:sShapeCornersRadius="6dp"
+                app:sShapeSelectorPressedColor="@color/input_color"
+                app:sUseShape="true" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_buy"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y150"
+                android:layout_marginTop="@dimen/y50"
+                android:paddingEnd="@dimen/x50"
+                android:paddingStart="@dimen/x50"
+                app:sDividerLineType="none"
+                app:sLeftIconRes="@mipmap/ic_buy"
+                app:sLeftTextSize="16sp"
+                app:sLeftTextString="我的购买"
+                app:sRightIconRes="@mipmap/ic_arrow_end"
+                app:sShapeCornersRadius="6dp"
+                app:sShapeSelectorPressedColor="@color/input_color"
+                app:sUseShape="true" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_share"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y150"
+                android:layout_marginTop="@dimen/y50"
+                android:paddingEnd="@dimen/x50"
+                android:paddingStart="@dimen/x50"
+                app:sDividerLineType="none"
+                app:sLeftIconRes="@mipmap/ic_share"
+                app:sLeftTextSize="16sp"
+                app:sLeftTextString="分享好友"
+                app:sRightIconRes="@mipmap/ic_arrow_end"
+                app:sShapeCornersRadius="6dp"
+                app:sShapeSelectorPressedColor="@color/input_color"
+                app:sUseShape="true" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_setting"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y150"
+                android:layout_marginTop="@dimen/y50"
+                android:paddingEnd="@dimen/x50"
+                android:paddingStart="@dimen/x50"
+                app:sDividerLineType="none"
+                app:sLeftIconRes="@mipmap/ic_setting"
+                app:sLeftTextSize="16sp"
+                app:sLeftTextString="设置"
+                app:sRightIconRes="@mipmap/ic_arrow_end"
+                app:sShapeCornersRadius="6dp"
+                app:sShapeSelectorPressedColor="@color/input_color"
+                app:sUseShape="true" />
+        </LinearLayout>
+    </com.ipd.allpeopledemand.common.view.BounceScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

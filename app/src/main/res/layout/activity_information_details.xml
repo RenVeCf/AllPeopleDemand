@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ipd.allpeopledemand.activity.InformationDetailsActivity">
+
+    <com.ipd.allpeopledemand.common.view.TopView
+        android:id="@+id/tv_report"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:gravity="bottom"
+        app:is_back="true"
+        app:is_report="true"
+        app:title="资讯详情" />
+
+    <com.ipd.allpeopledemand.common.view.BounceScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y10"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="@dimen/x50">
+
+                <com.xuexiang.xui.widget.imageview.RadiusImageView
+                    android:id="@+id/riv_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y350"
+                    android:clickable="false"
+                    app:riv_corner_radius="15dp" />
+
+                <com.xuexiang.xui.widget.textview.ExpandableTextView
+                    android:id="@+id/tv_synopsis"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/y50"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:etv_maxCollapsedLines="1">
+
+                    <TextView
+                        android:id="@id/expandable_text"
+                        style="@style/TextStyle.Content"
+                        android:layout_width="match_parent"
+                        android:gravity="center_vertical"
+                        android:singleLine="false" />
+
+                    <ImageButton
+                        android:id="@id/expand_collapse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|bottom"
+                        android:background="@android:color/transparent"
+                        android:padding="?attr/xui_config_content_spacing_vertical" />
+
+                </com.xuexiang.xui.widget.textview.ExpandableTextView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/y50"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.xuexiang.xui.widget.imageview.RadiusImageView
+                        android:id="@+id/riv_head"
+                        android:layout_width="@dimen/x120"
+                        android:layout_height="@dimen/y120"
+                        app:riv_is_circle="true" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x20"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:id="@+id/tv_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:textColor="@color/gray1"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_read_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/x50"
+                        android:drawableStart="@mipmap/ic_read"
+                        android:drawablePadding="@dimen/x10"
+                        android:gravity="center"
+                        android:textColor="@color/tx_bottom_navigation" />
+
+                    <CheckBox
+                        android:id="@+id/cb_collection"
+                        android:layout_width="@dimen/x100"
+                        android:layout_height="@dimen/y100"
+                        android:button="@drawable/select_collection" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y50"
+                android:layout_marginBottom="@dimen/y200"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="@dimen/x50">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@mipmap/ic_book"
+                    android:drawablePadding="@dimen/x20"
+                    android:text="详细描述"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/y50"
+                    android:textColor="@color/tx_bottom_navigation"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.ipd.allpeopledemand.common.view.BounceScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y200"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:id="@+id/ll_not_pay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x50"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_pay_fee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/tx_bottom_navigation_select" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="立即支付，即刻查看联系方式"
+                    android:textColor="@color/tx_bottom_navigation" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/bt_pay"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/y50"
+                android:layout_marginEnd="@dimen/x50"
+                android:layout_marginBottom="@dimen/y50"
+                android:layout_weight="1.5"
+                android:background="@drawable/bg_gradient_bt"
+                android:text="查看联系方式"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_pay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x50"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_contact_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tv_contact_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/tx_bottom_navigation" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/x50"
+                android:layout_weight="1.5"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/y50"
+                android:paddingBottom="@dimen/y50">
+
+                <Button
+                    android:id="@+id/bt_contact_msg"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_look_contact_start"
+                    android:gravity="center"
+                    android:text="发送短信"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/bt_contact_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_look_contact_end"
+                    android:gravity="center"
+                    android:text="拨打电话"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

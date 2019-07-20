@@ -1,0 +1,65 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ipd.allpeopledemand.fragment.FeedbackFragment">
+
+    <com.ipd.allpeopledemand.common.view.TopView
+        android:id="@+id/tv_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y300"
+        android:background="@color/white"
+        android:gravity="bottom"
+        app:title="联系我们" />
+
+    <EditText
+        android:id="@+id/et_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y150"
+        android:layout_marginTop="@dimen/y40"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:hint="请输入标题"
+        android:paddingStart="@dimen/x50"
+        android:textColor="@color/tx_bottom_navigation"
+        android:textColorHint="@color/tx_bottom_navigation"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y800"
+        android:layout_marginTop="@dimen/y40"
+        android:background="@color/white"
+        android:gravity="start|top"
+        android:hint="请输入您的意见或建议"
+        android:padding="@dimen/x50"
+        android:textColor="@color/tx_bottom_navigation"
+        android:textColorHint="@color/tx_bottom_navigation"
+        android:textSize="16sp" />
+
+    <com.xuexiang.xui.widget.button.RippleView
+        android:id="@+id/rv_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/y50"
+        android:layout_marginEnd="@dimen/x50"
+        android:layout_marginStart="@dimen/x50"
+        android:layout_marginTop="@dimen/y100"
+        android:background="@drawable/bg_gradient_bt"
+        app:rv_type="simpleRipple">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y150"
+            android:layout_gravity="center"
+            android:layout_marginEnd="?attr/xui_config_content_spacing_horizontal"
+            android:layout_marginStart="?attr/xui_config_content_spacing_horizontal"
+            android:gravity="center"
+            android:text="提交"
+            android:textColor="@color/xui_config_color_white"
+            android:textSize="18sp" />
+    </com.xuexiang.xui.widget.button.RippleView>
+</LinearLayout>

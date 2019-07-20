@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_share"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context="com.ipd.allpeopledemand.activity.ShareActivity">
+
+    <com.ipd.allpeopledemand.common.view.TopView
+        android:id="@+id/tv_share"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="bottom"
+        app:is_back="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="分享好友"
+        app:title_color="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/ll_qr"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/y100"
+        android:background="@drawable/bg_pop"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_share"
+        app:layout_constraintWidth_percent="0.9">
+
+        <TextView
+            android:id="@+id/tv_average_share_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/y50"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+            android:id="@+id/stv_title"
+            android:layout_width="@dimen/x500"
+            android:layout_height="0dp"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_weight="1"
+            app:sDividerLineType="none"
+            app:sLeftIconHeight="@dimen/y100"
+            app:sLeftIconWidth="@dimen/x100"
+            app:sLeftTextColor="@color/black"
+            app:sLeftTextSize="16sp" />
+
+        <ImageView
+            android:id="@+id/iv_qr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/y100" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/ts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y100"
+        android:text="——  将我的二维码分享给  ——"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_qr" />
+
+    <LinearLayout
+        android:id="@+id/ll_share"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y50"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ts">
+
+        <ImageButton
+            android:id="@+id/ib_wechat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:src="@mipmap/ic_wechat" />
+
+        <ImageButton
+            android:id="@+id/ib_moments"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:src="@mipmap/ic_moments" />
+    </LinearLayout>
+
+    <com.xuexiang.xui.widget.button.RippleView
+        android:id="@+id/rv_invite_my_friends"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y100"
+        android:background="@drawable/bg_gradient_white_bt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_share"
+        app:layout_constraintWidth_percent="0.6"
+        app:rv_type="simpleRipple">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y150"
+            android:layout_gravity="center"
+            android:layout_marginEnd="?attr/xui_config_content_spacing_horizontal"
+            android:layout_marginStart="?attr/xui_config_content_spacing_horizontal"
+            android:gravity="center"
+            android:text="我邀请的好友"
+            android:textColor="@color/tx_bottom_navigation_select"
+            android:textSize="16sp" />
+    </com.xuexiang.xui.widget.button.RippleView>
+</androidx.constraintlayout.widget.ConstraintLayout>

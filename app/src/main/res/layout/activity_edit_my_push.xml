@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ipd.allpeopledemand.activity.EditMyPushActivity">
+
+    <com.ipd.allpeopledemand.common.view.TopView
+        android:id="@+id/tv_edit_my_push"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:gravity="bottom"
+        app:is_back="true"
+        app:title="编辑我的发布" />
+
+    <com.ipd.allpeopledemand.common.view.BounceScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_title"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y150"
+                android:paddingEnd="@dimen/x50"
+                android:paddingStart="@dimen/x50"
+                app:sCenterTextColor="@color/tx_bottom_navigation"
+                app:sCenterViewGravity="right_center"
+                app:sDividerLineType="bottom"
+                app:sEditTextWidth="@dimen/x700"
+                app:sEnableEdit="true"
+                app:sLeftTextColor="@color/black"
+                app:sLeftTextSize="16sp"
+                app:sLeftTextString="标题:" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_city"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y150"
+                android:paddingEnd="@dimen/x50"
+                android:paddingStart="@dimen/x50"
+                app:sCenterTextColor="@color/tx_bottom_navigation"
+                app:sCenterViewGravity="left_center"
+                app:sDividerLineType="bottom"
+                app:sLeftTextColor="@color/black"
+                app:sLeftTextSize="16sp"
+                app:sLeftTextString="目标区域:"
+                app:sRightIconRes="@mipmap/ic_arrow_end" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_contact_name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y150"
+                android:paddingEnd="@dimen/x50"
+                android:paddingStart="@dimen/x50"
+                app:sCenterTextColor="@color/tx_bottom_navigation"
+                app:sCenterViewGravity="left_center"
+                app:sDividerLineType="bottom"
+                app:sLeftTextColor="@color/black"
+                app:sLeftTextSize="16sp"
+                app:sLeftTextString="联系人:" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_contact_phone"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y150"
+                android:paddingEnd="@dimen/x50"
+                android:paddingStart="@dimen/x50"
+                app:sCenterTextColor="@color/tx_bottom_navigation"
+                app:sCenterViewGravity="left_center"
+                app:sDividerLineType="bottom"
+                app:sLeftTextColor="@color/black"
+                app:sLeftTextSize="16sp"
+                app:sLeftTextString="联系电话:" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y40"
+                android:background="@color/white"
+                android:padding="@dimen/x50">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/y50"
+                    android:text="添加照片"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toTopOf="@+id/riv_modify"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <com.xuexiang.xui.widget.imageview.RadiusImageView
+                    android:id="@+id/riv_modify"
+                    android:layout_width="@dimen/x180"
+                    android:layout_height="@dimen/y180"
+                    android:src="@mipmap/bg_upload_class_room"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:riv_corner_radius="7dp"
+                    app:riv_is_touch_select_mode_enabled="true"
+                    app:riv_selected_mask_color="@color/xui_config_color_gray_8" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x20"
+                    android:text="图片不允许带有自己或者别人的联系方式。"
+                    android:textColor="@color/tx_bottom_navigation"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/riv_modify" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y400"
+                android:layout_marginTop="@dimen/y40"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="@dimen/x50">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="详情描述:"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x80"
+                        android:text="不允许带有自己或者别人的联系方式。"
+                        android:textColor="@color/tx_bottom_navigation" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/et_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/y20"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="top|start"
+                    android:textColor="@color/tx_bottom_navigation"
+                    android:textColorHint="@color/tx_bottom_navigation" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y40"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="@dimen/x50">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="搜索关键词"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x50"
+                        android:text="限添加3个"
+                        android:textColor="@color/tx_bottom_navigation"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/y50"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/et_modify_key"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_gray_stroke_bt"
+                        android:hint="输入搜索关键词"
+                        android:paddingBottom="@dimen/y20"
+                        android:paddingStart="@dimen/x50"
+                        android:paddingTop="@dimen/y20"
+                        android:textColor="@color/tx_bottom_navigation"
+                        android:textColorHint="@color/tx_bottom_navigation"
+                        android:textSize="16sp" />
+
+                    <Button
+                        android:id="@+id/bt_modify_key"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x50"
+                        android:background="@drawable/bg_gradient_bt"
+                        android:gravity="center"
+                        android:text="添加"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+                <com.xuexiang.xui.widget.flowlayout.FlowTagLayout
+                    android:id="@+id/ftl_key"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/x50" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/x50">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="注: "
+                    android:textColor="@color/tx_bottom_navigation_select"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x20"
+                    android:layout_weight="1"
+                    android:text="标题，内容，图片，头像，不允许体现联系方式。管理员发现/或者用户举报，帖子下架，多次发现封发帖权限（不等于封号），申请权限可恢复。"
+                    android:textColor="@color/tx_bottom_navigation"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <com.xuexiang.xui.widget.button.RippleView
+                android:id="@+id/rv_modify_push"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/y50"
+                android:layout_marginEnd="@dimen/x50"
+                android:layout_marginStart="@dimen/x50"
+                android:layout_marginTop="@dimen/y100"
+                android:background="@drawable/bg_gradient_bt"
+                app:rv_type="simpleRipple">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y150"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="?attr/xui_config_content_spacing_horizontal"
+                    android:layout_marginStart="?attr/xui_config_content_spacing_horizontal"
+                    android:gravity="center"
+                    android:text="提交修改"
+                    android:textColor="@color/xui_config_color_white"
+                    android:textSize="18sp" />
+            </com.xuexiang.xui.widget.button.RippleView>
+        </LinearLayout>
+    </com.ipd.allpeopledemand.common.view.BounceScrollView>
+</LinearLayout>

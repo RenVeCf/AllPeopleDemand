@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_pop"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/y50"
+    android:paddingTop="@dimen/y50">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="注册成功"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_content_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginEnd="@dimen/x100"
+        android:layout_marginStart="@dimen/x100"
+        android:layout_marginTop="@dimen/y50"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/tv_content_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/y50"
+        android:textColor="@color/tx_bottom_navigation" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/y50"
+        android:src="@mipmap/ic_register_success" />
+
+    <Button
+        android:id="@+id/bv_register_success"
+        android:layout_width="@dimen/x500"
+        android:layout_height="@dimen/y100"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/y50"
+        android:layout_marginTop="@dimen/y50"
+        android:background="@drawable/bg_gradient_bt"
+        android:gravity="center"
+        android:text="快去发布你的需求吧"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+</LinearLayout>

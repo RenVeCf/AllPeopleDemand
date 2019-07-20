@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="top"
+        android:maxLines="2"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/y50"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.xuexiang.xui.widget.imageview.RadiusImageView
+            android:id="@+id/riv_head"
+            android:layout_width="@dimen/x120"
+            android:layout_height="@dimen/y120"
+            android:src="@mipmap/ic_default_head"
+            app:riv_is_circle="true" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x20"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textColor="@color/gray1"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/x50"
+            android:background="@drawable/bg_label"
+            android:gravity="center"
+            android:paddingStart="@dimen/x30"
+            android:paddingTop="@dimen/y10"
+            android:paddingEnd="@dimen/x30"
+            android:paddingBottom="@dimen/y10"
+            android:textColor="@color/tx_bottom_navigation_select"
+            android:textSize="12sp" />
+
+        <CheckBox
+            android:id="@+id/cb_collection"
+            android:layout_width="@dimen/x100"
+            android:layout_height="@dimen/y100"
+            android:button="@drawable/select_collection" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="@dimen/y50"
+        android:layout_marginBottom="@dimen/y50"
+        android:background="@color/bg_fine_line" />
+</LinearLayout>

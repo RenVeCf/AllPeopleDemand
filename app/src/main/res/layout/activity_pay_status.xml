@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ipd.allpeopledemand.activity.PayStatusActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/bg_pay_status"
+        android:orientation="vertical">
+
+        <com.ipd.allpeopledemand.common.view.TopView
+            android:id="@+id/tv_pay_status"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="bottom"
+            app:is_back="true"
+            app:title="支付"
+            app:title_color="@color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_pay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/y100"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/y100"
+        android:background="@drawable/bg_label"
+        android:gravity="center"
+        android:paddingBottom="@dimen/y20"
+        android:paddingEnd="@dimen/x50"
+        android:paddingStart="@dimen/x50"
+        android:paddingTop="@dimen/y20"
+        android:text="返回详情查看联系方式"
+        android:textColor="@color/tx_bottom_navigation_select"
+        android:textSize="16sp" />
+</LinearLayout>

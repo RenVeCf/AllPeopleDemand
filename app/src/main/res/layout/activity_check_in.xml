@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.ipd.allpeopledemand.activity.CheckInActivity">
+
+    <com.ipd.allpeopledemand.common.view.TopView
+        android:id="@+id/tv_check_in"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:gravity="bottom"
+        app:is_back="true"
+        app:title="签到" />
+
+    <com.ipd.allpeopledemand.common.view.BounceScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x50"
+            android:layout_marginEnd="@dimen/x50"
+            android:orientation="vertical">
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y150"
+                android:layout_marginTop="@dimen/y50"
+                app:sBackgroundDrawableRes="@drawable/bg_calendar_title"
+                app:sCenterTextColor="@color/black"
+                app:sLeftTextColor="@color/tx_bottom_navigation"
+                app:sLeftTextSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_calendar_content"
+                android:orientation="vertical"
+                android:padding="@dimen/x50">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextStyle.Calendar"
+                        android:text="日" />
+
+                    <TextView
+                        style="@style/TextStyle.Calendar"
+                        android:text="一" />
+
+                    <TextView
+                        style="@style/TextStyle.Calendar"
+                        android:text="二" />
+
+                    <TextView
+                        style="@style/TextStyle.Calendar"
+                        android:text="三" />
+
+                    <TextView
+                        style="@style/TextStyle.Calendar"
+                        android:text="四" />
+
+                    <TextView
+                        style="@style/TextStyle.Calendar"
+                        android:text="五" />
+
+                    <TextView
+                        style="@style/TextStyle.Calendar"
+                        android:text="六" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F1F1F1" />
+
+                <com.codbking.calendar.CalendarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                    <com.codbking.calendar.CalendarDateView
+                        android:id="@+id/calendarDateView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cdv_selectFirstDayOfMonth="false" />
+                </com.codbking.calendar.CalendarLayout>
+            </LinearLayout>
+
+            <com.xuexiang.xui.widget.button.RippleView
+                android:id="@+id/rv_check_in"
+                android:layout_width="@dimen/x500"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/y50"
+                android:background="@drawable/bg_gradient_bt"
+                app:rv_type="simpleRipple">
+
+                <TextView
+                    android:id="@+id/tv_check_in_now"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y130"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="?attr/xui_config_content_spacing_horizontal"
+                    android:layout_marginEnd="?attr/xui_config_content_spacing_horizontal"
+                    android:gravity="center"
+                    android:text="点击签到"
+                    android:textColor="@color/xui_config_color_white"
+                    android:textSize="18sp" />
+            </com.xuexiang.xui.widget.button.RippleView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y50"
+                android:text="签到规则"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y50"
+                android:text="@string/check_in_rules"
+                android:textColor="@color/tx_bottom_navigation"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </com.ipd.allpeopledemand.common.view.BounceScrollView>
+</LinearLayout>

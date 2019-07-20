@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ipd.allpeopledemand.activity.AccountActivity">
+
+    <com.ipd.allpeopledemand.common.view.TopView
+        android:id="@+id/tv_account"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="bottom"
+        app:is_account="true"
+        app:is_back="true"
+        app:is_faq="true" />
+
+    <LinearLayout
+        android:id="@+id/ll_points_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y500"
+            android:background="@color/tx_bottom_navigation_select"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="bottom|center_horizontal"
+                android:text="账户积分总数"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_total_points"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/y50"
+                android:layout_weight="1"
+                android:gravity="top|center_horizontal"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x50"
+            android:layout_marginTop="@dimen/y50"
+            android:drawablePadding="@dimen/x20"
+            android:drawableStart="@mipmap/ic_points_details"
+            android:text="积分明细"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/srl_points_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_points_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_reward_account"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/x50"
+            android:layout_marginStart="@dimen/x50"
+            android:background="@mipmap/bg_reward_account"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:text="账户余额"
+                android:textColor="#715422"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_total_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_marginTop="@dimen/y50"
+                android:layout_weight="1"
+                android:textColor="#715422"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x50"
+            android:layout_marginTop="@dimen/y50"
+            android:drawablePadding="@dimen/x20"
+            android:drawableStart="@mipmap/ic_points_details"
+            android:text="余额明细"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/srl_balance_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_balance_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sort_mode_entry">
+        <item>北京市</item>
+        <item>天津市</item>
+        <item>石家庄市</item>
+        <item>唐山市</item>
+        <item>秦皇岛市</item>
+        <item>邯郸市</item>
+        <item>邢台市</item>
+        <item>保定市</item>
+        <item>张家口</item>
+        <item>承德市</item>
+        <item>沧州市</item>
+        <item>廊坊市</item>
+        <item>衡水市</item>
+        <item>太原市</item>
+        <item>大同市</item>
+        <item>阳泉市</item>
+        <item>长治市</item>
+        <item>晋城市</item>
+        <item>朔州市</item>
+        <item>忻州市</item>
+        <item>吕梁市</item>
+        <item>晋中市</item>
+        <item>临汾市</item>
+        <item>运城市</item>
+        <item>呼和浩特市</item>
+        <item>包头市</item>
+        <item>乌海市</item>
+        <item>赤峰市</item>
+        <item>呼伦贝尔市</item>
+        <item>赤峰市</item>
+    </string-array>
+</resources>

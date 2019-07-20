@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ipd.allpeopledemand.fragment.MainFragment">
+
+    <com.ipd.allpeopledemand.common.view.TopView
+        android:id="@+id/tv_main"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y350"
+        android:background="@color/white"
+        android:gravity="bottom"
+        app:is_location="true"
+        app:is_msg="true"
+        app:is_search="true" />
+
+    <com.ipd.allpeopledemand.common.view.NavitationFollowScrollLayoutText
+        android:id="@+id/nfsl_fragment_main"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp_fragment_main"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+</LinearLayout>
