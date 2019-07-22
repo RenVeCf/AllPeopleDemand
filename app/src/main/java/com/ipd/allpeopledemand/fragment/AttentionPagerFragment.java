@@ -24,7 +24,6 @@ import com.ipd.allpeopledemand.bean.AttentionListBean;
 import com.ipd.allpeopledemand.contract.AttentionListContract;
 import com.ipd.allpeopledemand.presenter.AttentionListPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
-import com.ipd.allpeopledemand.utils.L;
 import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.StringUtils;
@@ -57,6 +56,7 @@ public class AttentionPagerFragment extends BaseFragment<AttentionListContract.V
     private AttentionPagerAdapter attentionPagerAdapter;
     private int pageNum = 1;//页数
     private String releaseClassId = "";
+    private int removePosition;//点收藏删除的position
 
     @Override
     public int getLayoutId() {
@@ -119,6 +119,7 @@ public class AttentionPagerFragment extends BaseFragment<AttentionListContract.V
         if (data != null) {
             switch (requestCode) {
                 case REQUEST_CODE_98:
+                    pageNum = 1;
                     initData();
                     break;
             }
@@ -152,6 +153,7 @@ public class AttentionPagerFragment extends BaseFragment<AttentionListContract.V
                             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                                 switch (view.getId()) {
                                     case R.id.cb_collection:
+                                        removePosition = position;
                                         CheckBox checkBox = (CheckBox) view;
                                         TreeMap<String, String> attentionCollectionMap = new TreeMap<>();
                                         attentionCollectionMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
@@ -193,6 +195,7 @@ public class AttentionPagerFragment extends BaseFragment<AttentionListContract.V
                         }
                     }
                 } else {
+                    followListBean.clear();
                     attentionPagerAdapter = new AttentionPagerAdapter(followListBean);
                     rvAttention.setAdapter(attentionPagerAdapter);
                     attentionPagerAdapter.loadMoreEnd(); //完成所有加载
@@ -213,13 +216,19 @@ public class AttentionPagerFragment extends BaseFragment<AttentionListContract.V
     @Override
     public void resultAttentionCollection(AttentionCollectionBean data) {
         ToastUtil.showShortToast(data.getMsg());
-        if (data.getCode() == 900) {
-            //清除所有临时储存
-            SPUtil.clear(ApplicationUtil.getContext());
-            ApplicationUtil.getManager().finishActivity(MainActivity.class);
-            startActivity(new Intent(getContext(), LoginActivity.class));
-            getActivity().finish();
-
+        switch (data.getCode()) {
+            case 200:
+                followListBean.remove(removePosition);
+                attentionPagerAdapter.notifyDataSetChanged();
+                attentionPagerAdapter.setEmptyView(R.layout.null_data, rvAttention);
+                break;
+            case 900:
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                getActivity().finish();
+                break;
         }
     }
 

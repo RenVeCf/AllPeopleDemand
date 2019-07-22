@@ -135,7 +135,7 @@ dependencies {
     //权限
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
     //播放器
-    implementation 'cn.jzvd:jiaozivideoplayer:7.0.4'
+    implementation 'cn.jzvd:jiaozivideoplayer:7.0.5'
     //rxbinding的sdk
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
     //RxUtil2

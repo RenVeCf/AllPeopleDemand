@@ -5,11 +5,13 @@ import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Build;
+import android.os.Bundle;
 import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatImageView;
@@ -30,6 +32,7 @@ import com.ipd.allpeopledemand.presenter.ClassRoomPagerPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
 import io.reactivex.ObservableTransformer;
@@ -64,6 +67,10 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
     JzvdStdMp3 jsAudioPlayer;
     @BindView(R.id.js_video_player)
     MyJzvdStd jsVideoPlayer;
+    @BindView(R.id.ll_audio_player)
+    LinearLayout llAudioPlayer;
+    @BindView(R.id.ll_video_player)
+    LinearLayout llVideoPlayer;
 
     private ClassRoomDetailsBean.DataBean.RoomDetailsBean roomDetailsBean = new ClassRoomDetailsBean.DataBean.RoomDetailsBean();
     private int integral;
@@ -154,8 +161,8 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
     public void initData() {
         switch (roomDetailsBean.getType()) {
             case "1":
-                jsAudioPlayer.setVisibility(View.GONE);
-                jsVideoPlayer.setVisibility(View.GONE);
+                llAudioPlayer.setVisibility(View.GONE);
+                llVideoPlayer.setVisibility(View.GONE);
                 Glide.with(this).load(BASE_LOCAL_URL + roomDetailsBean.getThumbnail()).apply(new RequestOptions().placeholder(R.mipmap.bg_test_big_class_room)).into(ivClassRoomDetails);
                 tvClassRoomTypeTitle.setText(roomDetailsBean.getTitle());
                 tvClassRoomType.setText("图文");
@@ -163,7 +170,7 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
                 wvContent.loadData(getHtmlData(roomDetailsBean.getContent()), "text/html;charset=utf-8", "utf-8");
                 break;
             case "2":
-                jsVideoPlayer.setVisibility(View.GONE);
+                llVideoPlayer.setVisibility(View.GONE);
                 ivClassRoomDetails.setVisibility(View.GONE);
                 wvContent.loadData(getHtmlData(roomDetailsBean.getContent()), "text/html;charset=utf-8", "utf-8");
                 tvClassRoomTypeTitle.setText(roomDetailsBean.getTitle());
@@ -180,7 +187,7 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
                 Glide.with(this).load(BASE_LOCAL_URL + roomDetailsBean.getThumbnail()).apply(new RequestOptions().placeholder(R.mipmap.bg_test_big_class_room)).into(jsAudioPlayer.thumbImageView);
                 break;
             case "3":
-                jsAudioPlayer.setVisibility(View.GONE);
+                llAudioPlayer.setVisibility(View.GONE);
                 ivClassRoomDetails.setVisibility(View.GONE);
                 wvContent.loadData(getHtmlData(roomDetailsBean.getContent()), "text/html;charset=utf-8", "utf-8");
                 tvClassRoomTypeTitle.setText(roomDetailsBean.getTitle());
@@ -209,15 +216,9 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        JzvdStd.goOnPlayOnResume();
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
-        JzvdStd.goOnPlayOnPause();
+        JzvdStd.releaseAllVideos();
     }
 
     @Override

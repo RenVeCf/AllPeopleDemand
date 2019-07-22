@@ -22,15 +22,29 @@
         android:layout_height="@dimen/y500"
         android:scaleType="fitXY" />
 
-    <com.ipd.allpeopledemand.common.view.JzvdStdMp3
-        android:id="@+id/js_audio_player"
+    <LinearLayout
+        android:id="@+id/ll_audio_player"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y500" />
+        android:layout_height="@dimen/y500"
+        android:orientation="vertical">
 
-    <com.ipd.allpeopledemand.common.view.MyJzvdStd
-        android:id="@+id/js_video_player"
+        <com.ipd.allpeopledemand.common.view.JzvdStdMp3
+            android:id="@+id/js_audio_player"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y500" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_video_player"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y500" />
+        android:layout_height="@dimen/y500"
+        android:orientation="vertical">
+
+        <com.ipd.allpeopledemand.common.view.MyJzvdStd
+            android:id="@+id/js_video_player"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y500" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

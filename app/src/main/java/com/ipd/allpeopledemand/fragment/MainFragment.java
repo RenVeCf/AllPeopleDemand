@@ -130,7 +130,7 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
                                 @Override
                                 public void onReceiveLocation(BDLocation bdLocation) {
                                     tvTopCity.setText(bdLocation.getCity());
-                                    SPUtil.put(getContext(), CITY, bdLocation.getCity());
+                                    SPUtil.put(getContext(), CITY, bdLocation.getCity().replaceAll("市", ""));
                                     LocationService.get().unregisterListener(this);
                                 }
                             };

@@ -1,13 +1,18 @@
 package com.ipd.allpeopledemand.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -90,6 +95,21 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
         return this;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.ipd.action");
+        BroadcastReceiver mItemViewListClickReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                sort(intent.getStringExtra("roomClassId"), "", "", "1", intent.getStringExtra("title"));
+            }
+        };
+        broadcastManager.registerReceiver(mItemViewListClickReceiver, intentFilter);
+    }
+
     @SuppressLint("WrongConstant")
     @Override
     public void init(View view) {
@@ -110,7 +130,7 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
 
     @Override
     public void initData() {
-        sort("", "", pageNum + "", "");
+        sort("", "", "", pageNum + "", "");
     }
 
     @Override
@@ -135,15 +155,15 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
                     ivSortTime.setImageResource(R.mipmap.ic_asc);
                     ivSortSalesVolume.setImageResource(R.mipmap.ic_default_sc);
 
-                    sort("videoDate", "asc", "1", "");
+                    sort("", "videoDate", "asc", "1", "");
                 } else if (getResources().getDrawable(R.mipmap.ic_asc).getConstantState().equals(drawableSortTime)) {
                     ivSortTime.setImageResource(R.mipmap.ic_desc);
 
-                    sort("videoDate", "desc", "1", "");
+                    sort("", "videoDate", "desc", "1", "");
                 } else {
                     ivSortTime.setImageResource(R.mipmap.ic_asc);
 
-                    sort("videoDate", "asc", "1", "");
+                    sort("", "videoDate", "asc", "1", "");
                 }
                 break;
             case R.id.ll_sort_sales_volume:
@@ -152,23 +172,23 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
                     ivSortSalesVolume.setImageResource(R.mipmap.ic_asc);
                     ivSortTime.setImageResource(R.mipmap.ic_default_sc);
 
-                    sort("purchaseNum", "asc", "1", "");
+                    sort("", "purchaseNum", "asc", "1", "");
                 } else if (getResources().getDrawable(R.mipmap.ic_asc).getConstantState().equals(drawableSortSalesVolume)) {
                     ivSortSalesVolume.setImageResource(R.mipmap.ic_desc);
 
-                    sort("purchaseNum", "desc", "1", "");
+                    sort("", "purchaseNum", "desc", "1", "");
                 } else {
                     ivSortSalesVolume.setImageResource(R.mipmap.ic_asc);
 
-                    sort("purchaseNum", "asc", "1", "");
+                    sort("", "purchaseNum", "asc", "1", "");
                 }
                 break;
         }
     }
 
-    public void sort(String orderByColumn, String isAsc, String pageNum, String title) {
+    public void sort(String roomClassId, String orderByColumn, String isAsc, String pageNum, String title) {
         TreeMap<String, String> classRoomPagerMap = new TreeMap<>();
-        classRoomPagerMap.put("roomClassId", roomClassId);
+        classRoomPagerMap.put("roomClassId", "".equals(roomClassId) ? this.roomClassId : roomClassId);
         classRoomPagerMap.put("orderByColumn", orderByColumn);
         classRoomPagerMap.put("isAsc", isAsc);
         classRoomPagerMap.put("pageNum", pageNum);

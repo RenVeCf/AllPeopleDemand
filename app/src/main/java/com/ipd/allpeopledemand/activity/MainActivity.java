@@ -2,12 +2,14 @@ package com.ipd.allpeopledemand.activity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
+import androidx.viewpager.widget.ViewPager;
 
 import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.base.BaseActivity;
