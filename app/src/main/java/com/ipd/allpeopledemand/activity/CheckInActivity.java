@@ -12,12 +12,12 @@ import android.widget.TextView;
 
 import com.codbking.calendar.CaledarAdapter;
 import com.codbking.calendar.CalendarDate;
-import com.codbking.calendar.CalendarDateView;
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.base.BaseActivity;
 import com.ipd.allpeopledemand.bean.CheckInBean;
 import com.ipd.allpeopledemand.bean.CheckInLayoutBean;
+import com.ipd.allpeopledemand.common.view.CalendarDateView;
 import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.CheckInContract;
 import com.ipd.allpeopledemand.presenter.CheckInPresenter;
@@ -54,7 +54,7 @@ public class CheckInActivity extends BaseActivity<CheckInContract.View, CheckInC
     @BindView(R.id.tv_title)
     SuperTextView tvTitle;
     @BindView(R.id.calendarDateView)
-    CalendarDateView calendarDateView;
+    com.ipd.allpeopledemand.common.view.CalendarDateView calendarDateView;
     @BindView(R.id.rv_check_in)
     RippleView rvCheckIn;
     @BindView(R.id.tv_check_in_now)
@@ -162,6 +162,7 @@ public class CheckInActivity extends BaseActivity<CheckInContract.View, CheckInC
             }
         });
     }
+
 
     @Override
     public void resultCheckInLayout(CheckInLayoutBean data) {

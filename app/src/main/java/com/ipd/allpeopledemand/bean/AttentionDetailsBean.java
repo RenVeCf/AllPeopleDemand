@@ -4,7 +4,7 @@ public class AttentionDetailsBean {
     /**
      * msg : 操作成功
      * code : 200
-     * data : {"release":{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"releaseId":38,"releaseClassId":3,"title":"Zhaopin","region":"上海市","contacts":"Mary","contactNumber":"15021661148","picPath":"upload/2019/07/20/257fdf51ede2dcbd4c0687c7d1d2c91f.jpg","details":"Zhaopin233","releaseTime":"2019-07-20 14:36:35","browseNum":0,"purchaseNum":0,"isRecommend":null,"status":"1","userId":10,"keyword":"123","isFollow":"2","type":"1","userCall":"全民329d","avatar":"upload/2019/07/18/e532bcdb5a30838e321a8ae724ef788a.jpeg","balance":null,"className":null,"followId":null},"price":{"searchValue":null,"createBy":null,"createTime":"2019-07-14 13:53:06","updateBy":null,"updateTime":"2019-07-14 13:53:02","remark":null,"params":{},"priceId":1,"title":null,"integral":18,"money":10,"type":"1"}}
+     * data : {"release":{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"releaseId":16,"releaseClassId":5,"title":"123455455","region":"上海市","contacts":"","contactNumber":"","picPath":"upload/2019/07/22/74e0b58fd8ae1d754c17999ad61a32cb.jpg","details":"中央空调,家用空调,出售,设计,安装,保养,一条龙服务本公司在上海经营多年有丰富的工作经验本店常年超\u200c\u200c低价出售1P--50P二手空调挂机柜机吸顶机多联机都有品牌有大金，日立，夏普，格力，美的，海尔.....等名牌空调\r本店所有人员都经过专业的培训有专业的安装团队为您免费提供安装送货保修等一条龙服务有良好的技术完善的售后服务凡购买本店的空调可免费保修","releaseTime":"2019-07-22 17:30:39","browseNum":0,"purchaseNum":0,"isRecommend":null,"status":"1","userId":1,"keyword":"125","isFollow":"2","type":"1","userCall":"谭维维","avatar":"upload/2019/07/22/8559787960ce75a2206cf015a7e45aeb.jpg","balance":10000,"className":null,"followId":null,"orderId":null},"price":{"searchValue":null,"createBy":null,"createTime":"2019-07-14 13:53:06","updateBy":null,"updateTime":"2019-07-14 13:53:02","remark":null,"params":{},"priceId":1,"title":null,"integral":18,"money":10,"type":"1"},"IsPurchase":"2"}
      */
 
     private String msg;
@@ -37,12 +37,14 @@ public class AttentionDetailsBean {
 
     public static class DataBean {
         /**
-         * release : {"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"releaseId":38,"releaseClassId":3,"title":"Zhaopin","region":"上海市","contacts":"Mary","contactNumber":"15021661148","picPath":"upload/2019/07/20/257fdf51ede2dcbd4c0687c7d1d2c91f.jpg","details":"Zhaopin233","releaseTime":"2019-07-20 14:36:35","browseNum":0,"purchaseNum":0,"isRecommend":null,"status":"1","userId":10,"keyword":"123","isFollow":"2","type":"1","userCall":"全民329d","avatar":"upload/2019/07/18/e532bcdb5a30838e321a8ae724ef788a.jpeg","balance":null,"className":null,"followId":null}
+         * release : {"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"releaseId":16,"releaseClassId":5,"title":"123455455","region":"上海市","contacts":"","contactNumber":"","picPath":"upload/2019/07/22/74e0b58fd8ae1d754c17999ad61a32cb.jpg","details":"中央空调,家用空调,出售,设计,安装,保养,一条龙服务本公司在上海经营多年有丰富的工作经验本店常年超\u200c\u200c低价出售1P--50P二手空调挂机柜机吸顶机多联机都有品牌有大金，日立，夏普，格力，美的，海尔.....等名牌空调\r本店所有人员都经过专业的培训有专业的安装团队为您免费提供安装送货保修等一条龙服务有良好的技术完善的售后服务凡购买本店的空调可免费保修","releaseTime":"2019-07-22 17:30:39","browseNum":0,"purchaseNum":0,"isRecommend":null,"status":"1","userId":1,"keyword":"125","isFollow":"2","type":"1","userCall":"谭维维","avatar":"upload/2019/07/22/8559787960ce75a2206cf015a7e45aeb.jpg","balance":10000,"className":null,"followId":null,"orderId":null}
          * price : {"searchValue":null,"createBy":null,"createTime":"2019-07-14 13:53:06","updateBy":null,"updateTime":"2019-07-14 13:53:02","remark":null,"params":{},"priceId":1,"title":null,"integral":18,"money":10,"type":"1"}
+         * IsPurchase : 2
          */
 
         private ReleaseBean release;
         private PriceBean price;
+        private String IsPurchase;
 
         public ReleaseBean getRelease() {
             return release;
@@ -60,6 +62,14 @@ public class AttentionDetailsBean {
             this.price = price;
         }
 
+        public String getIsPurchase() {
+            return IsPurchase;
+        }
+
+        public void setIsPurchase(String IsPurchase) {
+            this.IsPurchase = IsPurchase;
+        }
+
         public static class ReleaseBean {
             /**
              * searchValue : null
@@ -69,28 +79,29 @@ public class AttentionDetailsBean {
              * updateTime : null
              * remark : null
              * params : {}
-             * releaseId : 38
-             * releaseClassId : 3
-             * title : Zhaopin
+             * releaseId : 16
+             * releaseClassId : 5
+             * title : 123455455
              * region : 上海市
-             * contacts : Mary
-             * contactNumber : 15021661148
-             * picPath : upload/2019/07/20/257fdf51ede2dcbd4c0687c7d1d2c91f.jpg
-             * details : Zhaopin233
-             * releaseTime : 2019-07-20 14:36:35
+             * contacts :
+             * contactNumber :
+             * picPath : upload/2019/07/22/74e0b58fd8ae1d754c17999ad61a32cb.jpg
+             * details : 中央空调,家用空调,出售,设计,安装,保养,一条龙服务本公司在上海经营多年有丰富的工作经验本店常年超‌‌低价出售1P--50P二手空调挂机柜机吸顶机多联机都有品牌有大金，日立，夏普，格力，美的，海尔.....等名牌空调本店所有人员都经过专业的培训有专业的安装团队为您免费提供安装送货保修等一条龙服务有良好的技术完善的售后服务凡购买本店的空调可免费保修
+             * releaseTime : 2019-07-22 17:30:39
              * browseNum : 0
              * purchaseNum : 0
              * isRecommend : null
              * status : 1
-             * userId : 10
-             * keyword : 123
+             * userId : 1
+             * keyword : 125
              * isFollow : 2
              * type : 1
-             * userCall : 全民329d
-             * avatar : upload/2019/07/18/e532bcdb5a30838e321a8ae724ef788a.jpeg
-             * balance : null
+             * userCall : 谭维维
+             * avatar : upload/2019/07/22/8559787960ce75a2206cf015a7e45aeb.jpg
+             * balance : 10000.0
              * className : null
              * followId : null
+             * orderId : null
              */
 
             private Object searchValue;
@@ -122,6 +133,7 @@ public class AttentionDetailsBean {
             private double balance;
             private Object className;
             private Object followId;
+            private Object orderId;
 
             public Object getSearchValue() {
                 return searchValue;
@@ -353,6 +365,14 @@ public class AttentionDetailsBean {
 
             public void setFollowId(Object followId) {
                 this.followId = followId;
+            }
+
+            public Object getOrderId() {
+                return orderId;
+            }
+
+            public void setOrderId(Object orderId) {
+                this.orderId = orderId;
             }
 
             public static class ParamsBean {

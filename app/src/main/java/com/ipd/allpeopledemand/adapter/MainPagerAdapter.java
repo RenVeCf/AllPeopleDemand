@@ -57,6 +57,7 @@ public class MainPagerAdapter extends BaseMultiItemQuickAdapter<MainListBean.Dat
                         .setText(R.id.tv_name, item.getUserCall())
                         .setText(R.id.tv_time, FormatCurrentData.getTimeRange(item.getReleaseTime()))
                         .setText(R.id.tv_label, item.getClassName())
+                        .addOnClickListener(R.id.tv_label)
                         .addOnClickListener(R.id.cb_collection);
                 break;
             case 2:

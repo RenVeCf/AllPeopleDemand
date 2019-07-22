@@ -64,6 +64,7 @@ public class FeedbackFragment extends BaseFragment<FeedBackContract.View, FeedBa
     @Override
     public void init(View view) {
         //防止状态栏和标题重叠
+        ImmersionBar.with(this).statusBarDarkFont(true).init();
         ImmersionBar.setTitleBar(this, tvFeedback);
     }
 

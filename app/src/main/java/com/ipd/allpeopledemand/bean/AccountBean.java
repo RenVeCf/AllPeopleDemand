@@ -53,16 +53,16 @@ public class AccountBean {
          * national_num : 100
          */
 
-        private int national_num;
+        private int integral;
         private double balance;
         private List<DetailedListBean> detailedList;
 
-        public int getNational_num() {
-            return national_num;
+        public int getIntegral() {
+            return integral;
         }
 
-        public void setNational_num(int national_num) {
-            this.national_num = national_num;
+        public void setIntegral(int integral) {
+            this.integral = integral;
         }
 
         public double getBalance() {

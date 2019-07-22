@@ -3,7 +3,6 @@ package com.ipd.allpeopledemand.common.view;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import androidx.viewpager.widget.ViewPager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -13,6 +12,8 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * 商品分类——导航栏的滑动管理类
@@ -82,7 +83,6 @@ public class NavitationFollowScrollLayoutText extends RelativeLayout {
         this.onNaPageChangeListener = onNaPageChangeListener;
     }
 
-
     private void setTitles(Context context, String[] titles, final boolean smoothScroll, int splilinecolor, final float splilinewidth, float topoffset, float bottomoffset) {
         this.textViews = new TextView[titles.length];
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dip2px(context, twidth), LayoutParams.MATCH_PARENT);
@@ -103,7 +103,6 @@ public class NavitationFollowScrollLayoutText extends RelativeLayout {
             textViews[i].setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     if (cuPosition == index) {
                         horizontalScrollView.smoothScrollTo(index * dip2px(getContext(), twidth) - leftm, 0);
                     }
@@ -125,8 +124,14 @@ public class NavitationFollowScrollLayoutText extends RelativeLayout {
                 titleLayout.addView(view, lp);
             }
         }
+    }
 
-
+    public void StartLabel(int index) {
+        if (margleft == 0) {
+            viewPager.setCurrentItem(index, true);
+        } else {
+            viewPager.setCurrentItem(index, false);
+        }
     }
 
     /**
@@ -292,7 +297,6 @@ public class NavitationFollowScrollLayoutText extends RelativeLayout {
             }
         }
     }
-
 
     /**
      * 获取屏幕宽度

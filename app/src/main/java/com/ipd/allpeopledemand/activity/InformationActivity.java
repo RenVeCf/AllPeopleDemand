@@ -50,11 +50,14 @@ import io.reactivex.ObservableTransformer;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
+import static com.ipd.allpeopledemand.common.config.IConstants.AGE;
 import static com.ipd.allpeopledemand.common.config.IConstants.ALL_PEOPLE;
 import static com.ipd.allpeopledemand.common.config.IConstants.AVATAR;
+import static com.ipd.allpeopledemand.common.config.IConstants.MARITAL_STATUS;
 import static com.ipd.allpeopledemand.common.config.IConstants.NAME;
 import static com.ipd.allpeopledemand.common.config.IConstants.PHONE;
 import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_91;
+import static com.ipd.allpeopledemand.common.config.IConstants.SEX;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_LOCAL_URL;
 
@@ -114,6 +117,9 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
         stvNickname.setRightString(SPUtil.get(this, NAME, "") + "");
         stvPhone.setRightString(SPUtil.get(this, PHONE, "") + "");
         stvAllPeopleCode.setRightString(SPUtil.get(this, ALL_PEOPLE, "") + "");
+        stvSex.setRightString(SPUtil.get(this, SEX, "") + "");
+        stvAge.setRightString(SPUtil.get(this, AGE, "") + "");
+        stvMarital.setRightString(SPUtil.get(this, MARITAL_STATUS, "") + "");
     }
 
     @Override

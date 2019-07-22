@@ -35,7 +35,6 @@ import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.PushContract;
 import com.ipd.allpeopledemand.presenter.PushPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
-import com.ipd.allpeopledemand.utils.L;
 import com.ipd.allpeopledemand.utils.LocationService;
 import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
@@ -140,6 +139,7 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
     @Override
     public void init(View view) {
         //防止状态栏和标题重叠
+        ImmersionBar.with(this).statusBarDarkFont(true).init();
         ImmersionBar.setTitleBar(this, tvPush);
         tvCity.setText(SPUtil.get(getContext(), CITY, "") + "");
         tvPhone.setText(SPUtil.get(getContext(), PHONE, "") + "");
@@ -197,7 +197,10 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
         pvOptions = new OptionsPickerBuilder(getContext(), new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int option2, int options3, View v) {
-                releaseClassId = classListBean.get(options1).getReleaseClassId();
+                for (int i = 0; i < classListBean.size(); i++) {
+                    if (classListBean.get(i).getClassName().equals(listData.get(options1)))
+                        releaseClassId = classListBean.get(i).getReleaseClassId();
+                }
                 tvClassification.setText(listData.get(options1));
             }
         })

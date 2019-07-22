@@ -54,6 +54,7 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical|start"
                         android:text="选择分类"
+                        android:textSize="16sp"
                         android:textColor="@color/tx_bottom_navigation" />
 
                     <ImageView
@@ -88,6 +89,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@null"
+                        android:textSize="16sp"
                         android:gravity="center_vertical|start"
                         android:hint="请输入标题"
                         android:textColor="@color/tx_bottom_navigation"
@@ -118,6 +120,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:textSize="16sp"
                         android:gravity="center_vertical|start"
                         android:textColor="@color/tx_bottom_navigation" />
 
@@ -152,6 +155,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:textSize="16sp"
                         android:background="@null"
                         android:gravity="center_vertical|start"
                         android:hint="请输入联系人"
@@ -182,6 +186,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:textSize="16sp"
                         android:gravity="center_vertical|start"
                         android:textColor="@color/tx_bottom_navigation" />
                 </LinearLayout>
@@ -249,7 +254,8 @@
                     android:gravity="top|start"
                     android:hint="请输入详情描述，不允许带有自己或者别人 的联系方式。"
                     android:textColor="@color/tx_bottom_navigation"
-                    android:textColorHint="@color/tx_bottom_navigation" />
+                    android:textColorHint="@color/tx_bottom_navigation"
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout

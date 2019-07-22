@@ -8,8 +8,10 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,7 +30,6 @@ import com.ipd.allpeopledemand.bean.MainListBean;
 import com.ipd.allpeopledemand.contract.MainPagerContract;
 import com.ipd.allpeopledemand.presenter.MainPagerPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
-import com.ipd.allpeopledemand.utils.L;
 import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.StringUtils;
@@ -63,8 +64,8 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
     MarqueeTextView tvHorn;
     @BindView(R.id.ll_sort_time)
     LinearLayout llSortTime;
-    @BindView(R.id.ll_sort_distance)
-    LinearLayout llSortDistance;
+    //    @BindView(R.id.ll_sort_distance)
+//    LinearLayout llSortDistance;
     @BindView(R.id.ll_sort_sales_volume)
     LinearLayout llSortSalesVolume;
     @BindView(R.id.rv_main_page)
@@ -73,8 +74,8 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
     SwipeRefreshLayout srlMainPage;
     @BindView(R.id.iv_sort_time)
     ImageView ivSortTime;
-    @BindView(R.id.iv_sort_distance)
-    ImageView ivSortDistance;
+    //    @BindView(R.id.iv_sort_distance)
+//    ImageView ivSortDistance;
     @BindView(R.id.iv_sort_sales_volume)
     ImageView ivSortSalesVolume;
 
@@ -140,17 +141,17 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
         classRoomPagerMap.put("isAsc", isAsc);
         classRoomPagerMap.put("pageNum", pageNum);
         classRoomPagerMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(classRoomPagerMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-        getPresenter().getMainList(classRoomPagerMap, false, false);
+        getPresenter().getMainList(classRoomPagerMap, true, false);
     }
 
-    @OnClick({R.id.ll_sort_time, R.id.ll_sort_distance, R.id.ll_sort_sales_volume})
+    @OnClick({R.id.ll_sort_time, R.id.ll_sort_sales_volume})//,R.id.ll_sort_distance})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_sort_time:
                 Drawable.ConstantState drawableSortTime = ivSortTime.getDrawable().getConstantState();
                 if (getResources().getDrawable(R.mipmap.ic_default_sc).getConstantState().equals(drawableSortTime)) {
                     ivSortTime.setImageResource(R.mipmap.ic_asc);
-                    ivSortDistance.setImageResource(R.mipmap.ic_default_sc);
+//                    ivSortDistance.setImageResource(R.mipmap.ic_default_sc);
                     ivSortSalesVolume.setImageResource(R.mipmap.ic_default_sc);
 
                     sort("releaseTime", "asc", "1");
@@ -164,22 +165,22 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
                     sort("releaseTime", "asc", "1");
                 }
                 break;
-            case R.id.ll_sort_distance: //TODO 距离排序后台没好
-                Drawable.ConstantState drawableSortDistance = ivSortDistance.getDrawable().getConstantState();
-                if (getResources().getDrawable(R.mipmap.ic_default_sc).getConstantState().equals(drawableSortDistance)) {
-                    ivSortDistance.setImageResource(R.mipmap.ic_asc);
-                    ivSortTime.setImageResource(R.mipmap.ic_default_sc);
-                    ivSortSalesVolume.setImageResource(R.mipmap.ic_default_sc);
-                } else if (getResources().getDrawable(R.mipmap.ic_asc).getConstantState().equals(drawableSortDistance))
-                    ivSortDistance.setImageResource(R.mipmap.ic_desc);
-                else
-                    ivSortDistance.setImageResource(R.mipmap.ic_asc);
-                break;
+//            case R.id.ll_sort_distance: //TODO 距离排序后台没好
+//                Drawable.ConstantState drawableSortDistance = ivSortDistance.getDrawable().getConstantState();
+//                if (getResources().getDrawable(R.mipmap.ic_default_sc).getConstantState().equals(drawableSortDistance)) {
+//                    ivSortDistance.setImageResource(R.mipmap.ic_asc);
+//                    ivSortTime.setImageResource(R.mipmap.ic_default_sc);
+//                    ivSortSalesVolume.setImageResource(R.mipmap.ic_default_sc);
+//                } else if (getResources().getDrawable(R.mipmap.ic_asc).getConstantState().equals(drawableSortDistance))
+//                    ivSortDistance.setImageResource(R.mipmap.ic_desc);
+//                else
+//                    ivSortDistance.setImageResource(R.mipmap.ic_asc);
+//                break;
             case R.id.ll_sort_sales_volume:
                 Drawable.ConstantState drawableSortSalesVolume = ivSortSalesVolume.getDrawable().getConstantState();
                 if (getResources().getDrawable(R.mipmap.ic_default_sc).getConstantState().equals(drawableSortSalesVolume)) {
                     ivSortSalesVolume.setImageResource(R.mipmap.ic_asc);
-                    ivSortDistance.setImageResource(R.mipmap.ic_default_sc);
+//                    ivSortDistance.setImageResource(R.mipmap.ic_default_sc);
                     ivSortTime.setImageResource(R.mipmap.ic_default_sc);
 
                     sort("purchaseNum", "asc", "1");
@@ -202,6 +203,7 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
         if (data != null) {
             switch (requestCode) {
                 case REQUEST_CODE_97:
+                    pageNum = 1;
                     initData();
                     break;
             }
@@ -265,8 +267,13 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
                         @Override
                         public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                             switch (view.getId()) {
-                                case R.id.cb_collection:
-                                    //收藏
+                                case R.id.tv_label: //标签
+                                    TextView tv = (TextView) view;
+                                    Intent intent = new Intent("android.ipd.labelPosition");
+                                    intent.putExtra("label_name", tv.getText());
+                                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+                                    break;
+                                case R.id.cb_collection: //收藏
                                     if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
                                         startActivity(new Intent(getActivity(), LoginActivity.class));
                                     else {

@@ -194,7 +194,7 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
         classRoomPagerMap.put("pageNum", pageNum);
         classRoomPagerMap.put("title", title);
         classRoomPagerMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(classRoomPagerMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-        getPresenter().getClassRoomPager(classRoomPagerMap, false, false);
+        getPresenter().getClassRoomPager(classRoomPagerMap, true, false);
     }
 
     @Override
@@ -296,13 +296,23 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
                             public void goPay() {
                                 new BottomPayDialog(getActivity(), data.getData().getBalance()) {
                                     @Override
-                                    public void goPay(int payType, boolean isRewardBalance) {
-                                        startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean));
-//                                        TreeMap<String, String> classRoomAliPayMap = new TreeMap<>();
-//                                        classRoomAliPayMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
-//                                        classRoomAliPayMap.put("classroomId", data.getData().getRoomDetails().getClassroomId() + "");
-//                                        classRoomAliPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(classRoomAliPayMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-//                                        getPresenter().getClassRoomAliPay(classRoomAliPayMap, false, false);
+                                    public void goPay(int payType) {
+                                        if (data.getData().getBalance() >= priceBean.getMoney()) {
+                                            //余额直接支付
+                                            payType(3);
+                                        } else {
+                                            switch (payType) {
+                                                case 1://支付宝
+                                                    payType(1);
+                                                    break;
+                                                case 2://微信
+                                                    payType(2);
+                                                    break;
+                                                default:
+                                                    ToastUtil.showShortToast("余额不足，请选择支付方式！");
+                                                    break;
+                                            }
+                                        }
                                     }
                                 }.show();
                             }
@@ -317,6 +327,27 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
                 ApplicationUtil.getManager().finishActivity(MainActivity.class);
                 startActivity(new Intent(getContext(), LoginActivity.class));
                 getActivity().finish();
+                break;
+        }
+    }
+
+    //支付
+    private void payType(int payType) {
+        switch (payType) {
+            case 1:
+//                TreeMap<String, String> aliPayMap = new TreeMap<>();
+//                aliPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+//                aliPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(aliPayMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+//                getPresenter().getOrderAliPay(aliPayMap, true, false);
+                break;
+            case 2:
+//                TreeMap<String, String> weixinPayMap = new TreeMap<>();
+//                weixinPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+//                weixinPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(weixinPayMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+//                getPresenter().getOrderWeiXinPay(weixinPayMap, true, false);
+                break;
+            case 3:
+                startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean));
                 break;
         }
     }

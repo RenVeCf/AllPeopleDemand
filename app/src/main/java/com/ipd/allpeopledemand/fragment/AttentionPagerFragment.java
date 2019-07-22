@@ -110,7 +110,7 @@ public class AttentionPagerFragment extends BaseFragment<AttentionListContract.V
         attentionListMap.put("releaseClassId", releaseClassId);
         attentionListMap.put("pageNum", pageNum + "");
         attentionListMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(attentionListMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-        getPresenter().getAttentionList(attentionListMap, false, false);
+        getPresenter().getAttentionList(attentionListMap, true, false);
     }
 
     @Override

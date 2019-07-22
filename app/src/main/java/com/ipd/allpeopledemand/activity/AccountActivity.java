@@ -170,7 +170,7 @@ public class AccountActivity extends BaseActivity<AccountContract.View, AccountC
             case 200:
                 switch (type) {
                     case 1:
-                        tvTotalPoints.setText(data.getData().getNational_num() + "");
+                        tvTotalPoints.setText(data.getData().getIntegral() + "");
 
                         if (data.getTotal() > 0) {
                             if (pageNum == 1) {

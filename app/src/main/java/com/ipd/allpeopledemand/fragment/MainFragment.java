@@ -1,11 +1,21 @@
 package com.ipd.allpeopledemand.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.baidu.location.BDAbstractLocationListener;
@@ -55,6 +65,8 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
 
     @BindView(R.id.tv_main)
     TopView tvMain;
+    @BindView(R.id.et_top_search)
+    EditText etTopSearch;
     @BindView(R.id.ll_top_location)
     LinearLayout llTopLocation;
     @BindView(R.id.tv_top_city)
@@ -87,8 +99,29 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.ipd.labelPosition");
+        BroadcastReceiver mItemViewListClickReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                for (int i = 0; i < titles.length; i++) {
+                    if (titles[i].equals(intent.getStringExtra("label_name"))) {
+                        // 跳转到某个Fragment
+                        nfslFragmentMain.StartLabel(i);
+                    }
+                }
+            }
+        };
+        broadcastManager.registerReceiver(mItemViewListClickReceiver, intentFilter);
+    }
+
+    @Override
     public void init(View view) {
         //防止状态栏和标题重叠
+        ImmersionBar.with(this).statusBarDarkFont(true).init();
         ImmersionBar.setTitleBar(getActivity(), tvMain);
 
         if (!"".equals(SPUtil.get(getContext(), CITY, "") + ""))
@@ -108,7 +141,24 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
 
     @Override
     public void initListener() {
+        etTopSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    // 隐藏软键盘
+                    imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(), 0);
 
+//                    Intent intent = new Intent("android.ipd.action");
+//                    intent.putExtra("roomClassId", selectRoomClassPosition == 0 ? "0" : classListBean.get(selectRoomClassPosition - 1).getRoomClassId() + "");
+//                    intent.putExtra("title", etTopSearch.getText().toString().trim());
+//                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+                    etTopSearch.setText("");
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -129,7 +179,7 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
                             BDAbstractLocationListener myListener = new BDAbstractLocationListener() {
                                 @Override
                                 public void onReceiveLocation(BDLocation bdLocation) {
-                                    tvTopCity.setText(bdLocation.getCity());
+                                    tvTopCity.setText(bdLocation.getCity().replaceAll("市", ""));
                                     SPUtil.put(getContext(), CITY, bdLocation.getCity().replaceAll("市", ""));
                                     LocationService.get().unregisterListener(this);
                                 }

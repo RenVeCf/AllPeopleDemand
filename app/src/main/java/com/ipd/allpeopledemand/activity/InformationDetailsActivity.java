@@ -103,6 +103,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
     private List<String> reportDataList = new ArrayList<>();//选择举报
     private List<ReportListBean.DataBean.ReportListBeans> reportListBeans = new ArrayList<>();//选择举报(取举报ID用)
     private int activityType; //1: 首页， 2:首页列表的广告， 3: 我的关注， 4: 我的购买
+    private double money; //金额
     private double balance; //余额
     private String IsPurchase; //1积分不足，2未购买  3.购买了
 
@@ -263,8 +264,23 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                     case "2":
                         new BottomPayDialog(this, balance) {
                             @Override
-                            public void goPay(int payType, boolean isRewardBalance) {
-                                startActivityForResult(new Intent(InformationDetailsActivity.this, PayStatusActivity.class).putExtra("pay_status", 1), REQUEST_CODE_90);
+                            public void goPay(int payType) {
+                                if (balance >= money) {
+                                    //余额直接支付
+                                    payType(3);
+                                } else {
+                                    switch (payType) {
+                                        case 1://支付宝
+                                            payType(1);
+                                            break;
+                                        case 2://微信
+                                            payType(2);
+                                            break;
+                                        default:
+                                            ToastUtil.showShortToast("余额不足，请选择支付方式！");
+                                            break;
+                                    }
+                                }
                             }
                         }.show();
                         break;
@@ -285,27 +301,31 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
     }
 
     //支付
-    /*private void payType(int payType) {
+    private void payType(int payType) {
         switch (payType) {
             case 1:
-                TreeMap<String, String> aliPayMap = new TreeMap<>();
-                aliPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-                aliPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(aliPayMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-                getPresenter().getOrderAliPay(aliPayMap, true, false);
+//                TreeMap<String, String> aliPayMap = new TreeMap<>();
+//                aliPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+//                aliPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(aliPayMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+//                getPresenter().getOrderAliPay(aliPayMap, true, false);
                 break;
             case 2:
-                TreeMap<String, String> weixinPayMap = new TreeMap<>();
-                weixinPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-                weixinPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(weixinPayMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-                getPresenter().getOrderWeiXinPay(weixinPayMap, true, false);
+//                TreeMap<String, String> weixinPayMap = new TreeMap<>();
+//                weixinPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+//                weixinPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(weixinPayMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+//                getPresenter().getOrderWeiXinPay(weixinPayMap, true, false);
+                break;
+            case 3:
+                startActivityForResult(new Intent(InformationDetailsActivity.this, PayStatusActivity.class).putExtra("pay_status", 1), REQUEST_CODE_90);
                 break;
         }
-    }*/
+    }
 
     @Override
     public void resultMainDetails(MainDetailsBean data) {
         switch (data.getCode()) {
             case 200:
+                money = data.getData().getPrice().getMoney();
                 balance = data.getData().getRelease().getBalance();
                 IsPurchase = data.getData().getIsPurchase();
                 Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.ic_test_ad)).into(rivTitle);
@@ -337,8 +357,9 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
     public void resultAttentionDetails(AttentionDetailsBean data) {
         switch (data.getCode()) {
             case 200:
+                money = data.getData().getPrice().getMoney();
                 balance = data.getData().getRelease().getBalance();
-//                IsPurchase = data.getData().getIsPurchase();
+                IsPurchase = data.getData().getIsPurchase();
                 Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.ic_test_ad)).into(rivTitle);
                 Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getAvatar()).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into(rivHead);
 

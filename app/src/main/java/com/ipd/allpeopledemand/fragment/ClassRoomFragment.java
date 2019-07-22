@@ -73,6 +73,7 @@ public class ClassRoomFragment extends BaseFragment<ClassRoomInicationContract.V
     @Override
     public void init(View view) {
         //防止状态栏和标题重叠
+        ImmersionBar.with(this).statusBarDarkFont(true).init();
         ImmersionBar.setTitleBar(getActivity(), tvClassRoom);
     }
 
@@ -90,15 +91,12 @@ public class ClassRoomFragment extends BaseFragment<ClassRoomInicationContract.V
                     intent.putExtra("roomClassId", selectRoomClassPosition == 0 ? "0" : classListBean.get(selectRoomClassPosition - 1).getRoomClassId() + "");
                     intent.putExtra("title", etTopLongSearch.getText().toString().trim());
                     LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
-
-//                    fm.sort(selectRoomClassPosition == 0 ? "0" : classListBean.get(selectRoomClassPosition - 1).getRoomClassId() + "", "", "", "1", etTopLongSearch.getText().toString().trim());
                     etTopLongSearch.setText("");
                     return true;
                 }
                 return false;
             }
         });
-
     }
 
     @Override

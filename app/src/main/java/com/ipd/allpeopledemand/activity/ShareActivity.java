@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.MainThread;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -57,7 +58,7 @@ public class ShareActivity extends BaseActivity<ShareContract.View, ShareContrac
     @BindView(R.id.stv_title)
     SuperTextView stvTitle;
     @BindView(R.id.iv_qr)
-    ImageView ivQr;
+    AppCompatImageView ivQr;
     @BindView(R.id.ib_wechat)
     ImageButton ibWechat;
     @BindView(R.id.ib_moments)
@@ -108,7 +109,7 @@ public class ShareActivity extends BaseActivity<ShareContract.View, ShareContrac
 
     //生成二维码
     private void createQRCodeWithLogo(Bitmap logo, String qr_url) {
-        showQRCode(XQRCode.createQRCodeWithLogo(qr_url, 500, 500, logo));
+        showQRCode(XQRCode.createQRCodeWithLogo(qr_url, (int) getResources().getDimension(R.dimen.x500), (int) getResources().getDimension(R.dimen.y500), logo));
     }
 
     @MainThread

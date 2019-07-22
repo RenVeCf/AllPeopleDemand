@@ -21,41 +21,46 @@
         app:title="分享好友"
         app:title_color="@color/white" />
 
+    <TextView
+        android:id="@+id/tv_average_share_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y50"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_share" />
+
     <LinearLayout
         android:id="@+id/ll_qr"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/y100"
+        android:layout_marginTop="@dimen/y50"
         android:background="@drawable/bg_pop"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.5"
+        app:layout_constraintHeight_percent="0.4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_share"
-        app:layout_constraintWidth_percent="0.9">
-
-        <TextView
-            android:id="@+id/tv_average_share_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/y50"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_average_share_num"
+        app:layout_constraintWidth_percent="0.8">
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
             android:id="@+id/stv_title"
             android:layout_width="@dimen/x500"
             android:layout_height="0dp"
             android:layout_gravity="top|center_horizontal"
+            android:layout_marginStart="@dimen/x70"
             android:layout_weight="1"
             app:sDividerLineType="none"
             app:sLeftIconHeight="@dimen/y100"
             app:sLeftIconWidth="@dimen/x100"
             app:sLeftTextColor="@color/black"
-            app:sLeftTextSize="16sp" />
+            app:sLeftTextSize="16sp"
+            app:sLeftViewGravity="right_center" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_qr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -116,8 +121,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/y150"
             android:layout_gravity="center"
-            android:layout_marginEnd="?attr/xui_config_content_spacing_horizontal"
             android:layout_marginStart="?attr/xui_config_content_spacing_horizontal"
+            android:layout_marginEnd="?attr/xui_config_content_spacing_horizontal"
             android:gravity="center"
             android:text="我邀请的好友"
             android:textColor="@color/tx_bottom_navigation_select"
