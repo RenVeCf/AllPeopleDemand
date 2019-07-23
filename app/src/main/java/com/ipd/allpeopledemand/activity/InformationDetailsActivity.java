@@ -42,6 +42,9 @@ import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.StringUtils;
 import com.ipd.allpeopledemand.utils.ToastUtil;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.xuexiang.xui.widget.imageview.RadiusImageView;
 import com.xuexiang.xui.widget.textview.ExpandableTextView;
 
@@ -325,12 +328,12 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 aliPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(aliPayMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
                 getPresenter().getMainAliPay(aliPayMap, true, false);
                 break;
-            case 2:// TODO 接口没好
-//                TreeMap<String, String> wechatPayMap = new TreeMap<>();
-//                wechatPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-//                wechatPayMap.put("releaseId", releaseId + "");
-//                wechatPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(wechatPayMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-//                getPresenter().getMainWechatPay(wechatPayMap, true, false);
+            case 2:
+                TreeMap<String, String> wechatPayMap = new TreeMap<>();
+                wechatPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+                wechatPayMap.put("releaseId", releaseId + "");
+                wechatPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(wechatPayMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                getPresenter().getMainWechatPay(wechatPayMap, true, false);
                 break;
             case 3:
                 TreeMap<String, String> balancePayMap = new TreeMap<>();
@@ -506,31 +509,31 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
 
     @Override
     public void resultMainWechatPay(MainWechatPayBean data) {
-//        switch (data.getCode()) {
-//            case 200:
-//                IWXAPI api = WXAPIFactory.createWXAPI(this, null);
-//                api.registerApp("wx1a65c563b86ec579");
-//                PayReq req = new PayReq();
-//                req.appId = data.getData().getData().getAppid();//你的微信appid
-//                req.partnerId = data.getData().getData().getPartnerid();//商户号
-//                req.prepayId = data.getData().getData().getPrepayid();//预支付交易会话ID
-//                req.nonceStr = data.getData().getData().getNoncestr();//随机字符串
-//                req.timeStamp = data.getData().getData().getTimestamp() + "";//时间戳
-//                req.packageValue = data.getData().getData().getPackageX(); //扩展字段, 这里固定填写Sign = WXPay
-//                req.sign = data.getData().getData().getSign();//签名
-//                //  req.extData         = "app data"; // optional
-//                // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-//                api.sendReq(req);
-//                break;
-//            case 900:
-//                ToastUtil.showLongToast(data.getMsg());
-//                //清除所有临时储存
-//                SPUtil.clear(ApplicationUtil.getContext());
-//                ApplicationUtil.getManager().finishActivity(MainActivity.class);
-//                startActivity(new Intent(this, LoginActivity.class));
-//                finish();
-//                break;
-//        }
+        switch (data.getCode()) {
+            case 200:
+                IWXAPI api = WXAPIFactory.createWXAPI(this, null);
+                api.registerApp("wx57313d36c4b4d0d7");
+                PayReq req = new PayReq();
+                req.appId = data.getData().getSign().getAppid();//你的微信appid
+                req.partnerId = data.getData().getSign().getPartnerid();//商户号
+                req.prepayId = data.getData().getSign().getPrepayid();//预支付交易会话ID
+                req.nonceStr = data.getData().getSign().getNoncestr();//随机字符串
+                req.timeStamp = data.getData().getSign().getTimestamp() + "";//时间戳
+                req.packageValue = data.getData().getSign().getPackageX(); //扩展字段, 这里固定填写Sign = WXPay
+                req.sign = data.getData().getSign().getSign();//签名
+                //  req.extData         = "app data"; // optional
+                // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+                api.sendReq(req);
+                break;
+            case 900:
+                ToastUtil.showLongToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                break;
+        }
     }
 
     @Override
