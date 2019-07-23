@@ -138,9 +138,27 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
             SPUtil.put(this, NAME, data.getData().getUser().getUserCall());
             SPUtil.put(this, PHONE, data.getData().getUser().getTelPhone());
             SPUtil.put(this, ALL_PEOPLE, data.getData().getUser().getNationalNum());
-            SPUtil.put(this, SEX, data.getData().getUser().getSex());
-            SPUtil.put(this, AGE, data.getData().getUser().getAge() + "");
-            SPUtil.put(this, MARITAL_STATUS, data.getData().getUser().getMaritalStatus());
+            String sex = "";
+            switch (data.getData().getUser().getSex()) {
+                case "1":
+                    sex = "男";
+                    break;
+                case "2":
+                    sex = "女";
+                    break;
+            }
+            SPUtil.put(this, SEX, sex);
+            SPUtil.put(this, AGE, data.getData().getUser().getAge() == 0 ? "" : data.getData().getUser().getAge() + "岁");
+            String maritalStatus = "";
+            switch (data.getData().getUser().getSex()) {
+                case "1":
+                    maritalStatus = "未婚";
+                    break;
+                case "2":
+                    maritalStatus = "已婚";
+                    break;
+            }
+            SPUtil.put(this, MARITAL_STATUS, maritalStatus);
 
             startActivity(new Intent(this, MainActivity.class).putExtra("howFragment", Integer.parseInt(SPUtil.get(this, HOW_PAGE, "0") + "")));
             SPUtil.put(this, IS_LOGIN, "is_login");

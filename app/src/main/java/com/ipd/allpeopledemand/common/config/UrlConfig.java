@@ -28,6 +28,9 @@ public interface UrlConfig {
     String CLASS_INICATION = "appUser/index/classList"; //首页分类列表
     String MAIN_LIST = "appUser/index/index"; //首页列表数据
     String MAIN_DETAILS = "appUser/index/releaseDetails"; //首页列表数据-查看详情
+    String MAIN_ALI_PAY = "appUser/releasePay/alipay"; //首页发布-支付宝支付
+    String MAIN_WECHAT_PAY = "appUser/releasePay/wechatPay"; //首页发布-微信支付
+    String MAIN_BALANCE_PAY = "appUser/releasePay/balance"; //首页发布-余额支付
 
 
     /**
@@ -37,6 +40,8 @@ public interface UrlConfig {
     String CLASS_ROOM_PAGER_LIST = "appUser/classroom/list"; //课程列表
     String CLASS_ROOM_DETAILS = "appUser/classroom/details"; //课堂详情
     String CLASS_ROOM_ALI_PAY = "appUser/classroomPay/alipay"; //课堂支付宝-支付
+    String CLASS_ROOM_WECHAT_PAY = "appUser/classroomPay/wechatPay"; //课堂支付宝-支付
+    String CLASS_ROOM_BALANCE = "appUser/classroomPay/balance"; //课堂-余额支付
 
 
     /**
@@ -70,4 +75,8 @@ public interface UrlConfig {
     String ATTENTION_COLLECTION = "appUser/myFollow/collection"; //我的关注列表-详情-点击收藏
     String REPORT_LIST = "appUser/report/reportList"; //我的关注列表-详情-举报列表数据
     String REPORT = "appUser/report/ConfirmReport"; //我的关注列表-详情-提交举报
+    String MY_BUY_DEMAND_LIST = "appUser/myPurchase/demandList"; //我的购买-需求资讯列表
+    String MY_BUY_DEMAND_DETAILS = "appUser/myPurchase/demandDetails"; //我的购买-需求资讯列表-详情
+    String MY_BUY_CLASS_ROOM_LIST = "appUser/myPurchase/classroomList"; //我的购买课堂-列表
+    String MY_BUY_CLASS_ROOM_DETAILS = "appUser/myPurchase/classDetails"; //我的购买课堂-列表-详情
 }

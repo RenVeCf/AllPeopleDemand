@@ -35,6 +35,7 @@ import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.PushContract;
 import com.ipd.allpeopledemand.presenter.PushPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
+import com.ipd.allpeopledemand.utils.L;
 import com.ipd.allpeopledemand.utils.LocationService;
 import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
@@ -134,6 +135,12 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
     @Override
     public PushContract.View createView() {
         return this;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden)
+            ImmersionBar.with(this).statusBarDarkFont(true).init();
     }
 
     @Override

@@ -25,10 +25,13 @@ import com.ipd.allpeopledemand.activity.LoginActivity;
 import com.ipd.allpeopledemand.activity.MainActivity;
 import com.ipd.allpeopledemand.activity.WebViewActivity;
 import com.ipd.allpeopledemand.adapter.ClassRoomPagerAdapter;
+import com.ipd.allpeopledemand.aliPay.AliPay;
 import com.ipd.allpeopledemand.base.BaseFragment;
 import com.ipd.allpeopledemand.bean.ClassRoomAliPayBean;
+import com.ipd.allpeopledemand.bean.ClassRoomBalancePayBean;
 import com.ipd.allpeopledemand.bean.ClassRoomDetailsBean;
 import com.ipd.allpeopledemand.bean.ClassRoomPagerBean;
+import com.ipd.allpeopledemand.bean.ClassRoomWechatPayBean;
 import com.ipd.allpeopledemand.common.view.BottomPayDialog;
 import com.ipd.allpeopledemand.common.view.ClassRoomPayPromptDialog;
 import com.ipd.allpeopledemand.common.view.NotIntegralDialog;
@@ -78,6 +81,8 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
     private ClassRoomPagerAdapter classRoomPagerAdapter;
     private int pageNum = 1;//页数
     private String roomClassId = "";
+    private String title = "";
+    private int classroomIdPosition;//支付时，取classroomId用的position
     private ClassRoomDetailsBean.DataBean.RoomDetailsBean roomDetailsBean = new ClassRoomDetailsBean.DataBean.RoomDetailsBean();
 
     @Override
@@ -100,10 +105,11 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
         super.onActivityCreated(savedInstanceState);
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("android.ipd.action");
+        intentFilter.addAction("android.ipd.class_room_search");
         BroadcastReceiver mItemViewListClickReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+                title = intent.getStringExtra("title");
                 sort(intent.getStringExtra("roomClassId"), "", "", "1", intent.getStringExtra("title"));
             }
         };
@@ -155,15 +161,15 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
                     ivSortTime.setImageResource(R.mipmap.ic_asc);
                     ivSortSalesVolume.setImageResource(R.mipmap.ic_default_sc);
 
-                    sort("", "videoDate", "asc", "1", "");
+                    sort("", "createTime", "asc", "1", title);
                 } else if (getResources().getDrawable(R.mipmap.ic_asc).getConstantState().equals(drawableSortTime)) {
                     ivSortTime.setImageResource(R.mipmap.ic_desc);
 
-                    sort("", "videoDate", "desc", "1", "");
+                    sort("", "createTime", "desc", "1", title);
                 } else {
-                    ivSortTime.setImageResource(R.mipmap.ic_asc);
+                    ivSortTime.setImageResource(R.mipmap.ic_default_sc);
 
-                    sort("", "videoDate", "asc", "1", "");
+                    sort("", "", "", "1", title);
                 }
                 break;
             case R.id.ll_sort_sales_volume:
@@ -172,15 +178,15 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
                     ivSortSalesVolume.setImageResource(R.mipmap.ic_asc);
                     ivSortTime.setImageResource(R.mipmap.ic_default_sc);
 
-                    sort("", "purchaseNum", "asc", "1", "");
+                    sort("", "purchaseNum", "asc", "1", title);
                 } else if (getResources().getDrawable(R.mipmap.ic_asc).getConstantState().equals(drawableSortSalesVolume)) {
                     ivSortSalesVolume.setImageResource(R.mipmap.ic_desc);
 
-                    sort("", "purchaseNum", "desc", "1", "");
+                    sort("", "purchaseNum", "desc", "1", title);
                 } else {
-                    ivSortSalesVolume.setImageResource(R.mipmap.ic_asc);
+                    ivSortSalesVolume.setImageResource(R.mipmap.ic_default_sc);
 
-                    sort("", "purchaseNum", "asc", "1", "");
+                    sort("", "", "", "1", title);
                 }
                 break;
         }
@@ -222,9 +228,10 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
                         if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
                             startActivity(new Intent(getActivity(), LoginActivity.class));
                         else {
+                            classroomIdPosition = position;
                             TreeMap<String, String> classRoomDetailsMap = new TreeMap<>();
                             classRoomDetailsMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
-                            classRoomDetailsMap.put("classroomId", data.getData().getRoomList().get(position).getClassroomId() + "");
+                            classRoomDetailsMap.put("classroomId", roomListBean.get(position).getClassroomId() + "");
                             classRoomDetailsMap.put("priceId", priceBean.getPriceId() + "");
                             classRoomDetailsMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(classRoomDetailsMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
                             getPresenter().getClassRoomDetails(classRoomDetailsMap, false, false);
@@ -279,7 +286,7 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
                         startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean).putExtra("integral", priceBean.getIntegral()).putExtra("money", priceBean.getMoney()));
                         break;
                     case "2":
-                        startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean));
+                        startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean).putExtra("integral", priceBean.getIntegral()).putExtra("money", priceBean.getMoney()));
                         break;
                     case "3":
                         new NotIntegralDialog(getActivity()) {
@@ -299,14 +306,14 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
                                     public void goPay(int payType) {
                                         if (data.getData().getBalance() >= priceBean.getMoney()) {
                                             //余额直接支付
-                                            payType(3);
+                                            payType(3, roomListBean.get(classroomIdPosition).getClassroomId());
                                         } else {
                                             switch (payType) {
                                                 case 1://支付宝
-                                                    payType(1);
+                                                    payType(1, roomListBean.get(classroomIdPosition).getClassroomId());
                                                     break;
                                                 case 2://微信
-                                                    payType(2);
+                                                    payType(2, roomListBean.get(classroomIdPosition).getClassroomId());
                                                     break;
                                                 default:
                                                     ToastUtil.showShortToast("余额不足，请选择支付方式！");
@@ -332,31 +339,70 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
     }
 
     //支付
-    private void payType(int payType) {
+    private void payType(int payType, int classroomId) {
         switch (payType) {
             case 1:
-//                TreeMap<String, String> aliPayMap = new TreeMap<>();
-//                aliPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-//                aliPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(aliPayMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-//                getPresenter().getOrderAliPay(aliPayMap, true, false);
+                TreeMap<String, String> aliPayMap = new TreeMap<>();
+                aliPayMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+                aliPayMap.put("classroomId", classroomId + "");
+                aliPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(aliPayMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                getPresenter().getClassRoomAliPay(aliPayMap, true, false);
                 break;
             case 2:
+                //TODO 接口没好
 //                TreeMap<String, String> weixinPayMap = new TreeMap<>();
-//                weixinPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+//                weixinPayMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+//                weixinPayMap.put("classroomId", classroomId + "");
 //                weixinPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(weixinPayMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-//                getPresenter().getOrderWeiXinPay(weixinPayMap, true, false);
+//                getPresenter().getClassRoomWechatPay(weixinPayMap, true, false);
                 break;
             case 3:
-                startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean));
+                TreeMap<String, String> balancePayMap = new TreeMap<>();
+                balancePayMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+                balancePayMap.put("classroomId", classroomId + "");
+                balancePayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(balancePayMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                getPresenter().getClassRoomBalancePay(balancePayMap, true, false);
                 break;
         }
     }
 
     @Override
     public void resultClassRoomAliPay(ClassRoomAliPayBean data) {
-//        ToastUtil.showLongToast(data.getMsg());
-//        if (data.getCode() == 900)
-//            startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean));
+        switch (data.getCode()) {
+            case 200:
+                new AliPay(getActivity(), data.getData().getSign());
+                break;
+            case 900:
+                ToastUtil.showLongToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                getActivity().finish();
+                break;
+        }
+    }
+
+    @Override
+    public void resultClassRoomWechatPay(ClassRoomWechatPayBean data) {
+
+    }
+
+    @Override
+    public void resultClassRoomBalancePay(ClassRoomBalancePayBean data) {
+        ToastUtil.showLongToast(data.getMsg());
+        switch (data.getCode()) {
+            case 200:
+                startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean).putExtra("integral", priceBean.getIntegral()).putExtra("money", priceBean.getMoney()));
+                break;
+            case 900:
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                getActivity().finish();
+                break;
+        }
     }
 
     @Override

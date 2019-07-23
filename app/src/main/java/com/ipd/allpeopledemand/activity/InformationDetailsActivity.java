@@ -20,10 +20,15 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.allpeopledemand.R;
+import com.ipd.allpeopledemand.aliPay.AliPay;
 import com.ipd.allpeopledemand.base.BaseActivity;
 import com.ipd.allpeopledemand.bean.AttentionCollectionBean;
 import com.ipd.allpeopledemand.bean.AttentionDetailsBean;
+import com.ipd.allpeopledemand.bean.MainAliPayBean;
+import com.ipd.allpeopledemand.bean.MainBalancePayBean;
 import com.ipd.allpeopledemand.bean.MainDetailsBean;
+import com.ipd.allpeopledemand.bean.MainWechatPayBean;
+import com.ipd.allpeopledemand.bean.MyBuyDemandDetailsBean;
 import com.ipd.allpeopledemand.bean.ReportBean;
 import com.ipd.allpeopledemand.bean.ReportListBean;
 import com.ipd.allpeopledemand.common.view.BottomPayDialog;
@@ -100,6 +105,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
     private List<String> listData;
     private OptionsPickerView pvOptions; //条件选择器
     private int releaseId;
+    private int orderId;
     private List<String> reportDataList = new ArrayList<>();//选择举报
     private List<ReportListBean.DataBean.ReportListBeans> reportListBeans = new ArrayList<>();//选择举报(取举报ID用)
     private int activityType; //1: 首页， 2:首页列表的广告， 3: 我的关注， 4: 我的购买
@@ -131,6 +137,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
 
         activityType = getIntent().getIntExtra("activityType", 0);
         releaseId = getIntent().getIntExtra("releaseId", 0);
+        orderId = getIntent().getIntExtra("orderId", 0);
     }
 
     @Override
@@ -158,6 +165,14 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 getPresenter().getAttentionDetails(attentionDetailsMap, true, false);
                 break;
             case 4:
+                llNotPay.setVisibility(View.GONE);
+                llPay.setVisibility(View.VISIBLE);
+
+                TreeMap<String, String> myBuyDemandDetailsMap = new TreeMap<>();
+                myBuyDemandDetailsMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+                myBuyDemandDetailsMap.put("orderId", orderId + "");
+                myBuyDemandDetailsMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(myBuyDemandDetailsMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                getPresenter().getMyBuyDemandDetails(myBuyDemandDetailsMap, true, false);
                 break;
         }
         TreeMap<String, String> reportListMap = new TreeMap<>();
@@ -267,14 +282,14 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                             public void goPay(int payType) {
                                 if (balance >= money) {
                                     //余额直接支付
-                                    payType(3);
+                                    payType(3, releaseId);
                                 } else {
                                     switch (payType) {
                                         case 1://支付宝
-                                            payType(1);
+                                            payType(1, releaseId);
                                             break;
                                         case 2://微信
-                                            payType(2);
+                                            payType(2, releaseId);
                                             break;
                                         default:
                                             ToastUtil.showShortToast("余额不足，请选择支付方式！");
@@ -301,22 +316,28 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
     }
 
     //支付
-    private void payType(int payType) {
+    private void payType(int payType, int releaseId) {
         switch (payType) {
             case 1:
-//                TreeMap<String, String> aliPayMap = new TreeMap<>();
-//                aliPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-//                aliPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(aliPayMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-//                getPresenter().getOrderAliPay(aliPayMap, true, false);
+                TreeMap<String, String> aliPayMap = new TreeMap<>();
+                aliPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+                aliPayMap.put("releaseId", releaseId + "");
+                aliPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(aliPayMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                getPresenter().getMainAliPay(aliPayMap, true, false);
                 break;
-            case 2:
-//                TreeMap<String, String> weixinPayMap = new TreeMap<>();
-//                weixinPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-//                weixinPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(weixinPayMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-//                getPresenter().getOrderWeiXinPay(weixinPayMap, true, false);
+            case 2:// TODO 接口没好
+//                TreeMap<String, String> wechatPayMap = new TreeMap<>();
+//                wechatPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+//                wechatPayMap.put("releaseId", releaseId + "");
+//                wechatPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(wechatPayMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+//                getPresenter().getMainWechatPay(wechatPayMap, true, false);
                 break;
             case 3:
-                startActivityForResult(new Intent(InformationDetailsActivity.this, PayStatusActivity.class).putExtra("pay_status", 1), REQUEST_CODE_90);
+                TreeMap<String, String> balancePayMap = new TreeMap<>();
+                balancePayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+                balancePayMap.put("releaseId", releaseId + "");
+                balancePayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(balancePayMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                getPresenter().getMainBalancePay(balancePayMap, true, false);
                 break;
         }
     }
@@ -328,6 +349,10 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 money = data.getData().getPrice().getMoney();
                 balance = data.getData().getRelease().getBalance();
                 IsPurchase = data.getData().getIsPurchase();
+                if ("3".equals(IsPurchase)) {
+                    llNotPay.setVisibility(View.GONE);
+                    llPay.setVisibility(View.VISIBLE);
+                }
                 Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.ic_test_ad)).into(rivTitle);
                 Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getAvatar()).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into(rivHead);
 
@@ -360,6 +385,10 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 money = data.getData().getPrice().getMoney();
                 balance = data.getData().getRelease().getBalance();
                 IsPurchase = data.getData().getIsPurchase();
+                if ("3".equals(IsPurchase)) {
+                    llNotPay.setVisibility(View.GONE);
+                    llPay.setVisibility(View.VISIBLE);
+                }
                 Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.ic_test_ad)).into(rivTitle);
                 Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getAvatar()).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into(rivHead);
 
@@ -373,6 +402,34 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
 
                 tvContactName.setText("联系人: " + data.getData().getRelease().getContacts());
                 tvContactPhone.setText("电话号码: " + data.getData().getRelease().getContactNumber());
+                break;
+            case 900:
+                ToastUtil.showLongToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                break;
+        }
+    }
+
+    @Override
+    public void resultMyBuyDemandDetails(MyBuyDemandDetailsBean data) {
+        switch (data.getCode()) {
+            case 200:
+                Glide.with(this).load(BASE_LOCAL_URL + data.getData().getDemandList().getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.ic_test_ad)).into(rivTitle);
+                Glide.with(this).load(BASE_LOCAL_URL + data.getData().getDemandList().getAvatar()).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into(rivHead);
+
+                tvSynopsis.setText(data.getData().getDemandList().getTitle());
+                tvName.setText(data.getData().getDemandList().getUserCall());
+                tvTime.setText(FormatCurrentData.getTimeRange(data.getData().getDemandList().getReleaseTime()));
+                tvReadNum.setText(data.getData().getDemandList().getBrowseNum() + "");
+                cbCollection.setChecked("1".equals(data.getData().getDemandList().getIsFollow()) ? false : true);
+                tvContent.setText(data.getData().getDemandList().getDetails());
+
+                tvContactName.setText("联系人: " + data.getData().getDemandList().getContacts());
+                tvContactPhone.setText("电话号码: " + data.getData().getDemandList().getContactNumber());
                 break;
             case 900:
                 ToastUtil.showLongToast(data.getMsg());
@@ -427,6 +484,69 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
             ApplicationUtil.getManager().finishActivity(MainActivity.class);
             startActivity(new Intent(this, LoginActivity.class));
             finish();
+        }
+    }
+
+    @Override
+    public void resultMainAliPay(MainAliPayBean data) {
+        switch (data.getCode()) {
+            case 200:
+                new AliPay(InformationDetailsActivity.this, data.getData().getSign());
+                break;
+            case 900:
+                ToastUtil.showLongToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                break;
+        }
+    }
+
+    @Override
+    public void resultMainWechatPay(MainWechatPayBean data) {
+//        switch (data.getCode()) {
+//            case 200:
+//                IWXAPI api = WXAPIFactory.createWXAPI(this, null);
+//                api.registerApp("wx1a65c563b86ec579");
+//                PayReq req = new PayReq();
+//                req.appId = data.getData().getData().getAppid();//你的微信appid
+//                req.partnerId = data.getData().getData().getPartnerid();//商户号
+//                req.prepayId = data.getData().getData().getPrepayid();//预支付交易会话ID
+//                req.nonceStr = data.getData().getData().getNoncestr();//随机字符串
+//                req.timeStamp = data.getData().getData().getTimestamp() + "";//时间戳
+//                req.packageValue = data.getData().getData().getPackageX(); //扩展字段, 这里固定填写Sign = WXPay
+//                req.sign = data.getData().getData().getSign();//签名
+//                //  req.extData         = "app data"; // optional
+//                // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+//                api.sendReq(req);
+//                break;
+//            case 900:
+//                ToastUtil.showLongToast(data.getMsg());
+//                //清除所有临时储存
+//                SPUtil.clear(ApplicationUtil.getContext());
+//                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+//                startActivity(new Intent(this, LoginActivity.class));
+//                finish();
+//                break;
+//        }
+    }
+
+    @Override
+    public void resultMainBalancePay(MainBalancePayBean data) {
+        ToastUtil.showLongToast(data.getMsg());
+        switch (data.getCode()) {
+            case 200:
+                startActivityForResult(new Intent(InformationDetailsActivity.this, PayStatusActivity.class).putExtra("pay_status", 1), REQUEST_CODE_90);
+                break;
+            case 900:
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                break;
         }
     }
 

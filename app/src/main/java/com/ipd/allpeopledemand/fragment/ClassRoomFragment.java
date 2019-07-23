@@ -71,6 +71,12 @@ public class ClassRoomFragment extends BaseFragment<ClassRoomInicationContract.V
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden)
+            ImmersionBar.with(this).statusBarDarkFont(true).init();
+    }
+
+    @Override
     public void init(View view) {
         //防止状态栏和标题重叠
         ImmersionBar.with(this).statusBarDarkFont(true).init();
@@ -87,7 +93,7 @@ public class ClassRoomFragment extends BaseFragment<ClassRoomInicationContract.V
                     // 隐藏软键盘
                     imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(), 0);
 
-                    Intent intent = new Intent("android.ipd.action");
+                    Intent intent = new Intent("android.ipd.class_room_search");
                     intent.putExtra("roomClassId", selectRoomClassPosition == 0 ? "0" : classListBean.get(selectRoomClassPosition - 1).getRoomClassId() + "");
                     intent.putExtra("title", etTopLongSearch.getText().toString().trim());
                     LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);

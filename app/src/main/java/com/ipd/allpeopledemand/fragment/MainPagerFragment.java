@@ -1,7 +1,10 @@
 package com.ipd.allpeopledemand.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -80,7 +83,7 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
     ImageView ivSortSalesVolume;
 
     private List<MainListBean.DataBean.ReleaseListBean> releaseListBean = new ArrayList<>();
-    private String releaseId = "";
+    private String releaseClassId = "";
     private MainPagerAdapter mainPagerAdapter;
     private int pageNum = 1; //页数
 
@@ -99,12 +102,27 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
         return this;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.ipd.main_search");
+        BroadcastReceiver mItemViewListClickReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+            }
+        };
+        broadcastManager.registerReceiver(mItemViewListClickReceiver, intentFilter);
+    }
+
     @SuppressLint("WrongConstant")
     @Override
     public void init(View view) {
         Bundle args = getArguments();
         if (args != null) {
-            releaseId = args.getString("releaseId");
+            releaseClassId = args.getString("releaseClassId");
         }
 
         // 设置管理器
@@ -133,10 +151,22 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
         sort("", "", pageNum + "");
     }
 
+    /*private void sort(String releaseClassId, String orderByColumn, String isAsc, String pageNum, String region, String title) {
+        TreeMap<String, String> classRoomPagerMap = new TreeMap<>();
+        classRoomPagerMap.put("userId", "".equals(SPUtil.get(getContext(), IS_LOGIN, "") + "") ? "0" : SPUtil.get(getContext(), USER_ID, "") + "");
+        classRoomPagerMap.put("releaseClassId", "".equals(releaseClassId) ? this.releaseClassId : releaseClassId);
+        classRoomPagerMap.put("orderByColumn", orderByColumn);
+        classRoomPagerMap.put("isAsc", isAsc);
+        classRoomPagerMap.put("pageNum", pageNum);
+        classRoomPagerMap.put("region", region);
+        classRoomPagerMap.put("title", title);
+        classRoomPagerMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(classRoomPagerMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+        getPresenter().getMainList(classRoomPagerMap, true, false);
+    }*/
     private void sort(String orderByColumn, String isAsc, String pageNum) {
         TreeMap<String, String> classRoomPagerMap = new TreeMap<>();
         classRoomPagerMap.put("userId", "".equals(SPUtil.get(getContext(), IS_LOGIN, "") + "") ? "0" : SPUtil.get(getContext(), USER_ID, "") + "");
-        classRoomPagerMap.put("releaseClassId", releaseId);
+        classRoomPagerMap.put("releaseClassId", releaseClassId);
         classRoomPagerMap.put("orderByColumn", orderByColumn);
         classRoomPagerMap.put("isAsc", isAsc);
         classRoomPagerMap.put("pageNum", pageNum);

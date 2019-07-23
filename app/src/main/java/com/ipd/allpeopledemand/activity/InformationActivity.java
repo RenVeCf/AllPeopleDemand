@@ -3,6 +3,7 @@ package com.ipd.allpeopledemand.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,12 @@ import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -41,6 +45,8 @@ import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -60,6 +66,8 @@ import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_91;
 import static com.ipd.allpeopledemand.common.config.IConstants.SEX;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_LOCAL_URL;
+import static com.ipd.allpeopledemand.utils.DateUtils.getAgeFromBirthTime;
+import static com.ipd.allpeopledemand.utils.DateUtils.timedate1;
 
 /**
  * Description ：个人资料
@@ -90,6 +98,7 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
 
     private List<String> listData;
     private OptionsPickerView pvOptions; //条件选择器
+    private TimePickerView pvTime; //时间选择器
 
     @Override
     public int getLayoutId() {
@@ -153,15 +162,15 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
             public void onOptionsSelect(int options1, int option2, int options3, View v) {
                 switch (type) {
                     case 1:
-                        ModifyInformation("", "男".equals(listData.get(options1)) ? 1 : 2, "", 0);
+                        ModifyInformation("", "男".equals(listData.get(options1)) ? "1" : "2", "", "");
                         stvSex.setRightString(listData.get(options1));
                         break;
                     case 2:
-                        ModifyInformation("", 0, listData.get(options1).replaceAll("岁", ""), 0);
+                        ModifyInformation("", "", listData.get(options1).replaceAll("岁", ""), "");
                         stvAge.setRightString(listData.get(options1));
                         break;
                     case 3:
-                        ModifyInformation("", 0, "", "未婚".equals(listData.get(options1)) ? 1 : 2);
+                        ModifyInformation("", "", "", "未婚".equals(listData.get(options1)) ? "1" : "2");
                         stvMarital.setRightString(listData.get(options1));
                         break;
                 }
@@ -212,6 +221,61 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
         return list;
     }
 
+    //时间选择器
+    private void selectTime() {
+        Calendar selectedDate = Calendar.getInstance();
+        Calendar startDate = Calendar.getInstance();
+        //startDate.set(2013,1,1);
+        Calendar endDate = Calendar.getInstance();
+        //endDate.set(2020,1,1);
+
+        //正确设置方式 原因：注意事项有说明
+        startDate.set(1900, 0, 1);
+        endDate.set(2030, 11, 31);
+
+        pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {//选中事件回调
+                ModifyInformation("", "", getAgeFromBirthTime(timedate1(date.getTime() + "")) + "", "");
+                stvAge.setRightString(getAgeFromBirthTime(timedate1(date.getTime() + "")) + "岁");
+            }
+        })
+                .setLayoutRes(R.layout.pickerview_custom_time, new CustomListener() {
+                    @Override
+                    public void customLayout(View v) {
+                        final Button tvSubmit = (Button) v.findViewById(R.id.bt_pickview_confirm);
+                        tvSubmit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                pvTime.returnData();
+                                pvTime.dismiss();
+                            }
+                        });
+                    }
+                })
+                .setType(new boolean[]{true, true, true, false, false, false})// 默认全部显示
+//                .setCancelText("请选择起始时间")//取消按钮文字
+//                .setSubmitText("")//确认按钮文字
+                //                .setContentSize(18)//滚轮文字大小
+//                .setTitleSize(16)//标题文字大小
+//                .setTitleText("请选择起始时间")
+                .setDecorView((ViewGroup) getWindow().getDecorView().findViewById(android.R.id.content))
+                .setOutSideCancelable(true)//点击屏幕，点在控件外部范围时，是否取消显示
+                .isCyclic(false)//是否循环滚动
+//                .setTitleColor(Color.BLACK)//标题文字颜色
+//                .setSubmitColor(Color.BLACK)//确定按钮文字颜色
+//                .setCancelColor(Color.BLACK)//取消按钮文字颜色
+//                .setTitleBgColor(0xFFFFFFFF)//标题背景颜色 Night mode
+                .setBgColor(Color.WHITE)//滚轮背景颜色 Night mode
+                .setDate(selectedDate)// 如果不设置的话，默认是系统时间*/
+                .setRangDate(startDate, endDate)//起始终止年月日设定
+                .setLabel("", "", "", "时", "分", "秒")//默认设置为年月日时分秒
+                .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
+                .isDialog(false)//是否显示为对话框样式
+                .build();
+        pvTime.show();
+    }
+
     public static RequestBody getImageRequestBody(String filePath) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
@@ -219,13 +283,13 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
         return RequestBody.create(MediaType.parse(options.outMimeType), new File(filePath));
     }
 
-    private void ModifyInformation(String avatar, int sex, String age, int maritalStatus) {
+    private void ModifyInformation(String avatar, String sex, String age, String maritalStatus) {
         TreeMap<String, String> informationMap = new TreeMap<>();
         informationMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
         informationMap.put("avatar", avatar);
-        informationMap.put("sex", sex + "");
+        informationMap.put("sex", sex);
         informationMap.put("age", age);
-        informationMap.put("maritalStatus", maritalStatus + "");
+        informationMap.put("maritalStatus", maritalStatus);
         informationMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(informationMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
         getPresenter().getInformation(informationMap, true, false);
     }
@@ -273,7 +337,7 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
                 showPickerView(1);
                 break;
             case R.id.stv_age:
-                showPickerView(2);
+                selectTime();
                 break;
             case R.id.stv_marital:
                 showPickerView(3);
@@ -311,7 +375,7 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
                             }
                         });
 
-                ModifyInformation(data.getFileName(), 0, "", 0);
+                ModifyInformation(data.getFileName(), "", "", "");
                 break;
             case 900:
                 ToastUtil.showShortToast(data.getMsg());

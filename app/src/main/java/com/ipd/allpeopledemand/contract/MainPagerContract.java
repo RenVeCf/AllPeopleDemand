@@ -4,7 +4,10 @@ import com.ipd.allpeopledemand.base.BasePresenter;
 import com.ipd.allpeopledemand.base.BaseView;
 import com.ipd.allpeopledemand.bean.AttentionCollectionBean;
 import com.ipd.allpeopledemand.bean.ClassIficationBean;
+import com.ipd.allpeopledemand.bean.MainAliPayBean;
+import com.ipd.allpeopledemand.bean.MainBalancePayBean;
 import com.ipd.allpeopledemand.bean.MainListBean;
+import com.ipd.allpeopledemand.bean.MainWechatPayBean;
 
 import java.util.TreeMap;
 

@@ -62,6 +62,12 @@ public class FeedbackFragment extends BaseFragment<FeedBackContract.View, FeedBa
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden)
+            ImmersionBar.with(this).statusBarDarkFont(true).init();
+    }
+
+    @Override
     public void init(View view) {
         //防止状态栏和标题重叠
         ImmersionBar.with(this).statusBarDarkFont(true).init();

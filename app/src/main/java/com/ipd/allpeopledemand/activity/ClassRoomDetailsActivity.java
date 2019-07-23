@@ -22,8 +22,10 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.base.BaseActivity;
 import com.ipd.allpeopledemand.bean.ClassRoomAliPayBean;
+import com.ipd.allpeopledemand.bean.ClassRoomBalancePayBean;
 import com.ipd.allpeopledemand.bean.ClassRoomDetailsBean;
 import com.ipd.allpeopledemand.bean.ClassRoomPagerBean;
+import com.ipd.allpeopledemand.bean.ClassRoomWechatPayBean;
 import com.ipd.allpeopledemand.common.view.JzvdStdMp3;
 import com.ipd.allpeopledemand.common.view.MyJzvdStd;
 import com.ipd.allpeopledemand.common.view.TopView;
@@ -241,6 +243,16 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
 
     @Override
     public void resultClassRoomAliPay(ClassRoomAliPayBean data) {
+
+    }
+
+    @Override
+    public void resultClassRoomWechatPay(ClassRoomWechatPayBean data) {
+
+    }
+
+    @Override
+    public void resultClassRoomBalancePay(ClassRoomBalancePayBean data) {
 
     }
 

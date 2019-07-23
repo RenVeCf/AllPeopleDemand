@@ -8,15 +8,24 @@ import com.ipd.allpeopledemand.bean.CheckInBean;
 import com.ipd.allpeopledemand.bean.CheckInLayoutBean;
 import com.ipd.allpeopledemand.bean.ClassIficationBean;
 import com.ipd.allpeopledemand.bean.ClassRoomAliPayBean;
+import com.ipd.allpeopledemand.bean.ClassRoomBalancePayBean;
 import com.ipd.allpeopledemand.bean.ClassRoomDetailsBean;
 import com.ipd.allpeopledemand.bean.ClassRoomInicationBean;
 import com.ipd.allpeopledemand.bean.ClassRoomPagerBean;
+import com.ipd.allpeopledemand.bean.ClassRoomWechatPayBean;
 import com.ipd.allpeopledemand.bean.FeedBackBean;
 import com.ipd.allpeopledemand.bean.ForgetPwdBean;
 import com.ipd.allpeopledemand.bean.InformationBean;
+import com.ipd.allpeopledemand.bean.MainAliPayBean;
+import com.ipd.allpeopledemand.bean.MainBalancePayBean;
 import com.ipd.allpeopledemand.bean.MainDetailsBean;
 import com.ipd.allpeopledemand.bean.MainListBean;
+import com.ipd.allpeopledemand.bean.MainWechatPayBean;
 import com.ipd.allpeopledemand.bean.MsgBean;
+import com.ipd.allpeopledemand.bean.MyBuyClassRoomDetailsBean;
+import com.ipd.allpeopledemand.bean.MyBuyClassRoomListBean;
+import com.ipd.allpeopledemand.bean.MyBuyDemandDetailsBean;
+import com.ipd.allpeopledemand.bean.MyBuyDemandListBean;
 import com.ipd.allpeopledemand.bean.MyPushCollectionBean;
 import com.ipd.allpeopledemand.bean.MyPushDemandTypeBean;
 import com.ipd.allpeopledemand.bean.MyPushDetailsBean;
@@ -49,16 +58,25 @@ import static com.ipd.allpeopledemand.common.config.UrlConfig.CHECK_IN;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.CHECK_IN_LAYOUT;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.CLASS_INICATION;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.CLASS_ROOM_ALI_PAY;
+import static com.ipd.allpeopledemand.common.config.UrlConfig.CLASS_ROOM_BALANCE;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.CLASS_ROOM_DETAILS;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.CLASS_ROOM_INICATION;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.CLASS_ROOM_PAGER_LIST;
+import static com.ipd.allpeopledemand.common.config.UrlConfig.CLASS_ROOM_WECHAT_PAY;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.FEED_BACK;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.FORGET_PWD;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.INFORMATION;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.LOGIN;
+import static com.ipd.allpeopledemand.common.config.UrlConfig.MAIN_ALI_PAY;
+import static com.ipd.allpeopledemand.common.config.UrlConfig.MAIN_BALANCE_PAY;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.MAIN_DETAILS;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.MAIN_LIST;
+import static com.ipd.allpeopledemand.common.config.UrlConfig.MAIN_WECHAT_PAY;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.MSG;
+import static com.ipd.allpeopledemand.common.config.UrlConfig.MY_BUY_CLASS_ROOM_DETAILS;
+import static com.ipd.allpeopledemand.common.config.UrlConfig.MY_BUY_CLASS_ROOM_LIST;
+import static com.ipd.allpeopledemand.common.config.UrlConfig.MY_BUY_DEMAND_DETAILS;
+import static com.ipd.allpeopledemand.common.config.UrlConfig.MY_BUY_DEMAND_LIST;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.MY_PUSH_COLLECTION;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.MY_PUSH_DEMAND_TYPE;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.MY_PUSH_DETAILS;
@@ -99,6 +117,16 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(CLASS_ROOM_ALI_PAY)
     Observable<ClassRoomAliPayBean> getClassRoomAliPay(@FieldMap Map<String, String> map);
+
+    //课堂微信-支付
+    @FormUrlEncoded
+    @POST(CLASS_ROOM_WECHAT_PAY)
+    Observable<ClassRoomWechatPayBean> getClassRoomWechatPay(@FieldMap Map<String, String> map);
+
+    //课堂-余额支付
+    @FormUrlEncoded
+    @POST(CLASS_ROOM_BALANCE)
+    Observable<ClassRoomBalancePayBean> getClassRoomBalance(@FieldMap Map<String, String> map);
 
     //点击注册
     @FormUrlEncoded
@@ -148,6 +176,21 @@ public interface ApiService {
     //首页分类列表
     @POST(CLASS_INICATION)
     Observable<ClassIficationBean> getClassIfication();
+
+    //首页发布-支付宝支付
+    @FormUrlEncoded
+    @POST(MAIN_ALI_PAY)
+    Observable<MainAliPayBean> getMainAliPay(@FieldMap Map<String, String> map);
+
+    //首页发布-微信支付
+    @FormUrlEncoded
+    @POST(MAIN_WECHAT_PAY)
+    Observable<MainWechatPayBean> getMainWechatPay(@FieldMap Map<String, String> map);
+
+    //首页发布-余额支付
+    @FormUrlEncoded
+    @POST(MAIN_BALANCE_PAY)
+    Observable<MainBalancePayBean> getMainBalancePay(@FieldMap Map<String, String> map);
 
     //点击发布提交
     @FormUrlEncoded
@@ -229,8 +272,28 @@ public interface ApiService {
     @POST(MAIN_LIST)
     Observable<MainListBean> getMainList(@FieldMap Map<String, String> map);
 
-    //我的关注列表-详情-提交举报
+    //首页列表数据-查看详情
     @FormUrlEncoded
     @POST(MAIN_DETAILS)
     Observable<MainDetailsBean> getMainDetails(@FieldMap Map<String, String> map);
+
+    //我的购买-需求资讯列表
+    @FormUrlEncoded
+    @POST(MY_BUY_DEMAND_LIST)
+    Observable<MyBuyDemandListBean> getMyBuyDemandList(@FieldMap Map<String, String> map);
+
+    //我的购买-需求资讯列表-详情
+    @FormUrlEncoded
+    @POST(MY_BUY_DEMAND_DETAILS)
+    Observable<MyBuyDemandDetailsBean> getMyBuyDemandDetails(@FieldMap Map<String, String> map);
+
+    //我的购买-需求资讯列表-详情
+    @FormUrlEncoded
+    @POST(MY_BUY_CLASS_ROOM_LIST)
+    Observable<MyBuyClassRoomListBean> getMyBuyClassRoomList(@FieldMap Map<String, String> map);
+
+    //我的购买-需求资讯列表-详情
+    @FormUrlEncoded
+    @POST(MY_BUY_CLASS_ROOM_DETAILS)
+    Observable<MyBuyClassRoomDetailsBean> getMyBuyClassRoomDetails(@FieldMap Map<String, String> map);
 }

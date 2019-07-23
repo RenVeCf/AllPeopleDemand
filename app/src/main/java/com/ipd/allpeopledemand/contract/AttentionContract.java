@@ -4,7 +4,11 @@ import com.ipd.allpeopledemand.base.BasePresenter;
 import com.ipd.allpeopledemand.base.BaseView;
 import com.ipd.allpeopledemand.bean.AttentionCollectionBean;
 import com.ipd.allpeopledemand.bean.AttentionDetailsBean;
+import com.ipd.allpeopledemand.bean.MainAliPayBean;
+import com.ipd.allpeopledemand.bean.MainBalancePayBean;
 import com.ipd.allpeopledemand.bean.MainDetailsBean;
+import com.ipd.allpeopledemand.bean.MainWechatPayBean;
+import com.ipd.allpeopledemand.bean.MyBuyDemandDetailsBean;
 import com.ipd.allpeopledemand.bean.ReportBean;
 import com.ipd.allpeopledemand.bean.ReportListBean;
 
@@ -26,11 +30,19 @@ public interface AttentionContract {
 
         void resultAttentionDetails(AttentionDetailsBean data);
 
+        void resultMyBuyDemandDetails(MyBuyDemandDetailsBean data);
+
         void resultAttentionCollection(AttentionCollectionBean data);
 
         void resultReportList(ReportListBean data);
 
         void resultReport(ReportBean data);
+
+        void resultMainAliPay(MainAliPayBean data);
+
+        void resultMainWechatPay(MainWechatPayBean data);
+
+        void resultMainBalancePay(MainBalancePayBean data);
 
         <T> ObservableTransformer<T, T> bindLifecycle();
     }
@@ -40,10 +52,18 @@ public interface AttentionContract {
 
         public abstract void getAttentionDetails(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
 
+        public abstract void getMyBuyDemandDetails(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
+
         public abstract void getAttentionCollection(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
 
         public abstract void getReportList(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
 
         public abstract void getReport(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
+
+        public abstract void getMainAliPay(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
+
+        public abstract void getMainWechatPay(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
+
+        public abstract void getMainBalancePay(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
     }
 }

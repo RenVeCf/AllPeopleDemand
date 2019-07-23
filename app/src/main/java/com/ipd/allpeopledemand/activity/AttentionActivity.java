@@ -1,5 +1,6 @@
 package com.ipd.allpeopledemand.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -18,6 +19,8 @@ import com.ipd.allpeopledemand.contract.PushContract;
 import com.ipd.allpeopledemand.fragment.AttentionPagerFragment;
 import com.ipd.allpeopledemand.presenter.PushPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
+import com.ipd.allpeopledemand.utils.SPUtil;
+import com.ipd.allpeopledemand.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,30 +88,42 @@ public class AttentionActivity extends BaseActivity<PushContract.View, PushContr
 
     @Override
     public void resultClassIfication(ClassIficationBean data) {
-        titles = new String[data.getData().getClassList().size() + 1];
-        for (int i = 0; i < data.getData().getClassList().size() + 1; i++) {
-            if (i == 0)
-                titles[0] = "全部";
-            else
-                titles[i] = data.getData().getClassList().get(i - 1).getClassName();
-        }
-        //向集合添加Fragment
-        fragments = new ArrayList<>();
-        for (int i = 0; i < titles.length; i++) {
-            fm = new AttentionPagerFragment();
-            Bundle args = new Bundle();
-            args.putString("releaseClassId", i == 0 ? "0" : data.getData().getClassList().get(i - 1).getReleaseClassId() + "");
-            fm.setArguments(args);
-            fragments.add(fm);
-        }
-        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments);
-        vpFragmentAttention.setAdapter(viewPagerAdapter);
-        vpFragmentAttention.setOffscreenPageLimit(titles.length);
+        switch (data.getCode()) {
+            case 200:
+                titles = new String[data.getData().getClassList().size() + 1];
+                for (int i = 0; i < data.getData().getClassList().size() + 1; i++) {
+                    if (i == 0)
+                        titles[0] = "全部";
+                    else
+                        titles[i] = data.getData().getClassList().get(i - 1).getClassName();
+                }
+                //向集合添加Fragment
+                fragments = new ArrayList<>();
+                for (int i = 0; i < titles.length; i++) {
+                    fm = new AttentionPagerFragment();
+                    Bundle args = new Bundle();
+                    args.putString("releaseClassId", i == 0 ? "0" : data.getData().getClassList().get(i - 1).getReleaseClassId() + "");
+                    fm.setArguments(args);
+                    fragments.add(fm);
+                }
+                viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments);
+                vpFragmentAttention.setAdapter(viewPagerAdapter);
+                vpFragmentAttention.setOffscreenPageLimit(titles.length);
 
-        //设置导航条
-        nfslFragmentAttention.setViewPager(this, titles, vpFragmentAttention, R.color.tx_bottom_navigation, R.color.black, 14, 14, 24, true, R.color.black, 0, 0, 0, 80);
-        nfslFragmentAttention.setBgLine(this, 1, R.color.whitesmoke);
-        nfslFragmentAttention.setNavLine(this, 3, R.color.colorAccent);
+                //设置导航条
+                nfslFragmentAttention.setViewPager(this, titles, vpFragmentAttention, R.color.tx_bottom_navigation, R.color.black, 14, 14, 24, true, R.color.black, 0, 0, 0, 80);
+                nfslFragmentAttention.setBgLine(this, 1, R.color.whitesmoke);
+                nfslFragmentAttention.setNavLine(this, 3, R.color.colorAccent);
+                break;
+            case 900:
+                ToastUtil.showLongToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                break;
+        }
     }
 
     @Override

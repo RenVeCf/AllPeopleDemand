@@ -2,13 +2,13 @@ package com.ipd.allpeopledemand.presenter;
 
 import android.content.Context;
 
-import com.ipd.allpeopledemand.bean.ClassRoomAliPayBean;
-import com.ipd.allpeopledemand.bean.ClassRoomBalancePayBean;
-import com.ipd.allpeopledemand.bean.ClassRoomDetailsBean;
-import com.ipd.allpeopledemand.bean.ClassRoomPagerBean;
-import com.ipd.allpeopledemand.bean.ClassRoomWechatPayBean;
-import com.ipd.allpeopledemand.contract.ClassRoomPagerContract;
-import com.ipd.allpeopledemand.model.ClassRoomPagerModel;
+import com.ipd.allpeopledemand.bean.AttentionCollectionBean;
+import com.ipd.allpeopledemand.bean.MyBuyClassRoomDetailsBean;
+import com.ipd.allpeopledemand.bean.MyBuyClassRoomListBean;
+import com.ipd.allpeopledemand.bean.MyBuyDemandDetailsBean;
+import com.ipd.allpeopledemand.bean.MyBuyDemandListBean;
+import com.ipd.allpeopledemand.contract.MyBuyContract;
+import com.ipd.allpeopledemand.model.MyBuyModel;
 import com.ipd.allpeopledemand.progress.ObserverResponseListener;
 import com.ipd.allpeopledemand.utils.ExceptionHandle;
 import com.ipd.allpeopledemand.utils.ToastUtil;
@@ -21,24 +21,24 @@ import java.util.TreeMap;
  * Email ： 942685687@qq.com
  * Time ： 2018/8/26.
  */
-public class ClassRoomPagerPresenter extends ClassRoomPagerContract.Presenter {
+public class MyBuyPresenter extends MyBuyContract.Presenter {
 
-    private ClassRoomPagerModel model;
+    private MyBuyModel model;
     private Context context;
 
-    public ClassRoomPagerPresenter(Context context) {
-        this.model = new ClassRoomPagerModel();
+    public MyBuyPresenter(Context context) {
+        this.model = new MyBuyModel();
         this.context = context;
     }
 
     @Override
-    public void getClassRoomPager(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
-        model.getClassRoomPager(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+    public void getMyBuyDemandList(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
+        model.getMyBuyDemandList(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
             @Override
             public void onNext(Object o) {
                 //这一步是必须的，判断view是否已经被销毁
                 if (getView() != null) {
-                    getView().resultClassRoomPager((ClassRoomPagerBean) o);
+                    getView().resultMyBuyDemandList((MyBuyDemandListBean) o);
                 }
             }
 
@@ -53,13 +53,13 @@ public class ClassRoomPagerPresenter extends ClassRoomPagerContract.Presenter {
     }
 
     @Override
-    public void getClassRoomDetails(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
-        model.getClassRoomDetails(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+    public void getMyBuyDemandDetails(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
+        model.getMyBuyDemandDetails(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
             @Override
             public void onNext(Object o) {
                 //这一步是必须的，判断view是否已经被销毁
                 if (getView() != null) {
-                    getView().resultClassRoomDetails((ClassRoomDetailsBean) o);
+                    getView().resultMyBuyDemandDetails((MyBuyDemandDetailsBean) o);
                 }
             }
 
@@ -74,13 +74,13 @@ public class ClassRoomPagerPresenter extends ClassRoomPagerContract.Presenter {
     }
 
     @Override
-    public void getClassRoomAliPay(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
-        model.getClassRoomAliPay(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+    public void getMyBuyClassRoomList(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
+        model.getMyBuyClassRoomList(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
             @Override
             public void onNext(Object o) {
                 //这一步是必须的，判断view是否已经被销毁
                 if (getView() != null) {
-                    getView().resultClassRoomAliPay((ClassRoomAliPayBean) o);
+                    getView().resultMyBuyClassRoomList((MyBuyClassRoomListBean) o);
                 }
             }
 
@@ -95,13 +95,13 @@ public class ClassRoomPagerPresenter extends ClassRoomPagerContract.Presenter {
     }
 
     @Override
-    public void getClassRoomWechatPay(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
-        model.getClassRoomWechatPay(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+    public void getMyBuyClassRoomDetails(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
+        model.getMyBuyClassRoomDetails(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
             @Override
             public void onNext(Object o) {
                 //这一步是必须的，判断view是否已经被销毁
                 if (getView() != null) {
-                    getView().resultClassRoomWechatPay((ClassRoomWechatPayBean) o);
+                    getView().resultMyBuyClassRoomDetails((MyBuyClassRoomDetailsBean) o);
                 }
             }
 
@@ -116,13 +116,13 @@ public class ClassRoomPagerPresenter extends ClassRoomPagerContract.Presenter {
     }
 
     @Override
-    public void getClassRoomBalancePay(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
-        model.getClassRoomBalancePay(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+    public void getAttentionCollection(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
+        model.getAttentionCollection(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
             @Override
             public void onNext(Object o) {
                 //这一步是必须的，判断view是否已经被销毁
                 if (getView() != null) {
-                    getView().resultClassRoomBalancePay((ClassRoomBalancePayBean) o);
+                    getView().resultAttentionCollection((AttentionCollectionBean) o);
                 }
             }
 

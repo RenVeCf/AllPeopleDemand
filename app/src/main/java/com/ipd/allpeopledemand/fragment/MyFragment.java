@@ -29,6 +29,7 @@ import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.CheckInContract;
 import com.ipd.allpeopledemand.presenter.CheckInPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
+import com.ipd.allpeopledemand.utils.L;
 import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.StringUtils;
@@ -109,6 +110,12 @@ public class MyFragment extends BaseFragment<CheckInContract.View, CheckInContra
     @Override
     public CheckInContract.View createView() {
         return this;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden)
+            ImmersionBar.with(this).statusBarDarkFont(false).init();
     }
 
     @Override

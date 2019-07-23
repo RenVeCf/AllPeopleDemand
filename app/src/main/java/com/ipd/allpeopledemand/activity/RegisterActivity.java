@@ -167,9 +167,27 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
             SPUtil.put(this, NAME, data.getData().getUser().getUserCall());
             SPUtil.put(this, PHONE, data.getData().getUser().getTelPhone());
             SPUtil.put(this, ALL_PEOPLE, data.getData().getUser().getNationalNum());
-            SPUtil.put(this, SEX, data.getData().getUser().getSex());
-            SPUtil.put(this, AGE, data.getData().getUser().getAge() + "");
-            SPUtil.put(this, MARITAL_STATUS, data.getData().getUser().getMaritalStatus());
+            String sex = "";
+            switch (data.getData().getUser().getSex()) {
+                case "1":
+                    sex = "男";
+                    break;
+                case "2":
+                    sex = "女";
+                    break;
+            }
+            SPUtil.put(this, SEX, sex);
+            SPUtil.put(this, AGE, data.getData().getUser().getAge() == 0 ? "" : data.getData().getUser().getAge() + "岁");
+            String maritalStatus = "";
+            switch (data.getData().getUser().getSex()) {
+                case "1":
+                    maritalStatus = "未婚";
+                    break;
+                case "2":
+                    maritalStatus = "已婚";
+                    break;
+            }
+            SPUtil.put(this, MARITAL_STATUS, maritalStatus);
             showPopWindow(data.getData().getUser().getNationalNum());
         } else
             ToastUtil.showShortToast(data.getMsg());

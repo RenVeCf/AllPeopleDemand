@@ -32,7 +32,9 @@ import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.MainPagerContract;
 import com.ipd.allpeopledemand.presenter.MainPagerPresenter;
 import com.ipd.allpeopledemand.utils.LocationService;
+import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
+import com.ipd.allpeopledemand.utils.StringUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 import com.xuexiang.citypicker.CityPicker;
@@ -45,6 +47,7 @@ import com.xuexiang.citypicker.model.LocatedCity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -54,6 +57,8 @@ import io.reactivex.functions.Consumer;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static com.ipd.allpeopledemand.common.config.IConstants.CITY;
+import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
+import static com.ipd.allpeopledemand.utils.DateUtils.getTodayDateTime;
 
 /**
  * Description ：首页-顶部滑动导航栏
@@ -82,6 +87,8 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
     private ViewPagerAdapter viewPagerAdapter;
     private List<HotCity> mHotCities; //热门城市
     private OnBDLocationListener mListener = new OnBDLocationListener();
+    private List<ClassIficationBean.DataBean.ClassListBean> classListBean = new ArrayList<>();
+    private int selectMainPosition = 0;//搜索时传的releaseClassId的position
 
     @Override
     public int getLayoutId() {
@@ -119,6 +126,13 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden) {
+            ImmersionBar.with(this).statusBarDarkFont(true).init();
+        }
+    }
+
+    @Override
     public void init(View view) {
         //防止状态栏和标题重叠
         ImmersionBar.with(this).statusBarDarkFont(true).init();
@@ -149,10 +163,11 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
                     // 隐藏软键盘
                     imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(), 0);
 
-//                    Intent intent = new Intent("android.ipd.action");
-//                    intent.putExtra("roomClassId", selectRoomClassPosition == 0 ? "0" : classListBean.get(selectRoomClassPosition - 1).getRoomClassId() + "");
-//                    intent.putExtra("title", etTopSearch.getText().toString().trim());
-//                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+                    Intent intent = new Intent("android.ipd.main_search");
+                    intent.putExtra("releaseClassId", selectMainPosition == 0 ? "0" : classListBean.get(selectMainPosition - 1).getReleaseClassId() + "");
+                    intent.putExtra("region", tvTopCity.getText());
+                    intent.putExtra("title", etTopSearch.getText().toString().trim());
+                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
                     etTopSearch.setText("");
                     return true;
                 }
@@ -212,6 +227,12 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
                         tvTopCity.setText(data.getName());
                         SPUtil.put(getContext(), CITY, data.getName());
                         LocationService.stop(mListener);
+
+                        Intent intent = new Intent("android.ipd.location");
+                        intent.putExtra("releaseClassId", selectMainPosition == 0 ? "0" : classListBean.get(selectMainPosition - 1).getReleaseClassId() + "");
+                        intent.putExtra("region", tvTopCity.getText());
+                        intent.putExtra("title", "");
+                        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
                     }
 
                     @Override
@@ -255,19 +276,21 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
 
     @Override
     public void resultMainPager(ClassIficationBean data) {
-        titles = new String[data.getData().getClassList().size() + 1];
-        for (int i = 0; i < data.getData().getClassList().size() + 1; i++) {
+        classListBean.clear();
+        classListBean.addAll(data.getData().getClassList());
+        titles = new String[classListBean.size() + 1];
+        for (int i = 0; i < classListBean.size() + 1; i++) {
             if (i == 0)
                 titles[0] = "全部";
             else
-                titles[i] = data.getData().getClassList().get(i - 1).getClassName();
+                titles[i] = classListBean.get(i - 1).getClassName();
         }
         //向集合添加Fragment
         fragments = new ArrayList<>();
         for (int i = 0; i < titles.length; i++) {
             fm = new MainPagerFragment();
             Bundle args = new Bundle();
-            args.putString("releaseId", i == 0 ? "0" : data.getData().getClassList().get(i - 1).getReleaseClassId() + "");
+            args.putString("releaseClassId", i == 0 ? "0" : classListBean.get(i - 1).getReleaseClassId() + "");
             fm.setArguments(args);
             fragments.add(fm);
         }
@@ -279,6 +302,23 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
         nfslFragmentMain.setViewPager(getContext(), titles, vpFragmentMain, R.color.tx_bottom_navigation, R.color.black, 14, 14, 24, true, R.color.black, 0, 0, 0, 80);
         nfslFragmentMain.setBgLine(getContext(), 1, R.color.whitesmoke);
         nfslFragmentMain.setNavLine(getActivity(), 3, R.color.colorAccent);
+
+        nfslFragmentMain.setOnNaPageChangeListener(new NavitationFollowScrollLayoutText.OnNaPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                selectMainPosition = position;
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override

@@ -82,6 +82,23 @@
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
+            <TextView
+                android:id="@+id/tv_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginBottom="@dimen/y30"
+                android:background="@drawable/bg_label"
+                android:gravity="center"
+                android:paddingStart="@dimen/x30"
+                android:paddingTop="@dimen/y10"
+                android:paddingEnd="@dimen/x30"
+                android:paddingBottom="@dimen/y10"
+                android:text="已购买"
+                android:textColor="@color/tx_bottom_navigation_select"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
