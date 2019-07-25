@@ -37,6 +37,7 @@ import java.util.TreeMap;
 import butterknife.BindView;
 import io.reactivex.ObservableTransformer;
 
+import static com.ipd.allpeopledemand.common.config.IConstants.IS_LOGIN;
 import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_98;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 
@@ -131,6 +132,9 @@ public class AttentionPagerFragment extends BaseFragment<AttentionListContract.V
         switch (data.getCode()) {
             case 200:
                 if (data.getTotal() > 0) {
+                    for (int i = 0; i < data.getData().getFollowList().size(); i++) {
+                        data.getData().getFollowList().get(i).setItemType(Integer.valueOf(data.getData().getFollowList().get(i).getType()));
+                    }
                     if (pageNum == 1) {
                         followListBean.clear();
                         followListBean.addAll(data.getData().getFollowList());
@@ -144,7 +148,20 @@ public class AttentionPagerFragment extends BaseFragment<AttentionListContract.V
                         attentionPagerAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                             @Override
                             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                                startActivityForResult(new Intent(getContext(), InformationDetailsActivity.class).putExtra("releaseId", followListBean.get(position).getReleaseId()).putExtra("activityType", 3), REQUEST_CODE_98);
+                                switch (adapter.getItemViewType(position)) {
+                                    case 1:
+                                        if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
+                                            startActivity(new Intent(getActivity(), LoginActivity.class));
+                                        else
+                                            startActivityForResult(new Intent(getContext(), InformationDetailsActivity.class).putExtra("releaseId", followListBean.get(position).getReleaseId()).putExtra("activityType", 3), REQUEST_CODE_98);
+                                        break;
+                                    case 2:
+                                        if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
+                                            startActivity(new Intent(getActivity(), LoginActivity.class));
+                                        else
+                                            startActivityForResult(new Intent(getActivity(), InformationDetailsActivity.class).putExtra("releaseId", followListBean.get(position).getReleaseId()).putExtra("activityType", 4), REQUEST_CODE_98);
+                                        break;
+                                }
                             }
                         });
 

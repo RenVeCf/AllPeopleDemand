@@ -57,7 +57,9 @@
                         style="@style/TextStyle.Content"
                         android:layout_width="match_parent"
                         android:gravity="center_vertical"
-                        android:singleLine="false" />
+                        android:singleLine="false"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                     <ImageButton
                         android:id="@id/expand_collapse"
@@ -93,7 +95,8 @@
                             android:id="@+id/tv_name"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/tv_time"
@@ -101,7 +104,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:textColor="@color/gray1"
-                            android:textSize="12sp" />
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <TextView
@@ -112,7 +115,8 @@
                         android:drawableStart="@mipmap/ic_read"
                         android:drawablePadding="@dimen/x10"
                         android:gravity="center"
-                        android:textColor="@color/tx_bottom_navigation" />
+                        android:textColor="@color/tx_bottom_navigation"
+                        android:textSize="18sp" />
 
                     <CheckBox
                         android:id="@+id/cb_collection"
@@ -139,7 +143,7 @@
                     android:drawablePadding="@dimen/x20"
                     android:text="详细描述"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -147,13 +151,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/y50"
-                    android:textColor="@color/tx_bottom_navigation"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
     </com.ipd.allpeopledemand.common.view.BounceScrollView>
 
     <RelativeLayout
+        android:id="@+id/rl_bottom"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y200"
         android:background="@color/white">
@@ -176,13 +180,15 @@
                     android:id="@+id/tv_pay_fee"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/tx_bottom_navigation_select" />
+                    android:textColor="@color/tx_bottom_navigation_select"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="立即支付，即刻查看联系方式"
-                    android:textColor="@color/tx_bottom_navigation" />
+                    android:textColor="@color/tx_bottom_navigation"
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <Button
@@ -196,7 +202,7 @@
                 android:background="@drawable/bg_gradient_bt"
                 android:text="查看联系方式"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -219,13 +225,15 @@
                     android:id="@+id/tv_contact_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/tv_contact_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/tx_bottom_navigation" />
+                    android:textColor="@color/tx_bottom_navigation"
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -245,9 +253,11 @@
                     android:layout_weight="1"
                     android:background="@drawable/bg_look_contact_start"
                     android:gravity="center"
+                    android:paddingStart="@dimen/x20"
+                    android:paddingEnd="@dimen/x10"
                     android:text="发送短信"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:textSize="16sp" />
 
                 <Button
                     android:id="@+id/bt_contact_phone"
@@ -256,9 +266,11 @@
                     android:layout_weight="1"
                     android:background="@drawable/bg_look_contact_end"
                     android:gravity="center"
+                    android:paddingStart="@dimen/x10"
+                    android:paddingEnd="@dimen/x20"
                     android:text="拨打电话"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

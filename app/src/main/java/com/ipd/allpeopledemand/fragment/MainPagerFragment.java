@@ -54,6 +54,7 @@ import io.reactivex.functions.Consumer;
 import static com.ipd.allpeopledemand.common.config.IConstants.IS_LOGIN;
 import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_97;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
+import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
 
 /**
  * Description ：首页
@@ -86,6 +87,8 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
     private String releaseClassId = "";
     private MainPagerAdapter mainPagerAdapter;
     private int pageNum = 1; //页数
+    private String region = "";//搜索时的区域
+    private String title = "";//搜索时的文本
 
     @Override
     public int getLayoutId() {
@@ -111,10 +114,23 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
         BroadcastReceiver mItemViewListClickReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-
+                title = intent.getStringExtra("title");
+                sort(intent.getStringExtra("releaseClassId"), "", "", "1", region, title);
             }
         };
         broadcastManager.registerReceiver(mItemViewListClickReceiver, intentFilter);
+
+        LocalBroadcastManager broadcastManager1 = LocalBroadcastManager.getInstance(getActivity());
+        IntentFilter intentFilter1 = new IntentFilter();
+        intentFilter1.addAction("android.ipd.main_location");
+        BroadcastReceiver mItemViewListClickReceiver1 = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                region = intent.getStringExtra("region");
+                sort(intent.getStringExtra("releaseClassId"), "", "", "1", region, title);
+            }
+        };
+        broadcastManager1.registerReceiver(mItemViewListClickReceiver1, intentFilter1);
     }
 
     @SuppressLint("WrongConstant")
@@ -140,6 +156,7 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
             @Override
             public void onRefresh() {
                 pageNum = 1;
+                title = "";
                 initData();
                 srlMainPage.setRefreshing(false);
             }
@@ -148,13 +165,13 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
 
     @Override
     public void initData() {
-        sort("", "", pageNum + "");
+        sort("", "", "", pageNum + "", region, title);
     }
 
-    /*private void sort(String releaseClassId, String orderByColumn, String isAsc, String pageNum, String region, String title) {
+    private void sort(String releaseClassId, String orderByColumn, String isAsc, String pageNum, String region, String title) {
         TreeMap<String, String> classRoomPagerMap = new TreeMap<>();
-        classRoomPagerMap.put("userId", "".equals(SPUtil.get(getContext(), IS_LOGIN, "") + "") ? "0" : SPUtil.get(getContext(), USER_ID, "") + "");
-        classRoomPagerMap.put("releaseClassId", "".equals(releaseClassId) ? this.releaseClassId : releaseClassId);
+        classRoomPagerMap.put("userId", "".equals(SPUtil.get(getContext(), USER_ID, "") + "") ? "0" : SPUtil.get(getContext(), USER_ID, "") + "");
+        classRoomPagerMap.put("releaseClassId", isEmpty(releaseClassId) ? this.releaseClassId : releaseClassId);
         classRoomPagerMap.put("orderByColumn", orderByColumn);
         classRoomPagerMap.put("isAsc", isAsc);
         classRoomPagerMap.put("pageNum", pageNum);
@@ -162,8 +179,8 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
         classRoomPagerMap.put("title", title);
         classRoomPagerMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(classRoomPagerMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
         getPresenter().getMainList(classRoomPagerMap, true, false);
-    }*/
-    private void sort(String orderByColumn, String isAsc, String pageNum) {
+    }
+    /*private void sort(String orderByColumn, String isAsc, String pageNum) {
         TreeMap<String, String> classRoomPagerMap = new TreeMap<>();
         classRoomPagerMap.put("userId", "".equals(SPUtil.get(getContext(), IS_LOGIN, "") + "") ? "0" : SPUtil.get(getContext(), USER_ID, "") + "");
         classRoomPagerMap.put("releaseClassId", releaseClassId);
@@ -172,7 +189,7 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
         classRoomPagerMap.put("pageNum", pageNum);
         classRoomPagerMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(classRoomPagerMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
         getPresenter().getMainList(classRoomPagerMap, true, false);
-    }
+    }*/
 
     @OnClick({R.id.ll_sort_time, R.id.ll_sort_sales_volume})//,R.id.ll_sort_distance})
     public void onViewClicked(View view) {
@@ -184,18 +201,18 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
 //                    ivSortDistance.setImageResource(R.mipmap.ic_default_sc);
                     ivSortSalesVolume.setImageResource(R.mipmap.ic_default_sc);
 
-                    sort("releaseTime", "asc", "1");
+                    sort("", "releaseTime", "asc", "1", region, title);
                 } else if (getResources().getDrawable(R.mipmap.ic_asc).getConstantState().equals(drawableSortTime)) {
                     ivSortTime.setImageResource(R.mipmap.ic_desc);
 
-                    sort("releaseTime", "desc", "1");
+                    sort("", "releaseTime", "desc", "1", region, title);
                 } else {
-                    ivSortTime.setImageResource(R.mipmap.ic_asc);
+                    ivSortTime.setImageResource(R.mipmap.ic_default_sc);
 
-                    sort("releaseTime", "asc", "1");
+                    sort("", "", "", "1", region, title);
                 }
                 break;
-//            case R.id.ll_sort_distance: //TODO 距离排序后台没好
+//            case R.id.ll_sort_distance:
 //                Drawable.ConstantState drawableSortDistance = ivSortDistance.getDrawable().getConstantState();
 //                if (getResources().getDrawable(R.mipmap.ic_default_sc).getConstantState().equals(drawableSortDistance)) {
 //                    ivSortDistance.setImageResource(R.mipmap.ic_asc);
@@ -213,15 +230,15 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
 //                    ivSortDistance.setImageResource(R.mipmap.ic_default_sc);
                     ivSortTime.setImageResource(R.mipmap.ic_default_sc);
 
-                    sort("purchaseNum", "asc", "1");
+                    sort("", "purchaseNum", "asc", "1", region, title);
                 } else if (getResources().getDrawable(R.mipmap.ic_asc).getConstantState().equals(drawableSortSalesVolume)) {
                     ivSortSalesVolume.setImageResource(R.mipmap.ic_desc);
 
-                    sort("purchaseNum", "desc", "1");
+                    sort("", "purchaseNum", "desc", "1", region, title);
                 } else {
-                    ivSortSalesVolume.setImageResource(R.mipmap.ic_asc);
+                    ivSortSalesVolume.setImageResource(R.mipmap.ic_default_sc);
 
-                    sort("purchaseNum", "asc", "1");
+                    sort("", "", "", "1", region, title);
                 }
                 break;
         }
@@ -279,15 +296,17 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
                         @Override
                         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                             switch (adapter.getItemViewType(position)) {
-                                case 0:
-                                    if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
-                                        startActivity(new Intent(getActivity(), LoginActivity.class));
-                                    break;
                                 case 1:
                                     if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
                                         startActivity(new Intent(getActivity(), LoginActivity.class));
                                     else
                                         startActivityForResult(new Intent(getActivity(), InformationDetailsActivity.class).putExtra("releaseId", releaseListBean.get(position).getReleaseId()).putExtra("activityType", 1), REQUEST_CODE_97);
+                                    break;
+                                case 2:
+                                    if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
+                                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                                    else
+                                        startActivityForResult(new Intent(getActivity(), InformationDetailsActivity.class).putExtra("releaseId", releaseListBean.get(position).getReleaseId()).putExtra("activityType", 2), REQUEST_CODE_97);
                                     break;
                             }
                         }
@@ -356,7 +375,7 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
                 mainPagerAdapter.setEmptyView(R.layout.null_data, rvMainPage);
             }
         } else
-            ToastUtil.showShortToast(data.getMsg());
+            ToastUtil.showLongToast(data.getMsg());
     }
 
     @Override

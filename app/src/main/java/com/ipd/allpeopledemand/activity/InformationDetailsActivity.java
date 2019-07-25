@@ -2,15 +2,19 @@ package com.ipd.allpeopledemand.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.CustomListener;
@@ -42,6 +46,9 @@ import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.StringUtils;
 import com.ipd.allpeopledemand.utils.ToastUtil;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -55,10 +62,14 @@ import java.util.TreeMap;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
+import io.reactivex.functions.Consumer;
 
+import static android.Manifest.permission.CALL_PHONE;
+import static android.Manifest.permission.SEND_SMS;
 import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_90;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_LOCAL_URL;
+import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
 
 /**
  * Description ：资讯详情
@@ -98,20 +109,19 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
     TextView tvContactName;
     @BindView(R.id.tv_contact_phone)
     TextView tvContactPhone;
-    @BindView(R.id.bt_contact_msg)
-    Button btContactMsg;
-    @BindView(R.id.bt_contact_phone)
-    Button btContactPhone;
     @BindView(R.id.ll_pay)
     LinearLayout llPay;
+    @BindView(R.id.rl_bottom)
+    RelativeLayout rlBottom;
 
+    private List<LocalMedia> medias = new ArrayList<>();//照片
     private List<String> listData;
     private OptionsPickerView pvOptions; //条件选择器
     private int releaseId;
     private int orderId;
     private List<String> reportDataList = new ArrayList<>();//选择举报
     private List<ReportListBean.DataBean.ReportListBeans> reportListBeans = new ArrayList<>();//选择举报(取举报ID用)
-    private int activityType; //1: 首页， 2:首页列表的广告， 3: 我的关注， 4: 我的购买
+    private int activityType; //1: 首页， 2:首页列表的广告， 3: 我的关注，4:关注列表的广告， 5: 我的购买
     private double money; //金额
     private double balance; //余额
     private String IsPurchase; //1积分不足，2未购买  3.购买了
@@ -154,6 +164,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 getPresenter().getMainDetails(mainDetailsMap, true, false);
                 break;
             case 2:
+                rlBottom.setVisibility(View.GONE);
                 TreeMap<String, String> mainDetailsADMap = new TreeMap<>();
                 mainDetailsADMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                 mainDetailsADMap.put("releaseId", releaseId + "");
@@ -168,6 +179,14 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 getPresenter().getAttentionDetails(attentionDetailsMap, true, false);
                 break;
             case 4:
+                rlBottom.setVisibility(View.GONE);
+                TreeMap<String, String> attentionDetailsADMap = new TreeMap<>();
+                attentionDetailsADMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+                attentionDetailsADMap.put("releaseId", releaseId + "");
+                attentionDetailsADMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(attentionDetailsADMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                getPresenter().getAttentionDetails(attentionDetailsADMap, true, false);
+                break;
+            case 5:
                 llNotPay.setVisibility(View.GONE);
                 llPay.setVisibility(View.VISIBLE);
 
@@ -252,12 +271,15 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
         finish();
     }
 
-    @OnClick({R.id.ll_top_back, R.id.cb_collection, R.id.bt_pay, R.id.bt_contact_msg, R.id.bt_contact_phone, R.id.bt_top_report})
+    @OnClick({R.id.ll_top_back, R.id.riv_title, R.id.cb_collection, R.id.bt_pay, R.id.bt_contact_msg, R.id.bt_contact_phone, R.id.bt_top_report})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_top_back:
                 setResult(RESULT_OK, new Intent().putExtra("refresh", 1));
                 finish();
+                break;
+            case R.id.riv_title:
+                PictureSelector.create(InformationDetailsActivity.this).themeStyle(R.style.picture_default_style).openExternalPreview(0, medias);
                 break;
             case R.id.cb_collection:
                 //收藏
@@ -309,13 +331,64 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 }
                 break;
             case R.id.bt_contact_msg:
+                rxPermissionTest(1);
                 break;
             case R.id.bt_contact_phone:
+                rxPermissionTest(2);
                 break;
             case R.id.bt_top_report:
                 showPickerView();
                 break;
         }
+    }
+
+    private void rxPermissionTest(int callType) {
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions.request(SEND_SMS, CALL_PHONE).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean granted) throws Exception {
+                if (granted) {
+                    switch (callType) {
+                        case 1:
+                            // 短信
+                            sendMsg();
+                            break;
+                        case 2:
+                            // 短信
+                            callPhone();
+                            break;
+                    }
+                } else {
+                    // 权限被拒绝
+                    ToastUtil.showLongToast("权限被拒绝");
+                }
+            }
+        });
+    }
+
+    //发短信
+    private void sendMsg() {
+        Uri uri2 = Uri.parse("smsto:" + tvContactPhone.getText().toString().replaceAll("电话号码: ", ""));
+        Intent intentMessage = new Intent(Intent.ACTION_VIEW, uri2);
+        startActivity(intentMessage);
+    }
+
+    //打电话
+    private void callPhone() {
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        Uri data = Uri.parse("tel:" + tvContactPhone.getText().toString().replaceAll("电话号码: ", ""));
+        intent.setData(data);
+        if (ActivityCompat.checkSelfPermission(this, CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        startActivity(intent);
     }
 
     //支付
@@ -349,14 +422,24 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
     public void resultMainDetails(MainDetailsBean data) {
         switch (data.getCode()) {
             case 200:
-                money = data.getData().getPrice().getMoney();
-                balance = data.getData().getRelease().getBalance();
-                IsPurchase = data.getData().getIsPurchase();
-                if ("3".equals(IsPurchase)) {
-                    llNotPay.setVisibility(View.GONE);
-                    llPay.setVisibility(View.VISIBLE);
+                if (activityType != 2 && activityType != 4) {
+                    money = data.getData().getPrice().getMoney();
+                    balance = data.getData().getRelease().getBalance();
+                    IsPurchase = data.getData().getIsPurchase();
+                    if ("3".equals(IsPurchase)) {
+                        llNotPay.setVisibility(View.GONE);
+                        llPay.setVisibility(View.VISIBLE);
+                    }
+                    tvPayFee.setText(data.getData().getPrice().getMoney() + "元 + " + data.getData().getPrice().getIntegral() + "积分");
                 }
-                Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.ic_test_ad)).into(rivTitle);
+                if (!isEmpty(data.getData().getRelease().getPicPath())) {
+                    Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.ic_test_ad)).into(rivTitle);
+                    LocalMedia localMedia = new LocalMedia();
+                    localMedia.setCompressed(true);
+                    localMedia.setCompressPath(BASE_LOCAL_URL + data.getData().getRelease().getPicPath());
+                    medias.add(localMedia);
+                } else
+                    rivTitle.setVisibility(View.GONE);
                 Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getAvatar()).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into(rivHead);
 
                 tvSynopsis.setText(data.getData().getRelease().getTitle());
@@ -365,7 +448,6 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 tvReadNum.setText(data.getData().getRelease().getBrowseNum() + "");
                 cbCollection.setChecked("1".equals(data.getData().getRelease().getIsFollow()) ? false : true);
                 tvContent.setText(data.getData().getRelease().getDetails());
-                tvPayFee.setText(data.getData().getPrice().getMoney() + "元 + " + data.getData().getPrice().getIntegral() + "积分");
 
                 tvContactName.setText("联系人: " + data.getData().getRelease().getContacts());
                 tvContactPhone.setText("电话号码: " + data.getData().getRelease().getContactNumber());
@@ -385,14 +467,24 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
     public void resultAttentionDetails(AttentionDetailsBean data) {
         switch (data.getCode()) {
             case 200:
-                money = data.getData().getPrice().getMoney();
-                balance = data.getData().getRelease().getBalance();
-                IsPurchase = data.getData().getIsPurchase();
-                if ("3".equals(IsPurchase)) {
-                    llNotPay.setVisibility(View.GONE);
-                    llPay.setVisibility(View.VISIBLE);
+                if (activityType != 2 && activityType != 4) {
+                    money = data.getData().getPrice().getMoney();
+                    balance = data.getData().getRelease().getBalance();
+                    IsPurchase = data.getData().getIsPurchase();
+                    if ("3".equals(IsPurchase)) {
+                        llNotPay.setVisibility(View.GONE);
+                        llPay.setVisibility(View.VISIBLE);
+                    }
+                    tvPayFee.setText(data.getData().getPrice().getMoney() + "元 + " + data.getData().getPrice().getIntegral() + "积分");
                 }
-                Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.ic_test_ad)).into(rivTitle);
+                if (!isEmpty(data.getData().getRelease().getPicPath())) {
+                    Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.ic_test_ad)).into(rivTitle);
+                    LocalMedia localMedia = new LocalMedia();
+                    localMedia.setCompressed(true);
+                    localMedia.setCompressPath(BASE_LOCAL_URL + data.getData().getRelease().getPicPath());
+                    medias.add(localMedia);
+                } else
+                    rivTitle.setVisibility(View.GONE);
                 Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getAvatar()).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into(rivHead);
 
                 tvSynopsis.setText(data.getData().getRelease().getTitle());
@@ -401,7 +493,6 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 tvReadNum.setText(data.getData().getRelease().getBrowseNum() + "");
                 cbCollection.setChecked("1".equals(data.getData().getRelease().getIsFollow()) ? false : true);
                 tvContent.setText(data.getData().getRelease().getDetails());
-                tvPayFee.setText(data.getData().getPrice().getMoney() + "元 + " + data.getData().getPrice().getIntegral() + "积分");
 
                 tvContactName.setText("联系人: " + data.getData().getRelease().getContacts());
                 tvContactPhone.setText("电话号码: " + data.getData().getRelease().getContactNumber());
@@ -421,7 +512,15 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
     public void resultMyBuyDemandDetails(MyBuyDemandDetailsBean data) {
         switch (data.getCode()) {
             case 200:
-                Glide.with(this).load(BASE_LOCAL_URL + data.getData().getDemandList().getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.ic_test_ad)).into(rivTitle);
+                if (!isEmpty(data.getData().getDemandList().getPicPath())) {
+                    Glide.with(this).load(BASE_LOCAL_URL + data.getData().getDemandList().getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.ic_test_ad)).into(rivTitle);
+                    medias.clear();
+                    LocalMedia localMedia = new LocalMedia();
+                    localMedia.setCompressed(true);
+                    localMedia.setCompressPath(BASE_LOCAL_URL + data.getData().getDemandList().getPicPath());
+                    medias.add(localMedia);
+                } else
+                    rivTitle.setVisibility(View.GONE);
                 Glide.with(this).load(BASE_LOCAL_URL + data.getData().getDemandList().getAvatar()).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into(rivHead);
 
                 tvSynopsis.setText(data.getData().getDemandList().getTitle());

@@ -126,7 +126,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/y50"
                 android:text="签到规则"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -134,7 +135,7 @@
                 android:layout_marginTop="@dimen/y50"
                 android:text="@string/check_in_rules"
                 android:textColor="@color/tx_bottom_navigation"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
         </LinearLayout>
     </com.ipd.allpeopledemand.common.view.BounceScrollView>
 </LinearLayout>

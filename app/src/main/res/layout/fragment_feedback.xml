@@ -25,7 +25,7 @@
         android:paddingStart="@dimen/x50"
         android:textColor="@color/tx_bottom_navigation"
         android:textColorHint="@color/tx_bottom_navigation"
-        android:textSize="16sp" />
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/et_content"
@@ -38,7 +38,7 @@
         android:padding="@dimen/x50"
         android:textColor="@color/tx_bottom_navigation"
         android:textColorHint="@color/tx_bottom_navigation"
-        android:textSize="16sp" />
+        android:textSize="18sp" />
 
     <com.xuexiang.xui.widget.button.RippleView
         android:id="@+id/rv_feedback"

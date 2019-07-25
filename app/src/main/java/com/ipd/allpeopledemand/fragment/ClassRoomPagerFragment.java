@@ -57,6 +57,7 @@ import io.reactivex.ObservableTransformer;
 
 import static com.ipd.allpeopledemand.common.config.IConstants.IS_LOGIN;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
+import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
 
 /**
  * Description ：全民课堂
@@ -139,7 +140,7 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
 
     @Override
     public void initData() {
-        sort("", "", "", pageNum + "", "");
+        sort("", "", "", pageNum + "", title);
     }
 
     @Override
@@ -149,6 +150,7 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
             @Override
             public void onRefresh() {
                 pageNum = 1;
+                title = "";
                 initData();
                 srlClassRoomPager.setRefreshing(false);
             }
@@ -197,7 +199,7 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
 
     public void sort(String roomClassId, String orderByColumn, String isAsc, String pageNum, String title) {
         TreeMap<String, String> classRoomPagerMap = new TreeMap<>();
-        classRoomPagerMap.put("roomClassId", "".equals(roomClassId) ? this.roomClassId : roomClassId);
+        classRoomPagerMap.put("roomClassId", isEmpty(roomClassId) ? this.roomClassId : roomClassId);
         classRoomPagerMap.put("orderByColumn", orderByColumn);
         classRoomPagerMap.put("isAsc", isAsc);
         classRoomPagerMap.put("pageNum", pageNum);
@@ -208,75 +210,78 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
 
     @Override
     public void resultClassRoomPager(ClassRoomPagerBean data) {
-        if (data.getTotal() > 0) {
-            priceBean = data.getData().getPrice();
-            for (int i = 0; i < data.getData().getRoomList().size(); i++) {
-                data.getData().getRoomList().get(i).setIntegral(priceBean.getIntegral());
-                data.getData().getRoomList().get(i).setMoney(priceBean.getMoney());
-            }
+        if (data.getCode() == 200) {
+            if (data.getTotal() > 0) {
+                priceBean = data.getData().getPrice();
+                for (int i = 0; i < data.getData().getRoomList().size(); i++) {
+                    data.getData().getRoomList().get(i).setIntegral(priceBean.getIntegral());
+                    data.getData().getRoomList().get(i).setMoney(priceBean.getMoney());
+                }
 
-            if (pageNum == 1) {
-                roomListBean.clear();
-                roomListBean.addAll(data.getData().getRoomList());
-                classRoomPagerAdapter = new ClassRoomPagerAdapter(roomListBean);
-                rvClassRoomPager.setAdapter(classRoomPagerAdapter);
-                classRoomPagerAdapter.bindToRecyclerView(rvClassRoomPager);
-                classRoomPagerAdapter.setEnableLoadMore(true);
-                classRoomPagerAdapter.openLoadAnimation();
-                classRoomPagerAdapter.disableLoadMoreIfNotFullPage();
+                if (pageNum == 1) {
+                    roomListBean.clear();
+                    roomListBean.addAll(data.getData().getRoomList());
+                    classRoomPagerAdapter = new ClassRoomPagerAdapter(roomListBean);
+                    rvClassRoomPager.setAdapter(classRoomPagerAdapter);
+                    classRoomPagerAdapter.bindToRecyclerView(rvClassRoomPager);
+                    classRoomPagerAdapter.setEnableLoadMore(true);
+                    classRoomPagerAdapter.openLoadAnimation();
+                    classRoomPagerAdapter.disableLoadMoreIfNotFullPage();
 
-                classRoomPagerAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                        if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
-                            startActivity(new Intent(getActivity(), LoginActivity.class));
-                        else {
-                            classroomIdPosition = position;
-                            TreeMap<String, String> classRoomDetailsMap = new TreeMap<>();
-                            classRoomDetailsMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
-                            classRoomDetailsMap.put("classroomId", roomListBean.get(position).getClassroomId() + "");
-                            classRoomDetailsMap.put("priceId", priceBean.getPriceId() + "");
-                            classRoomDetailsMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(classRoomDetailsMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-                            getPresenter().getClassRoomDetails(classRoomDetailsMap, false, false);
-                        }
-                    }
-                });
-
-                //上拉加载
-                classRoomPagerAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-                    @Override
-                    public void onLoadMoreRequested() {
-                        rvClassRoomPager.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                initData();
+                    classRoomPagerAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                            if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
+                                startActivity(new Intent(getActivity(), LoginActivity.class));
+                            else {
+                                classroomIdPosition = position;
+                                TreeMap<String, String> classRoomDetailsMap = new TreeMap<>();
+                                classRoomDetailsMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+                                classRoomDetailsMap.put("classroomId", roomListBean.get(position).getClassroomId() + "");
+                                classRoomDetailsMap.put("priceId", priceBean.getPriceId() + "");
+                                classRoomDetailsMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(classRoomDetailsMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                                getPresenter().getClassRoomDetails(classRoomDetailsMap, false, false);
                             }
-                        }, 1000);
-                    }
-                }, rvClassRoomPager);
+                        }
+                    });
 
-                if (data.getTotal() > 10) {
-                    pageNum += 1;
+                    //上拉加载
+                    classRoomPagerAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+                        @Override
+                        public void onLoadMoreRequested() {
+                            rvClassRoomPager.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    initData();
+                                }
+                            }, 1000);
+                        }
+                    }, rvClassRoomPager);
+
+                    if (data.getTotal() > 10) {
+                        pageNum += 1;
+                    } else {
+                        classRoomPagerAdapter.loadMoreEnd();
+                    }
                 } else {
-                    classRoomPagerAdapter.loadMoreEnd();
+                    if ((data.getTotal() - pageNum * 10) > 0) {
+                        pageNum += 1;
+                        classRoomPagerAdapter.addData(data.getData().getRoomList());
+                        classRoomPagerAdapter.loadMoreComplete(); //完成本次
+                    } else {
+                        classRoomPagerAdapter.addData(data.getData().getRoomList());
+                        classRoomPagerAdapter.loadMoreEnd(); //完成所有加载
+                    }
                 }
             } else {
-                if ((data.getTotal() - pageNum * 10) > 0) {
-                    pageNum += 1;
-                    classRoomPagerAdapter.addData(data.getData().getRoomList());
-                    classRoomPagerAdapter.loadMoreComplete(); //完成本次
-                } else {
-                    classRoomPagerAdapter.addData(data.getData().getRoomList());
-                    classRoomPagerAdapter.loadMoreEnd(); //完成所有加载
-                }
+                roomListBean.clear();
+                classRoomPagerAdapter = new ClassRoomPagerAdapter(roomListBean);
+                rvClassRoomPager.setAdapter(classRoomPagerAdapter);
+                classRoomPagerAdapter.loadMoreEnd(); //完成所有加载
+                classRoomPagerAdapter.setEmptyView(R.layout.null_data, rvClassRoomPager);
             }
-        } else {
-            roomListBean.clear();
-            classRoomPagerAdapter = new ClassRoomPagerAdapter(roomListBean);
-            rvClassRoomPager.setAdapter(classRoomPagerAdapter);
-            classRoomPagerAdapter.loadMoreEnd(); //完成所有加载
-            classRoomPagerAdapter.setEmptyView(R.layout.null_data, rvClassRoomPager);
-        }
+        } else
+            ToastUtil.showLongToast(data.getMsg());
     }
 
     @Override

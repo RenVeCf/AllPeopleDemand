@@ -23,7 +23,7 @@
         app:sLeftBottomTextSize="12sp"
         app:sLeftTextColor="@color/black"
         app:sLeftTopTextColor="@color/black"
-        app:sLeftTopTextSize="16sp"
+        app:sLeftTopTextSize="18sp"
         app:sLeftViewGravity="left_center"
-        app:sRightTextSize="16sp" />
+        app:sRightTextSize="18sp" />
 </LinearLayout>

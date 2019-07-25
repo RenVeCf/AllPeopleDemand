@@ -8,8 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/y650"
-        android:background="@mipmap/bg_my"
         android:layout_marginTop="@dimen/y150"
+        android:background="@mipmap/bg_my"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,8 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/y100"
             android:orientation="horizontal"
-            android:paddingEnd="@dimen/x50"
-            android:paddingStart="@dimen/x50">
+            android:paddingStart="@dimen/x50"
+            android:paddingEnd="@dimen/x50">
 
             <com.xuexiang.xui.widget.imageview.RadiusImageView
                 android:id="@+id/riv_head"
@@ -58,7 +58,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/tv_all_people_code"
@@ -66,17 +66,18 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/x20"
                         android:layout_weight="1"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
 
                     <ImageButton
                         android:id="@+id/ib_check_in"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:background="@null"
-                        android:paddingBottom="@dimen/y150"
-                        android:paddingEnd="@dimen/x50"
-                        android:paddingStart="@dimen/x150"
                         android:paddingTop="@dimen/y150"
+                        android:paddingEnd="@dimen/x50"
+                        android:paddingBottom="@dimen/y150"
                         android:src="@mipmap/ic_check_in" />
                 </LinearLayout>
 
@@ -87,7 +88,7 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical|start"
                     android:textColor="@color/white"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -101,13 +102,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_class_room_text_label"
-                        android:paddingBottom="@dimen/y5"
-                        android:paddingEnd="@dimen/x15"
                         android:paddingStart="@dimen/x15"
                         android:paddingTop="@dimen/y5"
+                        android:paddingEnd="@dimen/x15"
+                        android:paddingBottom="@dimen/y5"
                         android:text="平台股东"
                         android:textColor="@color/white"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_certification_lable"
@@ -115,13 +116,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/x50"
                         android:background="@drawable/bg_class_room_audio_label"
-                        android:paddingBottom="@dimen/y5"
-                        android:paddingEnd="@dimen/x15"
                         android:paddingStart="@dimen/x15"
                         android:paddingTop="@dimen/y5"
+                        android:paddingEnd="@dimen/x15"
+                        android:paddingBottom="@dimen/y5"
                         android:text="芝麻信用分认证"
                         android:textColor="@color/white"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -141,19 +142,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/x50"
             android:layout_marginStart="@dimen/x50"
+            android:layout_marginEnd="@dimen/x50"
             android:orientation="vertical">
 
             <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                 android:id="@+id/stv_information"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y150"
-                android:paddingEnd="@dimen/x50"
                 android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
                 app:sDividerLineType="none"
                 app:sLeftIconRes="@mipmap/ic_information"
-                app:sLeftTextSize="16sp"
+                app:sLeftTextColor="@color/black"
+                app:sLeftTextSize="18sp"
                 app:sLeftTextString="个人资料"
                 app:sRightIconRes="@mipmap/ic_arrow_end"
                 app:sShapeCornersRadius="6dp"
@@ -165,11 +167,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y150"
                 android:layout_marginTop="@dimen/y50"
-                android:paddingEnd="@dimen/x50"
                 android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
                 app:sDividerLineType="none"
                 app:sLeftIconRes="@mipmap/ic_account"
-                app:sLeftTextSize="16sp"
+                app:sLeftTextColor="@color/black"
+                app:sLeftTextSize="18sp"
                 app:sLeftTextString="我的账户"
                 app:sRightIconRes="@mipmap/ic_arrow_end"
                 app:sShapeCornersRadius="6dp"
@@ -181,11 +184,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y150"
                 android:layout_marginTop="@dimen/y50"
-                android:paddingEnd="@dimen/x50"
                 android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
                 app:sDividerLineType="none"
                 app:sLeftIconRes="@mipmap/ic_push"
-                app:sLeftTextSize="16sp"
+                app:sLeftTextColor="@color/black"
+                app:sLeftTextSize="18sp"
                 app:sLeftTextString="我的发布"
                 app:sRightIconRes="@mipmap/ic_arrow_end"
                 app:sShapeCornersRadius="6dp"
@@ -197,11 +201,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y150"
                 android:layout_marginTop="@dimen/y50"
-                android:paddingEnd="@dimen/x50"
                 android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
                 app:sDividerLineType="none"
                 app:sLeftIconRes="@mipmap/ic_attention"
-                app:sLeftTextSize="16sp"
+                app:sLeftTextColor="@color/black"
+                app:sLeftTextSize="18sp"
                 app:sLeftTextString="我的关注"
                 app:sRightIconRes="@mipmap/ic_arrow_end"
                 app:sShapeCornersRadius="6dp"
@@ -213,11 +218,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y150"
                 android:layout_marginTop="@dimen/y50"
-                android:paddingEnd="@dimen/x50"
                 android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
                 app:sDividerLineType="none"
                 app:sLeftIconRes="@mipmap/ic_buy"
-                app:sLeftTextSize="16sp"
+                app:sLeftTextColor="@color/black"
+                app:sLeftTextSize="18sp"
                 app:sLeftTextString="我的购买"
                 app:sRightIconRes="@mipmap/ic_arrow_end"
                 app:sShapeCornersRadius="6dp"
@@ -229,11 +235,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y150"
                 android:layout_marginTop="@dimen/y50"
-                android:paddingEnd="@dimen/x50"
                 android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
                 app:sDividerLineType="none"
                 app:sLeftIconRes="@mipmap/ic_share"
-                app:sLeftTextSize="16sp"
+                app:sLeftTextColor="@color/black"
+                app:sLeftTextSize="18sp"
                 app:sLeftTextString="分享好友"
                 app:sRightIconRes="@mipmap/ic_arrow_end"
                 app:sShapeCornersRadius="6dp"
@@ -245,11 +252,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y150"
                 android:layout_marginTop="@dimen/y50"
-                android:paddingEnd="@dimen/x50"
                 android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
                 app:sDividerLineType="none"
                 app:sLeftIconRes="@mipmap/ic_setting"
-                app:sLeftTextSize="16sp"
+                app:sLeftTextColor="@color/black"
+                app:sLeftTextSize="18sp"
                 app:sLeftTextString="设置"
                 app:sRightIconRes="@mipmap/ic_arrow_end"
                 app:sShapeCornersRadius="6dp"

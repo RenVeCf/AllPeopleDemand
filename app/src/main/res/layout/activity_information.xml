@@ -29,8 +29,8 @@
             android:background="@color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingEnd="@dimen/x50"
-            android:paddingStart="@dimen/x50">
+            android:paddingStart="@dimen/x50"
+            android:paddingEnd="@dimen/x50">
 
             <TextView
                 android:layout_width="0dp"
@@ -39,7 +39,7 @@
                 android:gravity="start|center_vertical"
                 android:text="头像"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <com.xuexiang.xui.widget.imageview.RadiusImageView
                 android:id="@+id/riv_head"
@@ -58,79 +58,85 @@
             android:id="@+id/stv_nickname"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y150"
-            android:paddingEnd="@dimen/x30"
             android:paddingStart="@dimen/x30"
+            android:paddingEnd="@dimen/x30"
             app:sDividerLineType="none"
             app:sLeftTextColor="@color/black"
-            app:sLeftTextSize="16sp"
+            app:sLeftTextSize="18sp"
             app:sLeftTextString="昵称"
             app:sRightIconRes="@mipmap/ic_arrow_end"
             app:sRightTextColor="@color/tx_bottom_navigation"
+            app:sRightTextSize="16sp"
             app:sRightTextString="test" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
             android:id="@+id/stv_phone"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y150"
-            android:paddingEnd="@dimen/x30"
             android:paddingStart="@dimen/x30"
+            android:paddingEnd="@dimen/x30"
             app:sDividerLineType="none"
             app:sLeftTextColor="@color/black"
-            app:sLeftTextSize="16sp"
+            app:sLeftTextSize="18sp"
             app:sLeftTextString="手机号"
             app:sRightTextColor="@color/tx_bottom_navigation"
+            app:sRightTextSize="16sp"
             app:sRightTextString="test" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
             android:id="@+id/stv_all_people_code"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y150"
-            android:paddingEnd="@dimen/x30"
             android:paddingStart="@dimen/x30"
+            android:paddingEnd="@dimen/x30"
             app:sDividerLineType="none"
             app:sLeftTextColor="@color/black"
-            app:sLeftTextSize="16sp"
+            app:sLeftTextSize="18sp"
             app:sLeftTextString="全民号"
             app:sRightTextColor="@color/tx_bottom_navigation"
+            app:sRightTextSize="16sp"
             app:sRightTextString="test" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
             android:id="@+id/stv_sex"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y150"
-            android:paddingEnd="@dimen/x30"
             android:paddingStart="@dimen/x30"
+            android:paddingEnd="@dimen/x30"
             app:sDividerLineType="none"
             app:sLeftTextColor="@color/black"
             app:sLeftTextSize="16sp"
             app:sLeftTextString="性别"
             app:sRightIconRes="@mipmap/ic_arrow_end"
-            app:sRightTextColor="@color/tx_bottom_navigation" />
+            app:sRightTextColor="@color/tx_bottom_navigation"
+            app:sRightTextSize="16sp" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
             android:id="@+id/stv_age"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y150"
-            android:paddingEnd="@dimen/x30"
             android:paddingStart="@dimen/x30"
+            android:paddingEnd="@dimen/x30"
             app:sDividerLineType="none"
             app:sLeftTextColor="@color/black"
             app:sLeftTextSize="16sp"
             app:sLeftTextString="年龄"
             app:sRightIconRes="@mipmap/ic_arrow_end"
-            app:sRightTextColor="@color/tx_bottom_navigation" />
+            app:sRightTextColor="@color/tx_bottom_navigation"
+            app:sRightTextSize="16sp" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
             android:id="@+id/stv_marital"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y150"
-            android:paddingEnd="@dimen/x30"
             android:paddingStart="@dimen/x30"
+            android:paddingEnd="@dimen/x30"
             app:sDividerLineType="none"
             app:sLeftTextColor="@color/black"
             app:sLeftTextSize="16sp"
             app:sLeftTextString="婚姻状态"
             app:sRightIconRes="@mipmap/ic_arrow_end"
-            app:sRightTextColor="@color/tx_bottom_navigation" />
+            app:sRightTextColor="@color/tx_bottom_navigation"
+            app:sRightTextSize="16sp" />
     </LinearLayout>
 </LinearLayout>

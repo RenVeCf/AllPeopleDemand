@@ -79,4 +79,5 @@ public interface UrlConfig {
     String MY_BUY_DEMAND_DETAILS = "appUser/myPurchase/demandDetails"; //我的购买-需求资讯列表-详情
     String MY_BUY_CLASS_ROOM_LIST = "appUser/myPurchase/classroomList"; //我的购买课堂-列表
     String MY_BUY_CLASS_ROOM_DETAILS = "appUser/myPurchase/classDetails"; //我的购买课堂-列表-详情
+    String CHECK_VERSION = "appUser/version/versionInfo"; //版本管理
 }

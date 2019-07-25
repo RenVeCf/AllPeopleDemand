@@ -6,17 +6,27 @@ import android.view.View;
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.base.BaseActivity;
-import com.ipd.allpeopledemand.base.BasePresenter;
-import com.ipd.allpeopledemand.base.BaseView;
+import com.ipd.allpeopledemand.bean.CheckVersionBean;
 import com.ipd.allpeopledemand.common.view.TopView;
+import com.ipd.allpeopledemand.contract.CheckVersionContract;
+import com.ipd.allpeopledemand.presenter.CheckVersionPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
 import com.ipd.allpeopledemand.utils.CacheUtil;
+import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
+import com.ipd.allpeopledemand.utils.StringUtils;
+import com.ipd.allpeopledemand.utils.ToastUtil;
 import com.xuexiang.xui.widget.button.RippleView;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
+import java.util.TreeMap;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.ObservableTransformer;
+
+import static com.ipd.allpeopledemand.common.config.IConstants.PACKAGE_NAME;
+import static com.ipd.allpeopledemand.utils.AppUtils.getAppVersionName;
 
 /**
  * Description ：设置
@@ -24,7 +34,7 @@ import butterknife.OnClick;
  * Email ： 942685687@qq.com
  * Time ： 2019/6/27.
  */
-public class SettingActivity extends BaseActivity {
+public class SettingActivity extends BaseActivity<CheckVersionContract.View, CheckVersionContract.Presenter> implements CheckVersionContract.View {
 
     @BindView(R.id.tv_setting)
     TopView tvSetting;
@@ -37,21 +47,19 @@ public class SettingActivity extends BaseActivity {
     @BindView(R.id.rv_out)
     RippleView rvOut;
 
-    private boolean isVersion = false; //有新版本 : true, 没有新版本 : false
-
     @Override
     public int getLayoutId() {
         return R.layout.activity_setting;
     }
 
     @Override
-    public BasePresenter createPresenter() {
-        return null;
+    public CheckVersionContract.Presenter createPresenter() {
+        return new CheckVersionPresenter(this);
     }
 
     @Override
-    public BaseView createView() {
-        return null;
+    public CheckVersionContract.View createView() {
+        return this;
     }
 
     @Override
@@ -64,13 +72,11 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        if (isVersion) {
-            stvVersion.setRightTextColor(R.color.white);
-            stvVersion.setRightString("发现新版本");
-        } else {
-            stvVersion.setRightTextColor(R.color.tx_bottom_navigation);
-            stvVersion.setRightString("已是最新版本");
-        }
+        TreeMap<String, String> checkVersionMap = new TreeMap<>();
+        checkVersionMap.put("type", "1");
+        checkVersionMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(checkVersionMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+        getPresenter().getCheckVersion(checkVersionMap, true, false);
+
         try {
             stvCacheClear.setRightString(CacheUtil.getTotalCacheSize(this));
         } catch (Exception e) {
@@ -107,5 +113,24 @@ public class SettingActivity extends BaseActivity {
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void resultCheckVersion(CheckVersionBean data) {
+        if (data.getCode() == 200) {
+            if (getAppVersionName(this, PACKAGE_NAME).equals(data.getData().getVersion().getVersionNo())) {
+                stvVersion.setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation));
+                stvVersion.setRightString("已是最新版本");
+            } else {
+                stvVersion.setRightTextColor(getResources().getColor(R.color.black));
+                stvVersion.setRightString("发现新版本");
+            }
+        } else
+            ToastUtil.showLongToast(data.getMsg());
+    }
+
+    @Override
+    public <T> ObservableTransformer<T, T> bindLifecycle() {
+        return this.bindToLifecycle();
     }
 }

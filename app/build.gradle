@@ -58,6 +58,7 @@ android {
         targetCompatibility 1.8
     }
     lintOptions {
+        checkReleaseBuilds false
         abortOnError false
     }
     //recommend
@@ -125,7 +126,7 @@ dependencies {
     //照片选择器
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
     //滚动选择器
-    implementation 'com.contrarywind:Android-PickerView:4.1.7'
+    implementation 'com.contrarywind:Android-PickerView:4.1.8'
     //二维码
     implementation 'com.github.xuexiangjys:XQRCode:1.0.5'
     //日历

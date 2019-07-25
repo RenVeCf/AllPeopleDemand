@@ -116,7 +116,7 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
 
     //注册成功
     private void showPopWindow(String allPeopleCode) {
-        new RegisterDialog(this, 100, allPeopleCode) {
+        new RegisterDialog(this, 100, allPeopleCode) {//TODO 注册送的积分后台没给，先写死
             @Override
             public void goPay() {
                 SPUtil.put(RegisterActivity.this, IS_LOGIN, "is_login");

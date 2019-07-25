@@ -27,8 +27,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_setting"
         app:sLeftTextColor="@color/black"
-        app:sLeftTextSize="16sp"
-        app:sLeftTextString="版本信息" />
+        app:sLeftTextSize="18sp"
+        app:sLeftTextString="版本信息"
+        app:sRightTextSize="18sp" />
 
     <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
         android:id="@+id/stv_cache_clear"
@@ -39,11 +40,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stv_version"
         app:sLeftTextColor="@color/black"
-        app:sLeftTextSize="16sp"
+        app:sLeftTextSize="18sp"
         app:sLeftTextString="清楚缓存"
         app:sRightIconRes="@mipmap/ic_arrow_end"
         app:sRightTextColor="@color/tx_bottom_navigation"
-        app:sRightTextSize="16sp" />
+        app:sRightTextSize="18sp" />
 
     <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
         android:id="@+id/stv_platform_introduction"
@@ -54,12 +55,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stv_cache_clear"
         app:sLeftTextColor="@color/black"
-        app:sLeftTextSize="16sp"
+        app:sLeftTextSize="18sp"
         app:sLeftTextString="平台介绍"
-        app:sRightIconRes="@mipmap/ic_arrow_end"
-        app:sRightTextColor="@color/tx_bottom_navigation"
-        app:sRightTextSize="16sp" />
-
+        app:sRightIconRes="@mipmap/ic_arrow_end" />
 
     <com.xuexiang.xui.widget.button.RippleView
         android:id="@+id/rv_out"

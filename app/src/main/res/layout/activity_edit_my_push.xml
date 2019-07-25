@@ -30,8 +30,8 @@
                 android:id="@+id/stv_title"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y150"
-                android:paddingEnd="@dimen/x50"
                 android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
                 app:sCenterTextColor="@color/tx_bottom_navigation"
                 app:sCenterViewGravity="right_center"
                 app:sDividerLineType="bottom"
@@ -45,8 +45,8 @@
                 android:id="@+id/stv_city"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y150"
-                android:paddingEnd="@dimen/x50"
                 android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
                 app:sCenterTextColor="@color/tx_bottom_navigation"
                 app:sCenterViewGravity="left_center"
                 app:sDividerLineType="bottom"
@@ -59,8 +59,8 @@
                 android:id="@+id/stv_contact_name"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y150"
-                android:paddingEnd="@dimen/x50"
                 android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
                 app:sCenterTextColor="@color/tx_bottom_navigation"
                 app:sCenterViewGravity="left_center"
                 app:sDividerLineType="bottom"
@@ -72,8 +72,8 @@
                 android:id="@+id/stv_contact_phone"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y150"
-                android:paddingEnd="@dimen/x50"
                 android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
                 app:sCenterTextColor="@color/tx_bottom_navigation"
                 app:sCenterViewGravity="left_center"
                 app:sDividerLineType="bottom"
@@ -156,7 +156,8 @@
                     android:background="@null"
                     android:gravity="top|start"
                     android:textColor="@color/tx_bottom_navigation"
-                    android:textColorHint="@color/tx_bottom_navigation" />
+                    android:textColorHint="@color/tx_bottom_navigation"
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -201,9 +202,9 @@
                         android:layout_weight="1"
                         android:background="@drawable/bg_gray_stroke_bt"
                         android:hint="输入搜索关键词"
-                        android:paddingBottom="@dimen/y20"
                         android:paddingStart="@dimen/x50"
                         android:paddingTop="@dimen/y20"
+                        android:paddingBottom="@dimen/y20"
                         android:textColor="@color/tx_bottom_navigation"
                         android:textColorHint="@color/tx_bottom_navigation"
                         android:textSize="16sp" />
@@ -253,10 +254,10 @@
                 android:id="@+id/rv_modify_push"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/y50"
-                android:layout_marginEnd="@dimen/x50"
                 android:layout_marginStart="@dimen/x50"
                 android:layout_marginTop="@dimen/y100"
+                android:layout_marginEnd="@dimen/x50"
+                android:layout_marginBottom="@dimen/y50"
                 android:background="@drawable/bg_gradient_bt"
                 app:rv_type="simpleRipple">
 
@@ -264,8 +265,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/y150"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="?attr/xui_config_content_spacing_horizontal"
                     android:layout_marginStart="?attr/xui_config_content_spacing_horizontal"
+                    android:layout_marginEnd="?attr/xui_config_content_spacing_horizontal"
                     android:gravity="center"
                     android:text="提交修改"
                     android:textColor="@color/xui_config_color_white"

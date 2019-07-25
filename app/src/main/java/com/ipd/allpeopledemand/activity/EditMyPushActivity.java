@@ -1,23 +1,30 @@
 package com.ipd.allpeopledemand.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 
-import com.baidu.location.BDAbstractLocationListener;
-import com.baidu.location.BDLocation;
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.adapter.FlowTagAdapter;
 import com.ipd.allpeopledemand.base.BaseActivity;
+import com.ipd.allpeopledemand.bean.CityAddressBean;
 import com.ipd.allpeopledemand.bean.MyPushDetailsBean;
 import com.ipd.allpeopledemand.bean.MyPushEditBean;
 import com.ipd.allpeopledemand.bean.UploadImgBean;
@@ -25,7 +32,6 @@ import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.MyPushEditContract;
 import com.ipd.allpeopledemand.presenter.MyPushEditPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
-import com.ipd.allpeopledemand.utils.LocationService;
 import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.StringUtils;
@@ -34,20 +40,17 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.xuexiang.citypicker.CityPicker;
-import com.xuexiang.citypicker.adapter.OnLocationListener;
-import com.xuexiang.citypicker.adapter.OnPickListener;
-import com.xuexiang.citypicker.model.City;
-import com.xuexiang.citypicker.model.HotCity;
-import com.xuexiang.citypicker.model.LocateState;
-import com.xuexiang.citypicker.model.LocatedCity;
 import com.xuexiang.xui.widget.button.RippleView;
 import com.xuexiang.xui.widget.flowlayout.FlowTagLayout;
 import com.xuexiang.xui.widget.imageview.RadiusImageView;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
+import org.json.JSONArray;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.TreeMap;
 
 import butterknife.BindView;
@@ -59,6 +62,7 @@ import okhttp3.RequestBody;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static com.ipd.allpeopledemand.activity.InformationActivity.getImageRequestBody;
+import static com.ipd.allpeopledemand.common.config.IConstants.CITY;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_LOCAL_URL;
 import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
@@ -96,8 +100,11 @@ public class EditMyPushActivity extends BaseActivity<MyPushEditContract.View, My
 
     private FlowTagAdapter tagAdapter;
     private MyPushDetailsBean.DataBean.ReleaseBean releaseBean;
-    private List<HotCity> mHotCities; //热门城市
+    //    private List<HotCity> mHotCities; //热门城市
     private String uploadImg = "";//修改照片的地址
+    private ArrayList<CityAddressBean> options1Items = new ArrayList<>();
+    private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
+    private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -126,16 +133,17 @@ public class EditMyPushActivity extends BaseActivity<MyPushEditContract.View, My
         tagAdapter = new FlowTagAdapter(this);
         ftlKey.setAdapter(tagAdapter);
 
-        mHotCities = new ArrayList<>();
-        mHotCities.add(new HotCity("北京", "北京", "101010100"));
-        mHotCities.add(new HotCity("上海", "上海", "101020100"));
-        mHotCities.add(new HotCity("广州", "广东", "101280101"));
-        mHotCities.add(new HotCity("深圳", "广东", "101280601"));
-        mHotCities.add(new HotCity("杭州", "浙江", "101210101"));
+//        mHotCities = new ArrayList<>();
+//        mHotCities.add(new HotCity("北京", "北京", "101010100"));
+//        mHotCities.add(new HotCity("上海", "上海", "101020100"));
+//        mHotCities.add(new HotCity("广州", "广东", "101280101"));
+//        mHotCities.add(new HotCity("深圳", "广东", "101280601"));
+//        mHotCities.add(new HotCity("杭州", "浙江", "101210101"));
     }
 
     @Override
     public void initData() {
+        initJsonData();
         stvTitle.setCenterEditString(releaseBean.getTitle());
         stvCity.setCenterString(releaseBean.getRegion());
         stvContactName.setCenterString(releaseBean.getUserCall());
@@ -143,9 +151,11 @@ public class EditMyPushActivity extends BaseActivity<MyPushEditContract.View, My
         Glide.with(this).load(BASE_LOCAL_URL + releaseBean.getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.bg_upload_class_room)).into(rivModify);
         uploadImg = releaseBean.getPicPath();
         etContent.setText(releaseBean.getDetails());
-        String[] keyWord = releaseBean.getKeyword().split(",");
-        for (String str : keyWord) {
-            ftlKey.getAdapter().addTag(str);
+        if (!isEmpty(releaseBean.getKeyword())) {
+            String[] keyWord = releaseBean.getKeyword().split(",");
+            for (String str : keyWord) {
+                ftlKey.getAdapter().addTag(str);
+            }
         }
     }
 
@@ -192,7 +202,7 @@ public class EditMyPushActivity extends BaseActivity<MyPushEditContract.View, My
     }
 
     // 选择城市
-    private void pickCity() {
+    /*private void pickCity() {
         CityPicker.from(this)
                 .enableAnimation(true)
                 .setAnimationStyle(R.style.CityPickerAnimation)
@@ -220,10 +230,10 @@ public class EditMyPushActivity extends BaseActivity<MyPushEditContract.View, My
                     }
                 })
                 .show();
-    }
+    }*/
 
     // 百度定位
-    public static class OnBDLocationListener extends BDAbstractLocationListener {
+    /*public static class OnBDLocationListener extends BDAbstractLocationListener {
 
         private OnLocationListener mOnLocationListener;
 
@@ -239,6 +249,112 @@ public class EditMyPushActivity extends BaseActivity<MyPushEditContract.View, My
                 LocationService.get().unregisterListener(this);
             }
         }
+    }*/
+
+    private void pickCity() {
+        OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                //返回的分别是三个级别的选中位置
+                String city = //options1Items.get(options1).getPickerViewText() +
+                        options2Items.get(options1).get(options2);// +
+//                        options3Items.get(options1).get(options2).get(options3);
+                stvCity.setCenterString(city);
+                SPUtil.put(EditMyPushActivity.this, CITY, city);
+            }
+        })
+                .setTitleText("")
+                .setCancelText(getResources().getString(R.string.cancel))
+                .setSubmitText(getResources().getString(R.string.sure))
+                .setOutSideCancelable(true)
+                .setTextColorCenter(Color.BLACK)
+                .setDividerColor(getResources().getColor(R.color.transparent))
+                .setContentTextSize(16)
+                .setDecorView((ViewGroup) getWindow().getDecorView().findViewById(android.R.id.content))
+                .build();
+        pvOptions.setPicker(options1Items, options2Items);//二级联动城市选择器
+        pvOptions.show();
+    }
+
+    private void initJsonData() {//解析数据
+        /**
+         * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
+         * 关键逻辑在于循环体
+         *
+         * */
+        String JsonData = getJson(this, "province.json");//获取assets目录下的json文件数据
+
+        ArrayList<CityAddressBean> jsonBean = parseData(JsonData);//用Gson 转成实体
+
+        /**
+         * 添加省份数据
+         *
+         * 注意：如果是添加的JavaBean实体，则实体类需要实现 IPickerViewData 接口，
+         * PickerView会通过getPickerViewText方法获取字符串显示出来。
+         */
+        options1Items = jsonBean;
+
+        for (int i = 0; i < jsonBean.size(); i++) {//遍历省份
+            ArrayList<String> CityList = new ArrayList<>();//该省的城市列表（第二级）
+            ArrayList<ArrayList<String>> Province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
+
+            for (int c = 0; c < jsonBean.get(i).getCityList().size(); c++) {//遍历该省份的所有城市
+                String CityName = jsonBean.get(i).getCityList().get(c).getName();
+                CityList.add(CityName);//添加城市
+                ArrayList<String> City_AreaList = new ArrayList<>();//该城市的所有地区列表
+
+                //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
+                if (jsonBean.get(i).getCityList().get(c).getArea() == null
+                        || jsonBean.get(i).getCityList().get(c).getArea().size() == 0) {
+                    City_AreaList.add("");
+                } else {
+                    City_AreaList.addAll(jsonBean.get(i).getCityList().get(c).getArea());
+                }
+                Province_AreaList.add(City_AreaList);//添加该省所有地区数据
+            }
+
+            /**
+             * 添加城市数据
+             */
+            options2Items.add(CityList);
+
+            /**
+             * 添加地区数据
+             */
+            options3Items.add(Province_AreaList);
+        }
+    }
+
+    public String getJson(Context context, String fileName) {
+
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            AssetManager assetManager = context.getAssets();
+            BufferedReader bf = new BufferedReader(new InputStreamReader(
+                    assetManager.open(fileName)));
+            String line;
+            while ((line = bf.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
+    }
+
+    public ArrayList<CityAddressBean> parseData(String result) {//Gson 解析
+        ArrayList<CityAddressBean> detail = new ArrayList<>();
+        try {
+            JSONArray data = new JSONArray(result);
+            Gson gson = new Gson();
+            for (int i = 0; i < data.length(); i++) {
+                CityAddressBean entity = gson.fromJson(data.optJSONObject(i).toString(), CityAddressBean.class);
+                detail.add(entity);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return detail;
     }
 
     @OnClick({R.id.stv_city, R.id.riv_modify, R.id.bt_modify_key, R.id.rv_modify_push})

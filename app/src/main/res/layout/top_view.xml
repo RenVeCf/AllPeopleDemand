@@ -28,7 +28,7 @@
     <!--定位-->
     <LinearLayout
         android:id="@+id/ll_top_location"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/x300"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/x60"
         android:gravity="center_vertical|start"
@@ -48,7 +48,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/x30"
             android:drawableEnd="@mipmap/ic_location_arrow"
-            android:drawablePadding="@dimen/x20" />
+            android:drawablePadding="@dimen/x20"
+            android:ellipsize="end"
+            android:maxLines="1" />
     </LinearLayout>
 
     <!--标题-->
@@ -59,7 +61,7 @@
         android:layout_margin="10dp"
         android:letterSpacing="0.13"
         android:lineSpacingExtra="14sp"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -152,7 +154,7 @@
             android:gravity="center"
             android:text="积分账户"
             android:textColor="@drawable/tx_select_radio"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
         <RadioButton
             android:id="@+id/rb_reward"
@@ -164,7 +166,7 @@
             android:gravity="center"
             android:text="奖励账户"
             android:textColor="@drawable/tx_select_radio"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
     </RadioGroup>
 
     <!--消息-->

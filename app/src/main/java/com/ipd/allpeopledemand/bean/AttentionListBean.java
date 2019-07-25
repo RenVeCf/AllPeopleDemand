@@ -1,5 +1,7 @@
 package com.ipd.allpeopledemand.bean;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 import java.util.List;
 
 public class AttentionListBean {
@@ -58,7 +60,7 @@ public class AttentionListBean {
             this.followList = followList;
         }
 
-        public static class FollowListBean {
+        public static class FollowListBean implements MultiItemEntity {
             /**
              * searchValue : null
              * createBy : null
@@ -86,6 +88,7 @@ public class AttentionListBean {
              * userCall : 默认呢称
              * avatar : 默认头像
              * className : 推荐
+             * notPurchase : "1"
              */
 
             private Object searchValue;
@@ -109,11 +112,34 @@ public class AttentionListBean {
             private Object isRecommend;
             private String status;
             private int userId;
+            private String type;
             private String keyword;
-            private boolean isFollow;
+            private String isFollow;
             private String userCall;
             private String avatar;
             private String className;
+            private String notPurchase;
+            private int itemType;
+
+            public String getNotPurchase() {
+                return notPurchase;
+            }
+
+            public void setNotPurchase(String notPurchase) {
+                this.notPurchase = notPurchase;
+            }
+
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
+            }
+
+            public void setItemType(int itemType) {
+                this.itemType = itemType;
+            }
 
             public Object getSearchValue() {
                 return searchValue;
@@ -291,11 +317,11 @@ public class AttentionListBean {
                 this.keyword = keyword;
             }
 
-            public boolean isIsFollow() {
+            public String isIsFollow() {
                 return isFollow;
             }
 
-            public void setIsFollow(boolean isFollow) {
+            public void setIsFollow(String isFollow) {
                 this.isFollow = isFollow;
             }
 
@@ -321,6 +347,11 @@ public class AttentionListBean {
 
             public void setClassName(String className) {
                 this.className = className;
+            }
+
+            @Override
+            public int getItemType() {
+                return itemType;
             }
 
             public static class ParamsBean {

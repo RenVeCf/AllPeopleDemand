@@ -8,29 +8,36 @@ import android.widget.RadioButton;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Lifecycle;
 import androidx.viewpager.widget.ViewPager;
 
 import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.base.BaseActivity;
-import com.ipd.allpeopledemand.base.BasePresenter;
-import com.ipd.allpeopledemand.base.BaseView;
+import com.ipd.allpeopledemand.bean.CheckVersionBean;
+import com.ipd.allpeopledemand.contract.CheckVersionContract;
 import com.ipd.allpeopledemand.fragment.ClassRoomFragment;
 import com.ipd.allpeopledemand.fragment.FeedbackFragment;
 import com.ipd.allpeopledemand.fragment.MainFragment;
 import com.ipd.allpeopledemand.fragment.MyFragment;
 import com.ipd.allpeopledemand.fragment.PushFragment;
+import com.ipd.allpeopledemand.presenter.CheckVersionPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
+import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.NavigationBarUtil;
 import com.ipd.allpeopledemand.utils.SPUtil;
+import com.ipd.allpeopledemand.utils.StringUtils;
 import com.ipd.allpeopledemand.utils.ToastUtil;
+
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.ObservableTransformer;
 
 import static com.ipd.allpeopledemand.common.config.IConstants.FIRST_APP;
 import static com.ipd.allpeopledemand.common.config.IConstants.HOW_PAGE;
 import static com.ipd.allpeopledemand.common.config.IConstants.IS_LOGIN;
+import static com.ipd.allpeopledemand.common.config.IConstants.PACKAGE_NAME;
+import static com.ipd.allpeopledemand.utils.AppUtils.getAppVersionName;
 
 /**
  * Description ：首页
@@ -38,7 +45,7 @@ import static com.ipd.allpeopledemand.common.config.IConstants.IS_LOGIN;
  * Email ： 942685687@qq.com
  * Time ： 2019/6/21.
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity<CheckVersionContract.View, CheckVersionContract.Presenter> implements CheckVersionContract.View {
 
     @BindView(R.id.ll_main)
     LinearLayout llMain;
@@ -69,13 +76,13 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public BasePresenter createPresenter() {
-        return null;
+    public CheckVersionContract.Presenter createPresenter() {
+        return new CheckVersionPresenter(this);
     }
 
     @Override
-    public BaseView createView() {
-        return null;
+    public CheckVersionContract.View createView() {
+        return this;
     }
 
     @Override
@@ -137,7 +144,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
+        TreeMap<String, String> checkVersionMap = new TreeMap<>();
+        checkVersionMap.put("type", "1");
+        checkVersionMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(checkVersionMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+        getPresenter().getCheckVersion(checkVersionMap, false, false);
     }
 
     @Override
@@ -213,5 +223,21 @@ public class MainActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+
+    @Override
+    public void resultCheckVersion(CheckVersionBean data) {
+        if (data.getCode() == 200) {
+            if (!getAppVersionName(this, PACKAGE_NAME).equals(data.getData().getVersion().getVersionNo())) {
+                //更新版本
+
+            }
+        } else
+            ToastUtil.showLongToast(data.getMsg());
+    }
+
+    @Override
+    public <T> ObservableTransformer<T, T> bindLifecycle() {
+        return this.bindToLifecycle();
     }
 }

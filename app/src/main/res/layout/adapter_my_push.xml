@@ -4,15 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingEnd="@dimen/x50"
-    android:paddingStart="@dimen/x50">
+    android:paddingStart="@dimen/x50"
+    android:paddingEnd="@dimen/x50">
 
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:textSize="16sp" />
+        android:textSize="18sp" />
 
     <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
         android:id="@+id/stv_bottom_content"
@@ -22,19 +22,21 @@
         app:sCenterViewGravity="left_center"
         app:sDividerLineType="none"
         app:sLeftBottomTextColor="@color/tx_bottom_navigation"
-        app:sLeftBottomTextSize="12sp"
+        app:sLeftBottomTextSize="14sp"
         app:sLeftIconHeight="@dimen/y100"
         app:sLeftIconWidth="@dimen/x100"
         app:sLeftTopTextColor="@color/black"
+        app:sLeftTopTextSize="16sp"
         app:sLeftViewGravity="left_center"
         app:sRightIconRes="@mipmap/ic_read"
         app:sRightTextColor="@color/tx_bottom_navigation"
+        app:sRightTextSize="16sp"
         app:sUseShape="true" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_marginBottom="@dimen/y50"
         android:layout_marginTop="@dimen/y50"
+        android:layout_marginBottom="@dimen/y50"
         android:background="@color/bg_fine_line" />
 </LinearLayout>

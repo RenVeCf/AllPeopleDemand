@@ -42,7 +42,8 @@
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_time"
@@ -50,7 +51,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:textColor="@color/gray1"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <TextView
@@ -65,7 +66,7 @@
             android:paddingEnd="@dimen/x30"
             android:paddingBottom="@dimen/y10"
             android:textColor="@color/tx_bottom_navigation_select"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
         <CheckBox
             android:id="@+id/cb_collection"

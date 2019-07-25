@@ -259,6 +259,7 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
                 //                .setContentSize(18)//滚轮文字大小
 //                .setTitleSize(16)//标题文字大小
 //                .setTitleText("请选择起始时间")
+                .setDividerColor(getResources().getColor(R.color.transparent))//设置分割线的颜色
                 .setDecorView((ViewGroup) getWindow().getDecorView().findViewById(android.R.id.content))
                 .setOutSideCancelable(true)//点击屏幕，点在控件外部范围时，是否取消显示
                 .isCyclic(false)//是否循环滚动

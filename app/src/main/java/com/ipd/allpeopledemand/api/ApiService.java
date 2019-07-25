@@ -6,6 +6,7 @@ import com.ipd.allpeopledemand.bean.AttentionDetailsBean;
 import com.ipd.allpeopledemand.bean.AttentionListBean;
 import com.ipd.allpeopledemand.bean.CheckInBean;
 import com.ipd.allpeopledemand.bean.CheckInLayoutBean;
+import com.ipd.allpeopledemand.bean.CheckVersionBean;
 import com.ipd.allpeopledemand.bean.ClassIficationBean;
 import com.ipd.allpeopledemand.bean.ClassRoomAliPayBean;
 import com.ipd.allpeopledemand.bean.ClassRoomBalancePayBean;
@@ -56,6 +57,7 @@ import static com.ipd.allpeopledemand.common.config.UrlConfig.ATTENTION_DETAILS;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.ATTENTION_LIST;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.CHECK_IN;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.CHECK_IN_LAYOUT;
+import static com.ipd.allpeopledemand.common.config.UrlConfig.CHECK_VERSION;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.CLASS_INICATION;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.CLASS_ROOM_ALI_PAY;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.CLASS_ROOM_BALANCE;
@@ -296,4 +298,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(MY_BUY_CLASS_ROOM_DETAILS)
     Observable<MyBuyClassRoomDetailsBean> getMyBuyClassRoomDetails(@FieldMap Map<String, String> map);
+
+    //版本管理
+    @FormUrlEncoded
+    @POST(CHECK_VERSION)
+    Observable<CheckVersionBean> getCheckVersion(@FieldMap Map<String, String> map);
 }

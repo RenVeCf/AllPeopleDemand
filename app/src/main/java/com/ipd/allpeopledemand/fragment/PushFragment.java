@@ -2,6 +2,8 @@ package com.ipd.allpeopledemand.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +15,6 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.baidu.location.BDAbstractLocationListener;
-import com.baidu.location.BDLocation;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
@@ -22,12 +22,14 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.activity.LoginActivity;
 import com.ipd.allpeopledemand.activity.MainActivity;
 import com.ipd.allpeopledemand.adapter.FlowTagAdapter;
 import com.ipd.allpeopledemand.base.BaseFragment;
+import com.ipd.allpeopledemand.bean.CityAddressBean;
 import com.ipd.allpeopledemand.bean.ClassIficationBean;
 import com.ipd.allpeopledemand.bean.PushBean;
 import com.ipd.allpeopledemand.bean.UploadImgBean;
@@ -35,8 +37,6 @@ import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.PushContract;
 import com.ipd.allpeopledemand.presenter.PushPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
-import com.ipd.allpeopledemand.utils.L;
-import com.ipd.allpeopledemand.utils.LocationService;
 import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.StringUtils;
@@ -46,17 +46,15 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.trello.rxlifecycle2.android.FragmentEvent;
-import com.xuexiang.citypicker.CityPicker;
-import com.xuexiang.citypicker.adapter.OnLocationListener;
-import com.xuexiang.citypicker.adapter.OnPickListener;
-import com.xuexiang.citypicker.model.City;
-import com.xuexiang.citypicker.model.HotCity;
-import com.xuexiang.citypicker.model.LocateState;
-import com.xuexiang.citypicker.model.LocatedCity;
 import com.xuexiang.xui.widget.button.RippleView;
 import com.xuexiang.xui.widget.flowlayout.FlowTagLayout;
 import com.xuexiang.xui.widget.imageview.RadiusImageView;
 
+import org.json.JSONArray;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -116,11 +114,14 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
     private FlowTagAdapter tagAdapter;
     private List<String> listData;
     private OptionsPickerView pvOptions; //条件选择器
-    private List<HotCity> mHotCities; //热门城市
+    //    private List<HotCity> mHotCities; //热门城市
     private List<String> classificationDataList = new ArrayList<>();//选择类别
     private List<ClassIficationBean.DataBean.ClassListBean> classListBean = new ArrayList<>();//选择类别(取类别ID用)
     private int releaseClassId;//类别ID
     private String uploadImg = "";//添加的照片地址
+    private ArrayList<CityAddressBean> options1Items = new ArrayList<>();
+    private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
+    private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -156,12 +157,12 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
 
         int mTheme = R.style.DefaultCityPickerTheme;
         getActivity().setTheme(mTheme);
-        mHotCities = new ArrayList<>();
-        mHotCities.add(new HotCity("北京", "北京", "101010100"));
-        mHotCities.add(new HotCity("上海", "上海", "101020100"));
-        mHotCities.add(new HotCity("广州", "广东", "101280101"));
-        mHotCities.add(new HotCity("深圳", "广东", "101280601"));
-        mHotCities.add(new HotCity("杭州", "浙江", "101210101"));
+//        mHotCities = new ArrayList<>();
+//        mHotCities.add(new HotCity("北京", "北京", "101010100"));
+//        mHotCities.add(new HotCity("上海", "上海", "101020100"));
+//        mHotCities.add(new HotCity("广州", "广东", "101280101"));
+//        mHotCities.add(new HotCity("深圳", "广东", "101280601"));
+//        mHotCities.add(new HotCity("杭州", "浙江", "101210101"));
     }
 
     @Override
@@ -177,6 +178,7 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
 
     @Override
     public void initData() {
+        initJsonData();
         getPresenter().getClassIfication(true, false);
     }
 
@@ -255,55 +257,161 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
     }
 
     // 选择城市
+//    private void pickCity() {
+//        CityPicker.from(this)
+//                .enableAnimation(false)
+//                .setAnimationStyle(R.style.CityPickerAnimation)
+//                .setLocatedCity(null)
+//                .setHotCities(mHotCities)
+//                .setOnPickListener(new OnPickListener() {
+//
+//                    OnBDLocationListener mListener = new OnBDLocationListener();
+//
+//                    @Override
+//                    public void onPick(int position, City data) {
+//                        tvCity.setText(data.getName());
+//                        LocationService.stop(mListener);
+//                    }
+//
+//                    @Override
+//                    public void onCancel() {
+//                        LocationService.stop(mListener);
+//                    }
+//
+//                    @Override
+//                    public void onLocate(final OnLocationListener locationListener) {
+//                        //开始定位
+//                        mListener.setOnLocationListener(locationListener);
+//                        LocationService.start(mListener);
+//                    }
+//                })
+//                .show();
+//    }
+
     private void pickCity() {
-        CityPicker.from(this)
-                .enableAnimation(false)
-                .setAnimationStyle(R.style.CityPickerAnimation)
-                .setLocatedCity(null)
-                .setHotCities(mHotCities)
-                .setOnPickListener(new OnPickListener() {
+        OptionsPickerView pvOptions = new OptionsPickerBuilder(getContext(), new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                //返回的分别是三个级别的选中位置
+                String city = //options1Items.get(options1).getPickerViewText() +
+                        options2Items.get(options1).get(options2);// +
+//                        options3Items.get(options1).get(options2).get(options3);
+                tvCity.setText(city);
+                SPUtil.put(getContext(), CITY, city);
+            }
+        })
+                .setTitleText("")
+                .setCancelText(getResources().getString(R.string.cancel))
+                .setSubmitText(getResources().getString(R.string.sure))
+                .setOutSideCancelable(true)
+                .setTextColorCenter(Color.BLACK)
+                .setDividerColor(getResources().getColor(R.color.transparent))
+                .setContentTextSize(16)
+                .setDecorView((ViewGroup) getActivity().getWindow().getDecorView().findViewById(android.R.id.content))
+                .build();
+        pvOptions.setPicker(options1Items, options2Items);//二级联动城市选择器
+        pvOptions.show();
+    }
 
-                    OnBDLocationListener mListener = new OnBDLocationListener();
+    private void initJsonData() {//解析数据
+        /**
+         * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
+         * 关键逻辑在于循环体
+         *
+         * */
+        String JsonData = getJson(getContext(), "province.json");//获取assets目录下的json文件数据
 
-                    @Override
-                    public void onPick(int position, City data) {
-                        tvCity.setText(data.getName());
-                        LocationService.stop(mListener);
-                    }
+        ArrayList<CityAddressBean> jsonBean = parseData(JsonData);//用Gson 转成实体
 
-                    @Override
-                    public void onCancel() {
-                        LocationService.stop(mListener);
-                    }
+        /**
+         * 添加省份数据
+         *
+         * 注意：如果是添加的JavaBean实体，则实体类需要实现 IPickerViewData 接口，
+         * PickerView会通过getPickerViewText方法获取字符串显示出来。
+         */
+        options1Items = jsonBean;
 
-                    @Override
-                    public void onLocate(final OnLocationListener locationListener) {
-                        //开始定位
-                        mListener.setOnLocationListener(locationListener);
-                        LocationService.start(mListener);
-                    }
-                })
-                .show();
+        for (int i = 0; i < jsonBean.size(); i++) {//遍历省份
+            ArrayList<String> CityList = new ArrayList<>();//该省的城市列表（第二级）
+            ArrayList<ArrayList<String>> Province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
+
+            for (int c = 0; c < jsonBean.get(i).getCityList().size(); c++) {//遍历该省份的所有城市
+                String CityName = jsonBean.get(i).getCityList().get(c).getName();
+                CityList.add(CityName);//添加城市
+                ArrayList<String> City_AreaList = new ArrayList<>();//该城市的所有地区列表
+
+                //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
+                if (jsonBean.get(i).getCityList().get(c).getArea() == null
+                        || jsonBean.get(i).getCityList().get(c).getArea().size() == 0) {
+                    City_AreaList.add("");
+                } else {
+                    City_AreaList.addAll(jsonBean.get(i).getCityList().get(c).getArea());
+                }
+                Province_AreaList.add(City_AreaList);//添加该省所有地区数据
+            }
+
+            /**
+             * 添加城市数据
+             */
+            options2Items.add(CityList);
+
+            /**
+             * 添加地区数据
+             */
+            options3Items.add(Province_AreaList);
+        }
+    }
+
+    public String getJson(Context context, String fileName) {
+
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            AssetManager assetManager = context.getAssets();
+            BufferedReader bf = new BufferedReader(new InputStreamReader(
+                    assetManager.open(fileName)));
+            String line;
+            while ((line = bf.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
+    }
+
+    public ArrayList<CityAddressBean> parseData(String result) {//Gson 解析
+        ArrayList<CityAddressBean> detail = new ArrayList<>();
+        try {
+            JSONArray data = new JSONArray(result);
+            Gson gson = new Gson();
+            for (int i = 0; i < data.length(); i++) {
+                CityAddressBean entity = gson.fromJson(data.optJSONObject(i).toString(), CityAddressBean.class);
+                detail.add(entity);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return detail;
     }
 
     // 百度定位
-    private static class OnBDLocationListener extends BDAbstractLocationListener {
-
-        private OnLocationListener mOnLocationListener;
-
-        private OnBDLocationListener setOnLocationListener(OnLocationListener onLocationListener) {
-            mOnLocationListener = onLocationListener;
-            return this;
-        }
-
-        @Override
-        public void onReceiveLocation(BDLocation bdLocation) {
-            if (mOnLocationListener != null) {
-                mOnLocationListener.onLocationChanged(new LocatedCity(bdLocation.getCity(), bdLocation.getProvince(), bdLocation.getCityCode()), LocateState.SUCCESS);
-                LocationService.get().unregisterListener(this);
-            }
-        }
-    }
+//    private static class OnBDLocationListener extends BDAbstractLocationListener {
+//
+//        private OnLocationListener mOnLocationListener;
+//
+//        private OnBDLocationListener setOnLocationListener(OnLocationListener onLocationListener) {
+//            mOnLocationListener = onLocationListener;
+//            return this;
+//        }
+//
+//        @Override
+//        public void onReceiveLocation(BDLocation bdLocation) {
+//            if (mOnLocationListener != null) {
+//                mOnLocationListener.onLocationChanged(new LocatedCity(bdLocation.getCity(), bdLocation.getProvince(), bdLocation.getCityCode()), LocateState.SUCCESS);
+//                LocationService.get().unregisterListener(this);
+//            }
+//        }
+//    }
 
     @OnClick({R.id.ll_classification, R.id.ll_city, R.id.bt_add_key, R.id.riv_upload, R.id.rv_push})
     public void onViewClicked(View view) {
@@ -338,7 +446,7 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
                         .forResult(PictureConfig.CHOOSE_REQUEST);
                 break;
             case R.id.rv_push:
-                if (!"选择分类".equals(tvClassification) && !isEmpty(etTitle.getText().toString().trim()) && !"".equals(tvCity.getText().toString().trim()) && !isEmpty(etContact.getText().toString().trim()) && !isEmpty(uploadImg) && !isEmpty(etContent.getText().toString().trim())) {
+                if (!"选择分类".equals(tvClassification) && !isEmpty(etTitle.getText().toString().trim()) && !"".equals(tvCity.getText().toString().trim()) && !isEmpty(etContact.getText().toString().trim()) && !isEmpty(etContent.getText().toString().trim())) {
                     TreeMap<String, String> pushMap = new TreeMap<>();
                     pushMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
                     pushMap.put("releaseClassId", releaseClassId + "");

@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/y50"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_share" />
@@ -57,7 +57,7 @@
             app:sLeftIconHeight="@dimen/y100"
             app:sLeftIconWidth="@dimen/x100"
             app:sLeftTextColor="@color/black"
-            app:sLeftTextSize="16sp"
+            app:sLeftTextSize="18sp"
             app:sLeftViewGravity="right_center" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -75,6 +75,7 @@
         android:text="——  将我的二维码分享给  ——"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_qr" />
 
