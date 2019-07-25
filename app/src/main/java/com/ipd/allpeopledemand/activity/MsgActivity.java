@@ -89,7 +89,7 @@ public class MsgActivity extends BaseActivity<MsgContract.View, MsgContract.Pres
         msgMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
         msgMap.put("pageNum", pageNum + "");
         msgMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(msgMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-        getPresenter().getMsg(msgMap, true, false);
+        getPresenter().getMsg(msgMap, false, false);
     }
 
     @Override
@@ -148,6 +148,7 @@ public class MsgActivity extends BaseActivity<MsgContract.View, MsgContract.Pres
                         }
                     }
                 } else {
+                    msgBean.clear();
                     msgAdapter = new MsgAdapter(msgBean);
                     rvMsg.setAdapter(msgAdapter);
                     msgAdapter.loadMoreEnd(); //完成所有加载

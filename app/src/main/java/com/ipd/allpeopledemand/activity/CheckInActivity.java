@@ -163,7 +163,6 @@ public class CheckInActivity extends BaseActivity<CheckInContract.View, CheckInC
         });
     }
 
-
     @Override
     public void resultCheckInLayout(CheckInLayoutBean data) {
 

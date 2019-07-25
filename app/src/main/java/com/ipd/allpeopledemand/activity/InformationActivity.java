@@ -150,9 +150,9 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
             case 1:
                 listData = getSexData();
                 break;
-            case 2:
-                listData = getAgeData();
-                break;
+//            case 2:
+//                listData = getAgeData();
+//                break;
             case 3:
                 listData = getMaritalData();
                 break;
@@ -165,10 +165,10 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
                         ModifyInformation("", "男".equals(listData.get(options1)) ? "1" : "2", "", "");
                         stvSex.setRightString(listData.get(options1));
                         break;
-                    case 2:
-                        ModifyInformation("", "", listData.get(options1).replaceAll("岁", ""), "");
-                        stvAge.setRightString(listData.get(options1));
-                        break;
+//                    case 2:
+//                        ModifyInformation("", "", listData.get(options1).replaceAll("岁", ""), "");
+//                        stvAge.setRightString(listData.get(options1));
+//                        break;
                     case 3:
                         ModifyInformation("", "", "", "未婚".equals(listData.get(options1)) ? "1" : "2");
                         stvMarital.setRightString(listData.get(options1));
@@ -206,13 +206,13 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
         return list;
     }
 
-    private List<String> getAgeData() {
+    /*private List<String> getAgeData() {
         List<String> list = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             list.add(i + "岁");
         }
         return list;
-    }
+    }*/
 
     private List<String> getMaritalData() {
         List<String> list = new ArrayList<>();
