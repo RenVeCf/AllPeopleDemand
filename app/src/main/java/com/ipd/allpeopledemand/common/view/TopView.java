@@ -15,9 +15,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ipd.allpeopledemand.R;
+import com.ipd.allpeopledemand.activity.LoginActivity;
 import com.ipd.allpeopledemand.activity.MsgActivity;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
+import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.isClickUtil;
+
+import static com.ipd.allpeopledemand.common.config.IConstants.IS_LOGIN;
+import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
 
 
 /**
@@ -122,7 +127,12 @@ public class TopView extends RelativeLayout implements View.OnClickListener {
                 }
                 break;
             case R.id.ib_top_msg:
-                ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), MsgActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                if (!isEmpty(SPUtil.get(ApplicationUtil.getContext(), IS_LOGIN, "") + ""))
+                    ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), MsgActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                else {
+                    ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    ((Activity) mContext).finish();
+                }
                 break;
             case R.id.ib_top_faq:
                 break;

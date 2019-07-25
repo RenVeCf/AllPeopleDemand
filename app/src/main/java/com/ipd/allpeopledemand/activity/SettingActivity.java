@@ -75,7 +75,7 @@ public class SettingActivity extends BaseActivity<CheckVersionContract.View, Che
         TreeMap<String, String> checkVersionMap = new TreeMap<>();
         checkVersionMap.put("type", "1");
         checkVersionMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(checkVersionMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-        getPresenter().getCheckVersion(checkVersionMap, true, false);
+        getPresenter().getCheckVersion(checkVersionMap, false, false);
 
         try {
             stvCacheClear.setRightString(CacheUtil.getTotalCacheSize(this));
