@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.ipd.allpeopledemand.R;
 
+import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
+
 /**
  * Description ：自定义Dialog
  * Author ： MengYang
@@ -72,11 +74,13 @@ public abstract class RegisterDialog extends Dialog implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.bv_register_success:
-                goPay();
-                this.cancel();
-                break;
+        if (isFastClick()) {
+            switch (v.getId()) {
+                case R.id.bv_register_success:
+                    goPay();
+                    this.cancel();
+                    break;
+            }
         }
     }
 

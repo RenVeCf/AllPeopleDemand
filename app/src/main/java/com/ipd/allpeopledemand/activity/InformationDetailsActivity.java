@@ -66,6 +66,7 @@ import io.reactivex.functions.Consumer;
 
 import static android.Manifest.permission.CALL_PHONE;
 import static android.Manifest.permission.SEND_SMS;
+import static android.text.TextUtils.TruncateAt.END;
 import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_90;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_LOCAL_URL;
@@ -454,6 +455,15 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getAvatar()).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into(rivHead);
 
                 tvSynopsis.setText(data.getData().getRelease().getTitle());
+                tvSynopsis.setOnExpandStateChangeListener(new ExpandableTextView.OnExpandStateChangeListener() {
+                    @Override
+                    public void onExpandStateChanged(TextView textView, boolean isExpanded) {
+                        if (!isExpanded) {
+                            textView.setLines(1);
+                            textView.setEllipsize(END);
+                        }
+                    }
+                });
                 tvName.setText(data.getData().getRelease().getUserCall());
                 tvTime.setText(FormatCurrentData.getTimeRange(data.getData().getRelease().getReleaseTime()));
                 tvReadNum.setText(data.getData().getRelease().getBrowseNum() + "");
@@ -499,6 +509,15 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getAvatar()).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into(rivHead);
 
                 tvSynopsis.setText(data.getData().getRelease().getTitle());
+                tvSynopsis.setOnExpandStateChangeListener(new ExpandableTextView.OnExpandStateChangeListener() {
+                    @Override
+                    public void onExpandStateChanged(TextView textView, boolean isExpanded) {
+                        if (!isExpanded) {
+                            textView.setLines(1);
+                            textView.setEllipsize(END);
+                        }
+                    }
+                });
                 tvName.setText(data.getData().getRelease().getUserCall());
                 tvTime.setText(FormatCurrentData.getTimeRange(data.getData().getRelease().getReleaseTime()));
                 tvReadNum.setText(data.getData().getRelease().getBrowseNum() + "");
@@ -535,6 +554,15 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 Glide.with(this).load(BASE_LOCAL_URL + data.getData().getDemandList().getAvatar()).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into(rivHead);
 
                 tvSynopsis.setText(data.getData().getDemandList().getTitle());
+                tvSynopsis.setOnExpandStateChangeListener(new ExpandableTextView.OnExpandStateChangeListener() {
+                    @Override
+                    public void onExpandStateChanged(TextView textView, boolean isExpanded) {
+                        if (!isExpanded) {
+                            textView.setLines(1);
+                            textView.setEllipsize(END);
+                        }
+                    }
+                });
                 tvName.setText(data.getData().getDemandList().getUserCall());
                 tvTime.setText(FormatCurrentData.getTimeRange(data.getData().getDemandList().getReleaseTime()));
                 tvReadNum.setText(data.getData().getDemandList().getBrowseNum() + "");

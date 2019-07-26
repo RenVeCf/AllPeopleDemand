@@ -56,8 +56,10 @@
                         android:id="@id/expandable_text"
                         style="@style/TextStyle.Content"
                         android:layout_width="match_parent"
+                        android:ellipsize="end"
                         android:gravity="center_vertical"
                         android:singleLine="false"
+                        android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -151,6 +153,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/y50"
+                    android:letterSpacing="0.13"
+                    android:lineSpacingExtra="14sp"
+                    android:textColor="@color/black"
                     android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>

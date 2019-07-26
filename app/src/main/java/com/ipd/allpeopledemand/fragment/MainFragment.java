@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,6 @@ import com.ipd.allpeopledemand.common.view.NavitationFollowScrollLayoutText;
 import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.MainPagerContract;
 import com.ipd.allpeopledemand.presenter.MainPagerPresenter;
-import com.ipd.allpeopledemand.utils.L;
 import com.ipd.allpeopledemand.utils.LocationService;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -187,9 +187,15 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
 
     @Override
     public void initData() {
-        TreeMap<String, String> mainADImgMap = new TreeMap<>();
-        mainADImgMap.put("password", "F9A75BB045D75998E1509B75ED3A5225");
-        getPresenter().getMainADImg(mainADImgMap, false, false);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                TreeMap<String, String> mainADImgMap = new TreeMap<>();
+                mainADImgMap.put("password", "F9A75BB045D75998E1509B75ED3A5225");
+                getPresenter().getMainADImg(mainADImgMap, false, false);
+            }
+        }, 2000);    //延时1s执行
+
 
         initJsonData();
 
@@ -460,7 +466,6 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
     @Override
     public void resultMainADImg(MainADImgBean data) {
         if (data.getCode() == 200 && !isEmpty(data.getData().getUpadvert().getPicPath())) {
-            L.i("00000000000000");
             new MainADImgDialog(getActivity(), data.getData().getUpadvert().getPicPath()) {
             }.show();
         }

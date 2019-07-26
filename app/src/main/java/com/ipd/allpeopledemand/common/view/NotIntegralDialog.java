@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.ipd.allpeopledemand.R;
 
+import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
+
 /**
  * Description ：自定义Dialog
  * Author ： MengYang
@@ -65,11 +67,13 @@ public abstract class NotIntegralDialog extends Dialog implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.bt_not_intrgral:
-                goPayIntrgral();
-                this.cancel();
-                break;
+        if (isFastClick()) {
+            switch (v.getId()) {
+                case R.id.bt_not_intrgral:
+                    goPayIntrgral();
+                    this.cancel();
+                    break;
+            }
         }
     }
 

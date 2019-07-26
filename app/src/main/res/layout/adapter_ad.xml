@@ -7,13 +7,14 @@
 
     <com.xuexiang.xui.widget.textview.label.LabelImageView
         android:id="@+id/iv_label"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/y350"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:src="@mipmap/ic_test_ad"
         app:label_backgroundColor="@color/tx_bottom_navigation_select"
         app:label_orientation="LEFT_TOP"
         app:label_text="广告"
+        app:label_textSize="16sp"
         app:label_textStyle="ITALIC" />
 
     <View

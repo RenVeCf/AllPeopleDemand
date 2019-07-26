@@ -180,18 +180,8 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
         classRoomPagerMap.put("region", region);
         classRoomPagerMap.put("title", title);
         classRoomPagerMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(classRoomPagerMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-        getPresenter().getMainList(classRoomPagerMap, false, false);
-    }
-    /*private void sort(String orderByColumn, String isAsc, String pageNum) {
-        TreeMap<String, String> classRoomPagerMap = new TreeMap<>();
-        classRoomPagerMap.put("userId", "".equals(SPUtil.get(getContext(), IS_LOGIN, "") + "") ? "0" : SPUtil.get(getContext(), USER_ID, "") + "");
-        classRoomPagerMap.put("releaseClassId", releaseClassId);
-        classRoomPagerMap.put("orderByColumn", orderByColumn);
-        classRoomPagerMap.put("isAsc", isAsc);
-        classRoomPagerMap.put("pageNum", pageNum);
-        classRoomPagerMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(classRoomPagerMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
         getPresenter().getMainList(classRoomPagerMap, true, false);
-    }*/
+    }
 
     @OnClick({R.id.ll_sort_time, R.id.ll_sort_sales_volume})//,R.id.ll_sort_distance})
     public void onViewClicked(View view) {

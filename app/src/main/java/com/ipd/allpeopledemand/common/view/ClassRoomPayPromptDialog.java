@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.ipd.allpeopledemand.R;
 
+import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
+
 /**
  * Description ：自定义Dialog
  * Author ： MengYang
@@ -72,14 +74,16 @@ public abstract class ClassRoomPayPromptDialog extends Dialog implements View.On
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.bt_cancel:
-                this.cancel();
-                break;
-            case R.id.bt_pay:
-                goPay();
-                this.cancel();
-                break;
+        if (isFastClick()) {
+            switch (v.getId()) {
+                case R.id.bt_cancel:
+                    this.cancel();
+                    break;
+                case R.id.bt_pay:
+                    goPay();
+                    this.cancel();
+                    break;
+            }
         }
     }
 
