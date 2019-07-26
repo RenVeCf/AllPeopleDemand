@@ -33,6 +33,29 @@ import static com.ipd.allpeopledemand.common.config.IConstants.FIRST_APP;
 public class SplashActivity extends BaseActivity<LoadingContract.View, LoadingContract.Presenter> implements LoadingContract.View {
 
     /**
+     *
+     *----------Dragon be here!----------/
+     * 　　　┏┓　　　┏┓
+     * 　　┏┛┻━━━┛┻┓
+     * 　　┃　　　　　　　┃
+     * 　　┃　　　━　　　┃
+     * 　　┃　┳┛　┗┳　┃
+     * 　　┃　　　　　　　┃
+     * 　　┃　　　┻　　　┃
+     * 　　┃　　　　　　　┃
+     * 　　┗━┓　　　┏━┛
+     * 　　　　┃　　　┃神兽保佑
+     * 　　　　┃　　　┃代码无BUG！
+     * 　　　　┃　　　┗━━━┓
+     * 　　　　┃　　　　　　　┣┓
+     * 　　　　┃　　　　　　　┏┛
+     * 　　　　┗┓┓┏━┳┓┏┛
+     * 　　　　　┃┫┫　┃┫┫
+     * 　　　　　┗┻┛　┗┻┛
+     * ━━━━━━神兽出没━━━━━━
+     */
+
+    /**
      * 默认启动页过渡时间
      */
     private static final int DEFAULT_SPLASH_DURATION_MILLIS = 1500;

@@ -98,6 +98,7 @@ public class MsgActivity extends BaseActivity<MsgContract.View, MsgContract.Pres
         srlMsg.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                pageNum = 1;
                 initData();
                 srlMsg.setRefreshing(false);
             }
