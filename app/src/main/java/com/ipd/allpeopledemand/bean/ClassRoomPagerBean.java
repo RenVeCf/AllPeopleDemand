@@ -242,7 +242,7 @@ public class ClassRoomPagerBean {
             private String videoDate;
             private String createTime;
             private String updateTime;
-            private Object watch_num;
+            private int watchNum;
             private Object video_url;
             private Object video_file;
             private Object audio_file;
@@ -362,12 +362,12 @@ public class ClassRoomPagerBean {
                 this.updateTime = updateTime;
             }
 
-            public Object getWatch_num() {
-                return watch_num;
+            public int getWatchNum() {
+                return watchNum;
             }
 
-            public void setWatch_num(Object watch_num) {
-                this.watch_num = watch_num;
+            public void setWatchNum(int watchNum) {
+                this.watchNum = watchNum;
             }
 
             public Object getVideo_url() {
