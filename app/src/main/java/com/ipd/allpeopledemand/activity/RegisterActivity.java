@@ -115,8 +115,8 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
     }
 
     //注册成功
-    private void showPopWindow(String allPeopleCode) {
-        new RegisterDialog(this, 100, allPeopleCode) {//TODO 注册送的积分后台没给，先写死
+    private void showPopWindow(int integral, String allPeopleCode) {
+        new RegisterDialog(this, integral, allPeopleCode) {
             @Override
             public void goPay() {
                 SPUtil.put(RegisterActivity.this, IS_LOGIN, "is_login");
@@ -188,7 +188,7 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
                     break;
             }
             SPUtil.put(this, MARITAL_STATUS, maritalStatus);
-            showPopWindow(data.getData().getUser().getNationalNum());
+            showPopWindow(data.getData().getUser().getIntegral(), data.getData().getUser().getNationalNum());
         } else
             ToastUtil.showShortToast(data.getMsg());
     }

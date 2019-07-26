@@ -111,7 +111,7 @@ public class AttentionActivity extends BaseActivity<PushContract.View, PushContr
                 vpFragmentAttention.setOffscreenPageLimit(titles.length);
 
                 //设置导航条
-                nfslFragmentAttention.setViewPager(this, titles, vpFragmentAttention, R.color.tx_bottom_navigation, R.color.black, 14, 14, 24, true, R.color.black, 0, 0, 0, 80);
+                nfslFragmentAttention.setViewPager(this, titles, vpFragmentAttention, R.color.tx_bottom_navigation, R.color.black, 16, 16, 24, true, R.color.black, 0, 0, 0, 80);
                 nfslFragmentAttention.setBgLine(this, 1, R.color.whitesmoke);
                 nfslFragmentAttention.setNavLine(this, 3, R.color.colorAccent);
                 break;

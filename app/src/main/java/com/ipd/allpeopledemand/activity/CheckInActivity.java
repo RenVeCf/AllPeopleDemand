@@ -40,6 +40,7 @@ import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
 
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
+import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
 
 /**
  * Description ：签到
@@ -204,9 +205,11 @@ public class CheckInActivity extends BaseActivity<CheckInContract.View, CheckInC
 
     @OnClick(R.id.rv_check_in)
     public void onViewClicked() {
-        TreeMap<String, String> checkInMap = new TreeMap<>();
-        checkInMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-        checkInMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(checkInMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-        getPresenter().getCheckIn(checkInMap, true, false);
+        if (isFastClick()) {
+            TreeMap<String, String> checkInMap = new TreeMap<>();
+            checkInMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+            checkInMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(checkInMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+            getPresenter().getCheckIn(checkInMap, true, false);
+        }
     }
 }

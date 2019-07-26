@@ -4,6 +4,7 @@ import com.ipd.allpeopledemand.base.BasePresenter;
 import com.ipd.allpeopledemand.base.BaseView;
 import com.ipd.allpeopledemand.bean.AttentionCollectionBean;
 import com.ipd.allpeopledemand.bean.ClassIficationBean;
+import com.ipd.allpeopledemand.bean.MainADImgBean;
 import com.ipd.allpeopledemand.bean.MainAliPayBean;
 import com.ipd.allpeopledemand.bean.MainBalancePayBean;
 import com.ipd.allpeopledemand.bean.MainListBean;
@@ -29,6 +30,8 @@ public interface MainPagerContract {
 
         void resultAttentionCollection(AttentionCollectionBean data);
 
+        void resultMainADImg(MainADImgBean data);
+
         <T> ObservableTransformer<T, T> bindLifecycle();
     }
 
@@ -38,5 +41,7 @@ public interface MainPagerContract {
         public abstract void getMainList(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
 
         public abstract void getAttentionCollection(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
+
+        public abstract void getMainADImg(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
     }
 }

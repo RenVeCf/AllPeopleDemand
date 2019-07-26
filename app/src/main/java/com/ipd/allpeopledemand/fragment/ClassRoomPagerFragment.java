@@ -58,6 +58,7 @@ import io.reactivex.ObservableTransformer;
 import static com.ipd.allpeopledemand.common.config.IConstants.IS_LOGIN;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
+import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
 
 /**
  * Description ：全民课堂
@@ -231,16 +232,18 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
                     classRoomPagerAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                            if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
-                                startActivity(new Intent(getActivity(), LoginActivity.class));
-                            else {
-                                classroomIdPosition = position;
-                                TreeMap<String, String> classRoomDetailsMap = new TreeMap<>();
-                                classRoomDetailsMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
-                                classRoomDetailsMap.put("classroomId", roomListBean.get(position).getClassroomId() + "");
-                                classRoomDetailsMap.put("priceId", priceBean.getPriceId() + "");
-                                classRoomDetailsMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(classRoomDetailsMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-                                getPresenter().getClassRoomDetails(classRoomDetailsMap, false, false);
+                            if (isFastClick()) {
+                                if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
+                                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                                else {
+                                    classroomIdPosition = position;
+                                    TreeMap<String, String> classRoomDetailsMap = new TreeMap<>();
+                                    classRoomDetailsMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+                                    classRoomDetailsMap.put("classroomId", roomListBean.get(position).getClassroomId() + "");
+                                    classRoomDetailsMap.put("priceId", priceBean.getPriceId() + "");
+                                    classRoomDetailsMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(classRoomDetailsMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                                    getPresenter().getClassRoomDetails(classRoomDetailsMap, false, false);
+                                }
                             }
                         }
                     });

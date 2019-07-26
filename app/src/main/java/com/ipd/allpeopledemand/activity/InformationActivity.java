@@ -68,6 +68,7 @@ import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_LOCAL_URL;
 import static com.ipd.allpeopledemand.utils.DateUtils.getAgeFromBirthTime;
 import static com.ipd.allpeopledemand.utils.DateUtils.timedate1;
+import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
 
 /**
  * Description ：个人资料
@@ -185,8 +186,10 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
                         tvSubmit.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                pvOptions.returnData();
-                                pvOptions.dismiss();
+                                if (isFastClick()) {
+                                    pvOptions.returnData();
+                                    pvOptions.dismiss();
+                                }
                             }
                         });
                     }
@@ -247,8 +250,10 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
                         tvSubmit.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                pvTime.returnData();
-                                pvTime.dismiss();
+                                if (isFastClick()) {
+                                    pvTime.returnData();
+                                    pvTime.dismiss();
+                                }
                             }
                         });
                     }
@@ -323,29 +328,37 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_head:
-                PictureSelector.create(this)
-                        .openGallery(PictureMimeType.ofImage())
-                        .maxSelectNum(1)// 最大图片选择数量 int
-                        .isCamera(true)
-                        .compress(true)
-                        .minimumCompressSize(100)
-                        .forResult(PictureConfig.CHOOSE_REQUEST);
+                if (isFastClick()) {
+                    PictureSelector.create(this)
+                            .openGallery(PictureMimeType.ofImage())
+                            .maxSelectNum(1)// 最大图片选择数量 int
+                            .isCamera(true)
+                            .compress(true)
+                            .minimumCompressSize(100)
+                            .forResult(PictureConfig.CHOOSE_REQUEST);
+                }
                 break;
             case R.id.stv_nickname:
-                startActivityForResult(new Intent(this, NickNameActivity.class), REQUEST_CODE_91);
+                if (isFastClick())
+                    startActivityForResult(new Intent(this, NickNameActivity.class), REQUEST_CODE_91);
                 break;
             case R.id.stv_sex:
-                showPickerView(1);
+                if (isFastClick())
+                    showPickerView(1);
                 break;
             case R.id.stv_age:
-                selectTime();
+                if (isFastClick())
+                    selectTime();
                 break;
             case R.id.stv_marital:
-                showPickerView(3);
+                if (isFastClick())
+                    showPickerView(3);
                 break;
             case R.id.ll_top_back:
-                setResult(RESULT_OK, new Intent().putExtra("refresh", 1));
-                finish();
+                if (isFastClick()) {
+                    setResult(RESULT_OK, new Intent().putExtra("refresh", 1));
+                    finish();
+                }
                 break;
         }
     }
@@ -375,7 +388,6 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
                                 rivHead.setImageDrawable(resource);
                             }
                         });
-
                 ModifyInformation(data.getFileName(), "", "", "");
                 break;
             case 900:

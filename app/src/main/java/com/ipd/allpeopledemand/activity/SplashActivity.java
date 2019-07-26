@@ -1,18 +1,26 @@
 package com.ipd.allpeopledemand.activity;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.LinearLayout;
 
 import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.base.BaseActivity;
-import com.ipd.allpeopledemand.base.BasePresenter;
-import com.ipd.allpeopledemand.base.BaseView;
+import com.ipd.allpeopledemand.bean.LoadingBean;
+import com.ipd.allpeopledemand.contract.LoadingContract;
+import com.ipd.allpeopledemand.presenter.LoadingPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.ToastUtil;
 import com.xuexiang.xui.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeMap;
+
+import io.reactivex.ObservableTransformer;
 
 import static com.ipd.allpeopledemand.common.config.IConstants.FIRST_APP;
 
@@ -22,7 +30,7 @@ import static com.ipd.allpeopledemand.common.config.IConstants.FIRST_APP;
  * Email ： 942685687@qq.com
  * Time ： 2019/6/21.
  */
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends BaseActivity<LoadingContract.View, LoadingContract.Presenter> implements LoadingContract.View {
 
     /**
      * 默认启动页过渡时间
@@ -30,6 +38,7 @@ public class SplashActivity extends BaseActivity {
     private static final int DEFAULT_SPLASH_DURATION_MILLIS = 1500;
     private long firstTime = 0;
     protected LinearLayout mWelcomeLayout;
+    private List<LoadingBean.DataBean.GuidePageListBean> guidePageListBean = new ArrayList<>();//引导页数据源
 
     @Override
     public int getLayoutId() {
@@ -37,13 +46,13 @@ public class SplashActivity extends BaseActivity {
     }
 
     @Override
-    public BasePresenter createPresenter() {
-        return null;
+    public LoadingContract.Presenter createPresenter() {
+        return new LoadingPresenter(this);
     }
 
     @Override
-    public BaseView createView() {
-        return null;
+    public LoadingContract.View createView() {
+        return this;
     }
 
     @Override
@@ -59,7 +68,11 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
+        if ((SPUtil.get(SplashActivity.this, FIRST_APP, "") + "").equals("")) {
+            TreeMap<String, String> loadingMap = new TreeMap<>();
+            loadingMap.put("password", "F9A75BB045D75998E1509B75ED3A5225");
+            getPresenter().getLoading(loadingMap, false, false);
+        }
     }
 
     @Override
@@ -133,7 +146,7 @@ public class SplashActivity extends BaseActivity {
             public void onAnimationEnd(Animation animation) {
                 // 启动完毕
                 if ((SPUtil.get(SplashActivity.this, FIRST_APP, "") + "").equals("")) {
-                    startActivity(new Intent(SplashActivity.this, LoadingActivity.class));
+                    startActivity(new Intent(SplashActivity.this, LoadingActivity.class).putParcelableArrayListExtra("usertGuides", (ArrayList<? extends Parcelable>) guidePageListBean));
                     finish();
                 } else {
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
@@ -142,5 +155,23 @@ public class SplashActivity extends BaseActivity {
             }
         });
         mWelcomeLayout.startAnimation(anim);
+    }
+
+    @Override
+    public void resultLoading(LoadingBean data) {
+        if (data.getCode() == 200) {
+            if (data.getData().getGuidePageList().size() > 0) {
+                guidePageListBean.addAll(data.getData().getGuidePageList());
+            } else {
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+            }
+        } else
+            ToastUtil.showLongToast(data.getMsg());
+    }
+
+    @Override
+    public <T> ObservableTransformer<T, T> bindLifecycle() {
+        return this.bindToLifecycle();
     }
 }

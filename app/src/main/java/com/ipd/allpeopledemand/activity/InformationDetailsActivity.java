@@ -70,6 +70,7 @@ import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_90;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_LOCAL_URL;
 import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
+import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
 
 /**
  * Description ：资讯详情
@@ -275,74 +276,84 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_top_back:
-                setResult(RESULT_OK, new Intent().putExtra("refresh", 1));
-                finish();
+                if (isFastClick()) {
+                    setResult(RESULT_OK, new Intent().putExtra("refresh", 1));
+                    finish();
+                }
                 break;
             case R.id.riv_title:
-                PictureSelector.create(InformationDetailsActivity.this).themeStyle(R.style.picture_default_style).openExternalPreview(0, medias);
+                if (isFastClick())
+                    PictureSelector.create(InformationDetailsActivity.this).themeStyle(R.style.picture_default_style).openExternalPreview(0, medias);
                 break;
             case R.id.cb_collection:
-                //收藏
-                TreeMap<String, String> attentionCollectionMap = new TreeMap<>();
-                attentionCollectionMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-                attentionCollectionMap.put("releaseId", releaseId + "");
-                attentionCollectionMap.put("isFollow", cbCollection.isChecked() ? "2" : "1");
-                attentionCollectionMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(attentionCollectionMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-                getPresenter().getAttentionCollection(attentionCollectionMap, false, false);
+                if (isFastClick()) {
+                    //收藏
+                    TreeMap<String, String> attentionCollectionMap = new TreeMap<>();
+                    attentionCollectionMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+                    attentionCollectionMap.put("releaseId", releaseId + "");
+                    attentionCollectionMap.put("isFollow", cbCollection.isChecked() ? "2" : "1");
+                    attentionCollectionMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(attentionCollectionMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                    getPresenter().getAttentionCollection(attentionCollectionMap, false, false);
+                }
                 break;
             case R.id.bt_pay:
-                switch (IsPurchase) {
-                    case "1":
-                        new NotIntegralDialog(this) {
-                            @Override
-                            public void goPayIntrgral() {
-                                //积分不足跳积分规则
-                                startActivity(new Intent(getContext(), WebViewActivity.class).putExtra("h5Type", 1));
-                            }
-                        }.show();
-                        break;
-                    case "2":
-                        new BottomPayDialog(this, balance) {
-                            @Override
-                            public void goPay(int payType) {
-                                if (balance >= money) {
-                                    //余额直接支付
-                                    payType(3, releaseId);
-                                } else {
-                                    switch (payType) {
-                                        case 1://支付宝
-                                            payType(1, releaseId);
-                                            break;
-                                        case 2://微信
-                                            payType(2, releaseId);
-                                            break;
-                                        default:
-                                            ToastUtil.showShortToast("余额不足，请选择支付方式！");
-                                            break;
+                if (isFastClick()) {
+                    switch (IsPurchase) {
+                        case "1":
+                            new NotIntegralDialog(this) {
+                                @Override
+                                public void goPayIntrgral() {
+                                    //积分不足跳积分规则
+                                    startActivity(new Intent(getContext(), WebViewActivity.class).putExtra("h5Type", 1));
+                                }
+                            }.show();
+                            break;
+                        case "2":
+                            new BottomPayDialog(this, balance) {
+                                @Override
+                                public void goPay(int payType) {
+                                    if (balance >= money) {
+                                        //余额直接支付
+                                        payType(3, releaseId);
+                                    } else {
+                                        switch (payType) {
+                                            case 1://支付宝
+                                                payType(1, releaseId);
+                                                break;
+                                            case 2://微信
+                                                payType(2, releaseId);
+                                                break;
+                                            default:
+                                                ToastUtil.showShortToast("余额不足，请选择支付方式！");
+                                                break;
+                                        }
                                     }
                                 }
-                            }
-                        }.show();
-                        break;
-                    case "3":
-                        llNotPay.setVisibility(View.GONE);
-                        llPay.setVisibility(View.VISIBLE);
-                        break;
+                            }.show();
+                            break;
+                        case "3":
+                            llNotPay.setVisibility(View.GONE);
+                            llPay.setVisibility(View.VISIBLE);
+                            break;
+                    }
                 }
                 break;
             case R.id.bt_contact_msg:
-                rxPermissionTest(1);
+                if (isFastClick())
+                    rxPermissionCall(1);
                 break;
             case R.id.bt_contact_phone:
-                rxPermissionTest(2);
+                if (isFastClick())
+                    rxPermissionCall(2);
                 break;
             case R.id.bt_top_report:
-                showPickerView();
+                if (isFastClick())
+                    showPickerView();
                 break;
         }
     }
 
-    private void rxPermissionTest(int callType) {
+    private void rxPermissionCall(int callType) {
         RxPermissions rxPermissions = new RxPermissions(this);
         rxPermissions.request(SEND_SMS, CALL_PHONE).subscribe(new Consumer<Boolean>() {
             @Override

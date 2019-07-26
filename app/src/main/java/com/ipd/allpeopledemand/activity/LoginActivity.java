@@ -37,6 +37,7 @@ import static com.ipd.allpeopledemand.common.config.IConstants.PHONE;
 import static com.ipd.allpeopledemand.common.config.IConstants.SEX;
 import static com.ipd.allpeopledemand.common.config.IConstants.TOKEN;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
+import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
 
 /**
  * Description ：登录
@@ -107,24 +108,30 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_top_back:
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
+                if (isFastClick()) {
+                    startActivity(new Intent(this, MainActivity.class));
+                    finish();
+                }
                 break;
             case R.id.tv_forget_pwd:
-                startActivity(new Intent(this, ForgetPwdActivity.class));
+                if (isFastClick())
+                    startActivity(new Intent(this, ForgetPwdActivity.class));
                 break;
             case R.id.tv_register:
-                startActivity(new Intent(this, RegisterActivity.class));
+                if (isFastClick())
+                    startActivity(new Intent(this, RegisterActivity.class));
                 break;
             case R.id.rv_login:
-                if (etLoginCode.getText().toString().trim().length() > 0 && etPwdCode.getText().toString().trim().length() > 0) {
-                    TreeMap<String, String> loginMap = new TreeMap<>();
-                    loginMap.put("telPhone", etLoginCode.getText().toString().trim());
-                    loginMap.put("password", etPwdCode.getText().toString().trim());
-                    loginMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(loginMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-                    getPresenter().getLogin(loginMap, true, false);
-                } else
-                    ToastUtil.showShortToast("请填写号码！");
+                if (isFastClick()) {
+                    if (etLoginCode.getText().toString().trim().length() > 0 && etPwdCode.getText().toString().trim().length() > 0) {
+                        TreeMap<String, String> loginMap = new TreeMap<>();
+                        loginMap.put("telPhone", etLoginCode.getText().toString().trim());
+                        loginMap.put("password", etPwdCode.getText().toString().trim());
+                        loginMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(loginMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                        getPresenter().getLogin(loginMap, true, false);
+                    } else
+                        ToastUtil.showShortToast("请填写号码！");
+                }
                 break;
         }
     }

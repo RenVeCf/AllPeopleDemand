@@ -34,11 +34,14 @@ import com.ipd.allpeopledemand.base.BaseFragment;
 import com.ipd.allpeopledemand.bean.AttentionCollectionBean;
 import com.ipd.allpeopledemand.bean.CityAddressBean;
 import com.ipd.allpeopledemand.bean.ClassIficationBean;
+import com.ipd.allpeopledemand.bean.MainADImgBean;
 import com.ipd.allpeopledemand.bean.MainListBean;
+import com.ipd.allpeopledemand.common.view.MainADImgDialog;
 import com.ipd.allpeopledemand.common.view.NavitationFollowScrollLayoutText;
 import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.MainPagerContract;
 import com.ipd.allpeopledemand.presenter.MainPagerPresenter;
+import com.ipd.allpeopledemand.utils.L;
 import com.ipd.allpeopledemand.utils.LocationService;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -51,6 +54,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -60,6 +64,7 @@ import io.reactivex.functions.Consumer;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static com.ipd.allpeopledemand.common.config.IConstants.CITY;
+import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
 
 /**
  * Description ：首页-顶部滑动导航栏
@@ -182,7 +187,12 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
 
     @Override
     public void initData() {
+        TreeMap<String, String> mainADImgMap = new TreeMap<>();
+        mainADImgMap.put("password", "F9A75BB045D75998E1509B75ED3A5225");
+        getPresenter().getMainADImg(mainADImgMap, false, false);
+
         initJsonData();
+
         getPresenter().getMainPager(false, false);
     }
 
@@ -415,7 +425,7 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
         vpFragmentMain.setOffscreenPageLimit(titles.length);
 
         //设置导航条
-        nfslFragmentMain.setViewPager(getContext(), titles, vpFragmentMain, R.color.tx_bottom_navigation, R.color.black, 14, 14, 24, true, R.color.black, 0, 0, 0, 80);
+        nfslFragmentMain.setViewPager(getContext(), titles, vpFragmentMain, R.color.tx_bottom_navigation, R.color.black, 16, 16, 24, true, R.color.black, 0, 0, 0, 80);
         nfslFragmentMain.setBgLine(getContext(), 1, R.color.whitesmoke);
         nfslFragmentMain.setNavLine(getActivity(), 3, R.color.colorAccent);
 
@@ -445,6 +455,15 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
     @Override
     public void resultAttentionCollection(AttentionCollectionBean data) {
 
+    }
+
+    @Override
+    public void resultMainADImg(MainADImgBean data) {
+        if (data.getCode() == 200 && !isEmpty(data.getData().getUpadvert().getPicPath())) {
+            L.i("00000000000000");
+            new MainADImgDialog(getActivity(), data.getData().getUpadvert().getPicPath()) {
+            }.show();
+        }
     }
 
     @Override

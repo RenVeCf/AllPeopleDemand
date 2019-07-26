@@ -17,6 +17,8 @@ import com.ipd.allpeopledemand.bean.ClassRoomWechatPayBean;
 import com.ipd.allpeopledemand.bean.FeedBackBean;
 import com.ipd.allpeopledemand.bean.ForgetPwdBean;
 import com.ipd.allpeopledemand.bean.InformationBean;
+import com.ipd.allpeopledemand.bean.LoadingBean;
+import com.ipd.allpeopledemand.bean.MainADImgBean;
 import com.ipd.allpeopledemand.bean.MainAliPayBean;
 import com.ipd.allpeopledemand.bean.MainBalancePayBean;
 import com.ipd.allpeopledemand.bean.MainDetailsBean;
@@ -68,7 +70,9 @@ import static com.ipd.allpeopledemand.common.config.UrlConfig.CLASS_ROOM_WECHAT_
 import static com.ipd.allpeopledemand.common.config.UrlConfig.FEED_BACK;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.FORGET_PWD;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.INFORMATION;
+import static com.ipd.allpeopledemand.common.config.UrlConfig.LOADING_IMG;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.LOGIN;
+import static com.ipd.allpeopledemand.common.config.UrlConfig.MAIN_AD_IMG;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.MAIN_ALI_PAY;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.MAIN_BALANCE_PAY;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.MAIN_DETAILS;
@@ -303,4 +307,14 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(CHECK_VERSION)
     Observable<CheckVersionBean> getCheckVersion(@FieldMap Map<String, String> map);
+
+    //APP-首页图片
+    @FormUrlEncoded
+    @POST(MAIN_AD_IMG)
+    Observable<MainADImgBean> getMainADImg(@FieldMap Map<String, String> map);
+
+    //APP-引导页
+    @FormUrlEncoded
+    @POST(LOADING_IMG)
+    Observable<LoadingBean> getLoading(@FieldMap Map<String, String> map);
 }

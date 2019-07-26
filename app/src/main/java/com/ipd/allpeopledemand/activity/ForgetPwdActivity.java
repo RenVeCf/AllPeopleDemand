@@ -28,6 +28,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
 
+import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
+
 /**
  * Description ：忘记密码
  * Author ： rmy
@@ -99,24 +101,28 @@ public class ForgetPwdActivity extends BaseActivity<ForgetPwdContract.View, Forg
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt_captcha:
-                if (etLoginCode.getText().toString().trim().length() > 0) {
-                    TreeMap<String, String> smsMap = new TreeMap<>();
-                    smsMap.put("telPhone", etLoginCode.getText().toString().trim());
-                    smsMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(smsMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-                    getPresenter().getSms(smsMap, true, false);
-                } else
-                    ToastUtil.showShortToast("请填写号码!");
+                if (isFastClick()) {
+                    if (etLoginCode.getText().toString().trim().length() > 0) {
+                        TreeMap<String, String> smsMap = new TreeMap<>();
+                        smsMap.put("telPhone", etLoginCode.getText().toString().trim());
+                        smsMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(smsMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                        getPresenter().getSms(smsMap, true, false);
+                    } else
+                        ToastUtil.showShortToast("请填写号码!");
+                }
                 break;
             case R.id.rv_forget_pwd:
-                if (etLoginCode.getText().toString().trim().length() > 0 && etCaptcha.getText().toString().trim().length() > 0 && etPwdCode.getText().toString().trim().length() > 0) {
-                    TreeMap<String, String> forgetPwdMap = new TreeMap<>();
-                    forgetPwdMap.put("telPhone", etLoginCode.getText().toString().trim());
-                    forgetPwdMap.put("password", etPwdCode.getText().toString().trim());
-                    forgetPwdMap.put("smsCode", etCaptcha.getText().toString().trim());
-                    forgetPwdMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(forgetPwdMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-                    getPresenter().getForgetPwd(forgetPwdMap, true, false);
-                } else
-                    ToastUtil.showShortToast("请填写号码！");
+                if (isFastClick()) {
+                    if (etLoginCode.getText().toString().trim().length() > 0 && etCaptcha.getText().toString().trim().length() > 0 && etPwdCode.getText().toString().trim().length() > 0) {
+                        TreeMap<String, String> forgetPwdMap = new TreeMap<>();
+                        forgetPwdMap.put("telPhone", etLoginCode.getText().toString().trim());
+                        forgetPwdMap.put("password", etPwdCode.getText().toString().trim());
+                        forgetPwdMap.put("smsCode", etCaptcha.getText().toString().trim());
+                        forgetPwdMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(forgetPwdMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                        getPresenter().getForgetPwd(forgetPwdMap, true, false);
+                    } else
+                        ToastUtil.showShortToast("请填写号码！");
+                }
                 break;
         }
     }

@@ -40,6 +40,7 @@ import io.reactivex.ObservableTransformer;
 import static com.ipd.allpeopledemand.common.config.IConstants.IS_LOGIN;
 import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_98;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
+import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
 
 /**
  * Description ：我的关注
@@ -148,19 +149,21 @@ public class AttentionPagerFragment extends BaseFragment<AttentionListContract.V
                         attentionPagerAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                             @Override
                             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                                switch (adapter.getItemViewType(position)) {
-                                    case 1:
-                                        if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
-                                            startActivity(new Intent(getActivity(), LoginActivity.class));
-                                        else
-                                            startActivityForResult(new Intent(getContext(), InformationDetailsActivity.class).putExtra("releaseId", followListBean.get(position).getReleaseId()).putExtra("activityType", 3), REQUEST_CODE_98);
-                                        break;
-                                    case 2:
-                                        if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
-                                            startActivity(new Intent(getActivity(), LoginActivity.class));
-                                        else
-                                            startActivityForResult(new Intent(getActivity(), InformationDetailsActivity.class).putExtra("releaseId", followListBean.get(position).getReleaseId()).putExtra("activityType", 4), REQUEST_CODE_98);
-                                        break;
+                                if (isFastClick()) {
+                                    switch (adapter.getItemViewType(position)) {
+                                        case 1:
+                                            if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
+                                                startActivity(new Intent(getActivity(), LoginActivity.class));
+                                            else
+                                                startActivityForResult(new Intent(getContext(), InformationDetailsActivity.class).putExtra("releaseId", followListBean.get(position).getReleaseId()).putExtra("activityType", 3), REQUEST_CODE_98);
+                                            break;
+                                        case 2:
+                                            if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
+                                                startActivity(new Intent(getActivity(), LoginActivity.class));
+                                            else
+                                                startActivityForResult(new Intent(getActivity(), InformationDetailsActivity.class).putExtra("releaseId", followListBean.get(position).getReleaseId()).putExtra("activityType", 4), REQUEST_CODE_98);
+                                            break;
+                                    }
                                 }
                             }
                         });
@@ -168,17 +171,19 @@ public class AttentionPagerFragment extends BaseFragment<AttentionListContract.V
                         attentionPagerAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                             @Override
                             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                                switch (view.getId()) {
-                                    case R.id.cb_collection:
-                                        removePosition = position;
-                                        CheckBox checkBox = (CheckBox) view;
-                                        TreeMap<String, String> attentionCollectionMap = new TreeMap<>();
-                                        attentionCollectionMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
-                                        attentionCollectionMap.put("releaseId", followListBean.get(position).getReleaseId() + "");
-                                        attentionCollectionMap.put("isFollow", checkBox.isChecked() ? "2" : "1");
-                                        attentionCollectionMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(attentionCollectionMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-                                        getPresenter().getAttentionCollection(attentionCollectionMap, false, false);
-                                        break;
+                                if (isFastClick()) {
+                                    switch (view.getId()) {
+                                        case R.id.cb_collection:
+                                            removePosition = position;
+                                            CheckBox checkBox = (CheckBox) view;
+                                            TreeMap<String, String> attentionCollectionMap = new TreeMap<>();
+                                            attentionCollectionMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+                                            attentionCollectionMap.put("releaseId", followListBean.get(position).getReleaseId() + "");
+                                            attentionCollectionMap.put("isFollow", checkBox.isChecked() ? "2" : "1");
+                                            attentionCollectionMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(attentionCollectionMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                                            getPresenter().getAttentionCollection(attentionCollectionMap, false, false);
+                                            break;
+                                    }
                                 }
                             }
                         });

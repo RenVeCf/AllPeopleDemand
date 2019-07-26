@@ -66,6 +66,7 @@ import static com.ipd.allpeopledemand.common.config.IConstants.CITY;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_LOCAL_URL;
 import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
+import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
 
 /**
  * Description ：编辑我的发布
@@ -361,46 +362,53 @@ public class EditMyPushActivity extends BaseActivity<MyPushEditContract.View, My
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.stv_city:
-                rxPermissionTest();
+                if (isFastClick())
+                    rxPermissionTest();
                 break;
             case R.id.riv_modify:
-                PictureSelector.create(EditMyPushActivity.this)
-                        .openGallery(PictureMimeType.ofImage())
-                        .maxSelectNum(1)// 最大图片选择数量 int
-                        .isCamera(true)
-                        .compress(true)
-                        .minimumCompressSize(100)
-                        .forResult(PictureConfig.CHOOSE_REQUEST);
+                if (isFastClick()) {
+                    PictureSelector.create(EditMyPushActivity.this)
+                            .openGallery(PictureMimeType.ofImage())
+                            .maxSelectNum(1)// 最大图片选择数量 int
+                            .isCamera(true)
+                            .compress(true)
+                            .minimumCompressSize(100)
+                            .forResult(PictureConfig.CHOOSE_REQUEST);
+                }
                 break;
             case R.id.bt_modify_key:
-                if (!etModifyKey.getText().toString().trim().equals("")) {
-                    ftlKey.getAdapter().addTag(etModifyKey.getText().toString().trim());
-                    etModifyKey.setText("");
-                } else
-                    ToastUtil.showShortToast("请输入搜索关键词");
+                if (isFastClick()) {
+                    if (!etModifyKey.getText().toString().trim().equals("")) {
+                        ftlKey.getAdapter().addTag(etModifyKey.getText().toString().trim());
+                        etModifyKey.setText("");
+                    } else
+                        ToastUtil.showShortToast("请输入搜索关键词");
+                }
                 break;
             case R.id.rv_modify_push:
-                if (!isEmpty(stvTitle.getCenterEditValue()) && !"".equals(stvCity.getCenterString().trim()) && !isEmpty(etContent.getText().toString().trim())) {
-                    TreeMap<String, String> pushMap = new TreeMap<>();
-                    pushMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-                    pushMap.put("releaseId", releaseBean.getReleaseId() + "");
-                    pushMap.put("title", stvTitle.getCenterEditValue());
-                    pushMap.put("region", stvCity.getCenterString().trim());
-                    pushMap.put("picPath", uploadImg);
-                    pushMap.put("details", etContent.getText().toString().trim());
-                    StringBuilder str = new StringBuilder();
-                    for (int i = 0; i < tagAdapter.getCount(); i++) {
-                        if (i < tagAdapter.getCount() - 1 && tagAdapter.getCount() > 1) {
-                            str.append(tagAdapter.getItem(i) + ",");
-                        } else {
-                            str.append(tagAdapter.getItem(i));
+                if (isFastClick()) {
+                    if (!isEmpty(stvTitle.getCenterEditValue()) && !"".equals(stvCity.getCenterString().trim()) && !isEmpty(etContent.getText().toString().trim())) {
+                        TreeMap<String, String> pushMap = new TreeMap<>();
+                        pushMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+                        pushMap.put("releaseId", releaseBean.getReleaseId() + "");
+                        pushMap.put("title", stvTitle.getCenterEditValue());
+                        pushMap.put("region", stvCity.getCenterString().trim());
+                        pushMap.put("picPath", uploadImg);
+                        pushMap.put("details", etContent.getText().toString().trim());
+                        StringBuilder str = new StringBuilder();
+                        for (int i = 0; i < tagAdapter.getCount(); i++) {
+                            if (i < tagAdapter.getCount() - 1 && tagAdapter.getCount() > 1) {
+                                str.append(tagAdapter.getItem(i) + ",");
+                            } else {
+                                str.append(tagAdapter.getItem(i));
+                            }
                         }
-                    }
-                    pushMap.put("keyword", tagAdapter.getCount() > 0 ? str.toString() : "");
-                    pushMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(pushMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-                    getPresenter().getMyPushEdit(pushMap, true, false);
-                } else
-                    ToastUtil.showShortToast("请将信息填写完整");
+                        pushMap.put("keyword", tagAdapter.getCount() > 0 ? str.toString() : "");
+                        pushMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(pushMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                        getPresenter().getMyPushEdit(pushMap, true, false);
+                    } else
+                        ToastUtil.showShortToast("请将信息填写完整");
+                }
                 break;
         }
     }

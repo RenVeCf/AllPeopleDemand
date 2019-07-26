@@ -20,6 +20,8 @@ public interface UrlConfig {
     String LOGIN = "appUser/login/login"; //点击登陆
     String FORGET_PWD = "appUser/login/forgetPass"; //点击忘记密码
     String SMS = "appUser/util/getSms"; //获取短信
+    String MAIN_AD_IMG = "appUser/startPage/upadvert"; //APP-首页图片
+    String LOADING_IMG = "appUser/startPage/guidePage"; //APP-引导页
 
     /**
      * 首页

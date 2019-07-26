@@ -5,14 +5,17 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatImageView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.ipd.allpeopledemand.R;
+
+import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_LOCAL_URL;
 
 /**
  * Description ：自定义Dialog
@@ -20,27 +23,25 @@ import com.ipd.allpeopledemand.R;
  * Email ： 942685687@qq.com
  * Time ： 2019/6/24.
  */
-public abstract class NotIntegralDialog extends Dialog implements View.OnClickListener {
-    private TextView tvContent;
-    private Button btNotIntrgral;
-    private Activity activity;
+public abstract class MainADImgDialog extends Dialog {
 
-    public NotIntegralDialog(Activity activity) {
+    private AppCompatImageView acivMainAd;
+    private Activity activity;
+    private String imgUrl;
+
+    public MainADImgDialog(Activity activity, String imgUrl) {
         super(activity, R.style.MyDialogTheme);
         this.activity = activity;
+        this.imgUrl = imgUrl;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_class_room_not_integral);
+        setContentView(R.layout.dialog_main_ad_img);
 
-        tvContent = (TextView) findViewById(R.id.tv_content);
-        btNotIntrgral = (Button) findViewById(R.id.bt_not_intrgral);
-
-        tvContent.setText("您当前积分不够支付，签到、浏览、邀请好友可获得更多积分哦~");
-
-        btNotIntrgral.setOnClickListener(this);
+        acivMainAd = (AppCompatImageView) findViewById(R.id.aciv_main_ad);
+        Glide.with(activity).load(BASE_LOCAL_URL + imgUrl).apply(new RequestOptions()).into(acivMainAd);
 
         setViewLocation();
         setCanceledOnTouchOutside(true);//外部点击取消
@@ -61,17 +62,4 @@ public abstract class NotIntegralDialog extends Dialog implements View.OnClickLi
         // 设置显示位置
         onWindowAttributesChanged(lp);
     }
-
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.bt_not_intrgral:
-                goPayIntrgral();
-                this.cancel();
-                break;
-        }
-    }
-
-    public abstract void goPayIntrgral();
 }

@@ -29,6 +29,7 @@ import com.ipd.allpeopledemand.adapter.MainPagerAdapter;
 import com.ipd.allpeopledemand.base.BaseFragment;
 import com.ipd.allpeopledemand.bean.AttentionCollectionBean;
 import com.ipd.allpeopledemand.bean.ClassIficationBean;
+import com.ipd.allpeopledemand.bean.MainADImgBean;
 import com.ipd.allpeopledemand.bean.MainListBean;
 import com.ipd.allpeopledemand.contract.MainPagerContract;
 import com.ipd.allpeopledemand.presenter.MainPagerPresenter;
@@ -55,6 +56,7 @@ import static com.ipd.allpeopledemand.common.config.IConstants.IS_LOGIN;
 import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_97;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
+import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
 
 /**
  * Description ：首页
@@ -178,7 +180,7 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
         classRoomPagerMap.put("region", region);
         classRoomPagerMap.put("title", title);
         classRoomPagerMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(classRoomPagerMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-        getPresenter().getMainList(classRoomPagerMap, true, false);
+        getPresenter().getMainList(classRoomPagerMap, false, false);
     }
     /*private void sort(String orderByColumn, String isAsc, String pageNum) {
         TreeMap<String, String> classRoomPagerMap = new TreeMap<>();
@@ -295,19 +297,21 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
                     mainPagerAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                            switch (adapter.getItemViewType(position)) {
-                                case 1:
-                                    if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
-                                        startActivity(new Intent(getActivity(), LoginActivity.class));
-                                    else
-                                        startActivityForResult(new Intent(getActivity(), InformationDetailsActivity.class).putExtra("releaseId", releaseListBean.get(position).getReleaseId()).putExtra("activityType", 1), REQUEST_CODE_97);
-                                    break;
-                                case 2:
-                                    if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
-                                        startActivity(new Intent(getActivity(), LoginActivity.class));
-                                    else
-                                        startActivityForResult(new Intent(getActivity(), InformationDetailsActivity.class).putExtra("releaseId", releaseListBean.get(position).getReleaseId()).putExtra("activityType", 2), REQUEST_CODE_97);
-                                    break;
+                            if (isFastClick()) {
+                                switch (adapter.getItemViewType(position)) {
+                                    case 1:
+                                        if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
+                                            startActivity(new Intent(getActivity(), LoginActivity.class));
+                                        else
+                                            startActivityForResult(new Intent(getActivity(), InformationDetailsActivity.class).putExtra("releaseId", releaseListBean.get(position).getReleaseId()).putExtra("activityType", 1), REQUEST_CODE_97);
+                                        break;
+                                    case 2:
+                                        if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
+                                            startActivity(new Intent(getActivity(), LoginActivity.class));
+                                        else
+                                            startActivityForResult(new Intent(getActivity(), InformationDetailsActivity.class).putExtra("releaseId", releaseListBean.get(position).getReleaseId()).putExtra("activityType", 2), REQUEST_CODE_97);
+                                        break;
+                                }
                             }
                         }
                     });
@@ -315,26 +319,28 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
                     mainPagerAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                         @Override
                         public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                            switch (view.getId()) {
-                                case R.id.tv_label: //标签
-                                    TextView tv = (TextView) view;
-                                    Intent intent = new Intent("android.ipd.labelPosition");
-                                    intent.putExtra("label_name", tv.getText());
-                                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
-                                    break;
-                                case R.id.cb_collection: //收藏
-                                    if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
-                                        startActivity(new Intent(getActivity(), LoginActivity.class));
-                                    else {
-                                        CheckBox checkBox = (CheckBox) view;
-                                        TreeMap<String, String> attentionCollectionMap = new TreeMap<>();
-                                        attentionCollectionMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
-                                        attentionCollectionMap.put("releaseId", releaseListBean.get(position).getReleaseId() + "");
-                                        attentionCollectionMap.put("isFollow", checkBox.isChecked() ? "2" : "1");
-                                        attentionCollectionMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(attentionCollectionMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-                                        getPresenter().getAttentionCollection(attentionCollectionMap, true, false);
-                                    }
-                                    break;
+                            if (isFastClick()) {
+                                switch (view.getId()) {
+                                    case R.id.tv_label: //标签
+                                        TextView tv = (TextView) view;
+                                        Intent intent = new Intent("android.ipd.labelPosition");
+                                        intent.putExtra("label_name", tv.getText());
+                                        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+                                        break;
+                                    case R.id.cb_collection: //收藏
+                                        if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
+                                            startActivity(new Intent(getActivity(), LoginActivity.class));
+                                        else {
+                                            CheckBox checkBox = (CheckBox) view;
+                                            TreeMap<String, String> attentionCollectionMap = new TreeMap<>();
+                                            attentionCollectionMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+                                            attentionCollectionMap.put("releaseId", releaseListBean.get(position).getReleaseId() + "");
+                                            attentionCollectionMap.put("isFollow", checkBox.isChecked() ? "2" : "1");
+                                            attentionCollectionMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(attentionCollectionMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                                            getPresenter().getAttentionCollection(attentionCollectionMap, true, false);
+                                        }
+                                        break;
+                                }
                             }
                         }
                     });
@@ -394,6 +400,11 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
             startActivity(new Intent(getContext(), LoginActivity.class));
             getActivity().finish();
         }
+    }
+
+    @Override
+    public void resultMainADImg(MainADImgBean data) {
+
     }
 
     @Override

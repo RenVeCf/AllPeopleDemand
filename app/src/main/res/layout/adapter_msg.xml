@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="6dp"
     android:layout_marginTop="10dp"
+    android:layout_marginBottom="6dp"
     app:cardBackgroundColor="@color/xui_config_color_white"
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp"
@@ -12,7 +12,7 @@
     app:contentPaddingBottom="10dp"
     app:contentPaddingLeft="@dimen/x50"
     app:contentPaddingRight="@dimen/x50"
-    app:contentPaddingTop="5dp">
+    app:contentPaddingTop="@dimen/y50">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,13 +31,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="16sp"
                 android:textColor="@color/tx_bottom_navigation" />
         </LinearLayout>
 
@@ -53,6 +54,7 @@
                 android:id="@id/expandable_text"
                 style="@style/TextStyle.Content"
                 android:layout_width="match_parent"
+                android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:singleLine="false" />
 
