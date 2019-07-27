@@ -25,6 +25,7 @@ import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.activity.InformationDetailsActivity;
 import com.ipd.allpeopledemand.activity.LoginActivity;
 import com.ipd.allpeopledemand.activity.MainActivity;
+import com.ipd.allpeopledemand.activity.WebViewActivity;
 import com.ipd.allpeopledemand.adapter.MainPagerAdapter;
 import com.ipd.allpeopledemand.base.BaseFragment;
 import com.ipd.allpeopledemand.bean.AttentionCollectionBean;
@@ -34,6 +35,7 @@ import com.ipd.allpeopledemand.bean.MainListBean;
 import com.ipd.allpeopledemand.contract.MainPagerContract;
 import com.ipd.allpeopledemand.presenter.MainPagerPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
+import com.ipd.allpeopledemand.utils.L;
 import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.StringUtils;
@@ -172,7 +174,7 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
 
     private void sort(String releaseClassId, String orderByColumn, String isAsc, String pageNum, String region, String title) {
         TreeMap<String, String> classRoomPagerMap = new TreeMap<>();
-        classRoomPagerMap.put("userId", "".equals(SPUtil.get(getContext(), USER_ID, "") + "") ? "0" : SPUtil.get(getContext(), USER_ID, "") + "");
+        classRoomPagerMap.put("userId", isEmpty(SPUtil.get(getContext(), USER_ID, "") + "") ? "0" : SPUtil.get(getContext(), USER_ID, "") + "");
         classRoomPagerMap.put("releaseClassId", isEmpty(releaseClassId) ? this.releaseClassId : releaseClassId);
         classRoomPagerMap.put("orderByColumn", orderByColumn);
         classRoomPagerMap.put("isAsc", isAsc);
@@ -298,8 +300,16 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
                                     case 2:
                                         if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
                                             startActivity(new Intent(getActivity(), LoginActivity.class));
-                                        else
-                                            startActivityForResult(new Intent(getActivity(), InformationDetailsActivity.class).putExtra("releaseId", releaseListBean.get(position).getReleaseId()).putExtra("activityType", 2), REQUEST_CODE_97);
+                                        else {
+                                            switch (releaseListBean.get(position).getDetailType()) {
+                                                case "1":
+                                                    startActivity(new Intent(getContext(), WebViewActivity.class).putExtra("h5Type", 4).putExtra("h5_url", releaseListBean.get(position).getDetailUrl()));
+                                                    break;
+                                                case "2":
+                                                    startActivityForResult(new Intent(getActivity(), InformationDetailsActivity.class).putExtra("releaseId", releaseListBean.get(position).getReleaseId()).putExtra("activityType", 2), REQUEST_CODE_97);
+                                                    break;
+                                            }
+                                        }
                                         break;
                                 }
                             }

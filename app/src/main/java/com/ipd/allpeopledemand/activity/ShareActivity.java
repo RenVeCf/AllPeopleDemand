@@ -174,7 +174,7 @@ public class ShareActivity extends BaseActivity<ShareContract.View, ShareContrac
     public void resultShare(ShareBean data) {
         switch (data.getCode()) {
             case 200:
-                shareUrl = "";//TODO 后台没好
+                shareUrl = data.getData().getShareUrl() + "?" + "invitationCode=" + data.getData().getUser().getInvitationCode();
                 tvAverageShareNum.setText("推荐邀请好友平均值: " + data.getData().getInvAverage());
                 Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + data.getData().getUser().getAvatar()).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into(stvTitle.getLeftIconIV());
                 stvTitle.setLeftString(data.getData().getUser().getUserCall());

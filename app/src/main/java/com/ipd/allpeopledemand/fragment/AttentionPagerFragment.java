@@ -17,6 +17,7 @@ import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.activity.InformationDetailsActivity;
 import com.ipd.allpeopledemand.activity.LoginActivity;
 import com.ipd.allpeopledemand.activity.MainActivity;
+import com.ipd.allpeopledemand.activity.WebViewActivity;
 import com.ipd.allpeopledemand.adapter.AttentionPagerAdapter;
 import com.ipd.allpeopledemand.base.BaseFragment;
 import com.ipd.allpeopledemand.bean.AttentionCollectionBean;
@@ -38,6 +39,7 @@ import butterknife.BindView;
 import io.reactivex.ObservableTransformer;
 
 import static com.ipd.allpeopledemand.common.config.IConstants.IS_LOGIN;
+import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_97;
 import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_98;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
@@ -150,18 +152,33 @@ public class AttentionPagerFragment extends BaseFragment<AttentionListContract.V
                             @Override
                             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                 if (isFastClick()) {
-                                    switch (adapter.getItemViewType(position)) {
-                                        case 1:
-                                            if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
-                                                startActivity(new Intent(getActivity(), LoginActivity.class));
-                                            else
-                                                startActivityForResult(new Intent(getContext(), InformationDetailsActivity.class).putExtra("releaseId", followListBean.get(position).getReleaseId()).putExtra("activityType", 3), REQUEST_CODE_98);
+                                    switch (followListBean.get(position).getStatus()) {
+                                        case "1":
+                                            switch (adapter.getItemViewType(position)) {
+                                                case 1:
+                                                    if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
+                                                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                                                    else
+                                                        startActivityForResult(new Intent(getContext(), InformationDetailsActivity.class).putExtra("releaseId", followListBean.get(position).getReleaseId()).putExtra("activityType", 3), REQUEST_CODE_98);
+                                                    break;
+                                                case 2:
+                                                    if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
+                                                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                                                    else {//FIXME
+//                                                        switch (releaseListBean.get(position).getDetailType()) {
+//                                                            case "1":
+//                                                                startActivity(new Intent(getContext(), WebViewActivity.class).putExtra("h5Type", 4).putExtra("h5_url", releaseListBean.get(position).getDetailUrl()));
+//                                                                break;
+//                                                            case "2":
+//                                                                startActivityForResult(new Intent(getActivity(), InformationDetailsActivity.class).putExtra("releaseId", followListBean.get(position).getReleaseId()).putExtra("activityType", 4), REQUEST_CODE_98);
+//                                                                break;
+//                                                        }
+                                                    }
+                                                    break;
+                                            }
                                             break;
-                                        case 2:
-                                            if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
-                                                startActivity(new Intent(getActivity(), LoginActivity.class));
-                                            else
-                                                startActivityForResult(new Intent(getActivity(), InformationDetailsActivity.class).putExtra("releaseId", followListBean.get(position).getReleaseId()).putExtra("activityType", 4), REQUEST_CODE_98);
+                                        case "2":
+                                            ToastUtil.showLongToast("该需求已下架！");
                                             break;
                                     }
                                 }

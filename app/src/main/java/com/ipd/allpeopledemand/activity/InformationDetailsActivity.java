@@ -1,12 +1,21 @@
 package com.ipd.allpeopledemand.activity;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.net.http.SslError;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -99,6 +108,8 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
     TextView tvReadNum;
     @BindView(R.id.cb_collection)
     CheckBox cbCollection;
+    @BindView(R.id.wv_content)
+    WebView wvContent;
     @BindView(R.id.tv_content)
     TextView tvContent;
     @BindView(R.id.tv_pay_fee)
@@ -153,12 +164,26 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
         activityType = getIntent().getIntExtra("activityType", 0);
         releaseId = getIntent().getIntExtra("releaseId", 0);
         orderId = getIntent().getIntExtra("orderId", 0);
+
+        WebSettings settings = wvContent.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
+        wvContent.setWebViewClient(new ClassRoomDetailsActivity.MyWebViewClient(this));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
+        } else {
+            settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
+        }
     }
 
     @Override
     public void initData() {
         switch (activityType) {
             case 1:
+                tvContent.setVisibility(View.VISIBLE);
+                wvContent.setVisibility(View.GONE);
                 TreeMap<String, String> mainDetailsMap = new TreeMap<>();
                 mainDetailsMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                 mainDetailsMap.put("releaseId", releaseId + "");
@@ -167,6 +192,8 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 break;
             case 2:
                 rlBottom.setVisibility(View.GONE);
+                tvContent.setVisibility(View.GONE);
+                wvContent.setVisibility(View.VISIBLE);
                 TreeMap<String, String> mainDetailsADMap = new TreeMap<>();
                 mainDetailsADMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                 mainDetailsADMap.put("releaseId", releaseId + "");
@@ -174,6 +201,8 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 getPresenter().getMainDetails(mainDetailsADMap, true, false);
                 break;
             case 3:
+                tvContent.setVisibility(View.VISIBLE);
+                wvContent.setVisibility(View.GONE);
                 TreeMap<String, String> attentionDetailsMap = new TreeMap<>();
                 attentionDetailsMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                 attentionDetailsMap.put("releaseId", releaseId + "");
@@ -182,6 +211,8 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 break;
             case 4:
                 rlBottom.setVisibility(View.GONE);
+                tvContent.setVisibility(View.GONE);
+                wvContent.setVisibility(View.VISIBLE);
                 TreeMap<String, String> attentionDetailsADMap = new TreeMap<>();
                 attentionDetailsADMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                 attentionDetailsADMap.put("releaseId", releaseId + "");
@@ -189,6 +220,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 getPresenter().getAttentionDetails(attentionDetailsADMap, true, false);
                 break;
             case 5:
+                wvContent.setVisibility(View.GONE);
                 llNotPay.setVisibility(View.GONE);
                 llPay.setVisibility(View.VISIBLE);
 
@@ -430,6 +462,48 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
         }
     }
 
+    private String getHtmlData(String bodyHTML) {
+        String head = "<head>" +
+                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\"> " +
+                "<style>html{padding:15px;} body{word-wrap:break-word;font-size:13px;padding:0px;margin:0px} p{padding:0px;margin:0px;font-size:13px;color:#222222;line-height:1.3;} img{padding:0px,margin:0px;max-width:100%; width:auto; height:auto;}</style>" +
+                "</head>";
+        return "<html>" + head + "<body>" + bodyHTML + "</body></html>";
+    }
+
+    static class MyWebViewClient extends WebViewClient {
+        private Dialog dialog;
+        private Activity activity;
+
+        public MyWebViewClient(Activity activity) {
+            dialog = new Dialog(activity);
+            this.activity = activity;
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            if (!activity.isFinishing()) dialog.show();
+        }
+
+        @Override
+        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+            handler.proceed();
+            super.onReceivedSslError(view, handler, error);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            if (!activity.isFinishing()) dialog.dismiss();
+        }
+    }
+
     @Override
     public void resultMainDetails(MainDetailsBean data) {
         switch (data.getCode()) {
@@ -468,7 +542,14 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 tvTime.setText(FormatCurrentData.getTimeRange(data.getData().getRelease().getReleaseTime()));
                 tvReadNum.setText(data.getData().getRelease().getBrowseNum() + "");
                 cbCollection.setChecked("1".equals(data.getData().getRelease().getIsFollow()) ? false : true);
-                tvContent.setText(data.getData().getRelease().getDetails());
+                switch (activityType) {
+                    case 1:
+                        tvContent.setText(data.getData().getRelease().getDetails());
+                        break;
+                    case 2:
+                        wvContent.loadData(getHtmlData(data.getData().getRelease().getDetails()), "text/html;charset=utf-8", "utf-8");
+                        break;
+                }
 
                 tvContactName.setText("联系人: " + data.getData().getRelease().getContacts());
                 tvContactPhone.setText("电话号码: " + data.getData().getRelease().getContactNumber());
@@ -522,7 +603,14 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 tvTime.setText(FormatCurrentData.getTimeRange(data.getData().getRelease().getReleaseTime()));
                 tvReadNum.setText(data.getData().getRelease().getBrowseNum() + "");
                 cbCollection.setChecked("1".equals(data.getData().getRelease().getIsFollow()) ? false : true);
-                tvContent.setText(data.getData().getRelease().getDetails());
+                switch (activityType) {
+                    case 3:
+                        tvContent.setText(data.getData().getRelease().getDetails());
+                        break;
+                    case 4:
+                        wvContent.loadData(getHtmlData(data.getData().getRelease().getDetails()), "text/html;charset=utf-8", "utf-8");
+                        break;
+                }
 
                 tvContactName.setText("联系人: " + data.getData().getRelease().getContacts());
                 tvContactPhone.setText("电话号码: " + data.getData().getRelease().getContactNumber());

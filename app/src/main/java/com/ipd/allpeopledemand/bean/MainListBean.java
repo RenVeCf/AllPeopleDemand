@@ -235,6 +235,8 @@ public class MainListBean {
              * balance : null
              * className : null
              * followId : null
+             * detailType : null
+             * detailUrl : null
              */
 
             private Object searchValue;
@@ -266,7 +268,25 @@ public class MainListBean {
             private Object balance;
             private String className;
             private Object followId;
+            private String detailType;
+            private String detailUrl;
             private int itemType;
+
+            public String getDetailType() {
+                return detailType;
+            }
+
+            public void setDetailType(String detailType) {
+                this.detailType = detailType;
+            }
+
+            public String getDetailUrl() {
+                return detailUrl;
+            }
+
+            public void setDetailUrl(String detailUrl) {
+                this.detailUrl = detailUrl;
+            }
 
             public void setItemType(int itemType) {
                 this.itemType = itemType;

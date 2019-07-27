@@ -130,7 +130,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/y50"
                 android:layout_marginBottom="@dimen/y200"
                 android:background="@color/white"
@@ -147,6 +147,13 @@
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold" />
+
+                <WebView
+                    android:id="@+id/wv_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/y50"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/tv_content"

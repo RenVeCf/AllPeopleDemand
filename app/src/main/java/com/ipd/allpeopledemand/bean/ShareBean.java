@@ -4,7 +4,7 @@ public class ShareBean {
     /**
      * msg : 操作成功
      * code : 200
-     * data : {"shareUrl":"地址现在没有","invAverage":23,"user":{"searchValue":null,"createBy":null,"createTime":"2019-07-17 15:59:12","updateBy":null,"updateTime":null,"remark":null,"params":{},"userId":16,"avatar":"upload/2019/07/17/01bcdc336e1ffef61e83978b258d806b.jpeg","telPhone":"18502994087","password":"74e4e50701161c4d481d41ca837f1864","userCall":"全民433","parentId":null,"balance":100,"nationalNum":"20190717423","sex":"0","age":0,"maritalStatus":"0","userType":"1","integral":0,"twoCode":"upload/QRCode/20190717423.png"}}
+     * data : {"shareUrl":"http://47.93.126.235:8080/rentCar/shareRegister.html","invAverage":0,"user":{"searchValue":null,"createBy":null,"createTime":"2019-07-24 14:18:48","updateBy":null,"updateTime":null,"remark":null,"params":{},"userId":4,"avatar":"upload/2019/07/24/c1cf7757d0e93683856a29458f0b73ca.jpeg","telPhone":"18502994087","password":"8cd53fc68f2dfba49e3c7871fac0443a","userCall":"ooooo","parentId":0,"balance":80,"nationalNum":"20190724522","sex":"1","age":3,"maritalStatus":"1","userType":"1","integral":74,"twoCode":"upload/QRCode/20190724522.png","invitationCode":"ao44dkem"}}
      */
 
     private String msg;
@@ -37,9 +37,9 @@ public class ShareBean {
 
     public static class DataBean {
         /**
-         * shareUrl : 地址现在没有
-         * invAverage : 23
-         * user : {"searchValue":null,"createBy":null,"createTime":"2019-07-17 15:59:12","updateBy":null,"updateTime":null,"remark":null,"params":{},"userId":16,"avatar":"upload/2019/07/17/01bcdc336e1ffef61e83978b258d806b.jpeg","telPhone":"18502994087","password":"74e4e50701161c4d481d41ca837f1864","userCall":"全民433","parentId":null,"balance":100,"nationalNum":"20190717423","sex":"0","age":0,"maritalStatus":"0","userType":"1","integral":0,"twoCode":"upload/QRCode/20190717423.png"}
+         * shareUrl : http://47.93.126.235:8080/rentCar/shareRegister.html
+         * invAverage : 0
+         * user : {"searchValue":null,"createBy":null,"createTime":"2019-07-24 14:18:48","updateBy":null,"updateTime":null,"remark":null,"params":{},"userId":4,"avatar":"upload/2019/07/24/c1cf7757d0e93683856a29458f0b73ca.jpeg","telPhone":"18502994087","password":"8cd53fc68f2dfba49e3c7871fac0443a","userCall":"ooooo","parentId":0,"balance":80,"nationalNum":"20190724522","sex":"1","age":3,"maritalStatus":"1","userType":"1","integral":74,"twoCode":"upload/QRCode/20190724522.png","invitationCode":"ao44dkem"}
          */
 
         private String shareUrl;
@@ -74,25 +74,26 @@ public class ShareBean {
             /**
              * searchValue : null
              * createBy : null
-             * createTime : 2019-07-17 15:59:12
+             * createTime : 2019-07-24 14:18:48
              * updateBy : null
              * updateTime : null
              * remark : null
              * params : {}
-             * userId : 16
-             * avatar : upload/2019/07/17/01bcdc336e1ffef61e83978b258d806b.jpeg
+             * userId : 4
+             * avatar : upload/2019/07/24/c1cf7757d0e93683856a29458f0b73ca.jpeg
              * telPhone : 18502994087
-             * password : 74e4e50701161c4d481d41ca837f1864
-             * userCall : 全民433
-             * parentId : null
-             * balance : 100.0
-             * nationalNum : 20190717423
-             * sex : 0
-             * age : 0
-             * maritalStatus : 0
+             * password : 8cd53fc68f2dfba49e3c7871fac0443a
+             * userCall : ooooo
+             * parentId : 0
+             * balance : 80.0
+             * nationalNum : 20190724522
+             * sex : 1
+             * age : 3
+             * maritalStatus : 1
              * userType : 1
-             * integral : 0
-             * twoCode : upload/QRCode/20190717423.png
+             * integral : 74
+             * twoCode : upload/QRCode/20190724522.png
+             * invitationCode : ao44dkem
              */
 
             private Object searchValue;
@@ -107,7 +108,7 @@ public class ShareBean {
             private String telPhone;
             private String password;
             private String userCall;
-            private Object parentId;
+            private int parentId;
             private double balance;
             private String nationalNum;
             private String sex;
@@ -116,6 +117,7 @@ public class ShareBean {
             private String userType;
             private int integral;
             private String twoCode;
+            private String invitationCode;
 
             public Object getSearchValue() {
                 return searchValue;
@@ -213,11 +215,11 @@ public class ShareBean {
                 this.userCall = userCall;
             }
 
-            public Object getParentId() {
+            public int getParentId() {
                 return parentId;
             }
 
-            public void setParentId(Object parentId) {
+            public void setParentId(int parentId) {
                 this.parentId = parentId;
             }
 
@@ -283,6 +285,14 @@ public class ShareBean {
 
             public void setTwoCode(String twoCode) {
                 this.twoCode = twoCode;
+            }
+
+            public String getInvitationCode() {
+                return invitationCode;
+            }
+
+            public void setInvitationCode(String invitationCode) {
+                this.invitationCode = invitationCode;
             }
 
             public static class ParamsBean {

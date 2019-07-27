@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.google.gson.Gson;
@@ -44,6 +46,7 @@ import com.ipd.allpeopledemand.contract.MainPagerContract;
 import com.ipd.allpeopledemand.presenter.MainPagerPresenter;
 import com.ipd.allpeopledemand.utils.LocationService;
 import com.ipd.allpeopledemand.utils.SPUtil;
+import com.ipd.allpeopledemand.utils.ToastUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
@@ -65,6 +68,7 @@ import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static com.ipd.allpeopledemand.common.config.IConstants.CITY;
 import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
+import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
 
 /**
  * Description ：首页-顶部滑动导航栏
@@ -99,6 +103,7 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
     private ArrayList<CityAddressBean> options1Items = new ArrayList<>();
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
+    private BDAbstractLocationListener myListener;
 
     @Override
     public int getLayoutId() {
@@ -139,6 +144,9 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
     public void onHiddenChanged(boolean hidden) {
         if (!hidden) {
             ImmersionBar.with(this).statusBarDarkFont(true).init();
+
+            if (!isEmpty(SPUtil.get(getContext(), CITY, "") + ""))
+                tvTopCity.setText(SPUtil.get(getContext(), CITY, "") + "");
         }
     }
 
@@ -148,7 +156,7 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
         ImmersionBar.with(this).statusBarDarkFont(true).init();
         ImmersionBar.setTitleBar(getActivity(), tvMain);
 
-        if (!"".equals(SPUtil.get(getContext(), CITY, "") + ""))
+        if (!isEmpty(SPUtil.get(getContext(), CITY, "") + ""))
             tvTopCity.setText(SPUtil.get(getContext(), CITY, "") + "");
         rxPermissionTest(1);
 
@@ -212,18 +220,22 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
                     switch (locationType) {
                         case 1:
                             //开始定位
-                            BDAbstractLocationListener myListener = new BDAbstractLocationListener() {
+                            myListener = new BDAbstractLocationListener() {
                                 @Override
                                 public void onReceiveLocation(BDLocation bdLocation) {
-                                    tvTopCity.setText(bdLocation.getCity());
-                                    SPUtil.put(getContext(), CITY, bdLocation.getCity());
+                                    if (!isEmpty(bdLocation.getCity())) {
+                                        tvTopCity.setText(bdLocation.getCity());
+                                        SPUtil.put(getContext(), CITY, bdLocation.getCity());
+                                    } else
+                                        ToastUtil.showLongToast("定位失败!");
                                     LocationService.get().unregisterListener(this);
+
+                                    LocationService.stop(myListener);
                                 }
                             };
                             LocationService.start(myListener);
                             break;
                         case 2:
-                            // 定位
                             pickCity();
                             break;
                     }
@@ -279,15 +291,63 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
                 String city = //options1Items.get(options1).getPickerViewText() +
                         options2Items.get(options1).get(options2);// +
 //                        options3Items.get(options1).get(options2).get(options3);
-                tvTopCity.setText(city);
-                SPUtil.put(getContext(), CITY, city);
+                if (!isEmpty(city)) {
+                    tvTopCity.setText(city);
+                    SPUtil.put(getContext(), CITY, city);
 
-                Intent intent = new Intent("android.ipd.main_location");
-                intent.putExtra("releaseClassId", selectMainPosition == 0 ? "0" : classListBean.get(selectMainPosition - 1).getReleaseClassId() + "");
-                intent.putExtra("region", city);
-                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+                    Intent intent = new Intent("android.ipd.main_location");
+                    intent.putExtra("releaseClassId", selectMainPosition == 0 ? "0" : classListBean.get(selectMainPosition - 1).getReleaseClassId() + "");
+                    intent.putExtra("region", city);
+                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+                }
             }
         })
+                .setLayoutRes(R.layout.pickerview_custom_city, new CustomListener() {
+                    @Override
+                    public void customLayout(View v) {
+                        final TextView tvLocation = (TextView) v.findViewById(R.id.tv_location);
+                        tvLocation.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (isFastClick()) {
+                                    rxPermissionTest(1);
+
+                                    Intent intent = new Intent("android.ipd.main_location");
+                                    intent.putExtra("releaseClassId", selectMainPosition == 0 ? "0" : classListBean.get(selectMainPosition - 1).getReleaseClassId() + "");
+                                    intent.putExtra("region", tvTopCity.getText().toString());
+                                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+                                    pvOptions.dismiss();
+                                }
+                            }
+                        });
+                        final TextView tvAllCity = (TextView) v.findViewById(R.id.tv_all_city);
+                        tvAllCity.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (isFastClick()) {
+                                    tvTopCity.setText("全国");
+                                    SPUtil.put(getContext(), CITY, "全国");
+
+                                    Intent intent = new Intent("android.ipd.main_location");
+                                    intent.putExtra("releaseClassId", selectMainPosition == 0 ? "0" : classListBean.get(selectMainPosition - 1).getReleaseClassId() + "");
+                                    intent.putExtra("region", "");
+                                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+                                    pvOptions.dismiss();
+                                }
+                            }
+                        });
+                        final Button tvSubmit = (Button) v.findViewById(R.id.bt_pickview_confirm);
+                        tvSubmit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (isFastClick()) {
+                                    pvOptions.returnData();
+                                    pvOptions.dismiss();
+                                }
+                            }
+                        });
+                    }
+                })
                 .setTitleText("")
                 .setCancelText(getResources().getString(R.string.cancel))
                 .setSubmitText(getResources().getString(R.string.sure))

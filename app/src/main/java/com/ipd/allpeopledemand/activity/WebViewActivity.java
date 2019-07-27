@@ -90,6 +90,9 @@ public class WebViewActivity extends BaseActivity {
             case 3: //用户注册协议
                 h5Url = BASE_LOCAL_URL + "H5/document/userNotice.html";
                 break;
+            case 4: //首页详情跳转的外链
+                h5Url = getIntent().getStringExtra("h5_url");
+                break;
         }
         WebSettings webSettings = wvContent.getSettings();
         webSettings.setJavaScriptEnabled(true);
