@@ -99,7 +99,6 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
     //    private List<HotCity> mHotCities; //热门城市
 //    private OnBDLocationListener mListener = new OnBDLocationListener();
     private List<ClassIficationBean.DataBean.ClassListBean> classListBean = new ArrayList<>();
-    private int selectMainPosition = 0;//搜索时传的releaseClassId的position
     private ArrayList<CityAddressBean> options1Items = new ArrayList<>();
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
@@ -181,11 +180,22 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
                     // 隐藏软键盘
                     imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(), 0);
 
-                    Intent intent = new Intent("android.ipd.main_search");
-                    intent.putExtra("releaseClassId", selectMainPosition == 0 ? "0" : classListBean.get(selectMainPosition - 1).getReleaseClassId() + "");
-                    intent.putExtra("title", etTopSearch.getText().toString().trim());
-                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
-                    etTopSearch.setText("");
+                    vpFragmentMain.removeAllViewsInLayout();
+                    viewPagerAdapter.notifyDataSetChanged();
+                    //向集合添加Fragment
+                    fragments.clear();
+                    for (int i = 0; i < titles.length; i++) {
+                        fm = new MainPagerFragment();
+                        Bundle args = new Bundle();
+                        args.putString("releaseClassId", i == 0 ? "0" : classListBean.get(i - 1).getReleaseClassId() + "");
+                        args.putString("region", "全国".equals(tvTopCity.getText().toString().trim()) ? "" : tvTopCity.getText().toString().trim());
+                        args.putString("title", etTopSearch.getText().toString().trim());
+                        fm.setArguments(args);
+                        fragments.add(fm);
+                    }
+
+                    vpFragmentMain.setAdapter(viewPagerAdapter);
+                    vpFragmentMain.setOffscreenPageLimit(titles.length);
                     return true;
                 }
                 return false;
@@ -295,10 +305,22 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
                     tvTopCity.setText(city);
                     SPUtil.put(getContext(), CITY, city);
 
-                    Intent intent = new Intent("android.ipd.main_location");
-                    intent.putExtra("releaseClassId", selectMainPosition == 0 ? "0" : classListBean.get(selectMainPosition - 1).getReleaseClassId() + "");
-                    intent.putExtra("region", city);
-                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+                    vpFragmentMain.removeAllViewsInLayout();
+                    viewPagerAdapter.notifyDataSetChanged();
+                    //向集合添加Fragment
+                    fragments.clear();
+                    for (int i = 0; i < titles.length; i++) {
+                        fm = new MainPagerFragment();
+                        Bundle args = new Bundle();
+                        args.putString("releaseClassId", i == 0 ? "0" : classListBean.get(i - 1).getReleaseClassId() + "");
+                        args.putString("region", city);
+                        args.putString("title", etTopSearch.getText().toString().trim());
+                        fm.setArguments(args);
+                        fragments.add(fm);
+                    }
+
+                    vpFragmentMain.setAdapter(viewPagerAdapter);
+                    vpFragmentMain.setOffscreenPageLimit(titles.length);
                 }
             }
         })
@@ -312,10 +334,23 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
                                 if (isFastClick()) {
                                     rxPermissionTest(1);
 
-                                    Intent intent = new Intent("android.ipd.main_location");
-                                    intent.putExtra("releaseClassId", selectMainPosition == 0 ? "0" : classListBean.get(selectMainPosition - 1).getReleaseClassId() + "");
-                                    intent.putExtra("region", tvTopCity.getText().toString());
-                                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+                                    vpFragmentMain.removeAllViewsInLayout();
+                                    viewPagerAdapter.notifyDataSetChanged();
+                                    //向集合添加Fragment
+                                    fragments.clear();
+                                    for (int i = 0; i < titles.length; i++) {
+                                        fm = new MainPagerFragment();
+                                        Bundle args = new Bundle();
+                                        args.putString("releaseClassId", i == 0 ? "0" : classListBean.get(i - 1).getReleaseClassId() + "");
+                                        args.putString("region", tvTopCity.getText().toString().trim());
+                                        args.putString("title", etTopSearch.getText().toString().trim());
+                                        fm.setArguments(args);
+                                        fragments.add(fm);
+                                    }
+
+                                    vpFragmentMain.setAdapter(viewPagerAdapter);
+                                    vpFragmentMain.setOffscreenPageLimit(titles.length);
+
                                     pvOptions.dismiss();
                                 }
                             }
@@ -328,10 +363,23 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
                                     tvTopCity.setText("全国");
                                     SPUtil.put(getContext(), CITY, "全国");
 
-                                    Intent intent = new Intent("android.ipd.main_location");
-                                    intent.putExtra("releaseClassId", selectMainPosition == 0 ? "0" : classListBean.get(selectMainPosition - 1).getReleaseClassId() + "");
-                                    intent.putExtra("region", "");
-                                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+                                    vpFragmentMain.removeAllViewsInLayout();
+                                    viewPagerAdapter.notifyDataSetChanged();
+                                    //向集合添加Fragment
+                                    fragments.clear();
+                                    for (int i = 0; i < titles.length; i++) {
+                                        fm = new MainPagerFragment();
+                                        Bundle args = new Bundle();
+                                        args.putString("releaseClassId", i == 0 ? "0" : classListBean.get(i - 1).getReleaseClassId() + "");
+                                        args.putString("region", "");
+                                        args.putString("title", etTopSearch.getText().toString().trim());
+                                        fm.setArguments(args);
+                                        fragments.add(fm);
+                                    }
+
+                                    vpFragmentMain.setAdapter(viewPagerAdapter);
+                                    vpFragmentMain.setOffscreenPageLimit(titles.length);
+
                                     pvOptions.dismiss();
                                 }
                             }
@@ -483,6 +531,8 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
             fm = new MainPagerFragment();
             Bundle args = new Bundle();
             args.putString("releaseClassId", i == 0 ? "0" : classListBean.get(i - 1).getReleaseClassId() + "");
+            args.putString("region", tvTopCity.getText().toString().trim());
+            args.putString("title", etTopSearch.getText().toString().trim());
             fm.setArguments(args);
             fragments.add(fm);
         }
@@ -494,23 +544,6 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
         nfslFragmentMain.setViewPager(getContext(), titles, vpFragmentMain, R.color.tx_bottom_navigation, R.color.black, 16, 16, 24, true, R.color.black, 0, 0, 0, 80);
         nfslFragmentMain.setBgLine(getContext(), 1, R.color.whitesmoke);
         nfslFragmentMain.setNavLine(getActivity(), 3, R.color.colorAccent);
-
-        nfslFragmentMain.setOnNaPageChangeListener(new NavitationFollowScrollLayoutText.OnNaPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                selectMainPosition = position;
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
 
     @Override

@@ -38,6 +38,7 @@ import com.ipd.allpeopledemand.common.view.NotIntegralDialog;
 import com.ipd.allpeopledemand.contract.ClassRoomPagerContract;
 import com.ipd.allpeopledemand.presenter.ClassRoomPagerPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
+import com.ipd.allpeopledemand.utils.L;
 import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.StringUtils;
@@ -105,22 +106,6 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
         return this;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("android.ipd.class_room_search");
-        BroadcastReceiver mItemViewListClickReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                title = intent.getStringExtra("title");
-                sort(intent.getStringExtra("roomClassId"), "", "", "1", intent.getStringExtra("title"));
-            }
-        };
-        broadcastManager.registerReceiver(mItemViewListClickReceiver, intentFilter);
-    }
-
     @SuppressLint("WrongConstant")
     @Override
     public void init(View view) {
@@ -128,6 +113,7 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
         Bundle args = getArguments();
         if (args != null) {
             roomClassId = args.getString("roomClassId");
+            title = args.getString("title");
         }
 
         // 设置管理器
@@ -151,7 +137,6 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
             @Override
             public void onRefresh() {
                 pageNum = 1;
-                title = "";
                 initData();
                 srlClassRoomPager.setRefreshing(false);
             }

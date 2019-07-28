@@ -1,10 +1,7 @@
 package com.ipd.allpeopledemand.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -35,7 +32,6 @@ import com.ipd.allpeopledemand.bean.MainListBean;
 import com.ipd.allpeopledemand.contract.MainPagerContract;
 import com.ipd.allpeopledemand.presenter.MainPagerPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
-import com.ipd.allpeopledemand.utils.L;
 import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.StringUtils;
@@ -109,40 +105,14 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
         return this;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("android.ipd.main_search");
-        BroadcastReceiver mItemViewListClickReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                title = intent.getStringExtra("title");
-                sort(intent.getStringExtra("releaseClassId"), "", "", "1", region, title);
-            }
-        };
-        broadcastManager.registerReceiver(mItemViewListClickReceiver, intentFilter);
-
-        LocalBroadcastManager broadcastManager1 = LocalBroadcastManager.getInstance(getActivity());
-        IntentFilter intentFilter1 = new IntentFilter();
-        intentFilter1.addAction("android.ipd.main_location");
-        BroadcastReceiver mItemViewListClickReceiver1 = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                region = intent.getStringExtra("region");
-                sort(intent.getStringExtra("releaseClassId"), "", "", "1", region, title);
-            }
-        };
-        broadcastManager1.registerReceiver(mItemViewListClickReceiver1, intentFilter1);
-    }
-
     @SuppressLint("WrongConstant")
     @Override
     public void init(View view) {
         Bundle args = getArguments();
         if (args != null) {
             releaseClassId = args.getString("releaseClassId");
+            region = args.getString("region");
+            title = args.getString("title");
         }
 
         // 设置管理器
@@ -160,7 +130,6 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
             @Override
             public void onRefresh() {
                 pageNum = 1;
-                title = "";
                 initData();
                 srlMainPage.setRefreshing(false);
             }
@@ -169,13 +138,21 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
 
     @Override
     public void initData() {
-        sort("", "", "", pageNum + "", region, title);
+        sort("", "", pageNum + "");
     }
 
-    private void sort(String releaseClassId, String orderByColumn, String isAsc, String pageNum, String region, String title) {
+    private void sort(String orderByColumn, String isAsc, String pageNum) {
         TreeMap<String, String> classRoomPagerMap = new TreeMap<>();
-        classRoomPagerMap.put("userId", isEmpty(SPUtil.get(getContext(), USER_ID, "") + "") ? "0" : SPUtil.get(getContext(), USER_ID, "") + "");
-        classRoomPagerMap.put("releaseClassId", isEmpty(releaseClassId) ? this.releaseClassId : releaseClassId);
+        String userId = "";
+        if (SPUtil.get(getActivity(), USER_ID, "") == null)
+            userId = "0";
+        else if (isEmpty(SPUtil.get(getActivity(), USER_ID, "") + ""))
+            userId = "0";
+        else
+            userId = SPUtil.get(getActivity(), USER_ID, "") + "";
+
+        classRoomPagerMap.put("userId", userId);
+        classRoomPagerMap.put("releaseClassId", releaseClassId);
         classRoomPagerMap.put("orderByColumn", orderByColumn);
         classRoomPagerMap.put("isAsc", isAsc);
         classRoomPagerMap.put("pageNum", pageNum);
@@ -195,15 +172,15 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
 //                    ivSortDistance.setImageResource(R.mipmap.ic_default_sc);
                     ivSortSalesVolume.setImageResource(R.mipmap.ic_default_sc);
 
-                    sort("", "releaseTime", "asc", "1", region, title);
+                    sort("releaseTime", "asc", "1");
                 } else if (getResources().getDrawable(R.mipmap.ic_asc).getConstantState().equals(drawableSortTime)) {
                     ivSortTime.setImageResource(R.mipmap.ic_desc);
 
-                    sort("", "releaseTime", "desc", "1", region, title);
+                    sort("releaseTime", "desc", "1");
                 } else {
                     ivSortTime.setImageResource(R.mipmap.ic_default_sc);
 
-                    sort("", "", "", "1", region, title);
+                    sort("", "", "1");
                 }
                 break;
 //            case R.id.ll_sort_distance:
@@ -224,15 +201,15 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
 //                    ivSortDistance.setImageResource(R.mipmap.ic_default_sc);
                     ivSortTime.setImageResource(R.mipmap.ic_default_sc);
 
-                    sort("", "purchaseNum", "asc", "1", region, title);
+                    sort("purchaseNum", "asc", "1");
                 } else if (getResources().getDrawable(R.mipmap.ic_asc).getConstantState().equals(drawableSortSalesVolume)) {
                     ivSortSalesVolume.setImageResource(R.mipmap.ic_desc);
 
-                    sort("", "purchaseNum", "desc", "1", region, title);
+                    sort("purchaseNum", "desc", "1");
                 } else {
                     ivSortSalesVolume.setImageResource(R.mipmap.ic_default_sc);
 
-                    sort("", "", "", "1", region, title);
+                    sort("", "", "1");
                 }
                 break;
         }

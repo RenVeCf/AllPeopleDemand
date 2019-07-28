@@ -3,6 +3,7 @@ package com.ipd.allpeopledemand.adapter;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
 
 import java.util.List;
 
@@ -28,5 +29,11 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         return fragments.get(position);
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        // TODO Auto-generated method stub
+        return PagerAdapter.POSITION_NONE;
     }
 }
