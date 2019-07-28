@@ -26,22 +26,20 @@
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="e93ef6cb-b6c4-4a71-911b-36c8c6c94ed1">
+    <connection id="6343d0d2-1f17-4053-8e8d-53d97633e5a5">
       <console name="Connection" type="STANDARD" schema="main" session="Main" />
+      <console name="Connection 1" type="STANDARD" schema="main" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="e93ef6cb-b6c4-4a71-911b-36c8c6c94ed1" />
+    <connection id="6343d0d2-1f17-4053-8e8d-53d97633e5a5" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
-    <filter-actions connection-id="e93ef6cb-b6c4-4a71-911b-36c8c6c94ed1" dataset="main.android_metadata" active-filter-id="" />
-    <filter-actions connection-id="e93ef6cb-b6c4-4a71-911b-36c8c6c94ed1" dataset="main.cities" active-filter-id="EMPTY_FILTER">
-      <filter id="0021a7a6-7b05-436f-8cbb-7e90262aedda" name="2" temporary="false" custom-name="false" type="basic" join-type="AND">
-        <condition column="id" operator="=" value="2" active="true" />
-      </filter>
+    <filter-actions connection-id="6343d0d2-1f17-4053-8e8d-53d97633e5a5" dataset="main.cities" active-filter-id="61ca2486-c6da-49a0-afa7-35ae12fe6f3f">
+      <filter id="61ca2486-c6da-49a0-afa7-35ae12fe6f3f" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
     </filter-actions>
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
@@ -67,10 +65,10 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="e93ef6cb-b6c4-4a71-911b-36c8c6c94ed1" active="true">
+      <connection id="6343d0d2-1f17-4053-8e8d-53d97633e5a5" active="true">
         <database>
           <name value="Connection" />
-          <description value="城市选择器数据-市级" />
+          <description value="" />
           <database-type value="SQLITE" />
           <config-type value="BASIC" />
           <database-version value="3.21" />
@@ -82,7 +80,7 @@
           <port value="1234" />
           <database value="database" />
           <files>
-            <file path="D:\china_cities_v2.db" schema="main" />
+            <file path="D:\Download\china_cities.db" schema="main" />
           </files>
           <type value="NONE" />
           <user value="" />
@@ -122,7 +120,7 @@
           <max-connection-pool-size value="7" />
           <alternative-statement-delimiter value="" />
         </details>
-        <object-filters hide-empty-schemas="false" hide-pseudo-columns="true">
+        <object-filters hide-empty-schemas="false" hide-pseudo-columns="false">
           <object-type-filter use-master-settings="true">
             <object-type name="SCHEMA" enabled="true" />
             <object-type name="USER" enabled="true" />

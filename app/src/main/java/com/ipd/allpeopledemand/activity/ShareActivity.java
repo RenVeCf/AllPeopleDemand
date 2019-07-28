@@ -40,6 +40,7 @@ import io.reactivex.ObservableTransformer;
 
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_LOCAL_URL;
+import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
 
 /**
  * Description ：分享好友
@@ -157,11 +158,11 @@ public class ShareActivity extends BaseActivity<ShareContract.View, ShareContrac
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ib_wechat:
-                if (shareUrl.isEmpty())
+                if (!isEmpty(shareUrl))
                     showWeChatShare(shareUrl, Wechat.NAME);
                 break;
             case R.id.ib_moments:
-                if (shareUrl.isEmpty())
+                if (!isEmpty(shareUrl))
                     showWechatMomentsShare(shareUrl, WechatMoments.NAME);
                 break;
             case R.id.rv_invite_my_friends:

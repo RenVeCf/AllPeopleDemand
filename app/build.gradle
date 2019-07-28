@@ -48,48 +48,46 @@ android {
         }
     }
 
-    signingConfigs {
-        config {
-            keyAlias 'all_people_demand'
-            keyPassword '123456'
-            storeFile file('D:/android_jks/all_people_demand.jks')
-            storePassword '123456'
-        }
-        test {
-            keyAlias 'all_people_demand'
-            keyPassword '123456'
-            storeFile file('D:/android_jks/all_people_demand.jks')
-            storePassword '123456'
-        }
-    }
+//    signingConfigs {
+//        config {
+//            keyAlias 'all_people_demand'
+//            keyPassword '123456'
+//            storeFile file('D:/android_jks/all_people_demand.jks')
+//            storePassword '123456'
+//        }
+//        test {
+//            keyAlias 'all_people_demand'
+//            keyPassword '123456'
+//            storeFile file('D:/android_jks/all_people_demand.jks')
+//            storePassword '123456'
+//        }
+//    }
 
     buildTypes {
         release {
             minifyEnabled false // 混淆
-            zipAlignEnabled true //压缩对齐生成的apk包
             //混淆的配置文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            //签名配置
-            signingConfig signingConfigs.config
-            applicationVariants.all { variant ->
-                variant.outputs.all {
-                    outputFileName = "allpeopledemand_${variant.versionCode}-${variant.versionName}-${releaseTime()}.apk"
-                }
-            }
+//            //签名配置
+//            signingConfig signingConfigs.config
+//            applicationVariants.all { variant ->
+//                variant.outputs.all {
+//                    outputFileName = "allpeopledemand_${variant.versionCode}-${variant.versionName}-${releaseTime()}.apk"
+//                }
+//            }
         }
 
         debug {
             minifyEnabled false // 混淆
-            zipAlignEnabled true //压缩对齐生成的apk包
             //混淆的配置文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            //签名配置
-            signingConfig signingConfigs.test
-            applicationVariants.all { variant ->
-                variant.outputs.all {
-                    outputFileName = "allpeopledemand_${variant.versionCode}-${variant.versionName}-${releaseTime()}.apk"
-                }
-            }
+//            //签名配置
+//            signingConfig signingConfigs.test
+//            applicationVariants.all { variant ->
+//                variant.outputs.all {
+//                    outputFileName = "allpeopledemand_${variant.versionCode}-${variant.versionName}-${releaseTime()}.apk"
+//                }
+//            }
         }
     }
 

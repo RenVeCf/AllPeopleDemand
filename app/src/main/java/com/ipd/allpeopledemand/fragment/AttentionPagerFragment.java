@@ -17,7 +17,6 @@ import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.activity.InformationDetailsActivity;
 import com.ipd.allpeopledemand.activity.LoginActivity;
 import com.ipd.allpeopledemand.activity.MainActivity;
-import com.ipd.allpeopledemand.activity.WebViewActivity;
 import com.ipd.allpeopledemand.adapter.AttentionPagerAdapter;
 import com.ipd.allpeopledemand.base.BaseFragment;
 import com.ipd.allpeopledemand.bean.AttentionCollectionBean;
@@ -39,7 +38,6 @@ import butterknife.BindView;
 import io.reactivex.ObservableTransformer;
 
 import static com.ipd.allpeopledemand.common.config.IConstants.IS_LOGIN;
-import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_97;
 import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_98;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
@@ -60,7 +58,7 @@ public class AttentionPagerFragment extends BaseFragment<AttentionListContract.V
     private AttentionPagerAdapter attentionPagerAdapter;
     private int pageNum = 1;//页数
     private String releaseClassId = "";
-    private int removePosition;//点收藏删除的position
+    private int removePosition;//取消关注后移除这个position
 
     @Override
     public int getLayoutId() {
@@ -106,6 +104,7 @@ public class AttentionPagerFragment extends BaseFragment<AttentionListContract.V
             }
         });
     }
+
 
     @Override
     public void initData() {
