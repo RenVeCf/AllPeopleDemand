@@ -34,7 +34,6 @@ public interface UrlConfig {
     String MAIN_WECHAT_PAY = "appUser/releasePay/wechatPay"; //首页发布-微信支付
     String MAIN_BALANCE_PAY = "appUser/releasePay/balance"; //首页发布-余额支付
 
-
     /**
      * 课程
      */
@@ -45,7 +44,6 @@ public interface UrlConfig {
     String CLASS_ROOM_WECHAT_PAY = "appUser/classroomPay/wechatPay"; //课堂支付宝-支付
     String CLASS_ROOM_BALANCE = "appUser/classroomPay/balance"; //课堂-余额支付
 
-
     /**
      * 发布
      */
@@ -55,7 +53,6 @@ public interface UrlConfig {
      * 反馈
      */
     String FEED_BACK = "appUser/feedback/userFeedback"; //反馈-点击提交
-
 
     /**
      * 我的
@@ -81,5 +78,6 @@ public interface UrlConfig {
     String MY_BUY_DEMAND_DETAILS = "appUser/myPurchase/demandDetails"; //我的购买-需求资讯列表-详情
     String MY_BUY_CLASS_ROOM_LIST = "appUser/myPurchase/classroomList"; //我的购买课堂-列表
     String MY_BUY_CLASS_ROOM_DETAILS = "appUser/myPurchase/classDetails"; //我的购买课堂-列表-详情
+    String USER_INFO = "appUser/User/byUserId"; //我的-个人资料-通过用户id获取
     String CHECK_VERSION = "appUser/version/versionInfo"; //版本管理
 }

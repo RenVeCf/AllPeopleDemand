@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.ipd.allpeopledemand.bean.CheckInBean;
 import com.ipd.allpeopledemand.bean.CheckInLayoutBean;
+import com.ipd.allpeopledemand.bean.UserInfoBean;
 import com.ipd.allpeopledemand.contract.CheckInContract;
 import com.ipd.allpeopledemand.model.CheckInModel;
 import com.ipd.allpeopledemand.progress.ObserverResponseListener;
@@ -57,6 +58,27 @@ public class CheckInPresenter extends CheckInContract.Presenter {
                 //这一步是必须的，判断view是否已经被销毁
                 if (getView() != null) {
                     getView().resultCheckIn((CheckInBean) o);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+                if (getView() != null) {
+                    //// TODO: 2017/12/28 自定义处理异常
+                    ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getUserInfo(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
+        model.getUserInfo(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+            @Override
+            public void onNext(Object o) {
+                //这一步是必须的，判断view是否已经被销毁
+                if (getView() != null) {
+                    getView().resultUserInfo((UserInfoBean) o);
                 }
             }
 

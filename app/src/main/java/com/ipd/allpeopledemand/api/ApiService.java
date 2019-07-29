@@ -42,6 +42,7 @@ import com.ipd.allpeopledemand.bean.ShareBean;
 import com.ipd.allpeopledemand.bean.ShareListBean;
 import com.ipd.allpeopledemand.bean.SmsBean;
 import com.ipd.allpeopledemand.bean.UploadImgBean;
+import com.ipd.allpeopledemand.bean.UserInfoBean;
 
 import java.util.Map;
 
@@ -96,6 +97,7 @@ import static com.ipd.allpeopledemand.common.config.UrlConfig.SHARE;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.SHARE_LIST;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.SMS;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.UPLOAD_IMG;
+import static com.ipd.allpeopledemand.common.config.UrlConfig.USER_INFO;
 
 /**
  * Description ：请求配置
@@ -317,4 +319,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(LOADING_IMG)
     Observable<LoadingBean> getLoading(@FieldMap Map<String, String> map);
+
+    //我的-个人资料-通过用户id获取
+    @FormUrlEncoded
+    @POST(USER_INFO)
+    Observable<UserInfoBean> getUserInfo(@FieldMap Map<String, String> map);
 }

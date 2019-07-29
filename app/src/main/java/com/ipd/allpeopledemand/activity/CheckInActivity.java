@@ -17,6 +17,7 @@ import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.base.BaseActivity;
 import com.ipd.allpeopledemand.bean.CheckInBean;
 import com.ipd.allpeopledemand.bean.CheckInLayoutBean;
+import com.ipd.allpeopledemand.bean.UserInfoBean;
 import com.ipd.allpeopledemand.common.view.CalendarDateView;
 import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.CheckInContract;
@@ -196,6 +197,11 @@ public class CheckInActivity extends BaseActivity<CheckInContract.View, CheckInC
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void resultUserInfo(UserInfoBean data) {
+
     }
 
     @Override

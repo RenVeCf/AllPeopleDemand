@@ -25,11 +25,11 @@ import com.ipd.allpeopledemand.activity.ShareActivity;
 import com.ipd.allpeopledemand.base.BaseFragment;
 import com.ipd.allpeopledemand.bean.CheckInBean;
 import com.ipd.allpeopledemand.bean.CheckInLayoutBean;
+import com.ipd.allpeopledemand.bean.UserInfoBean;
 import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.CheckInContract;
 import com.ipd.allpeopledemand.presenter.CheckInPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
-import com.ipd.allpeopledemand.utils.L;
 import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.StringUtils;
@@ -132,6 +132,11 @@ public class MyFragment extends BaseFragment<CheckInContract.View, CheckInContra
 
     @Override
     public void initData() {
+        TreeMap<String, String> userInfoMap = new TreeMap<>();
+        userInfoMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+        userInfoMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(userInfoMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+        getPresenter().getUserInfo(userInfoMap, false, false);
+
         TreeMap<String, String> checkInLayoutMap = new TreeMap<>();
         checkInLayoutMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
         checkInLayoutMap.put("signDate", getTodayDateTime());
@@ -221,6 +226,19 @@ public class MyFragment extends BaseFragment<CheckInContract.View, CheckInContra
     @Override
     public void resultCheckIn(CheckInBean data) {
 
+    }
+
+    @Override
+    public void resultUserInfo(UserInfoBean data) {
+        if (data.getData().getUserLabel().size() > 0) {
+            if (data.getData().getUserLabel().size() < 2) {
+                tvRankLable.setText(data.getData().getUserLabel().get(0).getName());
+                tvCertificationLable.setVisibility(View.GONE);
+            } else if (data.getData().getUserLabel().size() < 3) {
+                tvRankLable.setText(data.getData().getUserLabel().get(0).getName());
+                tvCertificationLable.setText(data.getData().getUserLabel().get(1).getName());
+            }
+        }
     }
 
     @Override

@@ -18,19 +18,15 @@ public interface IConstants {
      */
     String FIRST_APP = "is_first"; //第一次进应用
     String IS_LOGIN = "is_login"; //已经登录
-    String IS_SUPPLEMENT_INFO = "is_supplement_info"; //已经认证
     String TOKEN = "is_token"; //token
     String USER_ID = "user_id"; //用户标识
     String NAME = "name"; //用户真实姓名
     String PHONE = "phone"; //用户手机号码
     String ALL_PEOPLE = "all_people"; //全民号码
-    String SERVICE_PHONE = "service_phone"; //咨询客服号码
     String AVATAR = "avatar"; //头像
     String SEX = "sex"; //性别
     String AGE = "age"; //年龄
     String MARITAL_STATUS = "marital_status"; //婚姻状况
-    String LATIUDE = "latitude"; //经度
-    String LONGTITUDE = "longtitude"; //纬度
     String CITY = "city"; //城市
     String HOW_PAGE = "how_page"; //未登录时点击了首页的哪个Fragment，登录后就跳到哪个Fragment
 
