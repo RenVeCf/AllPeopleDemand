@@ -1,18 +1,13 @@
 package com.ipd.allpeopledemand.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import androidx.annotation.Nullable;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,7 +33,6 @@ import com.ipd.allpeopledemand.common.view.NotIntegralDialog;
 import com.ipd.allpeopledemand.contract.ClassRoomPagerContract;
 import com.ipd.allpeopledemand.presenter.ClassRoomPagerPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
-import com.ipd.allpeopledemand.utils.L;
 import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.StringUtils;
@@ -89,6 +83,7 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
     private String roomClassId = "";
     private String title = "";
     private int classroomIdPosition;//支付时，取classroomId用的position
+    private int classRoomBuyType;//1: 判断购买的状态, 2: 购买完成后将数据带进详情
     private ClassRoomDetailsBean.DataBean.RoomDetailsBean roomDetailsBean = new ClassRoomDetailsBean.DataBean.RoomDetailsBean();
 
     @Override
@@ -221,6 +216,7 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
                                 if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
                                     startActivity(new Intent(getActivity(), LoginActivity.class));
                                 else {
+                                    classRoomBuyType = 1;
                                     classroomIdPosition = position;
                                     TreeMap<String, String> classRoomDetailsMap = new TreeMap<>();
                                     classRoomDetailsMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
@@ -276,50 +272,58 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
     public void resultClassRoomDetails(ClassRoomDetailsBean data) {
         switch (data.getCode()) {
             case 200:
-                roomDetailsBean = data.getData().getRoomDetails();
-                switch (data.getData().getIsPurchase()) {
-                    case "1":
-                        startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean).putExtra("integral", priceBean.getIntegral()).putExtra("money", priceBean.getMoney()));
-                        break;
-                    case "2":
-                        startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean).putExtra("integral", priceBean.getIntegral()).putExtra("money", priceBean.getMoney()));
-                        break;
-                    case "3":
-                        new NotIntegralDialog(getActivity()) {
-                            @Override
-                            public void goPayIntrgral() {
-                                //积分不足跳积分规则
-                                startActivity(new Intent(getContext(), WebViewActivity.class).putExtra("h5Type", 1));
-                            }
-                        }.show();
-                        break;
-                    case "4":
-                        new ClassRoomPayPromptDialog(getActivity(), priceBean.getMoney(), priceBean.getIntegral()) {
-                            @Override
-                            public void goPay() {
-                                new BottomPayDialog(getActivity(), data.getData().getBalance()) {
+                switch (classRoomBuyType) {
+                    case 1: //判断购买的状态
+                        roomDetailsBean = data.getData().getRoomDetails();
+                        switch (data.getData().getIsPurchase()) {
+                            case "1":
+                                startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean).putExtra("integral", priceBean.getIntegral()).putExtra("money", priceBean.getMoney()));
+                                break;
+                            case "2":
+                                startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean).putExtra("integral", priceBean.getIntegral()).putExtra("money", priceBean.getMoney()));
+                                break;
+                            case "3":
+                                new NotIntegralDialog(getActivity()) {
                                     @Override
-                                    public void goPay(int payType) {
-                                        if (data.getData().getBalance() >= priceBean.getMoney()) {
-                                            //余额直接支付
-                                            payType(3, roomListBean.get(classroomIdPosition).getClassroomId());
-                                        } else {
-                                            switch (payType) {
-                                                case 1://支付宝
-                                                    payType(1, roomListBean.get(classroomIdPosition).getClassroomId());
-                                                    break;
-                                                case 2://微信
-                                                    payType(2, roomListBean.get(classroomIdPosition).getClassroomId());
-                                                    break;
-                                                default:
-                                                    ToastUtil.showShortToast("余额不足，请选择支付方式！");
-                                                    break;
-                                            }
-                                        }
+                                    public void goPayIntrgral() {
+                                        //积分不足跳积分规则
+                                        startActivity(new Intent(getContext(), WebViewActivity.class).putExtra("h5Type", 1));
                                     }
                                 }.show();
-                            }
-                        }.show();
+                                break;
+                            case "4":
+                                new ClassRoomPayPromptDialog(getActivity(), priceBean.getMoney(), priceBean.getIntegral()) {
+                                    @Override
+                                    public void goPay() {
+                                        new BottomPayDialog(getActivity(), data.getData().getBalance()) {
+                                            @Override
+                                            public void goPay(int payType) {
+                                                if (data.getData().getBalance() >= priceBean.getMoney()) {
+                                                    //余额直接支付
+                                                    payType(3, roomListBean.get(classroomIdPosition).getClassroomId());
+                                                } else {
+                                                    switch (payType) {
+                                                        case 1://支付宝
+                                                            payType(1, roomListBean.get(classroomIdPosition).getClassroomId());
+                                                            break;
+                                                        case 2://微信
+                                                            payType(2, roomListBean.get(classroomIdPosition).getClassroomId());
+                                                            break;
+                                                        default:
+                                                            ToastUtil.showShortToast("余额不足，请选择支付方式！");
+                                                            break;
+                                                    }
+                                                }
+                                            }
+                                        }.show();
+                                    }
+                                }.show();
+                                break;
+                        }
+                        break;
+                    case 2: //购买完成后将数据带进详情
+                        roomDetailsBean = data.getData().getRoomDetails();
+                        startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean).putExtra("integral", priceBean.getIntegral()).putExtra("money", priceBean.getMoney()));
                         break;
                 }
                 break;
@@ -412,7 +416,13 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
         ToastUtil.showLongToast(data.getMsg());
         switch (data.getCode()) {
             case 200:
-                startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean).putExtra("integral", priceBean.getIntegral()).putExtra("money", priceBean.getMoney()));
+                classRoomBuyType = 2;
+                TreeMap<String, String> classRoomDetailsMap = new TreeMap<>();
+                classRoomDetailsMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+                classRoomDetailsMap.put("classroomId", roomListBean.get(classroomIdPosition).getClassroomId() + "");
+                classRoomDetailsMap.put("priceId", priceBean.getPriceId() + "");
+                classRoomDetailsMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(classRoomDetailsMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                getPresenter().getClassRoomDetails(classRoomDetailsMap, false, false);
                 break;
             case 900:
                 //清除所有临时储存

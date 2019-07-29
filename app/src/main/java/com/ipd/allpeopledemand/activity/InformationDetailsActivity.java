@@ -292,8 +292,9 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
         if (data != null && resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CODE_90:
-                    llNotPay.setVisibility(View.GONE);
-                    llPay.setVisibility(View.VISIBLE);
+//                    llNotPay.setVisibility(View.GONE);
+//                    llPay.setVisibility(View.VISIBLE);
+                    initData();
                     break;
             }
         }
@@ -468,40 +469,6 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 "<style>html{padding:15px;} body{word-wrap:break-word;font-size:13px;padding:0px;margin:0px} p{padding:0px;margin:0px;font-size:13px;color:#222222;line-height:1.3;} img{padding:0px,margin:0px;max-width:100%; width:auto; height:auto;}</style>" +
                 "</head>";
         return "<html>" + head + "<body>" + bodyHTML + "</body></html>";
-    }
-
-    static class MyWebViewClient extends WebViewClient {
-        private Dialog dialog;
-        private Activity activity;
-
-        public MyWebViewClient(Activity activity) {
-            dialog = new Dialog(activity);
-            this.activity = activity;
-        }
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
-            return true;
-        }
-
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            super.onPageStarted(view, url, favicon);
-            if (!activity.isFinishing()) dialog.show();
-        }
-
-        @Override
-        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-            handler.proceed();
-            super.onReceivedSslError(view, handler, error);
-        }
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            super.onPageFinished(view, url);
-            if (!activity.isFinishing()) dialog.dismiss();
-        }
     }
 
     @Override
