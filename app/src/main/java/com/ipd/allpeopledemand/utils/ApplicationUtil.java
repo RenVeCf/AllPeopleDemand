@@ -4,12 +4,20 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
+import com.ipd.allpeopledemand.common.view.OKHttpUpdateHttpService;
 import com.mob.MobSDK;
 import com.xuexiang.xui.XUI;
+import com.xuexiang.xupdate.XUpdate;
+import com.xuexiang.xupdate.entity.UpdateError;
+import com.xuexiang.xupdate.listener.OnUpdateFailureListener;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Stack;
+
+import static com.xuexiang.xupdate.entity.UpdateError.ERROR.CHECK_NO_NEW_VERSION;
 
 /**
  * Application类 初始化各种配置
@@ -29,6 +37,28 @@ public class ApplicationUtil extends Application {
         LocationService.get().init(this);
         MobSDK.init(this);//http://www.mob.com/ 使用这个公司的分享功能，具体参照官网提示，页面分享功能初始化
         mContext = getApplicationContext();
+
+        Map<String, Object> checkVersionMap = new HashMap<>();
+        checkVersionMap.put("type", "1");
+        checkVersionMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(checkVersionMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+
+        XUpdate.get()
+                .debug(false)
+                .isWifiOnly(false)                                               //默认设置只在wifi下检查版本更新
+                .isGet(true)                                                    //默认设置使用get请求检查版本
+                .isAutoMode(false)
+                .params(checkVersionMap)//默认设置非自动模式，可根据具体使用配置
+                .setOnUpdateFailureListener(new OnUpdateFailureListener() {     //设置版本更新出错的监听
+                    @Override
+                    public void onFailure(UpdateError error) {
+                        if (error.getCode() != CHECK_NO_NEW_VERSION) {          //对不同错误进行处理
+                            ToastUtil.showShortToast(error.toString());
+                        }
+                    }
+                })
+                .supportSilentInstall(true)                                     //设置是否支持静默安装，默认是true
+                .setIUpdateHttpService(new OKHttpUpdateHttpService())           //这个必须设置！实现网络请求功能。
+                .init(this);
     }
 
     public static Context getContext() {

@@ -142,9 +142,8 @@ public class ShareActivity extends BaseActivity<ShareContract.View, ShareContrac
         }
         //关闭sso授权
         oks.disableSSOWhenAuthorize();
-        oks.setTitle(getString(R.string.app_name));
+        oks.setTitle("全民需求，解决您一时半会儿解决不了的问题");
         // text是分享文本，所有平台都需要这个字段
-        oks.setText("全民需求，解决您一时半会儿解决不了的问题");
         Bitmap bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ic_logo);//显示APP本身自带图片
         oks.setImageData(bitmap);//bitmap格式图片
         // url仅在微信（包括好友和朋友圈）中使用

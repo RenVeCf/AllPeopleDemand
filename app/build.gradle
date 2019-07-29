@@ -205,4 +205,7 @@ dependencies {
     implementation(name: 'alipaySdk-15.6.2-20190416165100-noUtdid', ext: 'aar')
     //微信支付
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.4.0'
+    //版本更新
+    implementation 'com.zhy:okhttputils:2.6.2'
+    implementation 'com.github.xuexiangjys:XUpdate:1.0.9'
 }

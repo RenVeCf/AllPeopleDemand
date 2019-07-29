@@ -7,6 +7,7 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.base.BaseActivity;
 import com.ipd.allpeopledemand.bean.CheckVersionBean;
+import com.ipd.allpeopledemand.common.view.CustomUpdateParser;
 import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.CheckVersionContract;
 import com.ipd.allpeopledemand.presenter.CheckVersionPresenter;
@@ -18,6 +19,7 @@ import com.ipd.allpeopledemand.utils.StringUtils;
 import com.ipd.allpeopledemand.utils.ToastUtil;
 import com.xuexiang.xui.widget.button.RippleView;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
+import com.xuexiang.xupdate.XUpdate;
 
 import java.util.TreeMap;
 
@@ -26,6 +28,8 @@ import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
 
 import static com.ipd.allpeopledemand.common.config.IConstants.PACKAGE_NAME;
+import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_URL;
+import static com.ipd.allpeopledemand.common.config.UrlConfig.CHECK_VERSION;
 import static com.ipd.allpeopledemand.utils.AppUtils.getAppVersionName;
 
 /**
@@ -93,6 +97,11 @@ public class SettingActivity extends BaseActivity<CheckVersionContract.View, Che
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.stv_version://版本
+                XUpdate.newBuild(this)
+                        .updateUrl(BASE_URL + CHECK_VERSION)
+                        .isAutoMode(true) //如果需要完全无人干预，自动更新，需要root权限【静默安装需要】
+                        .updateParser(new CustomUpdateParser()) //设置自定义的版本更新解析器
+                        .update();
                 break;
             case R.id.stv_cache_clear://清缓存
                 CacheUtil.clearAllCache(this);

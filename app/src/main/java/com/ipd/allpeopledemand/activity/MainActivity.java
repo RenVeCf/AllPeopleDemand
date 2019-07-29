@@ -13,6 +13,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.base.BaseActivity;
 import com.ipd.allpeopledemand.bean.CheckVersionBean;
+import com.ipd.allpeopledemand.common.view.CustomUpdateParser;
 import com.ipd.allpeopledemand.contract.CheckVersionContract;
 import com.ipd.allpeopledemand.fragment.ClassRoomFragment;
 import com.ipd.allpeopledemand.fragment.FeedbackFragment;
@@ -26,6 +27,7 @@ import com.ipd.allpeopledemand.utils.NavigationBarUtil;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.StringUtils;
 import com.ipd.allpeopledemand.utils.ToastUtil;
+import com.xuexiang.xupdate.XUpdate;
 
 import java.util.TreeMap;
 
@@ -37,6 +39,8 @@ import static com.ipd.allpeopledemand.common.config.IConstants.FIRST_APP;
 import static com.ipd.allpeopledemand.common.config.IConstants.HOW_PAGE;
 import static com.ipd.allpeopledemand.common.config.IConstants.IS_LOGIN;
 import static com.ipd.allpeopledemand.common.config.IConstants.PACKAGE_NAME;
+import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_URL;
+import static com.ipd.allpeopledemand.common.config.UrlConfig.CHECK_VERSION;
 import static com.ipd.allpeopledemand.utils.AppUtils.getAppVersionName;
 
 /**
@@ -144,10 +148,16 @@ public class MainActivity extends BaseActivity<CheckVersionContract.View, CheckV
 
     @Override
     public void initData() {
-        TreeMap<String, String> checkVersionMap = new TreeMap<>();
-        checkVersionMap.put("type", "1");
-        checkVersionMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(checkVersionMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-        getPresenter().getCheckVersion(checkVersionMap, false, false);
+//        TreeMap<String, String> checkVersionMap = new TreeMap<>();
+//        checkVersionMap.put("type", "1");
+//        checkVersionMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(checkVersionMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+//        getPresenter().getCheckVersion(checkVersionMap, false, false);
+
+        XUpdate.newBuild(this)
+                .updateUrl(BASE_URL + CHECK_VERSION)
+                .isAutoMode(true) //如果需要完全无人干预，自动更新，需要root权限【静默安装需要】
+                .updateParser(new CustomUpdateParser()) //设置自定义的版本更新解析器
+                .update();
     }
 
     @Override
