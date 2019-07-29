@@ -238,6 +238,9 @@ public class MyFragment extends BaseFragment<CheckInContract.View, CheckInContra
                 tvRankLable.setText(data.getData().getUserLabel().get(0).getName());
                 tvCertificationLable.setText(data.getData().getUserLabel().get(1).getName());
             }
+        } else {
+            tvRankLable.setVisibility(View.GONE);
+            tvCertificationLable.setVisibility(View.GONE);
         }
     }
 

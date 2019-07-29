@@ -17,6 +17,7 @@
         android:paddingStart="@dimen/x50"
         android:paddingEnd="@dimen/x50"
         app:sDividerLineType="none"
+        app:sLeftBottomMaxEms="20"
         app:sLeftBottomTextColor="@color/tx_bottom_navigation"
         app:sLeftBottomTextSize="12sp"
         app:sLeftTextColor="@color/black"

@@ -29,7 +29,7 @@
     <LinearLayout
         android:id="@+id/ll_top_location"
         android:layout_width="@dimen/x300"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginStart="@dimen/x60"
         android:gravity="center_vertical|start"
         android:orientation="horizontal"
@@ -57,8 +57,9 @@
     <TextView
         android:id="@+id/tv_top_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_margin="10dp"
+        android:gravity="center"
         android:letterSpacing="0.13"
         android:lineSpacingExtra="14sp"
         android:textSize="20sp"
@@ -72,7 +73,7 @@
     <LinearLayout
         android:id="@+id/ll_top_search"
         android:layout_width="@dimen/x600"
-        android:layout_height="@dimen/y100"
+        android:layout_height="match_parent"
         android:background="@drawable/bg_search"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -103,7 +104,7 @@
     <LinearLayout
         android:id="@+id/ll_top_long_search"
         android:layout_width="@dimen/x870"
-        android:layout_height="@dimen/y100"
+        android:layout_height="match_parent"
         android:layout_marginStart="@dimen/x60"
         android:background="@drawable/bg_search"
         android:gravity="center_vertical"
@@ -133,7 +134,7 @@
     <RadioGroup
         android:id="@+id/rg_top_account"
         android:layout_width="0dp"
-        android:layout_height="@dimen/y100"
+        android:layout_height="match_parent"
         android:layout_marginEnd="@dimen/x50"
         android:gravity="center"
         android:orientation="horizontal"
@@ -185,9 +186,10 @@
     <Button
         android:id="@+id/bt_top_report"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginEnd="@dimen/x30"
         android:background="@null"
+        android:gravity="center"
         android:text="举报"
         android:textColor="@color/tx_bottom_navigation"
         android:textSize="16sp"
@@ -213,7 +215,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginEnd="@dimen/x30"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
