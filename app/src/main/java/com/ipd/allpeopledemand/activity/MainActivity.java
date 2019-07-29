@@ -22,14 +22,10 @@ import com.ipd.allpeopledemand.fragment.MyFragment;
 import com.ipd.allpeopledemand.fragment.PushFragment;
 import com.ipd.allpeopledemand.presenter.CheckVersionPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
-import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.NavigationBarUtil;
 import com.ipd.allpeopledemand.utils.SPUtil;
-import com.ipd.allpeopledemand.utils.StringUtils;
 import com.ipd.allpeopledemand.utils.ToastUtil;
 import com.xuexiang.xupdate.XUpdate;
-
-import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -39,6 +35,7 @@ import static com.ipd.allpeopledemand.common.config.IConstants.FIRST_APP;
 import static com.ipd.allpeopledemand.common.config.IConstants.HOW_PAGE;
 import static com.ipd.allpeopledemand.common.config.IConstants.IS_LOGIN;
 import static com.ipd.allpeopledemand.common.config.IConstants.PACKAGE_NAME;
+import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_URL;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.CHECK_VERSION;
 import static com.ipd.allpeopledemand.utils.AppUtils.getAppVersionName;
@@ -206,7 +203,7 @@ public class MainActivity extends BaseActivity<CheckVersionContract.View, CheckV
                 switchFragment(classRoomFragment).commit();
                 break;
             case R.id.rb_navigation_push:
-                if (!(SPUtil.get(this, IS_LOGIN, "") + "").equals(""))
+                if (!"".equals(SPUtil.get(this, IS_LOGIN, "") + "") && !"".equals(SPUtil.get(this, USER_ID, "") + ""))
                     switchFragment(pushFragment).commit();
                 else {
                     SPUtil.put(this, HOW_PAGE, "2");
@@ -215,7 +212,7 @@ public class MainActivity extends BaseActivity<CheckVersionContract.View, CheckV
                 }
                 break;
             case R.id.rb_navigation_feedback:
-                if (!(SPUtil.get(this, IS_LOGIN, "") + "").equals(""))
+                if (!"".equals(SPUtil.get(this, IS_LOGIN, "") + "") && !"".equals(SPUtil.get(this, USER_ID, "") + ""))
                     switchFragment(feedbackFragment).commit();
                 else {
                     SPUtil.put(this, HOW_PAGE, "3");
@@ -224,7 +221,7 @@ public class MainActivity extends BaseActivity<CheckVersionContract.View, CheckV
                 }
                 break;
             case R.id.rb_navigation_my:
-                if (!(SPUtil.get(this, IS_LOGIN, "") + "").equals(""))
+                if (!"".equals(SPUtil.get(this, IS_LOGIN, "") + "") && !"".equals(SPUtil.get(this, USER_ID, "") + ""))
                     switchFragment(myFragment).commit();
                 else {
                     SPUtil.put(this, HOW_PAGE, "4");
