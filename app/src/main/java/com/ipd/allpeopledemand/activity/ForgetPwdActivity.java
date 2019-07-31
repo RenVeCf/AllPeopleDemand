@@ -28,10 +28,11 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
 
+import static com.ipd.allpeopledemand.utils.VerifyUtils.isNumberAndLetter;
 import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
 
 /**
- * Description ：忘记密码
+ * Description ：忘记密码/修改密码
  * Author ： rmy
  * Email ： 942685687@qq.com
  * Time ： 2019/6/21.
@@ -40,6 +41,8 @@ public class ForgetPwdActivity extends BaseActivity<ForgetPwdContract.View, Forg
 
     @BindView(R.id.tv_forget_pwd)
     TopView tvForgetPwd;
+    @BindView(R.id.tv_top_title)
+    TextView tvTopTitle;
     @BindView(R.id.et_login_code)
     EditText etLoginCode;
     @BindView(R.id.et_captcha)
@@ -79,6 +82,7 @@ public class ForgetPwdActivity extends BaseActivity<ForgetPwdContract.View, Forg
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvForgetPwd);
 
+        tvTopTitle.setText(1 == getIntent().getIntExtra("modify_pwd", 1) ? "忘记密码" : "修改密码");
         mCountDownHelper = new CountDownButtonHelper(btCaptcha, 60);
     }
 
@@ -114,12 +118,15 @@ public class ForgetPwdActivity extends BaseActivity<ForgetPwdContract.View, Forg
             case R.id.rv_forget_pwd:
                 if (isFastClick()) {
                     if (etLoginCode.getText().toString().trim().length() > 0 && etCaptcha.getText().toString().trim().length() > 0 && etPwdCode.getText().toString().trim().length() > 0) {
-                        TreeMap<String, String> forgetPwdMap = new TreeMap<>();
-                        forgetPwdMap.put("telPhone", etLoginCode.getText().toString().trim());
-                        forgetPwdMap.put("password", etPwdCode.getText().toString().trim());
-                        forgetPwdMap.put("smsCode", etCaptcha.getText().toString().trim());
-                        forgetPwdMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(forgetPwdMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-                        getPresenter().getForgetPwd(forgetPwdMap, true, false);
+                        if (isNumberAndLetter(etPwdCode.getText().toString().trim())) {
+                            TreeMap<String, String> forgetPwdMap = new TreeMap<>();
+                            forgetPwdMap.put("telPhone", etLoginCode.getText().toString().trim());
+                            forgetPwdMap.put("password", etPwdCode.getText().toString().trim());
+                            forgetPwdMap.put("smsCode", etCaptcha.getText().toString().trim());
+                            forgetPwdMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(forgetPwdMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                            getPresenter().getForgetPwd(forgetPwdMap, true, false);
+                        } else
+                            ToastUtil.showShortToast("密码为（数字+字母组合）");
                     } else
                         ToastUtil.showShortToast("请填写号码！");
                 }

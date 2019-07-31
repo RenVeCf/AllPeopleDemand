@@ -79,6 +79,7 @@ public class WebViewActivity extends BaseActivity {
 
 //        dialogUtils = new CommonDialogUtils();
 //        dialogUtils.showProgress(this, "Loading...");
+
         h5Type = getIntent().getIntExtra("h5Type", 0);
         switch (h5Type) {
             case 1: //积分规则
@@ -93,54 +94,71 @@ public class WebViewActivity extends BaseActivity {
             case 4: //首页详情跳转的外链
                 h5Url = getIntent().getStringExtra("h5_url");
                 break;
+            case 5:
+                wvContent.loadData(getHtmlData(getIntent().getStringExtra("h5_url")), "text/html;charset=utf-8", "utf-8");
+                break;
         }
-        WebSettings webSettings = wvContent.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setDomStorageEnabled(true);
-        webSettings.setUseWideViewPort(true);
-        //支持自动加载图片
-        webSettings.setLoadsImagesAutomatically(true);
-        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);// 排版适应屏幕
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        }
-        wvContent.setOnTouchListener(listener);
 
-        wvContent.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                WebView.HitTestResult result = ((WebView) v).getHitTestResult();
-                if (null == result)
-                    return false;
-                int type = result.getType();
-                if (type == WebView.HitTestResult.UNKNOWN_TYPE)
-                    return false;
-                if (type == WebView.HitTestResult.EDIT_TEXT_TYPE) {
+        if (h5Type == 5) {
+            WebSettings settings = wvContent.getSettings();
+            settings.setJavaScriptEnabled(true);
+            settings.setDomStorageEnabled(true);
+            settings.setUseWideViewPort(true);
+            settings.setLoadWithOverviewMode(true);
+            wvContent.setWebViewClient(new ClassRoomDetailsActivity.MyWebViewClient(this));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
+            } else {
+                settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
+            }
+        } else {
+            WebSettings webSettings = wvContent.getSettings();
+            webSettings.setJavaScriptEnabled(true);
+            webSettings.setDomStorageEnabled(true);
+            webSettings.setUseWideViewPort(true);
+            //支持自动加载图片
+            webSettings.setLoadsImagesAutomatically(true);
+            webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);// 排版适应屏幕
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+            }
+            wvContent.setOnTouchListener(listener);
 
-                }
+            wvContent.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    WebView.HitTestResult result = ((WebView) v).getHitTestResult();
+                    if (null == result)
+                        return false;
+                    int type = result.getType();
+                    if (type == WebView.HitTestResult.UNKNOWN_TYPE)
+                        return false;
+                    if (type == WebView.HitTestResult.EDIT_TEXT_TYPE) {
+
+                    }
 
 //                itemLongClickedPopWindow = new ItemLongClickedPopWindow(this, ItemLongClickedPopWindow.IMAGE_VIEW_POPUPWINDOW, SizeUtil.dp2px(App.getContext(), 120), SizeUtil.dp2px(App.getContext(), 90));
 
-                switch (type) {
-                    case WebView.HitTestResult.PHONE_TYPE: // 处理拨号
-                        break;
-                    case WebView.HitTestResult.EMAIL_TYPE: // 处理Email
-                        break;
-                    case WebView.HitTestResult.GEO_TYPE: // TODO
-                        break;
-                    case WebView.HitTestResult.SRC_ANCHOR_TYPE: // 超链接
-                        break;
-                    case WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE:
-                        break;
-                    case WebView.HitTestResult.IMAGE_TYPE: // 处理长按图片的菜单项
-                        // 获取图片的路径
-                        saveImgUrl = result.getExtra();
-                        //通过GestureDetector获取按下的位置，来定位PopWindow显示的位置
+                    switch (type) {
+                        case WebView.HitTestResult.PHONE_TYPE: // 处理拨号
+                            break;
+                        case WebView.HitTestResult.EMAIL_TYPE: // 处理Email
+                            break;
+                        case WebView.HitTestResult.GEO_TYPE: // TODO
+                            break;
+                        case WebView.HitTestResult.SRC_ANCHOR_TYPE: // 超链接
+                            break;
+                        case WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE:
+                            break;
+                        case WebView.HitTestResult.IMAGE_TYPE: // 处理长按图片的菜单项
+                            // 获取图片的路径
+                            saveImgUrl = result.getExtra();
+                            //通过GestureDetector获取按下的位置，来定位PopWindow显示的位置
 //                        itemLongClickedPopWindow.showAtLocation(v, Gravity.TOP | Gravity.LEFT, downX, downY + 10);
-                        break;
-                    default:
-                        break;
-                }
+                            break;
+                        default:
+                            break;
+                    }
 //                itemLongClickedPopWindow.getView(R.id.item_longclicked_saveImage)
 //                        .setOnClickListener(new View.OnClickListener() {
 //                            @Override
@@ -149,10 +167,11 @@ public class WebViewActivity extends BaseActivity {
 //                                new SaveImage().execute(); // Android 4.0以后要使用线程来访问网络
 //                            }
 //                        });
-                return true;
-            }
-        });
-        wvContent.loadUrl(h5Url);
+                    return true;
+                }
+            });
+            wvContent.loadUrl(h5Url);
+        }
     }
 
     @Override
@@ -197,7 +216,10 @@ public class WebViewActivity extends BaseActivity {
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
-                ivTopTitle.setText(title);
+                if (h5Type == 5)
+                    ivTopTitle.setText("广告详情");
+                else
+                    ivTopTitle.setText(title);
             }
         });
     }
@@ -260,5 +282,13 @@ public class WebViewActivity extends BaseActivity {
         protected void onPostExecute(String result) {
             Toast.makeText(WebViewActivity.this, result, Toast.LENGTH_LONG).show();
         }
+    }
+
+    private String getHtmlData(String bodyHTML) {
+        String head = "<head>" +
+                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\"> " +
+                "<style>html{padding:15px;} body{word-wrap:break-word;font-size:13px;padding:0px;margin:0px} p{padding:0px;margin:0px;font-size:13px;color:#222222;line-height:1.3;} img{padding:0px,margin:0px;max-width:100%; width:auto; height:auto;}</style>" +
+                "</head>";
+        return "<html>" + head + "<body>" + bodyHTML + "</body></html>";
     }
 }

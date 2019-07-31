@@ -41,6 +41,7 @@ import static com.ipd.allpeopledemand.common.config.IConstants.PHONE;
 import static com.ipd.allpeopledemand.common.config.IConstants.SEX;
 import static com.ipd.allpeopledemand.common.config.IConstants.TOKEN;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
+import static com.ipd.allpeopledemand.utils.VerifyUtils.isNumberAndLetter;
 
 /**
  * Description ：注册
@@ -144,12 +145,15 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
             case R.id.rv_register:
                 if (cbProtocol.isChecked())
                     if (etLoginCode.getText().toString().trim().length() > 0 && etCaptcha.getText().toString().trim().length() > 0 && etPwdCode.getText().toString().trim().length() > 0) {
-                        TreeMap<String, String> registerMap = new TreeMap<>();
-                        registerMap.put("telPhone", etLoginCode.getText().toString().trim());
-                        registerMap.put("password", etPwdCode.getText().toString().trim());
-                        registerMap.put("smsCode", etCaptcha.getText().toString().trim());
-                        registerMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(registerMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-                        getPresenter().getRegister(registerMap, true, false);
+                        if (isNumberAndLetter(etPwdCode.getText().toString().trim())) {
+                            TreeMap<String, String> registerMap = new TreeMap<>();
+                            registerMap.put("telPhone", etLoginCode.getText().toString().trim());
+                            registerMap.put("password", etPwdCode.getText().toString().trim());
+                            registerMap.put("smsCode", etCaptcha.getText().toString().trim());
+                            registerMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(registerMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                            getPresenter().getRegister(registerMap, true, false);
+                        } else
+                            ToastUtil.showShortToast("密码为（数字+字母组合）");
                     } else
                         ToastUtil.showShortToast("请填写号码！");
                 else

@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
@@ -37,6 +39,7 @@ import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.PushContract;
 import com.ipd.allpeopledemand.presenter.PushPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
+import com.ipd.allpeopledemand.utils.LocationService;
 import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.StringUtils;
@@ -47,6 +50,8 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 import com.xuexiang.xui.widget.button.RippleView;
+import com.xuexiang.xui.widget.edittext.MultiLineEditText;
+import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
 import com.xuexiang.xui.widget.flowlayout.FlowTagLayout;
 import com.xuexiang.xui.widget.imageview.RadiusImageView;
 
@@ -73,6 +78,7 @@ import static com.ipd.allpeopledemand.common.config.IConstants.PHONE;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_LOCAL_URL;
 import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
+import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
 
 /**
  * Description ：发布
@@ -87,7 +93,7 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
     @BindView(R.id.ll_classification)
     LinearLayout llClassification;
     @BindView(R.id.et_title)
-    EditText etTitle;
+    MaterialEditText etTitle;
     @BindView(R.id.ll_city)
     LinearLayout llCity;
     @BindView(R.id.et_add_key)
@@ -107,7 +113,7 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
     @BindView(R.id.riv_upload)
     RadiusImageView rivUpload;
     @BindView(R.id.et_content)
-    EditText etContent;
+    MultiLineEditText etContent;
     @BindView(R.id.rv_push)
     RippleView rvPush;
 
@@ -122,6 +128,7 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
     private ArrayList<CityAddressBean> options1Items = new ArrayList<>();
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
+    private BDAbstractLocationListener myListener;
 
     @Override
     public int getLayoutId() {
@@ -157,6 +164,7 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
 
         int mTheme = R.style.DefaultCityPickerTheme;
         getActivity().setTheme(mTheme);
+
 //        mHotCities = new ArrayList<>();
 //        mHotCities.add(new HotCity("北京", "北京", "101010100"));
 //        mHotCities.add(new HotCity("上海", "上海", "101020100"));
@@ -241,14 +249,34 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
     }
 
     // 定位权限
-    private void rxPermissionTest() {
+    private void rxPermissionTest(final int locationType) {
         RxPermissions rxPermissions = new RxPermissions(this);
         rxPermissions.request(ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean granted) throws Exception {
                 if (granted) {
-                    // 定位
-                    pickCity();
+                    switch (locationType) {
+                        case 1:
+                            //开始定位
+                            myListener = new BDAbstractLocationListener() {
+                                @Override
+                                public void onReceiveLocation(BDLocation bdLocation) {
+                                    if (!isEmpty(bdLocation.getCity())) {
+                                        tvCity.setText(bdLocation.getCity());
+                                        SPUtil.put(getContext(), CITY, bdLocation.getCity());
+                                    } else
+                                        ToastUtil.showLongToast("定位失败!");
+                                    LocationService.get().unregisterListener(this);
+
+                                    LocationService.stop(myListener);
+                                }
+                            };
+                            LocationService.start(myListener);
+                            break;
+                        case 2:
+                            pickCity();
+                            break;
+                    }
                 } else {
                     // 权限被拒绝
                 }
@@ -289,7 +317,7 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
 //    }
 
     private void pickCity() {
-        OptionsPickerView pvOptions = new OptionsPickerBuilder(getContext(), new OnOptionsSelectListener() {
+        pvOptions = new OptionsPickerBuilder(getContext(), new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
@@ -300,6 +328,42 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
                 SPUtil.put(getContext(), CITY, city);
             }
         })
+                .setLayoutRes(R.layout.pickerview_custom_city, new CustomListener() {
+                    @Override
+                    public void customLayout(View v) {
+                        final TextView tvLocation = (TextView) v.findViewById(R.id.tv_location);
+                        tvLocation.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (isFastClick()) {
+                                    rxPermissionTest(1);
+                                    pvOptions.dismiss();
+                                }
+                            }
+                        });
+                        final TextView tvAllCity = (TextView) v.findViewById(R.id.tv_all_city);
+                        tvAllCity.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (isFastClick()) {
+                                    tvCity.setText("全国");
+                                    SPUtil.put(getContext(), CITY, "全国");
+                                    pvOptions.dismiss();
+                                }
+                            }
+                        });
+                        final Button tvSubmit = (Button) v.findViewById(R.id.bt_pickview_confirm);
+                        tvSubmit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (isFastClick()) {
+                                    pvOptions.returnData();
+                                    pvOptions.dismiss();
+                                }
+                            }
+                        });
+                    }
+                })
                 .setTitleText("")
                 .setCancelText(getResources().getString(R.string.cancel))
                 .setSubmitText(getResources().getString(R.string.sure))
@@ -420,7 +484,7 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
                 showPickerView();
                 break;
             case R.id.ll_city:
-                rxPermissionTest();
+                rxPermissionTest(2);
                 break;
             case R.id.bt_add_key:
                 if (!etAddKey.getText().toString().trim().equals("")) {
@@ -446,16 +510,16 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
                         .forResult(PictureConfig.CHOOSE_REQUEST);
                 break;
             case R.id.rv_push:
-                if (!"选择分类".equals(tvClassification) && !isEmpty(etTitle.getText().toString().trim()) && !"".equals(tvCity.getText().toString().trim()) && !isEmpty(etContact.getText().toString().trim()) && !isEmpty(etContent.getText().toString().trim())) {
+                if (!"选择分类".equals(tvClassification) && !isEmpty(etTitle.getText().toString().trim()) && !"".equals(tvCity.getText().toString().trim()) && !isEmpty(etContact.getText().toString().trim()) && !isEmpty(etContent.getContentText().trim())) {
                     TreeMap<String, String> pushMap = new TreeMap<>();
                     pushMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
                     pushMap.put("releaseClassId", releaseClassId + "");
                     pushMap.put("title", etTitle.getText().toString().trim());
-                    pushMap.put("region", tvCity.getText().toString().trim());
+                    pushMap.put("region", "全国".equals(tvCity.getText().toString().trim()) ? "0" : tvCity.getText().toString().trim());
                     pushMap.put("contacts", etContact.getText().toString().trim());
                     pushMap.put("contactNumber", SPUtil.get(getContext(), PHONE, "") + "");
                     pushMap.put("picPath", uploadImg);
-                    pushMap.put("details", etContent.getText().toString().trim());
+                    pushMap.put("details", etContent.getContentText().toString().trim());
                     StringBuilder str = new StringBuilder();
                     for (int i = 0; i < tagAdapter.getCount(); i++) {
                         if (i < tagAdapter.getCount() - 1 && tagAdapter.getCount() > 1) {
@@ -482,7 +546,7 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
                 etTitle.setText("");
                 etContact.setText("");
                 rivUpload.setImageResource(R.mipmap.bg_upload_class_room);
-                etContent.setText("");
+                etContent.setContentText("");
                 tagAdapter.clearData();
                 tagAdapter.notifyDataSetChanged();
                 break;

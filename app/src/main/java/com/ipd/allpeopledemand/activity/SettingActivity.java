@@ -31,6 +31,7 @@ import static com.ipd.allpeopledemand.common.config.IConstants.PACKAGE_NAME;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_URL;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.CHECK_VERSION;
 import static com.ipd.allpeopledemand.utils.AppUtils.getAppVersionName;
+import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
 
 /**
  * Description ：设置
@@ -46,8 +47,6 @@ public class SettingActivity extends BaseActivity<CheckVersionContract.View, Che
     SuperTextView stvVersion;
     @BindView(R.id.stv_cache_clear)
     SuperTextView stvCacheClear;
-    @BindView(R.id.stv_platform_introduction)
-    SuperTextView stvPlatformIntroduction;
     @BindView(R.id.rv_out)
     RippleView rvOut;
 
@@ -93,33 +92,43 @@ public class SettingActivity extends BaseActivity<CheckVersionContract.View, Che
 
     }
 
-    @OnClick({R.id.stv_version, R.id.stv_cache_clear, R.id.stv_platform_introduction, R.id.rv_out})
+    @OnClick({R.id.stv_version, R.id.stv_cache_clear, R.id.stv_platform_introduction, R.id.stv_modify_pwd, R.id.rv_out})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.stv_version://版本
-                XUpdate.newBuild(this)
-                        .updateUrl(BASE_URL + CHECK_VERSION)
-                        .isAutoMode(true) //如果需要完全无人干预，自动更新，需要root权限【静默安装需要】
-                        .updateParser(new CustomUpdateParser()) //设置自定义的版本更新解析器
-                        .update();
+                if (isFastClick())
+                    XUpdate.newBuild(this)
+                            .updateUrl(BASE_URL + CHECK_VERSION)
+                            .isAutoMode(true) //如果需要完全无人干预，自动更新，需要root权限【静默安装需要】
+                            .updateParser(new CustomUpdateParser()) //设置自定义的版本更新解析器
+                            .update();
                 break;
             case R.id.stv_cache_clear://清缓存
-                CacheUtil.clearAllCache(this);
-                try {
-                    stvCacheClear.setRightString(CacheUtil.getTotalCacheSize(this));
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (isFastClick()) {
+                    CacheUtil.clearAllCache(this);
+                    try {
+                        stvCacheClear.setRightString(CacheUtil.getTotalCacheSize(this));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
             case R.id.stv_platform_introduction://App介绍
-                startActivity(new Intent(this, WebViewActivity.class).putExtra("h5Type", 2));
+                if (isFastClick())
+                    startActivity(new Intent(this, WebViewActivity.class).putExtra("h5Type", 2));
+                break;
+            case R.id.stv_modify_pwd://修改密码
+                if (isFastClick())
+                    startActivity(new Intent(this, ForgetPwdActivity.class).putExtra("modify_pwd", 2));
                 break;
             case R.id.rv_out:
-                //清除所有临时储存
-                SPUtil.clear(ApplicationUtil.getContext());
-                ApplicationUtil.getManager().finishActivity(MainActivity.class);
-                startActivity(new Intent(this, LoginActivity.class));
-                finish();
+                if (isFastClick()) {
+                    //清除所有临时储存
+                    SPUtil.clear(ApplicationUtil.getContext());
+                    ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                    startActivity(new Intent(this, LoginActivity.class));
+                    finish();
+                }
                 break;
         }
     }

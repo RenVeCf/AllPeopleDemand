@@ -115,7 +115,7 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
                 break;
             case R.id.tv_forget_pwd:
                 if (isFastClick())
-                    startActivity(new Intent(this, ForgetPwdActivity.class));
+                    startActivity(new Intent(this, ForgetPwdActivity.class).putExtra("modify_pwd", 1));
                 break;
             case R.id.tv_register:
                 if (isFastClick())

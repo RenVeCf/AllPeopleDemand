@@ -4,7 +4,7 @@ public class MainADImgBean {
     /**
      * msg : 操作成功
      * code : 200
-     * data : {"upadvert":{"searchValue":null,"createBy":null,"createTime":"2019-07-23 17:11:42","updateBy":null,"updateTime":"2019-07-23 17:11:44","remark":null,"params":{},"upadvertId":1,"picPath":"upload/2019/07/25/1a18d0d18e501ecdc6c0deef1c077087.jpg","title":"标题","status":"1"}}
+     * data : {"upadvert":{"searchValue":null,"createBy":null,"createTime":"2019-07-23 17:11:42","updateBy":null,"updateTime":"2019-07-30 13:39:12","remark":null,"params":{},"upadvertId":1,"picPath":"upload/2019/07/25/1a18d0d18e501ecdc6c0deef1c077087.jpg","title":"标题","status":"1","detailType":"3","details":"<p>12313<\/p>","detailUrl":""}}
      */
 
     private String msg;
@@ -37,7 +37,7 @@ public class MainADImgBean {
 
     public static class DataBean {
         /**
-         * upadvert : {"searchValue":null,"createBy":null,"createTime":"2019-07-23 17:11:42","updateBy":null,"updateTime":"2019-07-23 17:11:44","remark":null,"params":{},"upadvertId":1,"picPath":"upload/2019/07/25/1a18d0d18e501ecdc6c0deef1c077087.jpg","title":"标题","status":"1"}
+         * upadvert : {"searchValue":null,"createBy":null,"createTime":"2019-07-23 17:11:42","updateBy":null,"updateTime":"2019-07-30 13:39:12","remark":null,"params":{},"upadvertId":1,"picPath":"upload/2019/07/25/1a18d0d18e501ecdc6c0deef1c077087.jpg","title":"标题","status":"1","detailType":"3","details":"<p>12313<\/p>","detailUrl":""}
          */
 
         private UpadvertBean upadvert;
@@ -56,13 +56,16 @@ public class MainADImgBean {
              * createBy : null
              * createTime : 2019-07-23 17:11:42
              * updateBy : null
-             * updateTime : 2019-07-23 17:11:44
+             * updateTime : 2019-07-30 13:39:12
              * remark : null
              * params : {}
              * upadvertId : 1
              * picPath : upload/2019/07/25/1a18d0d18e501ecdc6c0deef1c077087.jpg
              * title : 标题
              * status : 1
+             * detailType : 3
+             * details : <p>12313</p>
+             * detailUrl :
              */
 
             private Object searchValue;
@@ -76,6 +79,9 @@ public class MainADImgBean {
             private String picPath;
             private String title;
             private String status;
+            private String detailType;
+            private String details;
+            private String detailUrl;
 
             public Object getSearchValue() {
                 return searchValue;
@@ -163,6 +169,30 @@ public class MainADImgBean {
 
             public void setStatus(String status) {
                 this.status = status;
+            }
+
+            public String getDetailType() {
+                return detailType;
+            }
+
+            public void setDetailType(String detailType) {
+                this.detailType = detailType;
+            }
+
+            public String getDetails() {
+                return details;
+            }
+
+            public void setDetails(String details) {
+                this.details = details;
+            }
+
+            public String getDetailUrl() {
+                return detailUrl;
+            }
+
+            public void setDetailUrl(String detailUrl) {
+                this.detailUrl = detailUrl;
             }
 
             public static class ParamsBean {

@@ -85,17 +85,23 @@
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
-                    <EditText
+                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                         android:id="@+id/et_title"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@null"
-                        android:gravity="center_vertical|start"
+                        android:gravity="bottom|start"
                         android:hint="请输入标题"
-                        android:textColor="@color/tx_bottom_navigation"
-                        android:textColorHint="@color/tx_bottom_navigation"
-                        android:textSize="18sp" />
+                        android:maxLength="40"
+                        android:textSize="18sp"
+                        app:met_allowEmpty="false"
+                        app:met_bottomTextSize="10sp"
+                        app:met_clearButton="true"
+                        app:met_hideUnderline="true"
+                        app:met_maxCharacters="40"
+                        app:met_singleLineEllipsis="true"
+                        app:met_textColor="@color/tx_bottom_navigation"
+                        app:met_textColorHint="@color/tx_bottom_navigation" />
                 </LinearLayout>
 
                 <View
@@ -239,7 +245,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/y400"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/y40"
                 android:background="@color/white"
                 android:orientation="vertical"
@@ -252,18 +258,19 @@
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
-                <EditText
+                <com.xuexiang.xui.widget.edittext.MultiLineEditText
                     android:id="@+id/et_content"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginTop="@dimen/y20"
                     android:layout_weight="1"
-                    android:background="@null"
                     android:gravity="top|start"
-                    android:hint="请输入详情描述，不允许带有自己或者别人 的联系方式。"
-                    android:textColor="@color/tx_bottom_navigation"
-                    android:textColorHint="@color/tx_bottom_navigation"
-                    android:textSize="16sp" />
+                    app:mlet_contentBackground="@color/white"
+                    app:mlet_contentTextColor="@color/black"
+                    app:mlet_contentTextSize="16sp"
+                    app:mlet_hintText="请输入详情描述，不允许带有自己或者别人 的联系方式。"
+                    app:mlet_hintTextColor="@color/tx_bottom_navigation"
+                    app:mlet_maxCount="400" />
             </LinearLayout>
 
             <LinearLayout

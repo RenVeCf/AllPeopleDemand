@@ -26,28 +26,58 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-                android:id="@+id/stv_title"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y150"
+                android:background="@color/white"
+                android:orientation="horizontal"
                 android:paddingStart="@dimen/x50"
-                android:paddingEnd="@dimen/x50"
-                app:sCenterTextColor="@color/tx_bottom_navigation"
-                app:sCenterViewGravity="right_center"
-                app:sDividerLineType="bottom"
-                app:sEditTextWidth="@dimen/x700"
-                app:sEnableEdit="true"
-                app:sLeftTextColor="@color/black"
-                app:sLeftTextSize="16sp"
-                app:sLeftTextString="标题:" />
+                android:paddingEnd="@dimen/x50">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/x40"
+                    android:layout_weight="0.2"
+                    android:gravity="start|center_vertical"
+                    android:text="标题:"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/et_title"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="bottom|start"
+                    android:hint="请输入标题"
+                    android:maxLength="40"
+                    android:textSize="18sp"
+                    app:met_allowEmpty="false"
+                    app:met_bottomTextSize="10sp"
+                    app:met_clearButton="true"
+                    app:met_hideUnderline="true"
+                    app:met_maxCharacters="40"
+                    app:met_singleLineEllipsis="true"
+                    app:met_textColor="@color/tx_bottom_navigation"
+                    app:met_textColorHint="@color/tx_bottom_navigation" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/x50"
+                android:layout_marginEnd="@dimen/x50"
+                android:background="@color/bg_crude_line" />
 
             <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                 android:id="@+id/stv_city"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y150"
-                android:paddingStart="@dimen/x50"
-                android:paddingEnd="@dimen/x50"
+                android:paddingStart="@dimen/x30"
+                android:paddingEnd="@dimen/x30"
                 app:sCenterTextColor="@color/tx_bottom_navigation"
+                app:sCenterTextSize="18sp"
                 app:sCenterViewGravity="left_center"
                 app:sDividerLineType="bottom"
                 app:sLeftTextColor="@color/black"
@@ -59,9 +89,10 @@
                 android:id="@+id/stv_contact_name"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y150"
-                android:paddingStart="@dimen/x50"
-                android:paddingEnd="@dimen/x50"
+                android:paddingStart="@dimen/x30"
+                android:paddingEnd="@dimen/x30"
                 app:sCenterTextColor="@color/tx_bottom_navigation"
+                app:sCenterTextSize="18sp"
                 app:sCenterViewGravity="left_center"
                 app:sDividerLineType="bottom"
                 app:sLeftTextColor="@color/black"
@@ -72,9 +103,10 @@
                 android:id="@+id/stv_contact_phone"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y150"
-                android:paddingStart="@dimen/x50"
-                android:paddingEnd="@dimen/x50"
+                android:paddingStart="@dimen/x30"
+                android:paddingEnd="@dimen/x30"
                 app:sCenterTextColor="@color/tx_bottom_navigation"
+                app:sCenterTextSize="18sp"
                 app:sCenterViewGravity="left_center"
                 app:sDividerLineType="bottom"
                 app:sLeftTextColor="@color/black"
@@ -94,6 +126,7 @@
                     android:layout_marginBottom="@dimen/y50"
                     android:text="添加照片"
                     android:textColor="@color/black"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@+id/riv_modify"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -121,7 +154,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/y400"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/y40"
                 android:background="@color/white"
                 android:orientation="vertical"
@@ -137,27 +170,29 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="详情描述:"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/x80"
                         android:text="不允许带有自己或者别人的联系方式。"
-                        android:textColor="@color/tx_bottom_navigation" />
+                        android:textColor="@color/tx_bottom_navigation"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
-                <EditText
+                <com.xuexiang.xui.widget.edittext.MultiLineEditText
                     android:id="@+id/et_content"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginTop="@dimen/y20"
                     android:layout_weight="1"
-                    android:background="@null"
                     android:gravity="top|start"
-                    android:textColor="@color/tx_bottom_navigation"
-                    android:textColorHint="@color/tx_bottom_navigation"
-                    android:textSize="16sp" />
+                    app:mlet_contentBackground="@color/white"
+                    app:mlet_contentTextColor="@color/black"
+                    app:mlet_contentTextSize="16sp"
+                    app:mlet_maxCount="400" />
             </LinearLayout>
 
             <LinearLayout
@@ -178,7 +213,7 @@
                         android:layout_height="wrap_content"
                         android:text="搜索关键词"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -186,7 +221,7 @@
                         android:layout_marginStart="@dimen/x50"
                         android:text="限添加3个"
                         android:textColor="@color/tx_bottom_navigation"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -217,7 +252,8 @@
                         android:background="@drawable/bg_gradient_bt"
                         android:gravity="center"
                         android:text="添加"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <com.xuexiang.xui.widget.flowlayout.FlowTagLayout
@@ -238,7 +274,7 @@
                     android:layout_height="wrap_content"
                     android:text="注: "
                     android:textColor="@color/tx_bottom_navigation_select"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -247,7 +283,7 @@
                     android:layout_weight="1"
                     android:text="标题，内容，图片，头像，不允许体现联系方式。管理员发现/或者用户举报，帖子下架，多次发现封发帖权限（不等于封号），申请权限可恢复。"
                     android:textColor="@color/tx_bottom_navigation"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <com.xuexiang.xui.widget.button.RippleView

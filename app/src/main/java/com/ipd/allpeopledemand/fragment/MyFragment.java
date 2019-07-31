@@ -147,6 +147,7 @@ public class MyFragment extends BaseFragment<CheckInContract.View, CheckInContra
         tvName.setText(SPUtil.get(getContext(), NAME, "") + "");
         tvAllPeopleCode.setText("(" + SPUtil.get(getContext(), ALL_PEOPLE, "") + ")");
         tvOnlineTime.setText("浏览时长：12小时");//TODO  后台没有,让写死
+        tvOnlineTime.setVisibility(View.GONE);//暂时去掉该功能
     }
 
     @Override

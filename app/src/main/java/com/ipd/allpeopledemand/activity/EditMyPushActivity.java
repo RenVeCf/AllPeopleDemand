@@ -9,10 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bumptech.glide.Glide;
@@ -32,6 +36,7 @@ import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.MyPushEditContract;
 import com.ipd.allpeopledemand.presenter.MyPushEditPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
+import com.ipd.allpeopledemand.utils.LocationService;
 import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.StringUtils;
@@ -41,6 +46,8 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xuexiang.xui.widget.button.RippleView;
+import com.xuexiang.xui.widget.edittext.MultiLineEditText;
+import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
 import com.xuexiang.xui.widget.flowlayout.FlowTagLayout;
 import com.xuexiang.xui.widget.imageview.RadiusImageView;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
@@ -78,8 +85,8 @@ public class EditMyPushActivity extends BaseActivity<MyPushEditContract.View, My
 
     @BindView(R.id.tv_edit_my_push)
     TopView tvEditMyPush;
-    @BindView(R.id.stv_title)
-    SuperTextView stvTitle;
+    @BindView(R.id.et_title)
+    MaterialEditText etTitle;
     @BindView(R.id.stv_city)
     SuperTextView stvCity;
     @BindView(R.id.stv_contact_name)
@@ -89,7 +96,7 @@ public class EditMyPushActivity extends BaseActivity<MyPushEditContract.View, My
     @BindView(R.id.riv_modify)
     RadiusImageView rivModify;
     @BindView(R.id.et_content)
-    EditText etContent;
+    MultiLineEditText etContent;
     @BindView(R.id.et_modify_key)
     EditText etModifyKey;
     @BindView(R.id.bt_modify_key)
@@ -102,10 +109,12 @@ public class EditMyPushActivity extends BaseActivity<MyPushEditContract.View, My
     private FlowTagAdapter tagAdapter;
     private MyPushDetailsBean.DataBean.ReleaseBean releaseBean;
     //    private List<HotCity> mHotCities; //热门城市
+    private OptionsPickerView pvOptions;
     private String uploadImg = "";//修改照片的地址
     private ArrayList<CityAddressBean> options1Items = new ArrayList<>();
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
+    private BDAbstractLocationListener myListener;
 
     @Override
     public int getLayoutId() {
@@ -145,13 +154,13 @@ public class EditMyPushActivity extends BaseActivity<MyPushEditContract.View, My
     @Override
     public void initData() {
         initJsonData();
-        stvTitle.setCenterEditString(releaseBean.getTitle());
+        etTitle.setText(releaseBean.getTitle());
         stvCity.setCenterString(releaseBean.getRegion());
         stvContactName.setCenterString(releaseBean.getUserCall());
         stvContactPhone.setCenterString(releaseBean.getContactNumber());
         Glide.with(this).load(BASE_LOCAL_URL + releaseBean.getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.bg_upload_class_room)).into(rivModify);
         uploadImg = releaseBean.getPicPath();
-        etContent.setText(releaseBean.getDetails());
+        etContent.setContentText(releaseBean.getDetails());
         if (!isEmpty(releaseBean.getKeyword())) {
             String[] keyWord = releaseBean.getKeyword().split(",");
             for (String str : keyWord) {
@@ -187,14 +196,34 @@ public class EditMyPushActivity extends BaseActivity<MyPushEditContract.View, My
     }
 
     // 定位权限
-    private void rxPermissionTest() {
+    private void rxPermissionTest(final int locationType) {
         RxPermissions rxPermissions = new RxPermissions(this);
         rxPermissions.request(ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean granted) throws Exception {
                 if (granted) {
-                    // 定位
-                    pickCity();
+                    switch (locationType) {
+                        case 1:
+                            //开始定位
+                            myListener = new BDAbstractLocationListener() {
+                                @Override
+                                public void onReceiveLocation(BDLocation bdLocation) {
+                                    if (!isEmpty(bdLocation.getCity())) {
+                                        stvCity.setCenterString(bdLocation.getCity());
+                                        SPUtil.put(EditMyPushActivity.this, CITY, bdLocation.getCity());
+                                    } else
+                                        ToastUtil.showLongToast("定位失败!");
+                                    LocationService.get().unregisterListener(this);
+
+                                    LocationService.stop(myListener);
+                                }
+                            };
+                            LocationService.start(myListener);
+                            break;
+                        case 2:
+                            pickCity();
+                            break;
+                    }
                 } else {
                     // 权限被拒绝
                 }
@@ -253,7 +282,7 @@ public class EditMyPushActivity extends BaseActivity<MyPushEditContract.View, My
     }*/
 
     private void pickCity() {
-        OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+        pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
@@ -264,6 +293,42 @@ public class EditMyPushActivity extends BaseActivity<MyPushEditContract.View, My
                 SPUtil.put(EditMyPushActivity.this, CITY, city);
             }
         })
+                .setLayoutRes(R.layout.pickerview_custom_city, new CustomListener() {
+                    @Override
+                    public void customLayout(View v) {
+                        final TextView tvLocation = (TextView) v.findViewById(R.id.tv_location);
+                        tvLocation.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (isFastClick()) {
+                                    rxPermissionTest(1);
+                                    pvOptions.dismiss();
+                                }
+                            }
+                        });
+                        final TextView tvAllCity = (TextView) v.findViewById(R.id.tv_all_city);
+                        tvAllCity.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (isFastClick()) {
+                                    stvCity.setCenterString("全国");
+                                    SPUtil.put(EditMyPushActivity.this, CITY, "全国");
+                                    pvOptions.dismiss();
+                                }
+                            }
+                        });
+                        final Button tvSubmit = (Button) v.findViewById(R.id.bt_pickview_confirm);
+                        tvSubmit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (isFastClick()) {
+                                    pvOptions.returnData();
+                                    pvOptions.dismiss();
+                                }
+                            }
+                        });
+                    }
+                })
                 .setTitleText("")
                 .setCancelText(getResources().getString(R.string.cancel))
                 .setSubmitText(getResources().getString(R.string.sure))
@@ -363,7 +428,7 @@ public class EditMyPushActivity extends BaseActivity<MyPushEditContract.View, My
         switch (view.getId()) {
             case R.id.stv_city:
                 if (isFastClick())
-                    rxPermissionTest();
+                    rxPermissionTest(2);
                 break;
             case R.id.riv_modify:
                 if (isFastClick()) {
@@ -387,14 +452,14 @@ public class EditMyPushActivity extends BaseActivity<MyPushEditContract.View, My
                 break;
             case R.id.rv_modify_push:
                 if (isFastClick()) {
-                    if (!isEmpty(stvTitle.getCenterEditValue()) && !"".equals(stvCity.getCenterString().trim()) && !isEmpty(etContent.getText().toString().trim())) {
+                    if (!isEmpty(etTitle.getText()) && !"".equals(stvCity.getCenterString().trim()) && !isEmpty(etContent.getContentText().trim())) {
                         TreeMap<String, String> pushMap = new TreeMap<>();
                         pushMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                         pushMap.put("releaseId", releaseBean.getReleaseId() + "");
-                        pushMap.put("title", stvTitle.getCenterEditValue());
-                        pushMap.put("region", stvCity.getCenterString().trim());
+                        pushMap.put("title", etTitle.getText().toString().trim());
+                        pushMap.put("region", "全国".equals(stvCity.getCenterString().trim()) ? "0" : stvCity.getCenterString().trim());
                         pushMap.put("picPath", uploadImg);
-                        pushMap.put("details", etContent.getText().toString().trim());
+                        pushMap.put("details", etContent.getContentText().toString().trim());
                         StringBuilder str = new StringBuilder();
                         for (int i = 0; i < tagAdapter.getCount(); i++) {
                             if (i < tagAdapter.getCount() - 1 && tagAdapter.getCount() > 1) {

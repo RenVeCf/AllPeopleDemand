@@ -32,6 +32,7 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.allpeopledemand.R;
+import com.ipd.allpeopledemand.activity.WebViewActivity;
 import com.ipd.allpeopledemand.adapter.ViewPagerAdapter;
 import com.ipd.allpeopledemand.base.BaseFragment;
 import com.ipd.allpeopledemand.bean.AttentionCollectionBean;
@@ -212,7 +213,7 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
                 mainADImgMap.put("password", "F9A75BB045D75998E1509B75ED3A5225");
                 getPresenter().getMainADImg(mainADImgMap, false, false);
             }
-        }, 2000);    //延时1s执行
+        }, 4000);    //延时1s执行
 
 
         initJsonData();
@@ -560,6 +561,19 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
     public void resultMainADImg(MainADImgBean data) {
         if (data.getCode() == 200 && !isEmpty(data.getData().getUpadvert().getPicPath())) {
             new MainADImgDialog(getActivity(), data.getData().getUpadvert().getPicPath()) {
+                @Override
+                public void goSee() {
+                    switch (data.getData().getUpadvert().getDetailType()) {
+                        case "1":
+                            break;
+                        case "2":
+                            startActivity(new Intent(getContext(), WebViewActivity.class).putExtra("h5Type", 4).putExtra("h5_url", data.getData().getUpadvert().getDetailUrl()));
+                            break;
+                        case "3":
+                            startActivity(new Intent(getContext(), WebViewActivity.class).putExtra("h5Type", 5).putExtra("h5_url", data.getData().getUpadvert().getDetails()));
+                            break;
+                    }
+                }
             }.show();
         }
     }
