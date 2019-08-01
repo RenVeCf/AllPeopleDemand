@@ -487,6 +487,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 }
                 if (!isEmpty(data.getData().getRelease().getPicPath())) {
                     Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.ic_test_ad)).into(rivTitle);
+                    medias.clear();
                     LocalMedia localMedia = new LocalMedia();
                     localMedia.setCompressed(true);
                     localMedia.setCompressPath(BASE_LOCAL_URL + data.getData().getRelease().getPicPath());
@@ -548,6 +549,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 }
                 if (!isEmpty(data.getData().getRelease().getPicPath())) {
                     Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.ic_test_ad)).into(rivTitle);
+                    medias.clear();
                     LocalMedia localMedia = new LocalMedia();
                     localMedia.setCompressed(true);
                     localMedia.setCompressPath(BASE_LOCAL_URL + data.getData().getRelease().getPicPath());

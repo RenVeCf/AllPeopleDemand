@@ -7,7 +7,9 @@ import com.xuexiang.xupdate.entity.UpdateEntity;
 import com.xuexiang.xupdate.proxy.IUpdateParser;
 
 import static com.ipd.allpeopledemand.common.config.IConstants.PACKAGE_NAME;
+import static com.ipd.allpeopledemand.utils.AppUtils.getAppVersionCode;
 import static com.ipd.allpeopledemand.utils.AppUtils.getAppVersionName;
+import static com.ipd.allpeopledemand.utils.DateUtils.getTodayDateTime;
 
 /**
  * Description ：
@@ -32,7 +34,7 @@ public class CustomUpdateParser implements IUpdateParser {
                     .setVersionName(result.getData().getVersion().getVersionNo())
                     .setUpdateContent(result.getData().getVersion().getIntro())
                     .setIsAutoInstall(true)
-                    .setDownloadUrl("http://xx.hanyu365.com.cn:8080/H5/allpeopledemand_1-1.0-2019-07-29.apk");
+                    .setDownloadUrl("http://xx.hanyu365.com.cn:8080/H5/allpeopledemand_" + getAppVersionCode(ApplicationUtil.getContext(), PACKAGE_NAME) + "-" + getAppVersionName(ApplicationUtil.getContext(), PACKAGE_NAME) + "-" + getTodayDateTime() + ".apk");
         }
         return null;
     }

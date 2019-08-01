@@ -7,9 +7,9 @@ import java.util.List;
 public class AttentionListBean {
     /**
      * msg : 操作成功
-     * total : 1
+     * total : 2
      * code : 200
-     * data : {"followList":[{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"releaseId":1,"releaseClassId":1,"title":"测试发布内容","region":"上海市","contacts":"付宗乐","contactNumber":"15937016361","picPath":"图片地址","details":"详情内容内容内容","releaseTime":null,"browseNum":null,"purchaseNum":null,"isRecommend":null,"status":"1","userId":1,"keyword":"上海,北京,北京","isFollow":true,"userCall":"默认呢称","avatar":"默认头像","className":"推荐"}]}
+     * data : {"followList":[{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"releaseId":11,"releaseClassId":3,"title":"帅哥一枚求小姐姐带走\u2026\u2026","region":null,"contacts":null,"contactNumber":null,"picPath":"","details":null,"releaseTime":"2019-07-24 18:13:34","browseNum":null,"purchaseNum":null,"isRecommend":null,"status":"1","userId":41,"keyword":null,"isFollow":"2","type":"1","userCall":"Zero","avatar":"upload/2019/07/27/d27dcd667af0f59659b39e1bfe88ed0b.jpg","balance":null,"className":"交友","followId":7,"orderId":null,"notPurchase":"2","detailType":null,"detailUrl":null,"wholeCountry":null,"systemOpen":null,"longitude":null,"latitude":null,"code":null,"systemStatus":null},{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"releaseId":7,"releaseClassId":2,"title":"OPPO Reno系列，全新拍照手机，10倍混合光变","region":null,"contacts":null,"contactNumber":null,"picPath":"upload/2019/07/24/a72ad5a0e7a3a3519cec7cbb12545362.jpg","details":null,"releaseTime":"2019-07-24 15:12:25","browseNum":null,"purchaseNum":null,"isRecommend":null,"status":"1","userId":null,"keyword":null,"isFollow":"1","type":"2","userCall":null,"avatar":null,"balance":null,"className":null,"followId":54,"orderId":null,"notPurchase":"1","detailType":"2","detailUrl":null,"wholeCountry":null,"systemOpen":null,"longitude":null,"latitude":null,"code":null,"systemStatus":null}]}
      */
 
     private String msg;
@@ -69,26 +69,38 @@ public class AttentionListBean {
              * updateTime : null
              * remark : null
              * params : {}
-             * releaseId : 1
-             * releaseClassId : 1
-             * title : 测试发布内容
-             * region : 上海市
-             * contacts : 付宗乐
-             * contactNumber : 15937016361
-             * picPath : 图片地址
-             * details : 详情内容内容内容
-             * releaseTime : null
+             * releaseId : 11
+             * releaseClassId : 3
+             * title : 帅哥一枚求小姐姐带走……
+             * region : null
+             * contacts : null
+             * contactNumber : null
+             * picPath :
+             * details : null
+             * releaseTime : 2019-07-24 18:13:34
              * browseNum : null
              * purchaseNum : null
              * isRecommend : null
              * status : 1
-             * userId : 1
-             * keyword : 上海,北京,北京
-             * isFollow : true
-             * userCall : 默认呢称
-             * avatar : 默认头像
-             * className : 推荐
-             * notPurchase : "1"
+             * userId : 41
+             * keyword : null
+             * isFollow : 2
+             * type : 1
+             * userCall : Zero
+             * avatar : upload/2019/07/27/d27dcd667af0f59659b39e1bfe88ed0b.jpg
+             * balance : null
+             * className : 交友
+             * followId : 7
+             * orderId : null
+             * notPurchase : 2
+             * detailType : null
+             * detailUrl : null
+             * wholeCountry : null
+             * systemOpen : null
+             * longitude : null
+             * latitude : null
+             * code : null
+             * systemStatus : null
              */
 
             private Object searchValue;
@@ -101,41 +113,36 @@ public class AttentionListBean {
             private int releaseId;
             private int releaseClassId;
             private String title;
-            private String region;
-            private String contacts;
-            private String contactNumber;
+            private Object region;
+            private Object contacts;
+            private Object contactNumber;
             private String picPath;
-            private String details;
+            private Object details;
             private String releaseTime;
             private Object browseNum;
             private Object purchaseNum;
             private Object isRecommend;
             private String status;
             private int userId;
-            private String type;
-            private String keyword;
+            private Object keyword;
             private String isFollow;
+            private String type;
             private String userCall;
             private String avatar;
+            private Object balance;
             private String className;
+            private int followId;
+            private Object orderId;
             private String notPurchase;
+            private String detailType;
+            private String detailUrl;
+            private Object wholeCountry;
+            private Object systemOpen;
+            private Object longitude;
+            private Object latitude;
+            private Object code;
+            private Object systemStatus;
             private int itemType;
-
-            public String getNotPurchase() {
-                return notPurchase;
-            }
-
-            public void setNotPurchase(String notPurchase) {
-                this.notPurchase = notPurchase;
-            }
-
-            public String getType() {
-                return type;
-            }
-
-            public void setType(String type) {
-                this.type = type;
-            }
 
             public void setItemType(int itemType) {
                 this.itemType = itemType;
@@ -221,27 +228,27 @@ public class AttentionListBean {
                 this.title = title;
             }
 
-            public String getRegion() {
+            public Object getRegion() {
                 return region;
             }
 
-            public void setRegion(String region) {
+            public void setRegion(Object region) {
                 this.region = region;
             }
 
-            public String getContacts() {
+            public Object getContacts() {
                 return contacts;
             }
 
-            public void setContacts(String contacts) {
+            public void setContacts(Object contacts) {
                 this.contacts = contacts;
             }
 
-            public String getContactNumber() {
+            public Object getContactNumber() {
                 return contactNumber;
             }
 
-            public void setContactNumber(String contactNumber) {
+            public void setContactNumber(Object contactNumber) {
                 this.contactNumber = contactNumber;
             }
 
@@ -253,11 +260,11 @@ public class AttentionListBean {
                 this.picPath = picPath;
             }
 
-            public String getDetails() {
+            public Object getDetails() {
                 return details;
             }
 
-            public void setDetails(String details) {
+            public void setDetails(Object details) {
                 this.details = details;
             }
 
@@ -309,20 +316,28 @@ public class AttentionListBean {
                 this.userId = userId;
             }
 
-            public String getKeyword() {
+            public Object getKeyword() {
                 return keyword;
             }
 
-            public void setKeyword(String keyword) {
+            public void setKeyword(Object keyword) {
                 this.keyword = keyword;
             }
 
-            public String isIsFollow() {
+            public String getIsFollow() {
                 return isFollow;
             }
 
             public void setIsFollow(String isFollow) {
                 this.isFollow = isFollow;
+            }
+
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
             }
 
             public String getUserCall() {
@@ -341,12 +356,108 @@ public class AttentionListBean {
                 this.avatar = avatar;
             }
 
+            public Object getBalance() {
+                return balance;
+            }
+
+            public void setBalance(Object balance) {
+                this.balance = balance;
+            }
+
             public String getClassName() {
                 return className;
             }
 
             public void setClassName(String className) {
                 this.className = className;
+            }
+
+            public int getFollowId() {
+                return followId;
+            }
+
+            public void setFollowId(int followId) {
+                this.followId = followId;
+            }
+
+            public Object getOrderId() {
+                return orderId;
+            }
+
+            public void setOrderId(Object orderId) {
+                this.orderId = orderId;
+            }
+
+            public String getNotPurchase() {
+                return notPurchase;
+            }
+
+            public void setNotPurchase(String notPurchase) {
+                this.notPurchase = notPurchase;
+            }
+
+            public String getDetailType() {
+                return detailType;
+            }
+
+            public void setDetailType(String detailType) {
+                this.detailType = detailType;
+            }
+
+            public String getDetailUrl() {
+                return detailUrl;
+            }
+
+            public void setDetailUrl(String detailUrl) {
+                this.detailUrl = detailUrl;
+            }
+
+            public Object getWholeCountry() {
+                return wholeCountry;
+            }
+
+            public void setWholeCountry(Object wholeCountry) {
+                this.wholeCountry = wholeCountry;
+            }
+
+            public Object getSystemOpen() {
+                return systemOpen;
+            }
+
+            public void setSystemOpen(Object systemOpen) {
+                this.systemOpen = systemOpen;
+            }
+
+            public Object getLongitude() {
+                return longitude;
+            }
+
+            public void setLongitude(Object longitude) {
+                this.longitude = longitude;
+            }
+
+            public Object getLatitude() {
+                return latitude;
+            }
+
+            public void setLatitude(Object latitude) {
+                this.latitude = latitude;
+            }
+
+            public Object getCode() {
+                return code;
+            }
+
+            public void setCode(Object code) {
+                this.code = code;
+            }
+
+            public Object getSystemStatus() {
+                return systemStatus;
+            }
+
+            public void setSystemStatus(Object systemStatus) {
+                this.systemStatus = systemStatus;
             }
 
             @Override

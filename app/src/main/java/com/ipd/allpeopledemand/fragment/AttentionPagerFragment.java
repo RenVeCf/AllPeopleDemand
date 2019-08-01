@@ -17,6 +17,7 @@ import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.activity.InformationDetailsActivity;
 import com.ipd.allpeopledemand.activity.LoginActivity;
 import com.ipd.allpeopledemand.activity.MainActivity;
+import com.ipd.allpeopledemand.activity.WebViewActivity;
 import com.ipd.allpeopledemand.adapter.AttentionPagerAdapter;
 import com.ipd.allpeopledemand.base.BaseFragment;
 import com.ipd.allpeopledemand.bean.AttentionCollectionBean;
@@ -163,15 +164,15 @@ public class AttentionPagerFragment extends BaseFragment<AttentionListContract.V
                                                 case 2:
                                                     if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
                                                         startActivity(new Intent(getActivity(), LoginActivity.class));
-                                                    else {//FIXME
-//                                                        switch (releaseListBean.get(position).getDetailType()) {
-//                                                            case "1":
-//                                                                startActivity(new Intent(getContext(), WebViewActivity.class).putExtra("h5Type", 4).putExtra("h5_url", releaseListBean.get(position).getDetailUrl()));
-//                                                                break;
-//                                                            case "2":
-//                                                                startActivityForResult(new Intent(getActivity(), InformationDetailsActivity.class).putExtra("releaseId", followListBean.get(position).getReleaseId()).putExtra("activityType", 4), REQUEST_CODE_98);
-//                                                                break;
-//                                                        }
+                                                    else {
+                                                        switch (followListBean.get(position).getDetailType()) {
+                                                            case "1":
+                                                                startActivity(new Intent(getContext(), WebViewActivity.class).putExtra("h5Type", 4).putExtra("h5_url", followListBean.get(position).getDetailUrl()));
+                                                                break;
+                                                            case "2":
+                                                                startActivityForResult(new Intent(getActivity(), InformationDetailsActivity.class).putExtra("releaseId", followListBean.get(position).getReleaseId()).putExtra("activityType", 4), REQUEST_CODE_98);
+                                                                break;
+                                                        }
                                                     }
                                                     break;
                                             }

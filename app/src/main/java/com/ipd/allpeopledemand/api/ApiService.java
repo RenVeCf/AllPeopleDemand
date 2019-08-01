@@ -17,6 +17,7 @@ import com.ipd.allpeopledemand.bean.ClassRoomWechatPayBean;
 import com.ipd.allpeopledemand.bean.FeedBackBean;
 import com.ipd.allpeopledemand.bean.ForgetPwdBean;
 import com.ipd.allpeopledemand.bean.InformationBean;
+import com.ipd.allpeopledemand.bean.IsMsgBean;
 import com.ipd.allpeopledemand.bean.LoadingBean;
 import com.ipd.allpeopledemand.bean.MainADImgBean;
 import com.ipd.allpeopledemand.bean.MainAliPayBean;
@@ -71,6 +72,7 @@ import static com.ipd.allpeopledemand.common.config.UrlConfig.CLASS_ROOM_WECHAT_
 import static com.ipd.allpeopledemand.common.config.UrlConfig.FEED_BACK;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.FORGET_PWD;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.INFORMATION;
+import static com.ipd.allpeopledemand.common.config.UrlConfig.IS_MSG;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.LOADING_IMG;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.LOGIN;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.MAIN_AD_IMG;
@@ -140,6 +142,11 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(REGISTER)
     Observable<RegisterBean> getRegister(@FieldMap Map<String, String> map);
+
+    //消息是否已读未读
+    @FormUrlEncoded
+    @POST(IS_MSG)
+    Observable<IsMsgBean> getIsMsg(@FieldMap Map<String, String> map);
 
     //获取短信
     @FormUrlEncoded

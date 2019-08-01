@@ -25,9 +25,13 @@ import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.StringUtils;
 import com.ipd.allpeopledemand.utils.ToastUtil;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.xuexiang.xui.widget.imageview.RadiusImageView;
 import com.xuexiang.xui.widget.textview.ExpandableTextView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeMap;
 
 import butterknife.BindView;
@@ -37,6 +41,8 @@ import io.reactivex.ObservableTransformer;
 import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_95;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_LOCAL_URL;
+import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
+import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
 
 /**
  * Description ：我的发布详情
@@ -73,6 +79,7 @@ public class MyPushDetailsActivity extends BaseActivity<MyPushDetailsContract.Vi
     @BindView(R.id.bt_edit_push)
     Button btEditPush;
 
+    private List<LocalMedia> medias = new ArrayList<>();//照片
     private int pushType = 1;//1.上架 2.已下架
     private int releaseId; //发布id
     private MyPushDetailsBean.DataBean.ReleaseBean myPushDetailsBean = new MyPushDetailsBean.DataBean.ReleaseBean();
@@ -144,7 +151,7 @@ public class MyPushDetailsActivity extends BaseActivity<MyPushDetailsContract.Vi
         finish();
     }
 
-    @OnClick({R.id.cb_collection, R.id.bt_obtained_push, R.id.bt_edit_push, R.id.ll_top_back})
+    @OnClick({R.id.cb_collection, R.id.riv_title, R.id.bt_obtained_push, R.id.bt_edit_push, R.id.ll_top_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.cb_collection:
@@ -156,6 +163,9 @@ public class MyPushDetailsActivity extends BaseActivity<MyPushDetailsContract.Vi
                 getPresenter().getMyPushCollection(myPushCollectionMap, true, false);
 
                 break;
+            case R.id.riv_title:
+                if (isFastClick())
+                    PictureSelector.create(MyPushDetailsActivity.this).themeStyle(R.style.picture_default_style).openExternalPreview(0, medias);
             case R.id.bt_obtained_push:
                 TreeMap<String, String> myPushDemandTypeMap = new TreeMap<>();
                 myPushDemandTypeMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
@@ -186,7 +196,14 @@ public class MyPushDetailsActivity extends BaseActivity<MyPushDetailsContract.Vi
         switch (data.getCode()) {
             case 200:
                 myPushDetailsBean = data.getData().getRelease();
-                Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.ic_test_ad)).into(rivTitle);
+                if (!isEmpty(data.getData().getRelease().getPicPath())) {
+                    Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.ic_test_ad)).into(rivTitle);
+                    LocalMedia localMedia = new LocalMedia();
+                    localMedia.setCompressed(true);
+                    localMedia.setCompressPath(BASE_LOCAL_URL + data.getData().getRelease().getPicPath());
+                    medias.add(localMedia);
+                } else
+                    rivTitle.setVisibility(View.GONE);
                 Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getAvatar()).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into(rivHead);
 
                 tvSynopsis.setText(data.getData().getRelease().getTitle());

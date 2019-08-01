@@ -27,6 +27,7 @@ import com.ipd.allpeopledemand.adapter.MainPagerAdapter;
 import com.ipd.allpeopledemand.base.BaseFragment;
 import com.ipd.allpeopledemand.bean.AttentionCollectionBean;
 import com.ipd.allpeopledemand.bean.ClassIficationBean;
+import com.ipd.allpeopledemand.bean.IsMsgBean;
 import com.ipd.allpeopledemand.bean.MainADImgBean;
 import com.ipd.allpeopledemand.bean.MainListBean;
 import com.ipd.allpeopledemand.contract.MainPagerContract;
@@ -381,6 +382,11 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
 
     @Override
     public void resultMainADImg(MainADImgBean data) {
+
+    }
+
+    @Override
+    public void resultIsMsg(IsMsgBean data) {
 
     }
 

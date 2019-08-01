@@ -43,7 +43,7 @@ public class ApplicationUtil extends Application {
         checkVersionMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(checkVersionMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
 
         XUpdate.get()
-                .debug(false)
+                .debug(true)
                 .isWifiOnly(false)                                               //默认设置只在wifi下检查版本更新
                 .isGet(true)                                                    //默认设置使用get请求检查版本
                 .isAutoMode(false)

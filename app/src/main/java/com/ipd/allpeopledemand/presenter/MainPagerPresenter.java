@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.ipd.allpeopledemand.bean.AttentionCollectionBean;
 import com.ipd.allpeopledemand.bean.ClassIficationBean;
+import com.ipd.allpeopledemand.bean.IsMsgBean;
 import com.ipd.allpeopledemand.bean.MainADImgBean;
 import com.ipd.allpeopledemand.bean.MainListBean;
 import com.ipd.allpeopledemand.contract.MainPagerContract;
@@ -101,6 +102,27 @@ public class MainPagerPresenter extends MainPagerContract.Presenter {
                 //这一步是必须的，判断view是否已经被销毁
                 if (getView() != null) {
                     getView().resultMainADImg((MainADImgBean) o);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+                if (getView() != null) {
+                    //// TODO: 2017/12/28 自定义处理异常
+                    ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getIsMsg(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
+        model.getIsMsg(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+            @Override
+            public void onNext(Object o) {
+                //这一步是必须的，判断view是否已经被销毁
+                if (getView() != null) {
+                    getView().resultIsMsg((IsMsgBean) o);
                 }
             }
 

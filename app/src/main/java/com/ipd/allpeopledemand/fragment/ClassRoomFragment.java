@@ -1,12 +1,14 @@
 package com.ipd.allpeopledemand.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -14,20 +16,35 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.allpeopledemand.R;
+import com.ipd.allpeopledemand.activity.LoginActivity;
+import com.ipd.allpeopledemand.activity.MsgActivity;
 import com.ipd.allpeopledemand.adapter.ViewPagerAdapter;
 import com.ipd.allpeopledemand.base.BaseFragment;
 import com.ipd.allpeopledemand.bean.ClassRoomInicationBean;
+import com.ipd.allpeopledemand.bean.IsMsgBean;
 import com.ipd.allpeopledemand.common.view.NavitationFollowScrollLayoutText;
 import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.ClassRoomInicationContract;
 import com.ipd.allpeopledemand.presenter.ClassRoomInicationPresenter;
+import com.ipd.allpeopledemand.utils.MD5Utils;
+import com.ipd.allpeopledemand.utils.SPUtil;
+import com.ipd.allpeopledemand.utils.StringUtils;
 import com.trello.rxlifecycle2.android.FragmentEvent;
+import com.xuexiang.xui.widget.textview.badge.Badge;
+import com.xuexiang.xui.widget.textview.badge.BadgeView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
+
+import static com.ipd.allpeopledemand.common.config.IConstants.IS_LOGIN;
+import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
+import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
+import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
 
 /**
  * Description ：全民课堂-顶部滑动导航栏
@@ -39,6 +56,8 @@ public class ClassRoomFragment extends BaseFragment<ClassRoomInicationContract.V
 
     @BindView(R.id.tv_class_room)
     TopView tvClassRoom;
+    @BindView(R.id.ib_top_msg)
+    ImageButton ibTopMsg;
     @BindView(R.id.et_top_long_search)
     EditText etTopLongSearch;
     @BindView(R.id.nfsl_fragment_class_room)
@@ -51,6 +70,7 @@ public class ClassRoomFragment extends BaseFragment<ClassRoomInicationContract.V
     private ViewPagerAdapter viewPagerAdapter;
     private ClassRoomPagerFragment fm;
     private List<ClassRoomInicationBean.DataBean.ClassListBean> classListBean = new ArrayList<>();
+    private List<Badge> mBadges = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -71,6 +91,12 @@ public class ClassRoomFragment extends BaseFragment<ClassRoomInicationContract.V
     public void onHiddenChanged(boolean hidden) {
         if (!hidden)
             ImmersionBar.with(this).statusBarDarkFont(true).init();
+
+
+        TreeMap<String, String> isMsgMap = new TreeMap<>();
+        isMsgMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+        isMsgMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(isMsgMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+        getPresenter().getIsMsg(isMsgMap, false, false);
     }
 
     @Override
@@ -115,6 +141,12 @@ public class ClassRoomFragment extends BaseFragment<ClassRoomInicationContract.V
     @Override
     public void initData() {
         getPresenter().getClassRoomInication(false, false);
+
+
+        TreeMap<String, String> isMsgMap = new TreeMap<>();
+        isMsgMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+        isMsgMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(isMsgMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+        getPresenter().getIsMsg(isMsgMap, false, false);
     }
 
     @Override
@@ -146,6 +178,35 @@ public class ClassRoomFragment extends BaseFragment<ClassRoomInicationContract.V
         nfslFragmentClassRoom.setViewPager(getContext(), titles, vpFragmentClassRoom, R.color.tx_bottom_navigation, R.color.black, 16, 16, 24, true, R.color.black, 0, 0, 0, 80);
         nfslFragmentClassRoom.setBgLine(getContext(), 1, R.color.whitesmoke);
         nfslFragmentClassRoom.setNavLine(getActivity(), 3, R.color.colorAccent);
+    }
+
+    @Override
+    public void resultIsMsg(IsMsgBean data) {
+        if (data.getCode() == 200)
+            if (data.getData().getUreads() == 1) {
+                mBadges.add(new BadgeView(getContext()).bindTarget(ibTopMsg).setBadgeText("1").setBadgeTextSize(6, true)
+                        .setBadgeBackgroundColor(getResources().getColor(R.color.red)).setBadgeTextColor(getResources().getColor(R.color.red))
+                        .setBadgePadding(0, true));
+            } else {
+                for (Badge badge : mBadges) {
+                    badge.hide(true);
+                }
+            }
+    }
+
+    @OnClick(R.id.ib_top_msg)
+    public void onViewClicked() {
+        if (isFastClick()) {
+            if (!isEmpty(SPUtil.get(getActivity(), IS_LOGIN, "") + "")) {
+                for (Badge badge : mBadges) {
+                    badge.hide(true);
+                }
+                startActivity(new Intent(getActivity(), MsgActivity.class));
+            } else {
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                getActivity().finish();
+            }
+        }
     }
 
     @Override

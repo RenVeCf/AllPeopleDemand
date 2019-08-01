@@ -22,6 +22,7 @@ import com.ipd.allpeopledemand.fragment.MyFragment;
 import com.ipd.allpeopledemand.fragment.PushFragment;
 import com.ipd.allpeopledemand.presenter.CheckVersionPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
+import com.ipd.allpeopledemand.utils.L;
 import com.ipd.allpeopledemand.utils.NavigationBarUtil;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.ToastUtil;
@@ -39,6 +40,7 @@ import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_URL;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.CHECK_VERSION;
 import static com.ipd.allpeopledemand.utils.AppUtils.getAppVersionName;
+import static com.ipd.allpeopledemand.utils.DateUtils.getTodayDateTime;
 
 /**
  * Description ：首页
@@ -149,7 +151,6 @@ public class MainActivity extends BaseActivity<CheckVersionContract.View, CheckV
 //        checkVersionMap.put("type", "1");
 //        checkVersionMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(checkVersionMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
 //        getPresenter().getCheckVersion(checkVersionMap, false, false);
-
         XUpdate.newBuild(this)
                 .updateUrl(BASE_URL + CHECK_VERSION)
                 .isAutoMode(true) //如果需要完全无人干预，自动更新，需要root权限【静默安装需要】

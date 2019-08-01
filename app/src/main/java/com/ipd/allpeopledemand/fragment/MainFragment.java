@@ -15,6 +15,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,12 +33,15 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.allpeopledemand.R;
+import com.ipd.allpeopledemand.activity.LoginActivity;
+import com.ipd.allpeopledemand.activity.MsgActivity;
 import com.ipd.allpeopledemand.activity.WebViewActivity;
 import com.ipd.allpeopledemand.adapter.ViewPagerAdapter;
 import com.ipd.allpeopledemand.base.BaseFragment;
 import com.ipd.allpeopledemand.bean.AttentionCollectionBean;
 import com.ipd.allpeopledemand.bean.CityAddressBean;
 import com.ipd.allpeopledemand.bean.ClassIficationBean;
+import com.ipd.allpeopledemand.bean.IsMsgBean;
 import com.ipd.allpeopledemand.bean.MainADImgBean;
 import com.ipd.allpeopledemand.bean.MainListBean;
 import com.ipd.allpeopledemand.common.view.MainADImgDialog;
@@ -46,10 +50,14 @@ import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.MainPagerContract;
 import com.ipd.allpeopledemand.presenter.MainPagerPresenter;
 import com.ipd.allpeopledemand.utils.LocationService;
+import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
+import com.ipd.allpeopledemand.utils.StringUtils;
 import com.ipd.allpeopledemand.utils.ToastUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.trello.rxlifecycle2.android.FragmentEvent;
+import com.xuexiang.xui.widget.textview.badge.Badge;
+import com.xuexiang.xui.widget.textview.badge.BadgeView;
 
 import org.json.JSONArray;
 
@@ -68,6 +76,8 @@ import io.reactivex.functions.Consumer;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static com.ipd.allpeopledemand.common.config.IConstants.CITY;
+import static com.ipd.allpeopledemand.common.config.IConstants.IS_LOGIN;
+import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
 import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
 
@@ -81,6 +91,8 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
 
     @BindView(R.id.tv_main)
     TopView tvMain;
+    @BindView(R.id.ib_top_msg)
+    ImageButton ibTopMsg;
     @BindView(R.id.et_top_search)
     EditText etTopSearch;
     @BindView(R.id.ll_top_location)
@@ -104,6 +116,7 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
     private BDAbstractLocationListener myListener;
+    private List<Badge> mBadges = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -147,6 +160,11 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
 
             if (!isEmpty(SPUtil.get(getContext(), CITY, "") + ""))
                 tvTopCity.setText(SPUtil.get(getContext(), CITY, "") + "");
+
+            TreeMap<String, String> isMsgMap = new TreeMap<>();
+            isMsgMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+            isMsgMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(isMsgMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+            getPresenter().getIsMsg(isMsgMap, false, false);
         }
     }
 
@@ -219,6 +237,11 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
         initJsonData();
 
         getPresenter().getMainPager(false, false);
+
+        TreeMap<String, String> isMsgMap = new TreeMap<>();
+        isMsgMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+        isMsgMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(isMsgMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+        getPresenter().getIsMsg(isMsgMap, false, false);
     }
 
     // 定位权限
@@ -510,9 +533,26 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
 //        }
 //    }
 
-    @OnClick(R.id.ll_top_location)
-    public void onViewClicked() {
-        rxPermissionTest(2);
+    @OnClick({R.id.ib_top_msg, R.id.ll_top_location})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ib_top_msg:
+                if (isFastClick()) {
+                    if (!isEmpty(SPUtil.get(getActivity(), IS_LOGIN, "") + "")) {
+                        for (Badge badge : mBadges) {
+                            badge.hide(true);
+                        }
+                        startActivity(new Intent(getActivity(), MsgActivity.class));
+                    } else {
+                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                        getActivity().finish();
+                    }
+                }
+                break;
+            case R.id.ll_top_location:
+                rxPermissionTest(2);
+                break;
+        }
     }
 
     @Override
@@ -576,6 +616,20 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
                 }
             }.show();
         }
+    }
+
+    @Override
+    public void resultIsMsg(IsMsgBean data) {
+        if (data.getCode() == 200)
+            if (data.getData().getUreads() == 1) {
+                mBadges.add(new BadgeView(getContext()).bindTarget(ibTopMsg).setBadgeText("1").setBadgeTextSize(6, true)
+                        .setBadgeBackgroundColor(getResources().getColor(R.color.red)).setBadgeTextColor(getResources().getColor(R.color.red))
+                        .setBadgePadding(0, true));
+            } else {
+                for (Badge badge : mBadges) {
+                    badge.hide(true);
+                }
+            }
     }
 
     @Override

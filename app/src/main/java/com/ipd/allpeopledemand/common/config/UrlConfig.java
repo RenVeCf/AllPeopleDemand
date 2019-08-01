@@ -26,6 +26,7 @@ public interface UrlConfig {
     /**
      * 首页
      */
+    String IS_MSG = "appUser/index/ureads"; //消息是否已读未读
     String MSG = "appUser/index/userMessage"; //首页-右上角消息列表
     String CLASS_INICATION = "appUser/index/classList"; //首页分类列表
     String MAIN_LIST = "appUser/index/index"; //首页列表数据

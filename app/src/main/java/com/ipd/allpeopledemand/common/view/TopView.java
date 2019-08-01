@@ -15,14 +15,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ipd.allpeopledemand.R;
-import com.ipd.allpeopledemand.activity.LoginActivity;
-import com.ipd.allpeopledemand.activity.MsgActivity;
 import com.ipd.allpeopledemand.activity.WebViewActivity;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
-import com.ipd.allpeopledemand.utils.SPUtil;
 
-import static com.ipd.allpeopledemand.common.config.IConstants.IS_LOGIN;
-import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
 import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
 
 
@@ -124,16 +119,6 @@ public class TopView extends RelativeLayout implements View.OnClickListener {
                     ((Activity) mContext).finish();
                     if (((Activity) mContext).getCurrentFocus() != null) {
                         ((InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(((Activity) mContext).getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    }
-                }
-                break;
-            case R.id.ib_top_msg:
-                if (isFastClick()) {
-                    if (!isEmpty(SPUtil.get(ApplicationUtil.getContext(), IS_LOGIN, "") + ""))
-                        ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), MsgActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                    else {
-                        ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                        ((Activity) mContext).finish();
                     }
                 }
                 break;
