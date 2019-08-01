@@ -7,6 +7,7 @@ import android.net.http.SslError;
 import android.os.Build;
 import android.view.View;
 import android.webkit.SslErrorHandler;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -31,18 +32,12 @@ import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.ClassRoomPagerContract;
 import com.ipd.allpeopledemand.presenter.ClassRoomPagerPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
-import com.ipd.allpeopledemand.utils.MD5Utils;
-import com.ipd.allpeopledemand.utils.SPUtil;
-import com.ipd.allpeopledemand.utils.StringUtils;
-
-import java.util.TreeMap;
 
 import butterknife.BindView;
 import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
 import io.reactivex.ObservableTransformer;
 
-import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_LOCAL_URL;
 
 /**
@@ -65,6 +60,8 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
     TextView tvClassRoomDate;
     @BindView(R.id.tv_class_room_pay_fee)
     TextView tvClassRoomPayFee;
+    @BindView(R.id.wv_player)
+    WebView wvPlayer;
     @BindView(R.id.wv_content)
     WebView wvContent;
     @BindView(R.id.iv_class_room_details)
@@ -118,6 +115,18 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
             settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
         } else {
             settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
+        }
+
+        WebSettings webSettings = wvPlayer.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setSupportZoom(true);
+        webSettings.setBuiltInZoomControls(true);
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        //支持自动加载图片
+        webSettings.setLoadsImagesAutomatically(true);
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);// 排版适应屏幕
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
     }
 
@@ -187,7 +196,11 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
                         jsAudioPlayer.setUp(BASE_LOCAL_URL + roomDetailsBean.getAudioFile(), roomDetailsBean.getTitle());
                         break;
                     case "2":
-                        jsAudioPlayer.setUp(roomDetailsBean.getAudioUrl(), roomDetailsBean.getTitle());
+                        llAudioPlayer.setVisibility(View.GONE);
+                        llVideoPlayer.setVisibility(View.GONE);
+                        ivClassRoomDetails.setVisibility(View.GONE);
+                        wvPlayer.loadUrl(roomDetailsBean.getAudioUrl());
+//                        jsAudioPlayer.setUp(roomDetailsBean.getAudioUrl(), roomDetailsBean.getTitle());
                         break;
                 }
                 Glide.with(this).load(BASE_LOCAL_URL + roomDetailsBean.getThumbnail()).apply(new RequestOptions().placeholder(R.mipmap.bg_test_big_class_room)).into(jsAudioPlayer.thumbImageView);
@@ -202,10 +215,13 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
                 switch (roomDetailsBean.getVideoType()) {
                     case "1":
                         jsVideoPlayer.setUp(BASE_LOCAL_URL + roomDetailsBean.getVideoFile(), roomDetailsBean.getTitle());
-//                        jsVideoPlayer.setUp("http://jzvd.nathen.cn/c6e3dc12a1154626b3476d9bf3bd7266/6b56c5f0dc31428083757a45764763b0-5287d2089db37e62345123a1be272f8b.mp4", roomDetailsBean.getTitle());
                         break;
                     case "2":
-                        jsVideoPlayer.setUp(roomDetailsBean.getVideoUrl(), roomDetailsBean.getTitle());
+                        llVideoPlayer.setVisibility(View.GONE);
+                        llAudioPlayer.setVisibility(View.GONE);
+                        ivClassRoomDetails.setVisibility(View.GONE);
+                        wvPlayer.loadUrl(roomDetailsBean.getVideoUrl());
+//                        jsVideoPlayer.setUp(roomDetailsBean.getVideoUrl(), roomDetailsBean.getTitle());
                         break;
                 }
                 Glide.with(this).load(BASE_LOCAL_URL + roomDetailsBean.getThumbnail()).apply(new RequestOptions().placeholder(R.mipmap.bg_test_big_class_room)).into(jsVideoPlayer.thumbImageView);
@@ -219,7 +235,43 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
 
     @Override
     public void initListener() {
+        //设置客户端，让点击跳转操作在当前应用内存进行操作
+        wvPlayer.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
 
+//                if (dialogUtils != null) {
+//                    dialogUtils.dismissProgress();
+//                }
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+            }
+
+            //当发生证书认证错误时，采用默认的处理方法handler.cancel()，停止加载问题页面
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                super.onReceivedSslError(view, handler, error);
+                handler.cancel();
+            }
+        });
+
+        wvPlayer.setWebChromeClient(new WebChromeClient() {
+            //返回当前加载网页的进度
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+            }
+
+            //获取当前网页的标题
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                super.onReceivedTitle(view, title);
+            }
+        });
     }
 
     @Override
