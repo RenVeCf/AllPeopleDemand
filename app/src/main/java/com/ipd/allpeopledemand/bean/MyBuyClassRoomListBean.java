@@ -3,11 +3,12 @@ package com.ipd.allpeopledemand.bean;
 import java.util.List;
 
 public class MyBuyClassRoomListBean {
+
     /**
      * msg : 操作成功
      * total : 1
      * code : 200
-     * data : {"price":{"searchValue":null,"createBy":null,"createTime":"2019-07-14 13:53:06","updateBy":null,"updateTime":"2019-07-14 13:53:02","remark":null,"params":{},"priceId":1,"title":null,"integral":18,"money":10,"type":"1"},"roomList":[{"classroomId":6,"roomClassId":1,"title":"1111","playNum":0,"type":"3","content":"<p>111<\/p>","purchaseNum":0,"thumbnail":"upload/2019/07/20/4a062a291ce89984a20eae94163dfe34.jpg","status":"1","videoDate":"","createTime":"2019-07-20 16:57:08","updateTime":null,"watchNum":4,"videoUrl":"1111","videoFile":"","audioFile":"","videoType":"2","audioUrl":"","audioType":"","orderId":null,"payStatus":null,"userId":null}]}
+     * data : {"roomList":[{"classroomId":4,"roomClassId":1,"title":"十分钟快速发面的窍门","playNum":0,"type":"1","content":"<p>ceshi1<\/p>","purchaseNum":1,"thumbnail":"upload/2019/08/02/294fe996d53a1167973040a04f9b1d97.png","status":"1","videoDate":"","createTime":"2019-08-02 17:12:55","updateTime":null,"watchNum":3,"videoUrl":"","videoFile":"","audioFile":"","videoType":"2","audioUrl":"","audioType":"","orderId":null,"payStatus":null,"userId":null,"money":10,"integral":10}]}
      */
 
     private String msg;
@@ -48,21 +49,7 @@ public class MyBuyClassRoomListBean {
     }
 
     public static class DataBean {
-        /**
-         * price : {"searchValue":null,"createBy":null,"createTime":"2019-07-14 13:53:06","updateBy":null,"updateTime":"2019-07-14 13:53:02","remark":null,"params":{},"priceId":1,"title":null,"integral":18,"money":10,"type":"1"}
-         * roomList : [{"classroomId":6,"roomClassId":1,"title":"1111","playNum":0,"type":"3","content":"<p>111<\/p>","purchaseNum":0,"thumbnail":"upload/2019/07/20/4a062a291ce89984a20eae94163dfe34.jpg","status":"1","videoDate":"","createTime":"2019-07-20 16:57:08","updateTime":null,"watchNum":4,"videoUrl":"1111","videoFile":"","audioFile":"","videoType":"2","audioUrl":"","audioType":"","orderId":null,"payStatus":null,"userId":null}]
-         */
-
-        private PriceBean price;
         private List<RoomListBean> roomList;
-
-        public PriceBean getPrice() {
-            return price;
-        }
-
-        public void setPrice(PriceBean price) {
-            this.price = price;
-        }
 
         public List<RoomListBean> getRoomList() {
             return roomList;
@@ -72,151 +59,22 @@ public class MyBuyClassRoomListBean {
             this.roomList = roomList;
         }
 
-        public static class PriceBean {
-            /**
-             * searchValue : null
-             * createBy : null
-             * createTime : 2019-07-14 13:53:06
-             * updateBy : null
-             * updateTime : 2019-07-14 13:53:02
-             * remark : null
-             * params : {}
-             * priceId : 1
-             * title : null
-             * integral : 18
-             * money : 10.0
-             * type : 1
-             */
-
-            private Object searchValue;
-            private Object createBy;
-            private String createTime;
-            private Object updateBy;
-            private String updateTime;
-            private Object remark;
-            private ParamsBean params;
-            private int priceId;
-            private Object title;
-            private int integral;
-            private double money;
-            private String type;
-
-            public Object getSearchValue() {
-                return searchValue;
-            }
-
-            public void setSearchValue(Object searchValue) {
-                this.searchValue = searchValue;
-            }
-
-            public Object getCreateBy() {
-                return createBy;
-            }
-
-            public void setCreateBy(Object createBy) {
-                this.createBy = createBy;
-            }
-
-            public String getCreateTime() {
-                return createTime;
-            }
-
-            public void setCreateTime(String createTime) {
-                this.createTime = createTime;
-            }
-
-            public Object getUpdateBy() {
-                return updateBy;
-            }
-
-            public void setUpdateBy(Object updateBy) {
-                this.updateBy = updateBy;
-            }
-
-            public String getUpdateTime() {
-                return updateTime;
-            }
-
-            public void setUpdateTime(String updateTime) {
-                this.updateTime = updateTime;
-            }
-
-            public Object getRemark() {
-                return remark;
-            }
-
-            public void setRemark(Object remark) {
-                this.remark = remark;
-            }
-
-            public ParamsBean getParams() {
-                return params;
-            }
-
-            public void setParams(ParamsBean params) {
-                this.params = params;
-            }
-
-            public int getPriceId() {
-                return priceId;
-            }
-
-            public void setPriceId(int priceId) {
-                this.priceId = priceId;
-            }
-
-            public Object getTitle() {
-                return title;
-            }
-
-            public void setTitle(Object title) {
-                this.title = title;
-            }
-
-            public int getIntegral() {
-                return integral;
-            }
-
-            public void setIntegral(int integral) {
-                this.integral = integral;
-            }
-
-            public double getMoney() {
-                return money;
-            }
-
-            public void setMoney(double money) {
-                this.money = money;
-            }
-
-            public String getType() {
-                return type;
-            }
-
-            public void setType(String type) {
-                this.type = type;
-            }
-
-            public static class ParamsBean {
-            }
-        }
-
         public static class RoomListBean {
             /**
-             * classroomId : 6
+             * classroomId : 4
              * roomClassId : 1
-             * title : 1111
+             * title : 十分钟快速发面的窍门
              * playNum : 0
-             * type : 3
-             * content : <p>111</p>
-             * purchaseNum : 0
-             * thumbnail : upload/2019/07/20/4a062a291ce89984a20eae94163dfe34.jpg
+             * type : 1
+             * content : <p>ceshi1</p>
+             * purchaseNum : 1
+             * thumbnail : upload/2019/08/02/294fe996d53a1167973040a04f9b1d97.png
              * status : 1
              * videoDate :
-             * createTime : 2019-07-20 16:57:08
+             * createTime : 2019-08-02 17:12:55
              * updateTime : null
-             * watchNum : 4
-             * videoUrl : 1111
+             * watchNum : 3
+             * videoUrl :
              * videoFile :
              * audioFile :
              * videoType : 2
@@ -225,6 +83,8 @@ public class MyBuyClassRoomListBean {
              * orderId : null
              * payStatus : null
              * userId : null
+             * money : 10.0
+             * integral : 10
              */
 
             private int classroomId;
@@ -249,24 +109,8 @@ public class MyBuyClassRoomListBean {
             private Object orderId;
             private Object payStatus;
             private Object userId;
-            private int integral;
             private double money;
-
-            public int getIntegral() {
-                return integral;
-            }
-
-            public void setIntegral(int integral) {
-                this.integral = integral;
-            }
-
-            public double getMoney() {
-                return money;
-            }
-
-            public void setMoney(double money) {
-                this.money = money;
-            }
+            private int integral;
 
             public int getClassroomId() {
                 return classroomId;
@@ -442,6 +286,22 @@ public class MyBuyClassRoomListBean {
 
             public void setUserId(Object userId) {
                 this.userId = userId;
+            }
+
+            public double getMoney() {
+                return money;
+            }
+
+            public void setMoney(double money) {
+                this.money = money;
+            }
+
+            public int getIntegral() {
+                return integral;
+            }
+
+            public void setIntegral(int integral) {
+                this.integral = integral;
             }
         }
     }

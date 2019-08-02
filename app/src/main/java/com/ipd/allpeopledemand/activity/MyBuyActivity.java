@@ -68,6 +68,7 @@ public class MyBuyActivity extends BaseActivity<MyBuyContract.View, MyBuyContrac
     private List<MyBuyClassRoomListBean.DataBean.RoomListBean> roomListBean = new ArrayList<>();
     private MyBuyClassRoomAdapter myBuyClassRoomAdapter;
     private int buyType = 1;//1:需求咨询，2:课堂教程
+    private int pricePosition;
     private int pageNum = 1;//页数
 
     @Override
@@ -185,7 +186,7 @@ public class MyBuyActivity extends BaseActivity<MyBuyContract.View, MyBuyContrac
                         myBuyDemandAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                             @Override
                             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                                startActivityForResult(new Intent(MyBuyActivity.this, InformationDetailsActivity.class).putExtra("orderId", demandListBean.get(position).getOrderId()).putExtra("releaseId", demandListBean.get(position).getReleaseId()).putExtra("activityType", 4), REQUEST_CODE_99);
+                                startActivityForResult(new Intent(MyBuyActivity.this, InformationDetailsActivity.class).putExtra("orderId", demandListBean.get(position).getOrderId()).putExtra("releaseId", demandListBean.get(position).getReleaseId()).putExtra("activityType", 5), REQUEST_CODE_99);
                             }
                         });
 
@@ -263,11 +264,6 @@ public class MyBuyActivity extends BaseActivity<MyBuyContract.View, MyBuyContrac
         switch (data.getCode()) {
             case 200:
                 if (data.getTotal() > 0) {
-                    for (int i = 0; i < data.getData().getRoomList().size(); i++) {
-                        data.getData().getRoomList().get(i).setIntegral(data.getData().getPrice().getIntegral());
-                        data.getData().getRoomList().get(i).setMoney(data.getData().getPrice().getMoney());
-                    }
-
                     if (pageNum == 1) {
                         roomListBean.clear();
                         roomListBean.addAll(data.getData().getRoomList());
@@ -281,6 +277,7 @@ public class MyBuyActivity extends BaseActivity<MyBuyContract.View, MyBuyContrac
                         myBuyClassRoomAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                             @Override
                             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                pricePosition = position;
                                 TreeMap<String, String> demandMap = new TreeMap<>();
                                 demandMap.put("userId", SPUtil.get(MyBuyActivity.this, USER_ID, "") + "");
                                 demandMap.put("classroomId", roomListBean.get(position).getClassroomId() + "");
@@ -353,7 +350,7 @@ public class MyBuyActivity extends BaseActivity<MyBuyContract.View, MyBuyContrac
                 roomDetailsBean.setAudioFile(data.getData().getRoomDetails().getAudioFile());
                 roomDetailsBean.setWatchNum(data.getData().getRoomDetails().getWatchNum());
                 roomDetailsBean.setCreateTime(data.getData().getRoomDetails().getCreateTime());
-                startActivity(new Intent(MyBuyActivity.this, ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean).putExtra("integral", data.getData().getPrice().getIntegral()).putExtra("money", data.getData().getPrice().getMoney()));
+                startActivity(new Intent(MyBuyActivity.this, ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean).putExtra("integral", roomListBean.get(pricePosition).getIntegral()).putExtra("money", roomListBean.get(pricePosition).getMoney()));
                 break;
             case 900:
                 ToastUtil.showLongToast(data.getMsg());

@@ -77,7 +77,6 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
     SwipeRefreshLayout srlClassRoomPager;
 
     private List<ClassRoomPagerBean.DataBean.RoomListBean> roomListBean = new ArrayList<>();
-    private ClassRoomPagerBean.DataBean.PriceBean priceBean = new ClassRoomPagerBean.DataBean.PriceBean();
     private ClassRoomPagerAdapter classRoomPagerAdapter;
     private int pageNum = 1;//页数
     private String roomClassId = "";
@@ -193,12 +192,6 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
     public void resultClassRoomPager(ClassRoomPagerBean data) {
         if (data.getCode() == 200) {
             if (data.getTotal() > 0) {
-                priceBean = data.getData().getPrice();
-                for (int i = 0; i < data.getData().getRoomList().size(); i++) {
-                    data.getData().getRoomList().get(i).setIntegral(priceBean.getIntegral());
-                    data.getData().getRoomList().get(i).setMoney(priceBean.getMoney());
-                }
-
                 if (pageNum == 1) {
                     roomListBean.clear();
                     roomListBean.addAll(data.getData().getRoomList());
@@ -221,7 +214,6 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
                                     TreeMap<String, String> classRoomDetailsMap = new TreeMap<>();
                                     classRoomDetailsMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
                                     classRoomDetailsMap.put("classroomId", roomListBean.get(position).getClassroomId() + "");
-                                    classRoomDetailsMap.put("priceId", priceBean.getPriceId() + "");
                                     classRoomDetailsMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(classRoomDetailsMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
                                     getPresenter().getClassRoomDetails(classRoomDetailsMap, false, false);
                                 }
@@ -277,10 +269,10 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
                         roomDetailsBean = data.getData().getRoomDetails();
                         switch (data.getData().getIsPurchase()) {
                             case "1":
-                                startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean).putExtra("integral", priceBean.getIntegral()).putExtra("money", priceBean.getMoney()));
+                                startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean).putExtra("integral", roomListBean.get(classroomIdPosition).getIntegral()).putExtra("money", roomListBean.get(classroomIdPosition).getMoney()));
                                 break;
                             case "2":
-                                startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean).putExtra("integral", priceBean.getIntegral()).putExtra("money", priceBean.getMoney()));
+                                startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean).putExtra("integral", roomListBean.get(classroomIdPosition).getIntegral()).putExtra("money", roomListBean.get(classroomIdPosition).getMoney()));
                                 break;
                             case "3":
                                 new NotIntegralDialog(getActivity()) {
@@ -292,13 +284,13 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
                                 }.show();
                                 break;
                             case "4":
-                                new ClassRoomPayPromptDialog(getActivity(), priceBean.getMoney(), priceBean.getIntegral()) {
+                                new ClassRoomPayPromptDialog(getActivity(), roomListBean.get(classroomIdPosition).getMoney(), roomListBean.get(classroomIdPosition).getIntegral()) {
                                     @Override
                                     public void goPay() {
                                         new BottomPayDialog(getActivity(), data.getData().getBalance()) {
                                             @Override
                                             public void goPay(int payType) {
-                                                if (data.getData().getBalance() >= priceBean.getMoney()) {
+                                                if (data.getData().getBalance() >= roomListBean.get(classroomIdPosition).getMoney()) {
                                                     //余额直接支付
                                                     payType(3, roomListBean.get(classroomIdPosition).getClassroomId());
                                                 } else {
@@ -323,7 +315,7 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
                         break;
                     case 2: //购买完成后将数据带进详情
                         roomDetailsBean = data.getData().getRoomDetails();
-                        startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean).putExtra("integral", priceBean.getIntegral()).putExtra("money", priceBean.getMoney()));
+                        startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean).putExtra("integral", roomListBean.get(classroomIdPosition).getIntegral()).putExtra("money", roomListBean.get(classroomIdPosition).getMoney()));
                         break;
                 }
                 break;
@@ -420,7 +412,6 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
                 TreeMap<String, String> classRoomDetailsMap = new TreeMap<>();
                 classRoomDetailsMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
                 classRoomDetailsMap.put("classroomId", roomListBean.get(classroomIdPosition).getClassroomId() + "");
-                classRoomDetailsMap.put("priceId", priceBean.getPriceId() + "");
                 classRoomDetailsMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(classRoomDetailsMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
                 getPresenter().getClassRoomDetails(classRoomDetailsMap, false, false);
                 break;

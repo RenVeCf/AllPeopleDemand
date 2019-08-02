@@ -35,7 +35,8 @@
         <activity
             android:name=".activity.SplashActivity"
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
-            android:windowSoftInputMode="adjustPan|stateHidden">
+            android:exported="false"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

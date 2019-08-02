@@ -9,11 +9,12 @@ import java.util.List;
  * Time ： 2019/7/12.
  */
 public class ClassRoomPagerBean {
+
     /**
      * msg : 操作成功
-     * total : 2
+     * total : 3
      * code : 200
-     * data : {"price":{"searchValue":null,"createBy":null,"createTime":"2019-07-14 13:53:06","updateBy":null,"updateTime":"2019-07-14 13:53:02","remark":null,"params":{},"priceId":1,"title":null,"integral":18,"money":10,"type":"1"},"roomList":[{"classroomId":1,"roomClassId":2,"title":null,"playNum":1,"type":"1","content":"1","purchaseNum":1,"thumbnail":null,"status":null,"videoDate":null,"createTime":"2019-07-12 11:17:04","updateTime":"2019-07-12 11:17:05","watch_num":null,"video_url":null,"video_file":null,"audio_file":null,"video_type":null},{"classroomId":2,"roomClassId":2,"title":null,"playNum":2,"type":"1","content":"1","purchaseNum":1,"thumbnail":null,"status":null,"videoDate":null,"createTime":"2019-07-12 11:22:51","updateTime":null,"watch_num":null,"video_url":null,"video_file":null,"audio_file":null,"video_type":null}]}
+     * data : {"roomList":[{"classroomId":3,"roomClassId":2,"title":"掌握了这25个叠衣服和整理衣柜的生活窍门，你的妈妈一定会夸你","playNum":0,"type":"3","content":"<p>掌握了这25个叠衣服和整理衣柜的生活窍门，你的妈妈一定会夸你<\/p>","purchaseNum":0,"thumbnail":"upload/2019/08/01/10cb466e19f686c5c7a5399d7eacd7b4.png","status":"1","videoDate":"","createTime":"2019-08-01 14:08:55","updateTime":null,"watchNum":35,"videoUrl":"http://player.youku.com/embed/XNDEzODgyODc4OA==","videoFile":"","audioFile":"","videoType":"2","audioUrl":"","audioType":"","orderId":null,"payStatus":null,"userId":null,"money":10,"integral":10},{"classroomId":2,"roomClassId":2,"title":"爆笑恶作剧，创意DIY食用的生活窍门，海绵小妙招你肯定不知道","playNum":0,"type":"3","content":"<p>爆笑恶作剧，创意DIY食用的生活窍门，海绵小妙招你肯定不知道<\/p>","purchaseNum":0,"thumbnail":"upload/2019/08/01/4774325b8d38c88fb38098d1cdb28d7f.png","status":"1","videoDate":"","createTime":"2019-08-01 14:01:05","updateTime":null,"watchNum":58,"videoUrl":"http://player.youku.com/embed/XNDI3NjI3MDUwNA==","videoFile":"","audioFile":"","videoType":"2","audioUrl":"","audioType":"","orderId":null,"payStatus":null,"userId":null,"money":10,"integral":10},{"classroomId":1,"roomClassId":2,"title":"十分钟快速发面的窍门","playNum":0,"type":"3","content":"<p>十分钟快速发面的窍门<\/p>","purchaseNum":0,"thumbnail":"upload/2019/08/01/edf2cb2c01f789a1906ff978e0009a79.png","status":"1","videoDate":"","createTime":"2019-08-01 11:43:44","updateTime":"2019-08-01 13:42:15","watchNum":69,"videoUrl":"http://player.youku.com/embed/XNDI2MDk3ODgwNA==","videoFile":"","audioFile":"","videoType":"2","audioUrl":"","audioType":"","orderId":null,"payStatus":null,"userId":null,"money":10,"integral":10}]}
      */
 
     private String msg;
@@ -54,21 +55,7 @@ public class ClassRoomPagerBean {
     }
 
     public static class DataBean {
-        /**
-         * price : {"searchValue":null,"createBy":null,"createTime":"2019-07-14 13:53:06","updateBy":null,"updateTime":"2019-07-14 13:53:02","remark":null,"params":{},"priceId":1,"title":null,"integral":18,"money":10,"type":"1"}
-         * roomList : [{"classroomId":1,"roomClassId":2,"title":null,"playNum":1,"type":"1","content":"1","purchaseNum":1,"thumbnail":null,"status":null,"videoDate":null,"createTime":"2019-07-12 11:17:04","updateTime":"2019-07-12 11:17:05","watch_num":null,"video_url":null,"video_file":null,"audio_file":null,"video_type":null},{"classroomId":2,"roomClassId":2,"title":null,"playNum":2,"type":"1","content":"1","purchaseNum":1,"thumbnail":null,"status":null,"videoDate":null,"createTime":"2019-07-12 11:22:51","updateTime":null,"watch_num":null,"video_url":null,"video_file":null,"audio_file":null,"video_type":null}]
-         */
-
-        private PriceBean price;
         private List<RoomListBean> roomList;
-
-        public PriceBean getPrice() {
-            return price;
-        }
-
-        public void setPrice(PriceBean price) {
-            this.price = price;
-        }
 
         public List<RoomListBean> getRoomList() {
             return roomList;
@@ -78,156 +65,32 @@ public class ClassRoomPagerBean {
             this.roomList = roomList;
         }
 
-        public static class PriceBean {
-            /**
-             * searchValue : null
-             * createBy : null
-             * createTime : 2019-07-14 13:53:06
-             * updateBy : null
-             * updateTime : 2019-07-14 13:53:02
-             * remark : null
-             * params : {}
-             * priceId : 1
-             * title : null
-             * integral : 18
-             * money : 10.0
-             * type : 1
-             */
-
-            private Object searchValue;
-            private Object createBy;
-            private String createTime;
-            private Object updateBy;
-            private String updateTime;
-            private Object remark;
-            private ParamsBean params;
-            private int priceId;
-            private Object title;
-            private int integral;
-            private double money;
-            private String type;
-
-            public Object getSearchValue() {
-                return searchValue;
-            }
-
-            public void setSearchValue(Object searchValue) {
-                this.searchValue = searchValue;
-            }
-
-            public Object getCreateBy() {
-                return createBy;
-            }
-
-            public void setCreateBy(Object createBy) {
-                this.createBy = createBy;
-            }
-
-            public String getCreateTime() {
-                return createTime;
-            }
-
-            public void setCreateTime(String createTime) {
-                this.createTime = createTime;
-            }
-
-            public Object getUpdateBy() {
-                return updateBy;
-            }
-
-            public void setUpdateBy(Object updateBy) {
-                this.updateBy = updateBy;
-            }
-
-            public String getUpdateTime() {
-                return updateTime;
-            }
-
-            public void setUpdateTime(String updateTime) {
-                this.updateTime = updateTime;
-            }
-
-            public Object getRemark() {
-                return remark;
-            }
-
-            public void setRemark(Object remark) {
-                this.remark = remark;
-            }
-
-            public ParamsBean getParams() {
-                return params;
-            }
-
-            public void setParams(ParamsBean params) {
-                this.params = params;
-            }
-
-            public int getPriceId() {
-                return priceId;
-            }
-
-            public void setPriceId(int priceId) {
-                this.priceId = priceId;
-            }
-
-            public Object getTitle() {
-                return title;
-            }
-
-            public void setTitle(Object title) {
-                this.title = title;
-            }
-
-            public int getIntegral() {
-                return integral;
-            }
-
-            public void setIntegral(int integral) {
-                this.integral = integral;
-            }
-
-            public double getMoney() {
-                return money;
-            }
-
-            public void setMoney(double money) {
-                this.money = money;
-            }
-
-            public String getType() {
-                return type;
-            }
-
-            public void setType(String type) {
-                this.type = type;
-            }
-
-            public static class ParamsBean {
-            }
-        }
-
         public static class RoomListBean {
             /**
-             * classroomId : 1
+             * classroomId : 3
              * roomClassId : 2
-             * title : null
-             * playNum : 1
-             * type : 1
-             * content : 1
-             * purchaseNum : 1
-             * thumbnail : null
-             * status : null
-             * videoDate : null
-             * createTime : 2019-07-12 11:17:04
-             * updateTime : 2019-07-12 11:17:05
-             * watch_num : null
-             * video_url : null
-             * video_file : null
-             * audio_file : null
-             * video_type : null
+             * title : 掌握了这25个叠衣服和整理衣柜的生活窍门，你的妈妈一定会夸你
+             * playNum : 0
+             * type : 3
+             * content : <p>掌握了这25个叠衣服和整理衣柜的生活窍门，你的妈妈一定会夸你</p>
+             * purchaseNum : 0
+             * thumbnail : upload/2019/08/01/10cb466e19f686c5c7a5399d7eacd7b4.png
+             * status : 1
+             * videoDate :
+             * createTime : 2019-08-01 14:08:55
+             * updateTime : null
+             * watchNum : 35
+             * videoUrl : http://player.youku.com/embed/XNDEzODgyODc4OA==
+             * videoFile :
+             * audioFile :
+             * videoType : 2
+             * audioUrl :
+             * audioType :
+             * orderId : null
+             * payStatus : null
+             * userId : null
+             * money : 10.0
              * integral : 10
-             * money : 18.0
              */
 
             private int classroomId;
@@ -237,34 +100,23 @@ public class ClassRoomPagerBean {
             private String type;
             private String content;
             private int purchaseNum;
-            private Object thumbnail;
-            private Object status;
+            private String thumbnail;
+            private String status;
             private String videoDate;
             private String createTime;
-            private String updateTime;
+            private Object updateTime;
             private int watchNum;
-            private Object video_url;
-            private Object video_file;
-            private Object audio_file;
-            private Object video_type;
-            private int integral;
+            private String videoUrl;
+            private String videoFile;
+            private String audioFile;
+            private String videoType;
+            private String audioUrl;
+            private String audioType;
+            private Object orderId;
+            private Object payStatus;
+            private Object userId;
             private double money;
-
-            public int getIntegral() {
-                return integral;
-            }
-
-            public void setIntegral(int integral) {
-                this.integral = integral;
-            }
-
-            public double getMoney() {
-                return money;
-            }
-
-            public void setMoney(double money) {
-                this.money = money;
-            }
+            private int integral;
 
             public int getClassroomId() {
                 return classroomId;
@@ -322,19 +174,19 @@ public class ClassRoomPagerBean {
                 this.purchaseNum = purchaseNum;
             }
 
-            public Object getThumbnail() {
+            public String getThumbnail() {
                 return thumbnail;
             }
 
-            public void setThumbnail(Object thumbnail) {
+            public void setThumbnail(String thumbnail) {
                 this.thumbnail = thumbnail;
             }
 
-            public Object getStatus() {
+            public String getStatus() {
                 return status;
             }
 
-            public void setStatus(Object status) {
+            public void setStatus(String status) {
                 this.status = status;
             }
 
@@ -354,11 +206,11 @@ public class ClassRoomPagerBean {
                 this.createTime = createTime;
             }
 
-            public String getUpdateTime() {
+            public Object getUpdateTime() {
                 return updateTime;
             }
 
-            public void setUpdateTime(String updateTime) {
+            public void setUpdateTime(Object updateTime) {
                 this.updateTime = updateTime;
             }
 
@@ -370,36 +222,92 @@ public class ClassRoomPagerBean {
                 this.watchNum = watchNum;
             }
 
-            public Object getVideo_url() {
-                return video_url;
+            public String getVideoUrl() {
+                return videoUrl;
             }
 
-            public void setVideo_url(Object video_url) {
-                this.video_url = video_url;
+            public void setVideoUrl(String videoUrl) {
+                this.videoUrl = videoUrl;
             }
 
-            public Object getVideo_file() {
-                return video_file;
+            public String getVideoFile() {
+                return videoFile;
             }
 
-            public void setVideo_file(Object video_file) {
-                this.video_file = video_file;
+            public void setVideoFile(String videoFile) {
+                this.videoFile = videoFile;
             }
 
-            public Object getAudio_file() {
-                return audio_file;
+            public String getAudioFile() {
+                return audioFile;
             }
 
-            public void setAudio_file(Object audio_file) {
-                this.audio_file = audio_file;
+            public void setAudioFile(String audioFile) {
+                this.audioFile = audioFile;
             }
 
-            public Object getVideo_type() {
-                return video_type;
+            public String getVideoType() {
+                return videoType;
             }
 
-            public void setVideo_type(Object video_type) {
-                this.video_type = video_type;
+            public void setVideoType(String videoType) {
+                this.videoType = videoType;
+            }
+
+            public String getAudioUrl() {
+                return audioUrl;
+            }
+
+            public void setAudioUrl(String audioUrl) {
+                this.audioUrl = audioUrl;
+            }
+
+            public String getAudioType() {
+                return audioType;
+            }
+
+            public void setAudioType(String audioType) {
+                this.audioType = audioType;
+            }
+
+            public Object getOrderId() {
+                return orderId;
+            }
+
+            public void setOrderId(Object orderId) {
+                this.orderId = orderId;
+            }
+
+            public Object getPayStatus() {
+                return payStatus;
+            }
+
+            public void setPayStatus(Object payStatus) {
+                this.payStatus = payStatus;
+            }
+
+            public Object getUserId() {
+                return userId;
+            }
+
+            public void setUserId(Object userId) {
+                this.userId = userId;
+            }
+
+            public double getMoney() {
+                return money;
+            }
+
+            public void setMoney(double money) {
+                this.money = money;
+            }
+
+            public int getIntegral() {
+                return integral;
+            }
+
+            public void setIntegral(int integral) {
+                this.integral = integral;
             }
         }
     }
