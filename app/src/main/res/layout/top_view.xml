@@ -28,14 +28,16 @@
     <!--定位-->
     <LinearLayout
         android:id="@+id/ll_top_location"
-        android:layout_width="@dimen/x300"
-        android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/x60"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:gravity="center_vertical|start"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.3">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -57,9 +59,7 @@
     <TextView
         android:id="@+id/tv_top_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginBottom="@dimen/y20"
+        android:layout_height="0dp"
         android:letterSpacing="0.13"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -71,17 +71,18 @@
     <!--搜索-->
     <LinearLayout
         android:id="@+id/ll_top_search"
-        android:layout_width="@dimen/x600"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="@drawable/bg_search"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="@dimen/x20"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.7"
+        app:layout_constraintHorizontal_bias="0.65"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.55">
 
         <ImageButton
             android:id="@+id/ib_top_search"
@@ -102,16 +103,18 @@
     <!--长搜索-->
     <LinearLayout
         android:id="@+id/ll_top_long_search"
-        android:layout_width="@dimen/x870"
-        android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/x60"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="@drawable/bg_search"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="@dimen/x20"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.8">
 
         <ImageButton
             android:id="@+id/ib_top_long_search"
@@ -172,13 +175,13 @@
     <!--消息-->
     <ImageButton
         android:id="@+id/ib_top_msg"
-        android:layout_width="@dimen/x80"
-        android:layout_height="@dimen/y80"
-        android:layout_marginEnd="@dimen/x30"
-        android:padding="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:src="@mipmap/ic_msg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!--举报-->

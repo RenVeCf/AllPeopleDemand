@@ -35,12 +35,13 @@
         <activity
             android:name=".activity.SplashActivity"
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
-            android:exported="false"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
+                <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
 

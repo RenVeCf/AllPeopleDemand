@@ -103,8 +103,6 @@ public class TopView extends RelativeLayout implements View.OnClickListener {
         rbTopAccount = (RadioGroup) this.findViewById(R.id.rg_top_account);
         btTopReport = (Button) this.findViewById(R.id.bt_top_report);
 
-//        WidgetUtils.setSpinnerDropDownVerticalOffset(srTopCity);
-
         llTopBack.setOnClickListener(this);
         ivTopMsg.setOnClickListener(this);
         ivTopFAQ.setOnClickListener(this);
