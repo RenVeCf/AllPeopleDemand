@@ -22,7 +22,6 @@ import com.ipd.allpeopledemand.fragment.MyFragment;
 import com.ipd.allpeopledemand.fragment.PushFragment;
 import com.ipd.allpeopledemand.presenter.CheckVersionPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
-import com.ipd.allpeopledemand.utils.L;
 import com.ipd.allpeopledemand.utils.NavigationBarUtil;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.ToastUtil;
@@ -40,7 +39,6 @@ import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_URL;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.CHECK_VERSION;
 import static com.ipd.allpeopledemand.utils.AppUtils.getAppVersionName;
-import static com.ipd.allpeopledemand.utils.DateUtils.getTodayDateTime;
 
 /**
  * Description ：首页

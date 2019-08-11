@@ -231,8 +231,7 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
                 mainADImgMap.put("password", "F9A75BB045D75998E1509B75ED3A5225");
                 getPresenter().getMainADImg(mainADImgMap, false, false);
             }
-        }, 4000);    //延时1s执行
-
+        }, 5000);    //延时5s执行
 
         initJsonData();
 

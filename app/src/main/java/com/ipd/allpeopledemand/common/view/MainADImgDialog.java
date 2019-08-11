@@ -52,7 +52,7 @@ public abstract class MainADImgDialog extends Dialog implements View.OnClickList
     }
 
     /**
-     * 设置dialog位于屏幕底部
+     * 设置dialog位于屏幕中部
      */
     private void setViewLocation() {
         DisplayMetrics dm = new DisplayMetrics();
