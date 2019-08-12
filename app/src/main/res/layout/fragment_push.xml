@@ -268,7 +268,7 @@
                     app:mlet_contentBackground="@color/white"
                     app:mlet_contentTextColor="@color/black"
                     app:mlet_contentTextSize="16sp"
-                    app:mlet_hintText="请输入详情描述，不允许带有自己或者别人 的联系方式。"
+                    app:mlet_hintText="请输入详情描述，越详细关注度越高，越详细成功的率越大，但是不允许含带联系方式。"
                     app:mlet_hintTextColor="@color/tx_bottom_navigation"
                     app:mlet_maxCount="400" />
             </LinearLayout>
