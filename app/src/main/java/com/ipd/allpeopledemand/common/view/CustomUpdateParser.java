@@ -34,7 +34,7 @@ public class CustomUpdateParser implements IUpdateParser {
                     .setVersionName(result.getData().getVersion().getVersionNo())
                     .setUpdateContent(result.getData().getVersion().getIntro())
                     .setIsAutoInstall(true)
-                    .setDownloadUrl("http://xx.hanyu365.com.cn:8080/H5/allpeopledemand_" + getAppVersionCode(ApplicationUtil.getContext(), PACKAGE_NAME) + "-" + getAppVersionName(ApplicationUtil.getContext(), PACKAGE_NAME) + "-" + getTodayDateTime() + ".apk");
+                    .setDownloadUrl("http://xx.hanyu365.com.cn:8080/H5/allpeopledemand.apk");
         }
         return null;
     }
