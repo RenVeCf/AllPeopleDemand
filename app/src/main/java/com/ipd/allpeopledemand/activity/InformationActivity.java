@@ -151,10 +151,7 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
             case 1:
                 listData = getSexData();
                 break;
-//            case 2:
-//                listData = getAgeData();
-//                break;
-            case 3:
+            case 2:
                 listData = getMaritalData();
                 break;
         }
@@ -163,16 +160,20 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
             public void onOptionsSelect(int options1, int option2, int options3, View v) {
                 switch (type) {
                     case 1:
-                        ModifyInformation("", "男".equals(listData.get(options1)) ? "1" : "2", "", "");
-                        stvSex.setRightString(listData.get(options1));
+                        if (("男".equals(listData.get(options1)) && "已婚".equals(stvMarital.getRightString()) && 22 > Integer.parseInt(stvAge.getRightString().replaceAll("岁", ""))) || ("女".equals(listData.get(options1)) && "已婚".equals(stvMarital.getRightString()) && 20 > Integer.parseInt(stvAge.getRightString().replaceAll("岁", "")))) {
+                            ToastUtil.showLongToast("请填写真实信息");
+                        } else {
+                            ModifyInformation("", "男".equals(listData.get(options1)) ? "1" : "2", "", "");
+                            stvSex.setRightString(listData.get(options1));
+                        }
                         break;
-//                    case 2:
-//                        ModifyInformation("", "", listData.get(options1).replaceAll("岁", ""), "");
-//                        stvAge.setRightString(listData.get(options1));
-//                        break;
-                    case 3:
-                        ModifyInformation("", "", "", "未婚".equals(listData.get(options1)) ? "1" : "2");
-                        stvMarital.setRightString(listData.get(options1));
+                    case 2:
+                        if (("男".equals(stvSex.getRightString()) && "已婚".equals(listData.get(options1)) && 22 > Integer.parseInt(stvAge.getRightString().replaceAll("岁", ""))) || ("女".equals(stvSex.getRightString()) && "已婚".equals(listData.get(options1)) && 20 > Integer.parseInt(stvAge.getRightString().replaceAll("岁", "")))) {
+                            ToastUtil.showLongToast("请填写真实信息");
+                        } else {
+                            ModifyInformation("", "", "", "未婚".equals(listData.get(options1)) ? "1" : "2");
+                            stvMarital.setRightString(listData.get(options1));
+                        }
                         break;
                 }
             }
@@ -209,14 +210,6 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
         return list;
     }
 
-    /*private List<String> getAgeData() {
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            list.add(i + "岁");
-        }
-        return list;
-    }*/
-
     private List<String> getMaritalData() {
         List<String> list = new ArrayList<>();
         list.add("未婚");
@@ -233,14 +226,18 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
         //endDate.set(2020,1,1);
 
         //正确设置方式 原因：注意事项有说明
-        startDate.set(1900, 0, 1);
+        startDate.set(1960, 0, 1);
         endDate.set(2030, 11, 31);
 
         pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {//选中事件回调
-                ModifyInformation("", "", getAgeFromBirthTime(timedate1(date.getTime() + "")) + "", "");
-                stvAge.setRightString(getAgeFromBirthTime(timedate1(date.getTime() + "")) + "岁");
+                if (("男".equals(stvSex.getRightString()) && "已婚".equals(stvMarital.getRightString()) && 22 > getAgeFromBirthTime(timedate1(date.getTime() + ""))) || ("女".equals(stvSex.getRightString()) && "已婚".equals(stvMarital.getRightString()) && 20 > getAgeFromBirthTime(timedate1(date.getTime() + "")))) {
+                    ToastUtil.showLongToast("请填写真实信息");
+                } else {
+                    ModifyInformation("", "", getAgeFromBirthTime(timedate1(date.getTime() + "")) + "", "");
+                    stvAge.setRightString(getAgeFromBirthTime(timedate1(date.getTime() + "")) + "岁");
+                }
             }
         })
                 .setLayoutRes(R.layout.pickerview_custom_time, new CustomListener() {
@@ -352,7 +349,7 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
                 break;
             case R.id.stv_marital:
                 if (isFastClick())
-                    showPickerView(3);
+                    showPickerView(2);
                 break;
             case R.id.ll_top_back:
                 if (isFastClick()) {
