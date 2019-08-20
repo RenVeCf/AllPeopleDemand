@@ -7,9 +7,7 @@ import com.xuexiang.xupdate.entity.UpdateEntity;
 import com.xuexiang.xupdate.proxy.IUpdateParser;
 
 import static com.ipd.allpeopledemand.common.config.IConstants.PACKAGE_NAME;
-import static com.ipd.allpeopledemand.utils.AppUtils.getAppVersionCode;
 import static com.ipd.allpeopledemand.utils.AppUtils.getAppVersionName;
-import static com.ipd.allpeopledemand.utils.DateUtils.getTodayDateTime;
 
 /**
  * Description ：

@@ -87,7 +87,6 @@ public class LoadingActivity extends BaseActivity<LoadingContract.View, LoadingC
     }
 
     private void sgb() {
-//        if (usertGuides.size() < 2)
         sgb
                 .setIndicatorShow(true)
                 .setBarShowWhenLast(false)
