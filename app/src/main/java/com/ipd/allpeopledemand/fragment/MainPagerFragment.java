@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -305,19 +304,19 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
                                         intent.putExtra("label_name", tv.getText());
                                         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
                                         break;
-                                    case R.id.cb_collection: //收藏
-                                        if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
-                                            startActivity(new Intent(getActivity(), LoginActivity.class));
-                                        else {
-                                            CheckBox checkBox = (CheckBox) view;
-                                            TreeMap<String, String> attentionCollectionMap = new TreeMap<>();
-                                            attentionCollectionMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
-                                            attentionCollectionMap.put("releaseId", releaseListBean.get(position).getReleaseId() + "");
-                                            attentionCollectionMap.put("isFollow", checkBox.isChecked() ? "2" : "1");
-                                            attentionCollectionMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(attentionCollectionMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-                                            getPresenter().getAttentionCollection(attentionCollectionMap, true, false);
-                                        }
-                                        break;
+//                                    case R.id.cb_collection: //收藏
+//                                        if ("".equals(SPUtil.get(getContext(), IS_LOGIN, "" + "")))
+//                                            startActivity(new Intent(getActivity(), LoginActivity.class));
+//                                        else {
+//                                            CheckBox checkBox = (CheckBox) view;
+//                                            TreeMap<String, String> attentionCollectionMap = new TreeMap<>();
+//                                            attentionCollectionMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+//                                            attentionCollectionMap.put("releaseId", releaseListBean.get(position).getReleaseId() + "");
+//                                            attentionCollectionMap.put("isFollow", checkBox.isChecked() ? "2" : "1");
+//                                            attentionCollectionMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(attentionCollectionMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+//                                            getPresenter().getAttentionCollection(attentionCollectionMap, true, false);
+//                                        }
+//                                        break;
                                 }
                             }
                         }

@@ -72,7 +72,8 @@
             android:id="@+id/cb_collection"
             android:layout_width="@dimen/x100"
             android:layout_height="@dimen/y100"
-            android:button="@drawable/select_collection" />
+            android:button="@drawable/select_collection"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <View
