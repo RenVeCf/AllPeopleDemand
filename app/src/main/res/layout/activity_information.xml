@@ -66,8 +66,7 @@
             app:sLeftTextString="昵称"
             app:sRightIconRes="@mipmap/ic_arrow_end"
             app:sRightTextColor="@color/tx_bottom_navigation"
-            app:sRightTextSize="16sp"
-            app:sRightTextString="test" />
+            app:sRightTextSize="16sp" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
             android:id="@+id/stv_phone"
@@ -80,8 +79,7 @@
             app:sLeftTextSize="18sp"
             app:sLeftTextString="手机号"
             app:sRightTextColor="@color/tx_bottom_navigation"
-            app:sRightTextSize="16sp"
-            app:sRightTextString="test" />
+            app:sRightTextSize="16sp" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
             android:id="@+id/stv_all_people_code"
@@ -94,8 +92,21 @@
             app:sLeftTextSize="18sp"
             app:sLeftTextString="全民号"
             app:sRightTextColor="@color/tx_bottom_navigation"
-            app:sRightTextSize="16sp"
-            app:sRightTextString="test" />
+            app:sRightTextSize="16sp" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+            android:id="@+id/stv_wechat_code"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y150"
+            android:paddingStart="@dimen/x30"
+            android:paddingEnd="@dimen/x30"
+            app:sDividerLineType="none"
+            app:sLeftTextColor="@color/black"
+            app:sLeftTextSize="18sp"
+            app:sLeftTextString="微信号"
+            app:sRightIconRes="@mipmap/ic_arrow_end"
+            app:sRightTextColor="@color/tx_bottom_navigation"
+            app:sRightTextSize="16sp" />
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
             android:id="@+id/stv_sex"

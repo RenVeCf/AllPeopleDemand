@@ -8,9 +8,9 @@ public class MainListBean {
 
     /**
      * msg : 操作成功
-     * total : 27
+     * total : 1
      * code : 200
-     * data : {"noticeList":[{"searchValue":null,"createBy":null,"createTime":"2019-07-14 23:39:19","updateBy":null,"updateTime":"2019-08-08 15:23:58","remark":null,"params":{},"noticeId":1,"noticeTitle":"上线通知！","noticeContent":"全民需求","status":"1","sort":1}],"releaseList":[{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"releaseId":50,"releaseClassId":6,"title":"找工作","region":null,"contacts":null,"contactNumber":null,"picPath":null,"details":null,"releaseTime":"2019-08-16 06:25:03","browseNum":null,"purchaseNum":null,"isRecommend":null,"status":null,"userId":null,"keyword":null,"isFollow":"1","type":null,"userCall":"秋天的云","avatar":"upload/2019/08/08/14e01f93fee2d593a811770dd36bbdcc.jpeg","balance":null,"className":"其他","followId":null,"orderId":null,"notPurchase":"1","detailType":null,"detailUrl":null,"wholeCountry":null,"systemOpen":null,"longitude":null,"latitude":null,"code":null,"systemStatus":null},{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"releaseId":49,"releaseClassId":6,"title":"寻求和田玉爱好者","region":null,"contacts":null,"contactNumber":null,"picPath":null,"details":null,"releaseTime":"2019-08-15 22:39:43","browseNum":null,"purchaseNum":null,"isRecommend":null,"status":null,"userId":null,"keyword":null,"isFollow":"1","type":null,"userCall":"仔爷","avatar":"upload/2019/08/15/919fe044412efe8875b83495ddee370e.jpeg","balance":null,"className":"其他","followId":null,"orderId":null,"notPurchase":"1","detailType":null,"detailUrl":null,"wholeCountry":null,"systemOpen":null,"longitude":null,"latitude":null,"code":null,"systemStatus":null},{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"releaseId":48,"releaseClassId":3,"title":"想找份在家能做的手工活","region":null,"contacts":null,"contactNumber":null,"picPath":null,"details":null,"releaseTime":"2019-08-15 21:49:16","browseNum":null,"purchaseNum":null,"isRecommend":null,"status":null,"userId":null,"keyword":null,"isFollow":"1","type":null,"userCall":"妙妙","avatar":"upload/2019/08/13/f6d8b3c0aa2238553c4de41d8151d754.jpeg","balance":null,"className":"交友","followId":null,"orderId":null,"notPurchase":"1","detailType":null,"detailUrl":null,"wholeCountry":null,"systemOpen":null,"longitude":null,"latitude":null,"code":null,"systemStatus":null},{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"releaseId":47,"releaseClassId":6,"title":"网络预约出租车","region":null,"contacts":null,"contactNumber":null,"picPath":null,"details":null,"releaseTime":"2019-08-15 10:43:15","browseNum":null,"purchaseNum":null,"isRecommend":null,"status":null,"userId":null,"keyword":null,"isFollow":"1","type":null,"userCall":"黎明","avatar":"upload/2019/08/13/bacfa92a93fc80421b519a5abb1351d5.jpeg","balance":null,"className":"其他","followId":null,"orderId":null,"notPurchase":"1","detailType":null,"detailUrl":null,"wholeCountry":null,"systemOpen":null,"longitude":null,"latitude":null,"code":null,"systemStatus":null},{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"releaseId":46,"releaseClassId":6,"title":"有没有适合在家做的生意？","region":null,"contacts":null,"contactNumber":null,"picPath":null,"details":null,"releaseTime":"2019-08-14 18:05:21","browseNum":null,"purchaseNum":null,"isRecommend":null,"status":null,"userId":null,"keyword":null,"isFollow":"1","type":null,"userCall":"蓝天云","avatar":"upload/2019/08/08/e24b86940f563ee88f640531191375ac.jpeg","balance":null,"className":"其他","followId":null,"orderId":null,"notPurchase":"1","detailType":null,"detailUrl":null,"wholeCountry":null,"systemOpen":null,"longitude":null,"latitude":null,"code":null,"systemStatus":null},{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"releaseId":40,"releaseClassId":3,"title":"找聊友","region":null,"contacts":null,"contactNumber":null,"picPath":null,"details":null,"releaseTime":"2019-08-14 08:48:33","browseNum":null,"purchaseNum":null,"isRecommend":null,"status":null,"userId":null,"keyword":null,"isFollow":"1","type":null,"userCall":"陈菲菲","avatar":"upload/2019/08/13/f6ab268b2950406782e9f0b2ca129ca2.jpeg","balance":null,"className":"交友","followId":null,"orderId":null,"notPurchase":"1","detailType":null,"detailUrl":null,"wholeCountry":null,"systemOpen":null,"longitude":null,"latitude":null,"code":null,"systemStatus":null},{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"releaseId":39,"releaseClassId":3,"title":"找聊得来的异性朋友","region":null,"contacts":null,"contactNumber":null,"picPath":null,"details":null,"releaseTime":"2019-08-13 20:28:59","browseNum":null,"purchaseNum":null,"isRecommend":null,"status":null,"userId":null,"keyword":null,"isFollow":"1","type":null,"userCall":"蓝天云","avatar":"upload/2019/08/08/e24b86940f563ee88f640531191375ac.jpeg","balance":null,"className":"交友","followId":null,"orderId":null,"notPurchase":"1","detailType":null,"detailUrl":null,"wholeCountry":null,"systemOpen":null,"longitude":null,"latitude":null,"code":null,"systemStatus":null},{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"releaseId":38,"releaseClassId":5,"title":"找工作","region":null,"contacts":null,"contactNumber":null,"picPath":null,"details":null,"releaseTime":"2019-08-13 20:27:30","browseNum":null,"purchaseNum":null,"isRecommend":null,"status":null,"userId":null,"keyword":null,"isFollow":"1","type":null,"userCall":"妙妙","avatar":"upload/2019/08/13/f6d8b3c0aa2238553c4de41d8151d754.jpeg","balance":null,"className":"租房","followId":null,"orderId":null,"notPurchase":"1","detailType":null,"detailUrl":null,"wholeCountry":null,"systemOpen":null,"longitude":null,"latitude":null,"code":null,"systemStatus":null},{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"releaseId":37,"releaseClassId":5,"title":"有房出租","region":null,"contacts":null,"contactNumber":null,"picPath":null,"details":null,"releaseTime":"2019-08-13 20:23:55","browseNum":null,"purchaseNum":null,"isRecommend":null,"status":null,"userId":null,"keyword":null,"isFollow":"1","type":null,"userCall":"妙妙","avatar":"upload/2019/08/13/f6d8b3c0aa2238553c4de41d8151d754.jpeg","balance":null,"className":"租房","followId":null,"orderId":null,"notPurchase":"1","detailType":null,"detailUrl":null,"wholeCountry":null,"systemOpen":null,"longitude":null,"latitude":null,"code":null,"systemStatus":null},{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"releaseId":25,"releaseClassId":1,"title":"出售二手手机","region":null,"contacts":null,"contactNumber":null,"picPath":null,"details":null,"releaseTime":"2019-08-01 11:17:04","browseNum":null,"purchaseNum":null,"isRecommend":null,"status":null,"userId":null,"keyword":null,"isFollow":"1","type":null,"userCall":"新用户","avatar":"upload/2019/07/29/4bcdbb3686ae5a585cb7860b70fdd073.jpg","balance":null,"className":"推荐","followId":null,"orderId":null,"notPurchase":"1","detailType":null,"detailUrl":null,"wholeCountry":null,"systemOpen":null,"longitude":null,"latitude":null,"code":null,"systemStatus":null},{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"releaseId":51,"releaseClassId":1,"title":"全民需求安卓版上线啦","region":null,"contacts":"","contactNumber":"","picPath":"upload/2019/08/16/8f3d4c27adbf06c2b40a2bfff72b271d.jpg","details":"<p><span style=\"font-family:宋体\">《全民需求》安卓版上线啦<\/span><\/p><p style=\"text-indent:28px\"><span style=\"font-family:宋体\">经过一段时间的努力，《全民需求》安卓版已经上线。大部分功能已经能够使用，更多功能正在逐步更新，苹果版也将在未来的一周上线。《全民需求》是一款互助型手机应用<\/span>APP<span style=\"font-family:宋体\">，目前上线的有二个板块。<\/span><\/p><p style=\"text-indent:28px\">1.<span style=\"font-family:宋体\">需求资讯板块，主要作用：用户可以免费查看发布需求信息，每一个人都有需求，很多需求是轻而易举可以解决的，也有一部分需求是一时半会解决不了的，那么就可以通过我们这个平台来发布需求。<\/span><\/p><p style=\"text-indent:28px\"><span style=\"font-family:宋体\">生活中有许多难办的事，烦心的事。你可以使用《全民需求》这个平台，变被动为主动。比如：买车、买房、装修、设计、等等。只要是需求，你都可以尝试着，用《全民需求》来解决。<\/span><\/p><p style=\"text-indent:28px\"><span style=\"font-family:宋体\">没有人会嫌钱多，也没有人会嫌朋友多，多一个朋友多一条路。千里难寻是朋友，朋友多了路好走，你可以把你的交友详细需求信息，发布在《全民需求》平台上。<\/span><\/p><p style=\"text-indent:28px\"><span style=\"font-family:宋体\">中国单身青年已达<\/span>2<span style=\"font-family:宋体\">亿，你想脱单吗，你也可以尝试把你的婚恋需求信息，发布在《全民需求》上，多一个平台多一个可能，关键还是免费的。<\/span><\/p><p style=\"text-indent:28px\"><span style=\"font-family:宋体\">租房子也是一个比较麻烦的事情，每年有无数的外出劳务人员，到中介去租房子，谁都知道，要多付一个月的房租，如果在《全民需求》租到房子，那是不要花钱的。<\/span><\/p><p style=\"text-indent:28px\">2.<span style=\"font-family:宋体\">全民课堂板块。活到老学到老。严格的讲：我们连吃饭睡觉都不会，更别说保健创业这种世界难题了。你可以在全民课堂，学到很多很多的，有用的知识和技术。如果你会编制课程，你可以联系官方，有偿发布你的课程。<\/span><\/p><p style=\"text-indent: 28px;\"><span style=\"font-family:宋体\">《全民需求》以后会有更多更有价值的板块，早期注册安装的用户会有惊喜。<span style=\"font-family: 宋体; font-size: 20px;\"><\/span><\/span><\/p>","releaseTime":"2019-08-16 17:47:57","browseNum":4,"purchaseNum":0,"isRecommend":"","status":"1","userId":0,"keyword":"","isFollow":"1","type":"2","userCall":null,"avatar":null,"balance":null,"className":null,"followId":null,"orderId":null,"notPurchase":"1","detailType":"2","detailUrl":null,"wholeCountry":"0","systemOpen":"0","longitude":null,"latitude":null,"code":null,"systemStatus":"1"}]}
+     * data : {"noticeList":[{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"noticeId":1,"noticeTitle":"上线通知！","noticeContent":"全民需要","status":null,"sort":null}],"releaseList":[{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"releaseId":73,"releaseClassId":1,"title":"租房","region":null,"contacts":null,"contactNumber":null,"picPath":null,"details":null,"releaseTime":null,"browseNum":null,"purchaseNum":null,"isRecommend":null,"status":null,"userId":null,"keyword":null,"isFollow":"1","type":"1","userCall":null,"avatar":null,"balance":null,"className":null,"followId":null,"orderId":null,"notPurchase":"1","detailType":null,"detailUrl":null,"wholeCountry":null,"systemOpen":null,"longitude":null,"latitude":null,"code":null,"systemStatus":null,"wechatNumber":null,"examineStatus":null},{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"releaseId":74,"releaseClassId":1,"title":null,"region":null,"contacts":null,"contactNumber":null,"picPath":"upload/2019/08/28/41008c88d06d75b927b09c5897e6dd52.jpg","details":null,"releaseTime":null,"browseNum":null,"purchaseNum":null,"isRecommend":null,"status":null,"userId":null,"keyword":null,"isFollow":"1","type":"2","userCall":null,"avatar":null,"balance":null,"className":null,"followId":null,"orderId":null,"notPurchase":"1","detailType":"2","detailUrl":null,"wholeCountry":null,"systemOpen":null,"longitude":null,"latitude":null,"code":null,"systemStatus":null,"wechatNumber":null,"examineStatus":null}]}
      */
 
     private String msg;
@@ -74,30 +74,30 @@ public class MainListBean {
             /**
              * searchValue : null
              * createBy : null
-             * createTime : 2019-07-14 23:39:19
+             * createTime : null
              * updateBy : null
-             * updateTime : 2019-08-08 15:23:58
+             * updateTime : null
              * remark : null
              * params : {}
              * noticeId : 1
              * noticeTitle : 上线通知！
-             * noticeContent : 全民需求
-             * status : 1
-             * sort : 1
+             * noticeContent : 全民需要
+             * status : null
+             * sort : null
              */
 
             private Object searchValue;
             private Object createBy;
-            private String createTime;
+            private Object createTime;
             private Object updateBy;
-            private String updateTime;
+            private Object updateTime;
             private Object remark;
             private ParamsBean params;
             private int noticeId;
             private String noticeTitle;
             private String noticeContent;
-            private String status;
-            private int sort;
+            private Object status;
+            private Object sort;
             private int itemType;
 
             public void setItemType(int itemType) {
@@ -120,11 +120,11 @@ public class MainListBean {
                 this.createBy = createBy;
             }
 
-            public String getCreateTime() {
+            public Object getCreateTime() {
                 return createTime;
             }
 
-            public void setCreateTime(String createTime) {
+            public void setCreateTime(Object createTime) {
                 this.createTime = createTime;
             }
 
@@ -136,11 +136,11 @@ public class MainListBean {
                 this.updateBy = updateBy;
             }
 
-            public String getUpdateTime() {
+            public Object getUpdateTime() {
                 return updateTime;
             }
 
-            public void setUpdateTime(String updateTime) {
+            public void setUpdateTime(Object updateTime) {
                 this.updateTime = updateTime;
             }
 
@@ -184,19 +184,19 @@ public class MainListBean {
                 this.noticeContent = noticeContent;
             }
 
-            public String getStatus() {
+            public Object getStatus() {
                 return status;
             }
 
-            public void setStatus(String status) {
+            public void setStatus(Object status) {
                 this.status = status;
             }
 
-            public int getSort() {
+            public Object getSort() {
                 return sort;
             }
 
-            public void setSort(int sort) {
+            public void setSort(Object sort) {
                 this.sort = sort;
             }
 
@@ -218,15 +218,15 @@ public class MainListBean {
              * updateTime : null
              * remark : null
              * params : {}
-             * releaseId : 50
-             * releaseClassId : 6
-             * title : 找工作
+             * releaseId : 73
+             * releaseClassId : 1
+             * title : 租房
              * region : null
              * contacts : null
              * contactNumber : null
              * picPath : null
              * details : null
-             * releaseTime : 2019-08-16 06:25:03
+             * releaseTime : null
              * browseNum : null
              * purchaseNum : null
              * isRecommend : null
@@ -234,11 +234,11 @@ public class MainListBean {
              * userId : null
              * keyword : null
              * isFollow : 1
-             * type : "1"
-             * userCall : 秋天的云
-             * avatar : upload/2019/08/08/14e01f93fee2d593a811770dd36bbdcc.jpeg
+             * type : 1
+             * userCall : null
+             * avatar : null
              * balance : null
-             * className : 其他
+             * className : null
              * followId : null
              * orderId : null
              * notPurchase : 1
@@ -250,6 +250,8 @@ public class MainListBean {
              * latitude : null
              * code : null
              * systemStatus : null
+             * wechatNumber : null
+             * examineStatus : null
              */
 
             private Object searchValue;
@@ -265,9 +267,9 @@ public class MainListBean {
             private Object region;
             private Object contacts;
             private Object contactNumber;
-            private String picPath;
+            private Object picPath;
             private Object details;
-            private String releaseTime;
+            private Object releaseTime;
             private Object browseNum;
             private Object purchaseNum;
             private Object isRecommend;
@@ -276,10 +278,10 @@ public class MainListBean {
             private Object keyword;
             private String isFollow;
             private String type;
-            private String userCall;
-            private String avatar;
+            private Object userCall;
+            private Object avatar;
             private Object balance;
-            private String className;
+            private Object className;
             private Object followId;
             private Object orderId;
             private String notPurchase;
@@ -291,6 +293,8 @@ public class MainListBean {
             private Object latitude;
             private Object code;
             private Object systemStatus;
+            private Object wechatNumber;
+            private Object examineStatus;
             private int itemType;
 
             public void setItemType(int itemType) {
@@ -401,11 +405,11 @@ public class MainListBean {
                 this.contactNumber = contactNumber;
             }
 
-            public String getPicPath() {
+            public Object getPicPath() {
                 return picPath;
             }
 
-            public void setPicPath(String picPath) {
+            public void setPicPath(Object picPath) {
                 this.picPath = picPath;
             }
 
@@ -417,11 +421,11 @@ public class MainListBean {
                 this.details = details;
             }
 
-            public String getReleaseTime() {
+            public Object getReleaseTime() {
                 return releaseTime;
             }
 
-            public void setReleaseTime(String releaseTime) {
+            public void setReleaseTime(Object releaseTime) {
                 this.releaseTime = releaseTime;
             }
 
@@ -489,19 +493,19 @@ public class MainListBean {
                 this.type = type;
             }
 
-            public String getUserCall() {
+            public Object getUserCall() {
                 return userCall;
             }
 
-            public void setUserCall(String userCall) {
+            public void setUserCall(Object userCall) {
                 this.userCall = userCall;
             }
 
-            public String getAvatar() {
+            public Object getAvatar() {
                 return avatar;
             }
 
-            public void setAvatar(String avatar) {
+            public void setAvatar(Object avatar) {
                 this.avatar = avatar;
             }
 
@@ -513,11 +517,11 @@ public class MainListBean {
                 this.balance = balance;
             }
 
-            public String getClassName() {
+            public Object getClassName() {
                 return className;
             }
 
-            public void setClassName(String className) {
+            public void setClassName(Object className) {
                 this.className = className;
             }
 
@@ -607,6 +611,22 @@ public class MainListBean {
 
             public void setSystemStatus(Object systemStatus) {
                 this.systemStatus = systemStatus;
+            }
+
+            public Object getWechatNumber() {
+                return wechatNumber;
+            }
+
+            public void setWechatNumber(Object wechatNumber) {
+                this.wechatNumber = wechatNumber;
+            }
+
+            public Object getExamineStatus() {
+                return examineStatus;
+            }
+
+            public void setExamineStatus(Object examineStatus) {
+                this.examineStatus = examineStatus;
             }
 
             @Override

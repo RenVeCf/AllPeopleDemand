@@ -134,6 +134,15 @@ public class AttentionDetailsBean {
             private Object className;
             private Object followId;
             private Object orderId;
+            private String wechatNumber;
+
+            public String getWechatNumber() {
+                return wechatNumber;
+            }
+
+            public void setWechatNumber(String wechatNumber) {
+                this.wechatNumber = wechatNumber;
+            }
 
             public Object getSearchValue() {
                 return searchValue;

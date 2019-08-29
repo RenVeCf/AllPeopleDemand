@@ -62,9 +62,11 @@ import static com.ipd.allpeopledemand.common.config.IConstants.AVATAR;
 import static com.ipd.allpeopledemand.common.config.IConstants.MARITAL_STATUS;
 import static com.ipd.allpeopledemand.common.config.IConstants.NAME;
 import static com.ipd.allpeopledemand.common.config.IConstants.PHONE;
+import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_100;
 import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_91;
 import static com.ipd.allpeopledemand.common.config.IConstants.SEX;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
+import static com.ipd.allpeopledemand.common.config.IConstants.WECHAT_CODE;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_LOCAL_URL;
 import static com.ipd.allpeopledemand.utils.DateUtils.getAgeFromBirthTime;
 import static com.ipd.allpeopledemand.utils.DateUtils.timedate1;
@@ -90,6 +92,8 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
     SuperTextView stvPhone;
     @BindView(R.id.stv_all_people_code)
     SuperTextView stvAllPeopleCode;
+    @BindView(R.id.stv_wechat_code)
+    SuperTextView stvWechatCode;
     @BindView(R.id.stv_sex)
     SuperTextView stvSex;
     @BindView(R.id.stv_age)
@@ -127,6 +131,7 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
         stvNickname.setRightString(SPUtil.get(this, NAME, "") + "");
         stvPhone.setRightString(SPUtil.get(this, PHONE, "") + "");
         stvAllPeopleCode.setRightString(SPUtil.get(this, ALL_PEOPLE, "") + "");
+        stvWechatCode.setRightString(SPUtil.get(this, WECHAT_CODE, "") + "");
         stvSex.setRightString(SPUtil.get(this, SEX, "") + "");
         stvAge.setRightString(SPUtil.get(this, AGE, "") + "");
         stvMarital.setRightString(SPUtil.get(this, MARITAL_STATUS, "") + "");
@@ -161,7 +166,7 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
                 switch (type) {
                     case 1:
                         if (("男".equals(listData.get(options1)) && "已婚".equals(stvMarital.getRightString()) && 22 > Integer.parseInt(stvAge.getRightString().replaceAll("岁", ""))) || ("女".equals(listData.get(options1)) && "已婚".equals(stvMarital.getRightString()) && 20 > Integer.parseInt(stvAge.getRightString().replaceAll("岁", "")))) {
-                            ToastUtil.showLongToast("请填写真实信息");
+                            ToastUtil.showLongToast("不符合法定结婚年龄");
                         } else {
                             ModifyInformation("", "男".equals(listData.get(options1)) ? "1" : "2", "", "");
                             stvSex.setRightString(listData.get(options1));
@@ -169,7 +174,7 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
                         break;
                     case 2:
                         if (("男".equals(stvSex.getRightString()) && "已婚".equals(listData.get(options1)) && 22 > Integer.parseInt(stvAge.getRightString().replaceAll("岁", ""))) || ("女".equals(stvSex.getRightString()) && "已婚".equals(listData.get(options1)) && 20 > Integer.parseInt(stvAge.getRightString().replaceAll("岁", "")))) {
-                            ToastUtil.showLongToast("请填写真实信息");
+                            ToastUtil.showLongToast("不符合法定结婚年龄");
                         } else {
                             ModifyInformation("", "", "", "未婚".equals(listData.get(options1)) ? "1" : "2");
                             stvMarital.setRightString(listData.get(options1));
@@ -233,7 +238,7 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
             @Override
             public void onTimeSelect(Date date, View v) {//选中事件回调
                 if (("男".equals(stvSex.getRightString()) && "已婚".equals(stvMarital.getRightString()) && 22 > getAgeFromBirthTime(timedate1(date.getTime() + ""))) || ("女".equals(stvSex.getRightString()) && "已婚".equals(stvMarital.getRightString()) && 20 > getAgeFromBirthTime(timedate1(date.getTime() + "")))) {
-                    ToastUtil.showLongToast("请填写真实信息");
+                    ToastUtil.showLongToast("不符合法定结婚年龄");
                 } else {
                     ModifyInformation("", "", getAgeFromBirthTime(timedate1(date.getTime() + "")) + "", "");
                     stvAge.setRightString(getAgeFromBirthTime(timedate1(date.getTime() + "")) + "岁");
@@ -311,6 +316,9 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
                 case REQUEST_CODE_91:
                     stvNickname.setRightString(data.getStringExtra("nickname"));
                     break;
+                case REQUEST_CODE_100:
+                    stvWechatCode.setRightString(data.getStringExtra("wechat_code"));
+                    break;
             }
         }
     }
@@ -321,7 +329,7 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
         finish();
     }
 
-    @OnClick({R.id.ll_head, R.id.stv_nickname, R.id.stv_sex, R.id.stv_age, R.id.stv_marital, R.id.ll_top_back})
+    @OnClick({R.id.ll_head, R.id.stv_nickname, R.id.stv_wechat_code, R.id.stv_sex, R.id.stv_age, R.id.stv_marital, R.id.ll_top_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_head:
@@ -337,7 +345,11 @@ public class InformationActivity extends BaseActivity<InformationContract.View, 
                 break;
             case R.id.stv_nickname:
                 if (isFastClick())
-                    startActivityForResult(new Intent(this, NickNameActivity.class), REQUEST_CODE_91);
+                    startActivityForResult(new Intent(this, NickNameActivity.class).putExtra("type", 1), REQUEST_CODE_91);
+                break;
+            case R.id.stv_wechat_code:
+                if (isFastClick())
+                    startActivityForResult(new Intent(this, NickNameActivity.class).putExtra("type", 2), REQUEST_CODE_100);
                 break;
             case R.id.stv_sex:
                 if (isFastClick())

@@ -126,7 +126,7 @@ public class ShareActivity extends BaseActivity<ShareContract.View, ShareContrac
         }
         oks.disableSSOWhenAuthorize();
         oks.setTitle(getString(R.string.app_name));
-        oks.setText("全民需求，解决您一时半会儿解决不了的问题");
+        oks.setText("每个人必备的手机软件，发布资讯，招商引流，扩展人脉，解决需求，商机无限。");
         Bitmap bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ic_logo);//显示APP本身自带图片
         oks.setImageData(bitmap);//bitmap格式图片
         oks.setUrl(url);
@@ -142,7 +142,7 @@ public class ShareActivity extends BaseActivity<ShareContract.View, ShareContrac
         }
         //关闭sso授权
         oks.disableSSOWhenAuthorize();
-        oks.setTitle("全民需求，解决您一时半会儿解决不了的问题");
+        oks.setTitle("每个人必备的手机软件，发布资讯，招商引流，扩展人脉，解决需求，商机无限。");
         // text是分享文本，所有平台都需要这个字段
         Bitmap bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ic_logo);//显示APP本身自带图片
         oks.setImageData(bitmap);//bitmap格式图片
@@ -154,9 +154,12 @@ public class ShareActivity extends BaseActivity<ShareContract.View, ShareContrac
         oks.show(this);
     }
 
-    @OnClick({R.id.ib_wechat, R.id.ib_moments, R.id.rv_invite_my_friends})
+    @OnClick({R.id.bt_leaderboard, R.id.ib_wechat, R.id.ib_moments, R.id.rv_invite_my_friends})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.bt_leaderboard:
+                startActivity(new Intent(this, WebViewActivity.class).putExtra("h5Type", 6));
+                break;
             case R.id.ib_wechat:
                 if (!isEmpty(shareUrl))
                     showWeChatShare(shareUrl, Wechat.NAME);
@@ -176,7 +179,7 @@ public class ShareActivity extends BaseActivity<ShareContract.View, ShareContrac
         switch (data.getCode()) {
             case 200:
                 shareUrl = data.getData().getShareUrl() + "?" + "invitationCode=" + data.getData().getUser().getInvitationCode();
-                tvAverageShareNum.setText("推荐邀请好友平均值: " + data.getData().getInvAverage());
+//                tvAverageShareNum.setText("推荐邀请好友平均值: " + data.getData().getInvAverage());
                 Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + data.getData().getUser().getAvatar()).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into(stvTitle.getLeftIconIV());
                 stvTitle.setLeftString(data.getData().getUser().getUserCall());
                 createQRCodeWithLogo(null, data.getData().getShareUrl());

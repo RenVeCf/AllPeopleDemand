@@ -8,13 +8,9 @@ import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,6 +31,7 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.activity.LoginActivity;
 import com.ipd.allpeopledemand.activity.MsgActivity;
+import com.ipd.allpeopledemand.activity.SearchMainActivity;
 import com.ipd.allpeopledemand.activity.WebViewActivity;
 import com.ipd.allpeopledemand.adapter.ViewPagerAdapter;
 import com.ipd.allpeopledemand.base.BaseFragment;
@@ -94,7 +91,7 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
     @BindView(R.id.ib_top_msg)
     ImageButton ibTopMsg;
     @BindView(R.id.et_top_search)
-    EditText etTopSearch;
+    TextView etTopSearch;
     @BindView(R.id.ll_top_location)
     LinearLayout llTopLocation;
     @BindView(R.id.tv_top_city)
@@ -117,6 +114,7 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
     private BDAbstractLocationListener myListener;
     private List<Badge> mBadges = new ArrayList<>();
+    private int positions;
 
     @Override
     public int getLayoutId() {
@@ -191,35 +189,35 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
 
     @Override
     public void initListener() {
-        etTopSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    // 隐藏软键盘
-                    imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(), 0);
-
-                    vpFragmentMain.removeAllViewsInLayout();
-                    viewPagerAdapter.notifyDataSetChanged();
-                    //向集合添加Fragment
-                    fragments.clear();
-                    for (int i = 0; i < titles.length; i++) {
-                        fm = new MainPagerFragment();
-                        Bundle args = new Bundle();
-                        args.putString("releaseClassId", i == 0 ? "0" : classListBean.get(i - 1).getReleaseClassId() + "");
-                        args.putString("region", "全国".equals(tvTopCity.getText().toString().trim()) ? "" : tvTopCity.getText().toString().trim());
-                        args.putString("title", etTopSearch.getText().toString().trim());
-                        fm.setArguments(args);
-                        fragments.add(fm);
-                    }
-
-                    vpFragmentMain.setAdapter(viewPagerAdapter);
-                    vpFragmentMain.setOffscreenPageLimit(titles.length);
-                    return true;
-                }
-                return false;
-            }
-        });
+//        etTopSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+//                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    // 隐藏软键盘
+//                    imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(), 0);
+//
+//                    vpFragmentMain.removeAllViewsInLayout();
+//                    viewPagerAdapter.notifyDataSetChanged();
+//                    //向集合添加Fragment
+//                    fragments.clear();
+//                    for (int i = 0; i < titles.length; i++) {
+//                        fm = new MainPagerFragment();
+//                        Bundle args = new Bundle();
+//                        args.putString("releaseClassId", i == 0 ? "0" : classListBean.get(i - 1).getReleaseClassId() + "");
+//                        args.putString("region", "全国".equals(tvTopCity.getText().toString().trim()) ? "" : tvTopCity.getText().toString().trim());
+//                        args.putString("title", etTopSearch.getText().toString().trim());
+//                        fm.setArguments(args);
+//                        fragments.add(fm);
+//                    }
+//
+//                    vpFragmentMain.setAdapter(viewPagerAdapter);
+//                    vpFragmentMain.setOffscreenPageLimit(titles.length);
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
     }
 
     @Override
@@ -231,7 +229,7 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
                 mainADImgMap.put("password", "F9A75BB045D75998E1509B75ED3A5225");
                 getPresenter().getMainADImg(mainADImgMap, false, false);
             }
-        }, 5000);    //延时5s执行
+        }, 1000);    //延时5s执行
 
         initJsonData();
 
@@ -337,7 +335,7 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
                         Bundle args = new Bundle();
                         args.putString("releaseClassId", i == 0 ? "0" : classListBean.get(i - 1).getReleaseClassId() + "");
                         args.putString("region", city);
-                        args.putString("title", etTopSearch.getText().toString().trim());
+                        args.putString("title", "");//etTopSearch.getText().toString().trim());
                         fm.setArguments(args);
                         fragments.add(fm);
                     }
@@ -366,7 +364,7 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
                                         Bundle args = new Bundle();
                                         args.putString("releaseClassId", i == 0 ? "0" : classListBean.get(i - 1).getReleaseClassId() + "");
                                         args.putString("region", tvTopCity.getText().toString().trim());
-                                        args.putString("title", etTopSearch.getText().toString().trim());
+                                        args.putString("title", "");//etTopSearch.getText().toString().trim());
                                         fm.setArguments(args);
                                         fragments.add(fm);
                                     }
@@ -395,7 +393,7 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
                                         Bundle args = new Bundle();
                                         args.putString("releaseClassId", i == 0 ? "0" : classListBean.get(i - 1).getReleaseClassId() + "");
                                         args.putString("region", "");
-                                        args.putString("title", etTopSearch.getText().toString().trim());
+                                        args.putString("title", "");//etTopSearch.getText().toString().trim());
                                         fm.setArguments(args);
                                         fragments.add(fm);
                                     }
@@ -532,7 +530,7 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
 //        }
 //    }
 
-    @OnClick({R.id.ib_top_msg, R.id.ll_top_location})
+    @OnClick({R.id.ib_top_msg, R.id.ll_top_location, R.id.et_top_search})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ib_top_msg:
@@ -550,6 +548,9 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
                 break;
             case R.id.ll_top_location:
                 rxPermissionTest(2);
+                break;
+            case R.id.et_top_search:
+                startActivity(new Intent(getActivity(), SearchMainActivity.class).putExtra("releaseClassId", positions > 0 ? classListBean.get(positions - 1).getReleaseClassId() : 0));
                 break;
         }
     }
@@ -572,7 +573,7 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
             Bundle args = new Bundle();
             args.putString("releaseClassId", i == 0 ? "0" : classListBean.get(i - 1).getReleaseClassId() + "");
             args.putString("region", tvTopCity.getText().toString().trim());
-            args.putString("title", etTopSearch.getText().toString().trim());
+            args.putString("title", "");//etTopSearch.getText().toString().trim());
             fm.setArguments(args);
             fragments.add(fm);
         }
@@ -584,6 +585,23 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
         nfslFragmentMain.setViewPager(getContext(), titles, vpFragmentMain, R.color.tx_bottom_navigation, R.color.black, 16, 16, 24, true, R.color.black, 0, 0, 0, 80);
         nfslFragmentMain.setBgLine(getContext(), 1, R.color.whitesmoke);
         nfslFragmentMain.setNavLine(getActivity(), 3, R.color.colorAccent);
+
+        nfslFragmentMain.setOnNaPageChangeListener(new NavitationFollowScrollLayoutText.OnNaPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                positions = position;
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override

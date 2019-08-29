@@ -3,17 +3,26 @@ package com.ipd.allpeopledemand.bean;
 import java.util.List;
 
 public class AccountBean {
+
     /**
-     * total : 1
-     * data : {"detailedList":[{"searchValue":null,"createBy":null,"createTime":"2019-07-15 15:50:12","updateBy":null,"updateTime":null,"remark":null,"params":{},"detailedId":2,"userId":1,"money":0,"astype":"1","title":"测试积分数据","content":null,"type":"1","orderNo":null,"integralNum":100}],"national_num":100}
-     * code : 200
      * msg : 操作成功
+     * total : 6
+     * code : 200
+     * data : {"detailedList":[{"searchValue":null,"createBy":null,"createTime":"2019-08-21 17:19:37","updateBy":null,"updateTime":null,"remark":null,"params":{},"detailedId":309,"userId":4,"money":1,"astype":"2","title":"购买课堂","content":"","type":"2","orderNo":null,"integralNum":0},{"searchValue":null,"createBy":null,"createTime":"2019-08-09 12:26:26","updateBy":null,"updateTime":null,"remark":null,"params":{},"detailedId":203,"userId":4,"money":13.5,"astype":"2","title":"购买课堂","content":"","type":"2","orderNo":null,"integralNum":0},{"searchValue":null,"createBy":null,"createTime":"2019-08-02 17:13:09","updateBy":null,"updateTime":null,"remark":null,"params":{},"detailedId":192,"userId":4,"money":20,"astype":"2","title":"购买课堂","content":"","type":"2","orderNo":null,"integralNum":0},{"searchValue":null,"createBy":null,"createTime":"2019-07-29 18:48:52","updateBy":null,"updateTime":null,"remark":null,"params":{},"detailedId":125,"userId":4,"money":30,"astype":"1","title":"系统赠送奖励余额","content":"","type":"2","orderNo":null,"integralNum":0},{"searchValue":null,"createBy":null,"createTime":"2019-07-24 15:25:24","updateBy":null,"updateTime":null,"remark":null,"params":{},"detailedId":5,"userId":4,"money":0,"astype":"1","title":"发帖赠送积分","content":"","type":"2","orderNo":null,"integralNum":10},{"searchValue":null,"createBy":null,"createTime":"2019-07-24 14:18:48","updateBy":null,"updateTime":null,"remark":null,"params":{},"detailedId":4,"userId":4,"money":0,"astype":"1","title":"新用户注册赠送积分","content":"","type":"2","orderNo":null,"integralNum":10}],"balance":20.5}
      */
 
-    private int total;
-    private DataBean data;
-    private int code;
     private String msg;
+    private int total;
+    private int code;
+    private DataBean data;
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
 
     public int getTotal() {
         return total;
@@ -21,14 +30,6 @@ public class AccountBean {
 
     public void setTotal(int total) {
         this.total = total;
-    }
-
-    public DataBean getData() {
-        return data;
-    }
-
-    public void setData(DataBean data) {
-        this.data = data;
     }
 
     public int getCode() {
@@ -39,22 +40,22 @@ public class AccountBean {
         this.code = code;
     }
 
-    public String getMsg() {
-        return msg;
+    public DataBean getData() {
+        return data;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setData(DataBean data) {
+        this.data = data;
     }
 
     public static class DataBean {
         /**
-         * detailedList : [{"searchValue":null,"createBy":null,"createTime":"2019-07-15 15:50:12","updateBy":null,"updateTime":null,"remark":null,"params":{},"detailedId":2,"userId":1,"money":0,"astype":"1","title":"测试积分数据","content":null,"type":"1","orderNo":null,"integralNum":100}]
-         * national_num : 100
+         * detailedList : [{"searchValue":null,"createBy":null,"createTime":"2019-08-21 17:19:37","updateBy":null,"updateTime":null,"remark":null,"params":{},"detailedId":309,"userId":4,"money":1,"astype":"2","title":"购买课堂","content":"","type":"2","orderNo":null,"integralNum":0},{"searchValue":null,"createBy":null,"createTime":"2019-08-09 12:26:26","updateBy":null,"updateTime":null,"remark":null,"params":{},"detailedId":203,"userId":4,"money":13.5,"astype":"2","title":"购买课堂","content":"","type":"2","orderNo":null,"integralNum":0},{"searchValue":null,"createBy":null,"createTime":"2019-08-02 17:13:09","updateBy":null,"updateTime":null,"remark":null,"params":{},"detailedId":192,"userId":4,"money":20,"astype":"2","title":"购买课堂","content":"","type":"2","orderNo":null,"integralNum":0},{"searchValue":null,"createBy":null,"createTime":"2019-07-29 18:48:52","updateBy":null,"updateTime":null,"remark":null,"params":{},"detailedId":125,"userId":4,"money":30,"astype":"1","title":"系统赠送奖励余额","content":"","type":"2","orderNo":null,"integralNum":0},{"searchValue":null,"createBy":null,"createTime":"2019-07-24 15:25:24","updateBy":null,"updateTime":null,"remark":null,"params":{},"detailedId":5,"userId":4,"money":0,"astype":"1","title":"发帖赠送积分","content":"","type":"2","orderNo":null,"integralNum":10},{"searchValue":null,"createBy":null,"createTime":"2019-07-24 14:18:48","updateBy":null,"updateTime":null,"remark":null,"params":{},"detailedId":4,"userId":4,"money":0,"astype":"1","title":"新用户注册赠送积分","content":"","type":"2","orderNo":null,"integralNum":10}]
+         * balance : 20.5
          */
 
-        private int integral;
         private double balance;
+        private int integral;
         private List<DetailedListBean> detailedList;
 
         public int getIntegral() {
@@ -85,20 +86,20 @@ public class AccountBean {
             /**
              * searchValue : null
              * createBy : null
-             * createTime : 2019-07-15 15:50:12
+             * createTime : 2019-08-21 17:19:37
              * updateBy : null
              * updateTime : null
              * remark : null
              * params : {}
-             * detailedId : 2
-             * userId : 1
-             * money : 0
-             * astype : 1
-             * title : 测试积分数据
-             * content : null
-             * type : 1
+             * detailedId : 309
+             * userId : 4
+             * money : 1.0
+             * astype : 2
+             * title : 购买课堂
+             * content :
+             * type : 2
              * orderNo : null
-             * integralNum : 100
+             * integralNum : 0
              */
 
             private Object searchValue;
@@ -110,7 +111,7 @@ public class AccountBean {
             private ParamsBean params;
             private int detailedId;
             private int userId;
-            private int money;
+            private double money;
             private String astype;
             private String title;
             private String content;
@@ -190,11 +191,11 @@ public class AccountBean {
                 this.userId = userId;
             }
 
-            public int getMoney() {
+            public double getMoney() {
                 return money;
             }
 
-            public void setMoney(int money) {
+            public void setMoney(double money) {
                 this.money = money;
             }
 

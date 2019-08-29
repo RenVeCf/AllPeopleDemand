@@ -91,7 +91,7 @@
             android:background="@null"
             android:src="@mipmap/ic_search" />
 
-        <EditText
+        <TextView
             android:id="@+id/et_top_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -123,8 +123,40 @@
             android:background="@null"
             android:src="@mipmap/ic_search" />
 
-        <EditText
+        <TextView
             android:id="@+id/et_top_long_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="请输入您想搜索的内容"
+            android:imeOptions="actionSearch" />
+    </LinearLayout>
+
+    <!--长搜索-->
+    <LinearLayout
+        android:id="@+id/ll_top_long_search_ed"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_search"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/x20"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.7">
+
+        <ImageButton
+            android:id="@+id/ib_top_long_search_ed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@mipmap/ic_search" />
+
+        <EditText
+            android:id="@+id/et_top_long_search_ed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -178,6 +210,18 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:src="@mipmap/ic_msg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--取消-->
+    <Button
+        android:id="@+id/bt_top_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="取消"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.95"

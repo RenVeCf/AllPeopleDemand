@@ -25,6 +25,7 @@ import io.reactivex.ObservableTransformer;
 
 import static com.ipd.allpeopledemand.common.config.IConstants.NAME;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
+import static com.ipd.allpeopledemand.common.config.IConstants.WECHAT_CODE;
 
 /**
  * Description ：修改昵称
@@ -38,6 +39,8 @@ public class NickNameActivity extends BaseActivity<InformationContract.View, Inf
     TopView tvModifyNickname;
     @BindView(R.id.et_modify_nickname)
     EditText etModifyNickname;
+
+    private int type;
 
     @Override
     public int getLayoutId() {
@@ -61,8 +64,12 @@ public class NickNameActivity extends BaseActivity<InformationContract.View, Inf
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvModifyNickname);
 
-        if (!"".equals(SPUtil.get(this, NAME, "") + ""))
+        type = getIntent().getIntExtra("type", 0);
+
+        if (!"".equals(SPUtil.get(this, NAME, "") + "") && type == 1)
             etModifyNickname.setText(SPUtil.get(this, NAME, "") + "");
+        else if (!"".equals(SPUtil.get(this, NAME, "") + "") && type == 2)
+            etModifyNickname.setText(SPUtil.get(this, WECHAT_CODE, "") + "");
     }
 
     @Override
@@ -80,11 +87,18 @@ public class NickNameActivity extends BaseActivity<InformationContract.View, Inf
         if (!"".equals(etModifyNickname.getText().toString().trim())) {
             TreeMap<String, String> informationMap = new TreeMap<>();
             informationMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-            informationMap.put("userCall", etModifyNickname.getText().toString().trim());
+            if (type == 1)
+                informationMap.put("userCall", etModifyNickname.getText().toString().trim());
+            else
+                informationMap.put("wechatNumber", etModifyNickname.getText().toString().trim());
             informationMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(informationMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
             getPresenter().getInformation(informationMap, true, false);
-        } else
-            ToastUtil.showShortToast("请填写要修改的昵称!");
+        } else {
+            if (type == 1)
+                ToastUtil.showShortToast("请填写要修改的昵称!");
+            else
+                ToastUtil.showShortToast("请填写要修改的微信号!");
+        }
     }
 
     @Override
@@ -92,8 +106,13 @@ public class NickNameActivity extends BaseActivity<InformationContract.View, Inf
         ToastUtil.showShortToast(data.getMsg());
         switch (data.getCode()) {
             case 200:
-                SPUtil.put(this, NAME, etModifyNickname.getText().toString().trim());
-                setResult(RESULT_OK, new Intent().putExtra("nickname", etModifyNickname.getText().toString().trim()));
+                if (type == 1){
+                    SPUtil.put(this, NAME, etModifyNickname.getText().toString().trim());
+                    setResult(RESULT_OK, new Intent().putExtra("nickname", etModifyNickname.getText().toString().trim()));
+                } else {
+                    SPUtil.put(this, WECHAT_CODE, etModifyNickname.getText().toString().trim());
+                    setResult(RESULT_OK, new Intent().putExtra("wechat_code", etModifyNickname.getText().toString().trim()));
+                }
                 finish();
                 break;
             case 900:

@@ -1,13 +1,8 @@
 package com.ipd.allpeopledemand.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -18,6 +13,7 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.activity.LoginActivity;
 import com.ipd.allpeopledemand.activity.MsgActivity;
+import com.ipd.allpeopledemand.activity.SearchClassRoomActivity;
 import com.ipd.allpeopledemand.adapter.ViewPagerAdapter;
 import com.ipd.allpeopledemand.base.BaseFragment;
 import com.ipd.allpeopledemand.bean.ClassRoomInicationBean;
@@ -59,7 +55,7 @@ public class ClassRoomFragment extends BaseFragment<ClassRoomInicationContract.V
     @BindView(R.id.ib_top_msg)
     ImageButton ibTopMsg;
     @BindView(R.id.et_top_long_search)
-    EditText etTopLongSearch;
+    TextView etTopLongSearch;
     @BindView(R.id.nfsl_fragment_class_room)
     NavitationFollowScrollLayoutText nfslFragmentClassRoom;
     @BindView(R.id.vp_fragment_class_room)
@@ -71,6 +67,7 @@ public class ClassRoomFragment extends BaseFragment<ClassRoomInicationContract.V
     private ClassRoomPagerFragment fm;
     private List<ClassRoomInicationBean.DataBean.ClassListBean> classListBean = new ArrayList<>();
     private List<Badge> mBadges = new ArrayList<>();
+    private int positions;
 
     @Override
     public int getLayoutId() {
@@ -108,34 +105,34 @@ public class ClassRoomFragment extends BaseFragment<ClassRoomInicationContract.V
 
     @Override
     public void initListener() {
-        etTopLongSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    // 隐藏软键盘
-                    imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(), 0);
-
-                    vpFragmentClassRoom.removeAllViewsInLayout();
-                    viewPagerAdapter.notifyDataSetChanged();
-                    //向集合添加Fragment
-                    fragments.clear();
-                    for (int i = 0; i < titles.length; i++) {
-                        fm = new ClassRoomPagerFragment();
-                        Bundle args = new Bundle();
-                        args.putString("roomClassId", i == 0 ? "0" : classListBean.get(i - 1).getRoomClassId() + "");
-                        args.putString("title", etTopLongSearch.getText().toString().trim());
-                        fm.setArguments(args);
-                        fragments.add(fm);
-                    }
-
-                    vpFragmentClassRoom.setAdapter(viewPagerAdapter);
-                    vpFragmentClassRoom.setOffscreenPageLimit(titles.length);
-                    return true;
-                }
-                return false;
-            }
-        });
+//        etTopLongSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+//                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    // 隐藏软键盘
+//                    imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(), 0);
+//
+//                    vpFragmentClassRoom.removeAllViewsInLayout();
+//                    viewPagerAdapter.notifyDataSetChanged();
+//                    //向集合添加Fragment
+//                    fragments.clear();
+//                    for (int i = 0; i < titles.length; i++) {
+//                        fm = new ClassRoomPagerFragment();
+//                        Bundle args = new Bundle();
+//                        args.putString("roomClassId", i == 0 ? "0" : classListBean.get(i - 1).getRoomClassId() + "");
+//                        args.putString("title", etTopLongSearch.getText().toString().trim());
+//                        fm.setArguments(args);
+//                        fragments.add(fm);
+//                    }
+//
+//                    vpFragmentClassRoom.setAdapter(viewPagerAdapter);
+//                    vpFragmentClassRoom.setOffscreenPageLimit(titles.length);
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
     }
 
     @Override
@@ -166,7 +163,7 @@ public class ClassRoomFragment extends BaseFragment<ClassRoomInicationContract.V
             fm = new ClassRoomPagerFragment();
             Bundle args = new Bundle();
             args.putString("roomClassId", i == 0 ? "0" : classListBean.get(i - 1).getRoomClassId() + "");
-            args.putString("title", etTopLongSearch.getText().toString().trim());
+            args.putString("title", "");//etTopLongSearch.getText().toString().trim());
             fm.setArguments(args);
             fragments.add(fm);
         }
@@ -178,6 +175,23 @@ public class ClassRoomFragment extends BaseFragment<ClassRoomInicationContract.V
         nfslFragmentClassRoom.setViewPager(getContext(), titles, vpFragmentClassRoom, R.color.tx_bottom_navigation, R.color.black, 16, 16, 24, true, R.color.black, 0, 0, 0, 80);
         nfslFragmentClassRoom.setBgLine(getContext(), 1, R.color.whitesmoke);
         nfslFragmentClassRoom.setNavLine(getActivity(), 3, R.color.colorAccent);
+
+        nfslFragmentClassRoom.setOnNaPageChangeListener(new NavitationFollowScrollLayoutText.OnNaPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                positions = position;
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
@@ -194,18 +208,25 @@ public class ClassRoomFragment extends BaseFragment<ClassRoomInicationContract.V
             }
     }
 
-    @OnClick(R.id.ib_top_msg)
-    public void onViewClicked() {
-        if (isFastClick()) {
-            if (!isEmpty(SPUtil.get(getActivity(), IS_LOGIN, "") + "")) {
-                for (Badge badge : mBadges) {
-                    badge.hide(true);
+    @OnClick({R.id.ib_top_msg, R.id.et_top_long_search})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ib_top_msg:
+                if (isFastClick()) {
+                    if (!isEmpty(SPUtil.get(getActivity(), IS_LOGIN, "") + "")) {
+                        for (Badge badge : mBadges) {
+                            badge.hide(true);
+                        }
+                        startActivity(new Intent(getActivity(), MsgActivity.class));
+                    } else {
+                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                        getActivity().finish();
+                    }
                 }
-                startActivity(new Intent(getActivity(), MsgActivity.class));
-            } else {
-                startActivity(new Intent(getActivity(), LoginActivity.class));
-                getActivity().finish();
-            }
+                break;
+            case R.id.et_top_long_search:
+                startActivity(new Intent(getActivity(), SearchClassRoomActivity.class).putExtra("roomClassId", positions > 0 ? classListBean.get(positions - 1).getRoomClassId() : 0));
+                break;
         }
     }
 

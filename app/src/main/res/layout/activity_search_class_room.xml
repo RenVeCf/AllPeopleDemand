@@ -5,31 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ipd.allpeopledemand.activity.MyBuyActivity">
+    tools:context=".activity.SearchClassRoomActivity">
 
     <com.ipd.allpeopledemand.common.view.TopView
-        android:id="@+id/tv_my_buy"
+        android:id="@+id/tv_search_class_room"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/white"
         android:gravity="bottom"
-        app:is_back="true"
-        app:title="课堂教程"/>
+        app:is_cancel="true"
+        app:is_long_search_ed="true" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/srl_my_buy"
+        android:id="@+id/srl_search_class_room"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/y10"
+        android:background="@color/white"
+        android:paddingStart="@dimen/x50"
+        android:paddingTop="@dimen/y100"
+        android:paddingEnd="@dimen/x50"
         android:scrollbars="none">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_my_buy"
+            android:id="@+id/rv_search_class_room"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:paddingEnd="@dimen/x50"
-            android:paddingStart="@dimen/x50"
-            android:paddingTop="@dimen/y50" />
+            android:background="@color/white" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>

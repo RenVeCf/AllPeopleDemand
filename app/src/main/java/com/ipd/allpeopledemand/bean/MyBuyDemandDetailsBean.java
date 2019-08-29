@@ -116,6 +116,15 @@ public class MyBuyDemandDetailsBean {
             private Object followId;
             private int orderId;
             private String notPurchase;
+            private String wechatNumber;
+
+            public String getWechatNumber() {
+                return wechatNumber;
+            }
+
+            public void setWechatNumber(String wechatNumber) {
+                this.wechatNumber = wechatNumber;
+            }
 
             public Object getSearchValue() {
                 return searchValue;

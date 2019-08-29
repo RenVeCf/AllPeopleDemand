@@ -141,7 +141,7 @@ public class MyFragment extends BaseFragment<CheckInContract.View, CheckInContra
         checkInLayoutMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
         checkInLayoutMap.put("signDate", getTodayDateTime());
         checkInLayoutMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(checkInLayoutMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-        getPresenter().getCheckInLayout(checkInLayoutMap, true, false);
+        getPresenter().getCheckInLayout(checkInLayoutMap, false, false);
 
         Glide.with(this).load(BASE_LOCAL_URL + SPUtil.get(getContext(), AVATAR, "")).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into(rivHead);
         tvName.setText(SPUtil.get(getContext(), NAME, "") + "");

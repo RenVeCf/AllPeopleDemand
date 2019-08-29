@@ -74,6 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@null"
+                        android:visibility="gone"
                         android:paddingTop="@dimen/y150"
                         android:paddingEnd="@dimen/x50"
                         android:paddingBottom="@dimen/y150"
@@ -84,6 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:visibility="gone"
                     android:orientation="horizontal">
 
                     <TextView
@@ -186,6 +188,7 @@
                 app:sLeftIconRes="@mipmap/ic_account"
                 app:sLeftTextColor="@color/black"
                 app:sLeftTextSize="18sp"
+                android:visibility="gone"
                 app:sLeftTextString="我的账户"
                 app:sRightIconRes="@mipmap/ic_arrow_end"
                 app:sShapeCornersRadius="6dp"

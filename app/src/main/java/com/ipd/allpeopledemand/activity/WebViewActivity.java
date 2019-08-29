@@ -24,6 +24,7 @@ import com.ipd.allpeopledemand.base.BasePresenter;
 import com.ipd.allpeopledemand.base.BaseView;
 import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
+import com.ipd.allpeopledemand.utils.SPUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,6 +35,7 @@ import java.util.Date;
 
 import butterknife.BindView;
 
+import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_LOCAL_URL;
 
 public class WebViewActivity extends BaseActivity {
@@ -96,6 +98,9 @@ public class WebViewActivity extends BaseActivity {
                 break;
             case 5:
                 wvContent.loadData(getHtmlData(getIntent().getStringExtra("h5_url")), "text/html;charset=utf-8", "utf-8");
+                break;
+            case 6: //排行榜
+                h5Url = BASE_LOCAL_URL + "charts/index.html?userId=" + SPUtil.get(this, USER_ID, "");
                 break;
         }
 

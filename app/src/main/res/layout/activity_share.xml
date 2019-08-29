@@ -28,8 +28,22 @@
         android:layout_marginTop="@dimen/y50"
         android:textColor="@color/white"
         android:textSize="18sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_share" />
+
+    <Button
+        android:id="@+id/bt_leaderboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y50"
+        android:layout_marginEnd="@dimen/x50"
+        android:background="@null"
+        android:text="排行榜"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_share" />
 
     <LinearLayout
@@ -43,7 +57,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_average_share_num"
+        app:layout_constraintTop_toBottomOf="@+id/bt_leaderboard"
         app:layout_constraintWidth_percent="0.8">
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
@@ -74,8 +88,8 @@
         android:layout_marginTop="@dimen/y100"
         android:text="——  将我的二维码分享给  ——"
         android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
         android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_qr" />
 

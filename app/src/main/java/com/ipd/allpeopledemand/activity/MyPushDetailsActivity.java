@@ -212,7 +212,7 @@ public class MyPushDetailsActivity extends BaseActivity<MyPushDetailsContract.Vi
                 tvReadNum.setText(data.getData().getRelease().getBrowseNum() + "");
                 tvContent.setText(data.getData().getRelease().getDetails());
                 tvContactName.setText("联系人: " + data.getData().getRelease().getContacts());
-                tvContactPhone.setText("电话号码: " + data.getData().getRelease().getContactNumber());
+                tvContactPhone.setText("联系方式: " + data.getData().getRelease().getContactNumber());
                 if ("1".equals(data.getData().getRelease().getIsFollow()))
                     cbCollection.setChecked(false);
                 else

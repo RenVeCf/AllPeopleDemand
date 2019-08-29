@@ -54,10 +54,10 @@ public class MyBuyActivity extends BaseActivity<MyBuyContract.View, MyBuyContrac
 
     @BindView(R.id.tv_my_buy)
     TopView tvMyBuy;
-    @BindView(R.id.rb_point)
-    RadioButton rbPoint;
-    @BindView(R.id.rb_reward)
-    RadioButton rbReward;
+//    @BindView(R.id.rb_point)
+//    RadioButton rbPoint;
+//    @BindView(R.id.rb_reward)
+//    RadioButton rbReward;
     @BindView(R.id.rv_my_buy)
     RecyclerView rvMyBuy;
     @BindView(R.id.srl_my_buy)
@@ -67,7 +67,7 @@ public class MyBuyActivity extends BaseActivity<MyBuyContract.View, MyBuyContrac
     private MyBuyDemandAdapter myBuyDemandAdapter;
     private List<MyBuyClassRoomListBean.DataBean.RoomListBean> roomListBean = new ArrayList<>();
     private MyBuyClassRoomAdapter myBuyClassRoomAdapter;
-    private int buyType = 1;//1:需求咨询，2:课堂教程
+    private int buyType = 2;//1:需求咨询，2:课堂教程
     private int pricePosition;
     private int pageNum = 1;//页数
 
@@ -94,8 +94,8 @@ public class MyBuyActivity extends BaseActivity<MyBuyContract.View, MyBuyContrac
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvMyBuy);
 
-        rbPoint.setText("需求咨询");
-        rbReward.setText("课堂教程");
+//        rbPoint.setText("需求咨询");
+//        rbReward.setText("课堂教程");
 
         // 设置管理器
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

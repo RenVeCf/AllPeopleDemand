@@ -89,6 +89,7 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
     private int pageNum = 1; //页数
     private String region = "";//搜索时的区域
     private String title = "";//搜索时的文本
+    private boolean isFirstPage = true;
 
     @Override
     public int getLayoutId() {
@@ -253,16 +254,25 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
                 for (int i = 0; i < data.getData().getReleaseList().size(); i++) {
                     data.getData().getReleaseList().get(i).setItemType(Integer.valueOf(data.getData().getReleaseList().get(i).getType()));
                 }
+                for (int i = 0; i < 10; i++) {
+                    if (data.getData().getReleaseList().size() < 10) {
+                        data.getData().getReleaseList().add(data.getData().getReleaseList().get(data.getData().getReleaseList().size() - 1));
+                    }
+                }
                 if (pageNum == 1) {
-                    releaseListBean.clear();
-                    releaseListBean.addAll(data.getData().getReleaseList());
-                    mainPagerAdapter = new MainPagerAdapter(releaseListBean);
-                    rvMainPage.setAdapter(mainPagerAdapter);
-                    mainPagerAdapter.bindToRecyclerView(rvMainPage);
-                    mainPagerAdapter.setEnableLoadMore(true);
-                    mainPagerAdapter.openLoadAnimation();
-                    mainPagerAdapter.disableLoadMoreIfNotFullPage();
-
+                    if (isFirstPage) {
+                        releaseListBean.clear();
+                        releaseListBean.addAll(data.getData().getReleaseList());
+                        mainPagerAdapter = new MainPagerAdapter(releaseListBean);
+                        rvMainPage.setAdapter(mainPagerAdapter);
+                        mainPagerAdapter.bindToRecyclerView(rvMainPage);
+                        mainPagerAdapter.setEnableLoadMore(true);
+                        mainPagerAdapter.openLoadAnimation();
+                        mainPagerAdapter.disableLoadMoreIfNotFullPage();
+                        isFirstPage = false;
+                    } else {
+                        mainPagerAdapter.addData(data.getData().getReleaseList());
+                    }
                     mainPagerAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -337,8 +347,11 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
 
                     if (data.getTotal() > 10) {
                         pageNum += 1;
+                        mainPagerAdapter.loadMoreComplete(); //完成本次
                     } else {
-                        mainPagerAdapter.loadMoreEnd();
+                        pageNum = 1;
+                        mainPagerAdapter.loadMoreComplete(); //完成本次
+//                        mainPagerAdapter.loadMoreEnd();
                     }
                 } else {
                     if ((data.getTotal() - pageNum * 10) > 0) {
@@ -346,8 +359,10 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
                         mainPagerAdapter.addData(data.getData().getReleaseList());
                         mainPagerAdapter.loadMoreComplete(); //完成本次
                     } else {
+                        pageNum = 1;
                         mainPagerAdapter.addData(data.getData().getReleaseList());
-                        mainPagerAdapter.loadMoreEnd(); //完成所有加载
+                        mainPagerAdapter.loadMoreComplete(); //完成本次
+//                        mainPagerAdapter.loadMoreEnd(); //完成所有加载
                     }
                 }
             } else {

@@ -5,10 +5,12 @@
         <attr name="title_color" format="color" />
         <attr name="is_back" format="boolean" />
         <attr name="is_msg" format="boolean" />
+        <attr name="is_cancel" format="boolean" />
         <attr name="is_faq" format="boolean" />
         <attr name="is_location" format="boolean" />
         <attr name="is_search" format="boolean" />
         <attr name="is_long_search" format="boolean" />
+        <attr name="is_long_search_ed" format="boolean" />
         <attr name="is_account" format="boolean" />
         <attr name="is_report" format="boolean" />
     </declare-styleable>

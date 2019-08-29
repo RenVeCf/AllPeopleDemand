@@ -104,8 +104,8 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
     FlowTagLayout ftlKey;
     @BindView(R.id.et_contact)
     EditText etContact;
-    @BindView(R.id.tv_phone)
-    TextView tvPhone;
+    @BindView(R.id.et_phone)
+    EditText etPhone;
     @BindView(R.id.tv_classification)
     TextView tvClassification;
     @BindView(R.id.tv_city)
@@ -157,7 +157,7 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
         ImmersionBar.with(this).statusBarDarkFont(true).init();
         ImmersionBar.setTitleBar(this, tvPush);
         tvCity.setText(SPUtil.get(getContext(), CITY, "") + "");
-        tvPhone.setText(SPUtil.get(getContext(), PHONE, "") + "");
+//        etPhone.setText(SPUtil.get(getContext(), PHONE, "") + "");
 
         tagAdapter = new FlowTagAdapter(getContext());
         ftlKey.setAdapter(tagAdapter);
@@ -187,7 +187,7 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
     @Override
     public void initData() {
         initJsonData();
-        getPresenter().getClassIfication(true, false);
+        getPresenter().getClassIfication(false, false);
     }
 
     @Override
@@ -263,7 +263,7 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
                                 public void onReceiveLocation(BDLocation bdLocation) {
                                     if (!isEmpty(bdLocation.getCity())) {
                                         tvCity.setText(bdLocation.getCity());
-                                        SPUtil.put(getContext(), CITY, bdLocation.getCity());
+//                                        SPUtil.put(getContext(), CITY, bdLocation.getCity());
                                     } else
                                         ToastUtil.showLongToast("定位失败!");
                                     LocationService.get().unregisterListener(this);
@@ -325,7 +325,7 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
                         options2Items.get(options1).get(options2);// +
 //                        options3Items.get(options1).get(options2).get(options3);
                 tvCity.setText(city);
-                SPUtil.put(getContext(), CITY, city);
+//                SPUtil.put(getContext(), CITY, city);
             }
         })
                 .setLayoutRes(R.layout.pickerview_custom_city, new CustomListener() {
@@ -347,7 +347,7 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
                             public void onClick(View v) {
                                 if (isFastClick()) {
                                     tvCity.setText("全国");
-                                    SPUtil.put(getContext(), CITY, "全国");
+//                                    SPUtil.put(getContext(), CITY, "全国");
                                     pvOptions.dismiss();
                                 }
                             }
@@ -517,9 +517,9 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
                     pushMap.put("title", etTitle.getText().toString().trim());
                     pushMap.put("region", "全国".equals(tvCity.getText().toString().trim()) ? "0" : tvCity.getText().toString().trim());
                     pushMap.put("contacts", etContact.getText().toString().trim());
-                    pushMap.put("contactNumber", SPUtil.get(getContext(), PHONE, "") + "");
+                    pushMap.put("contactNumber", etPhone.getText().toString().trim());//SPUtil.get(getContext(), PHONE, "") + "");
                     pushMap.put("picPath", uploadImg);
-                    pushMap.put("details", etContent.getContentText().toString().trim());
+                    pushMap.put("details", etContent.getContentText().trim());
                     StringBuilder str = new StringBuilder();
                     for (int i = 0; i < tagAdapter.getCount(); i++) {
                         if (i < tagAdapter.getCount() - 1 && tagAdapter.getCount() > 1) {
@@ -547,6 +547,7 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
                 etContact.setText("");
                 rivUpload.setImageResource(R.mipmap.bg_upload_class_room);
                 etContent.setContentText("");
+                etPhone.setText("");
                 tagAdapter.clearData();
                 tagAdapter.notifyDataSetChanged();
                 break;

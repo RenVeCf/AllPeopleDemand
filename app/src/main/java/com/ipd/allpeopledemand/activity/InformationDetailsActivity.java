@@ -114,6 +114,8 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
     LinearLayout llNotPay;
     @BindView(R.id.tv_contact_name)
     TextView tvContactName;
+    @BindView(R.id.tv_contact_wechat)
+    TextView tvContactWechat;
     @BindView(R.id.tv_contact_phone)
     TextView tvContactPhone;
     @BindView(R.id.ll_pay)
@@ -296,7 +298,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
 
     @Override
     public void onBackPressed() {
-        setResult(RESULT_OK, new Intent().putExtra("refresh", 1));
+//        setResult(RESULT_OK, new Intent().putExtra("refresh", 1));
         finish();
     }
 
@@ -305,7 +307,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
         switch (view.getId()) {
             case R.id.ll_top_back:
                 if (isFastClick()) {
-                    setResult(RESULT_OK, new Intent().putExtra("refresh", 1));
+//                    setResult(RESULT_OK, new Intent().putExtra("refresh", 1));
                     finish();
                 }
                 break;
@@ -469,16 +471,16 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
     public void resultMainDetails(MainDetailsBean data) {
         switch (data.getCode()) {
             case 200:
-                if (activityType != 2 && activityType != 4) {
-                    money = data.getData().getPrice().getMoney();
-                    balance = data.getData().getRelease().getBalance();
-                    IsPurchase = data.getData().getIsPurchase();
-                    if ("3".equals(IsPurchase)) {
+//                if (activityType != 2 && activityType != 4) {
+//                    money = data.getData().getPrice().getMoney();
+//                    balance = data.getData().getRelease().getBalance();
+//                    IsPurchase = data.getData().getIsPurchase();
+//                    if ("3".equals(IsPurchase)) {
                         llNotPay.setVisibility(View.GONE);
                         llPay.setVisibility(View.VISIBLE);
-                    }
-                    tvPayFee.setText(data.getData().getPrice().getMoney() + "元 + " + data.getData().getPrice().getIntegral() + "积分");
-                }
+//                    }
+//                    tvPayFee.setText(data.getData().getPrice().getMoney() + "元 + " + data.getData().getPrice().getIntegral() + "积分");
+//                }
                 if (!isEmpty(data.getData().getRelease().getPicPath())) {
                     Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.ic_test_ad)).into(rivTitle);
                     medias.clear();
@@ -514,6 +516,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 }
 
                 tvContactName.setText("联系人: " + data.getData().getRelease().getContacts());
+                tvContactWechat.setText("微信号: " + data.getData().getRelease().getWechatNumber());
                 tvContactPhone.setText("电话号码: " + data.getData().getRelease().getContactNumber());
                 break;
             case 900:
@@ -576,6 +579,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 }
 
                 tvContactName.setText("联系人: " + data.getData().getRelease().getContacts());
+                tvContactWechat.setText("微信号: " + data.getData().getRelease().getWechatNumber());
                 tvContactPhone.setText("电话号码: " + data.getData().getRelease().getContactNumber());
                 break;
             case 900:
@@ -621,6 +625,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 tvContent.setText(data.getData().getDemandList().getDetails());
 
                 tvContactName.setText("联系人: " + data.getData().getDemandList().getContacts());
+                tvContactWechat.setText("微信号: " + data.getData().getDemandList().getWechatNumber());
                 tvContactPhone.setText("电话号码: " + data.getData().getDemandList().getContactNumber());
                 break;
             case 900:

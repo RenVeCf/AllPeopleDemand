@@ -44,7 +44,7 @@
             android:button="@null"
             android:drawableTop="@drawable/select_class_room"
             android:gravity="bottom|center_horizontal"
-            android:text="全民课堂"
+            android:text="课堂"
             android:textColor="@drawable/tx_select_main" />
 
         <RadioButton

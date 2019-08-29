@@ -171,7 +171,7 @@
     <RelativeLayout
         android:id="@+id/rl_bottom"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y200"
+        android:layout_height="@dimen/y250"
         android:background="@color/white">
 
         <LinearLayout
@@ -207,15 +207,14 @@
                 android:id="@+id/bt_pay"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/y50"
+                android:layout_marginTop="@dimen/y60"
                 android:layout_marginEnd="@dimen/x50"
-                android:layout_marginBottom="@dimen/y50"
+                android:layout_marginBottom="@dimen/y60"
                 android:layout_weight="1.5"
                 android:background="@drawable/bg_gradient_bt"
                 android:text="查看联系方式"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -241,6 +240,13 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/tv_contact_wechat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <TextView
                     android:id="@+id/tv_contact_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -255,8 +261,8 @@
                 android:layout_weight="1.5"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingTop="@dimen/y50"
-                android:paddingBottom="@dimen/y50">
+                android:paddingTop="@dimen/y60"
+                android:paddingBottom="@dimen/y60">
 
                 <Button
                     android:id="@+id/bt_contact_msg"

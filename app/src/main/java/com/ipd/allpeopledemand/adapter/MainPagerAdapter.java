@@ -35,7 +35,7 @@ public class MainPagerAdapter extends BaseMultiItemQuickAdapter<MainListBean.Dat
     protected void convert(BaseViewHolder helper, MainListBean.DataBean.ReleaseListBean item) {
         switch (helper.getItemViewType()) {
             case 1:
-                Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + item.getAvatar()).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into((RadiusImageView) helper.getView(R.id.riv_head));
+//                Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + item.getAvatar()).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into((RadiusImageView) helper.getView(R.id.riv_head));
 //                CheckBox cbCollection = helper.getView(R.id.cb_collection);
 //                switch (item.getIsFollow()) {
 //                    case "1":
@@ -49,11 +49,11 @@ public class MainPagerAdapter extends BaseMultiItemQuickAdapter<MainListBean.Dat
 //                    cbCollection.setEnabled(false);
 //                else
 //                    cbCollection.setEnabled(true);
-                helper.setText(R.id.tv_content, item.getTitle())
-                        .setText(R.id.tv_name, item.getUserCall())
-                        .setText(R.id.tv_time, FormatCurrentData.getTimeRange(item.getReleaseTime()))
-                        .setText(R.id.tv_label, item.getClassName())
-                        .addOnClickListener(R.id.tv_label);
+                helper.setText(R.id.tv_content, item.getTitle());
+//                        .setText(R.id.tv_name, item.getUserCall())
+//                        .setText(R.id.tv_time, FormatCurrentData.getTimeRange(item.getReleaseTime()))
+//                        .setText(R.id.tv_label, item.getClassName())
+//                        .addOnClickListener(R.id.tv_label);
 //                        .addOnClickListener(R.id.cb_collection);
                 break;
             case 2:

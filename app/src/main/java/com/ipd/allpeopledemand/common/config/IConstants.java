@@ -23,6 +23,7 @@ public interface IConstants {
     String NAME = "name"; //用户真实姓名
     String PHONE = "phone"; //用户手机号码
     String ALL_PEOPLE = "all_people"; //全民号码
+    String WECHAT_CODE = "wechat_code"; //微信号码
     String AVATAR = "avatar"; //头像
     String SEX = "sex"; //性别
     String AGE = "age"; //年龄
@@ -45,7 +46,7 @@ public interface IConstants {
     int REQUEST_CODE_97 = 97;//首页 to 资讯详情
     int REQUEST_CODE_98 = 98;//我的关注 to 资讯详情
     int REQUEST_CODE_99 = 99;//我的购买 to 资讯详情
-    int REQUEST_CODE_100 = 100;
+    int REQUEST_CODE_100 = 100;//更改微信号
     int REQUEST_CODE_101 = 101;
     int REQUEST_CODE_102 = 102;
     int REQUEST_CODE_103 = 103;
