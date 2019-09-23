@@ -12,13 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:gravity="bottom"
-        app:is_account="true"
+        android:background="@color/white"
         app:is_back="true"
-        app:is_faq="true" />
+        app:title="我的账户"/>
 
     <LinearLayout
         android:id="@+id/ll_points_account"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical">
@@ -81,7 +82,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -112,6 +113,16 @@
                 android:textSize="26sp" />
         </LinearLayout>
 
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/bt_withdraw"
+            style="@style/SuperButton.Blue"
+            android:layout_marginTop="@dimen/y50"
+            android:layout_marginBottom="@dimen/x50"
+            android:layout_width="@dimen/x300"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="@dimen/y90"
+            android:text="我要提现" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -120,7 +131,7 @@
             android:layout_marginBottom="@dimen/y50"
             android:drawableStart="@mipmap/ic_points_details"
             android:drawablePadding="@dimen/x20"
-            android:text="余额明细"
+            android:text="账户明细"
             android:textColor="@color/black"
             android:textSize="18sp" />
 

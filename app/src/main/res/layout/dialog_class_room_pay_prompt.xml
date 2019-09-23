@@ -62,7 +62,7 @@
                 android:layout_height="@dimen/y100"
                 android:background="@drawable/bg_gradient_bt"
                 android:gravity="center"
-                android:text="积分支付"
+                android:text="去支付"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
         </LinearLayout>

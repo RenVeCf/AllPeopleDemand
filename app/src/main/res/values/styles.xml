@@ -86,6 +86,21 @@
         <item name="android:text">@string/xui_lab_button_reset</item>
     </style>
 
+    <style name="SuperButton.BlueVip">
+        <item name="sSelectorNormalColor">@color/white</item>
+        <item name="sSelectorPressedColor">@color/white</item>
+        <item name="sCornersRadius">5dp</item>
+        <item name="android:textColor">#8A5613</item>
+        <item name="android:text">@string/xui_lab_button_reset</item>
+    </style>
+
+    <style name="SuperButton.BlueIsVip">
+        <item name="sSelectorNormalColor">@color/tx_bottom_navigation_select</item>
+        <item name="sSelectorPressedColor">@color/tx_bottom_navigation_select</item>
+        <item name="sCornersRadius">5dp</item>
+        <item name="android:text">@string/xui_lab_button_reset</item>
+    </style>
+
     <style name="SuperButton.Gray">
         <item name="sSelectorNormalColor">@color/xui_btn_gray_normal_color</item>
         <item name="sSelectorPressedColor">@color/xui_btn_gray_select_color</item>

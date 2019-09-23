@@ -8,8 +8,8 @@ MobSDK {
     ShareSDK {
         devInfo {
             Wechat {
-                appId "wx57313d36c4b4d0d7"
-                appSecret "63caafcd14d84e9be8c0e575becdc957"
+                appId "wxbb948d62bc17b798"
+                appSecret "7318c04d463f41c7e61226cd67cad1c8"
                 userName "gh_afb25ac019c9"
                 path "pages/index/index.html?id=1"
                 withShareTicket true
@@ -17,8 +17,8 @@ MobSDK {
             }
 
             WechatMoments {
-                appId "wx57313d36c4b4d0d7"
-                appSecret "63caafcd14d84e9be8c0e575becdc957"
+                appId "wxbb948d62bc17b798"
+                appSecret "7318c04d463f41c7e61226cd67cad1c8"
             }
         }
     }

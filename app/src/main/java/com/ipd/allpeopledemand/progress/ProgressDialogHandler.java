@@ -45,9 +45,9 @@ public class ProgressDialogHandler extends Handler {
                 });
             }
 
-            if (!sad.isShowing()) {
-                sad.show();
-            }
+//            if (!sad.isShowing()) {
+//                sad.show();
+//            }
         }
     }
 

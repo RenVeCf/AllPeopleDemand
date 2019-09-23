@@ -46,8 +46,8 @@ public abstract class RegisterDialog extends Dialog implements View.OnClickListe
         tvContentBottom = (TextView) findViewById(R.id.tv_content_bottom);
         bvRegisterSuccess = (Button) findViewById(R.id.bv_register_success);
 
-        tvContentTop.setText(Html.fromHtml("恭喜您注册成功，送您<font color=\"#E71B64\">" + points + "积分</font>!"));
-        tvContentBottom.setText(Html.fromHtml("您的全民号是: <font color=\"#E71B64\">" + allPeopleCode));
+        tvContentTop.setText(Html.fromHtml("恭喜您注册成功!"));
+        tvContentBottom.setText(Html.fromHtml("您的全民号是: <font color=\"#E71B64\">" + allPeopleCode + "</font>"));
 
         bvRegisterSuccess.setOnClickListener(this);
 

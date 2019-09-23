@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -74,7 +76,6 @@ import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static com.ipd.allpeopledemand.activity.InformationActivity.getImageRequestBody;
 import static com.ipd.allpeopledemand.common.config.IConstants.CITY;
-import static com.ipd.allpeopledemand.common.config.IConstants.PHONE;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_LOCAL_URL;
 import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
@@ -116,6 +117,10 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
     MultiLineEditText etContent;
     @BindView(R.id.rv_push)
     RippleView rvPush;
+    @BindView(R.id.tv_top_description)
+    TextView tvTopDescription;
+    @BindView(R.id.rg_top)
+    RadioGroup rgTop;
 
     private FlowTagAdapter tagAdapter;
     private List<String> listData;
@@ -129,6 +134,7 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
     private BDAbstractLocationListener myListener;
+    private int rbType = 1; //置顶
 
     @Override
     public int getLayoutId() {
@@ -165,6 +171,8 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
         int mTheme = R.style.DefaultCityPickerTheme;
         getActivity().setTheme(mTheme);
 
+        tvTopDescription.setText(Html.fromHtml("<font color=\"#E71B64\">注: </font>支付完毕后，我们在本类目进行排序的时候，按照30-20-10- vip-普通会员的阶梯来排，排序置顶周期为一周。"));
+
 //        mHotCities = new ArrayList<>();
 //        mHotCities.add(new HotCity("北京", "北京", "101010100"));
 //        mHotCities.add(new HotCity("上海", "上海", "101020100"));
@@ -180,6 +188,26 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
             @Override
             public void onItemClick(FlowTagLayout parent, View view, int position) {
                 ftlKey.getAdapter().removeElement(position);
+            }
+        });
+
+        rgTop.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i){
+                    case R.id.rb_one:
+                        rbType = 1;
+                        break;
+                    case R.id.rb_two:
+                        rbType = 2;
+                        break;
+                    case R.id.rb_three:
+                        rbType = 3;
+                        break;
+                    case R.id.rb_four:
+                        rbType = 4;
+                        break;
+                }
             }
         });
     }

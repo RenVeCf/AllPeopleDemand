@@ -145,7 +145,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/x20"
-                    android:text="图片不允许带有自己或者别人的联系方式。"
+                    android:text="不允许添加不良图片。"
                     android:textColor="@color/tx_bottom_navigation"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -176,6 +176,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:layout_marginStart="@dimen/x80"
                         android:text="不允许带有自己或者别人的联系方式。"
                         android:textColor="@color/tx_bottom_navigation"
@@ -192,6 +193,8 @@
                     app:mlet_contentBackground="@color/white"
                     app:mlet_contentTextColor="@color/black"
                     app:mlet_contentTextSize="16sp"
+                    app:mlet_hintText="请输入详情描述，越详细关注度越高，越详细成功的率越大。"
+                    app:mlet_hintTextColor="@color/tx_bottom_navigation"
                     app:mlet_maxCount="400" />
             </LinearLayout>
 
@@ -281,7 +284,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/x20"
                     android:layout_weight="1"
-                    android:text="标题，内容，图片，头像，不允许体现联系方式。管理员发现/或者用户举报，帖子下架，多次发现封发帖权限（不等于封号），申请权限可恢复。"
+                    android:text="不允许发布不良信息和图片，违者后果自负。"
                     android:textColor="@color/tx_bottom_navigation"
                     android:textSize="18sp" />
             </LinearLayout>

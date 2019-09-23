@@ -209,6 +209,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/y60"
                 android:layout_marginEnd="@dimen/x50"
+                android:visibility="gone"
                 android:layout_marginBottom="@dimen/y60"
                 android:layout_weight="1.5"
                 android:background="@drawable/bg_gradient_bt"
@@ -244,6 +245,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
+                    android:visibility="gone"
                     android:textSize="16sp" />
 
                 <TextView
@@ -258,6 +260,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="@dimen/x50"
+                android:visibility="gone"
                 android:layout_weight="1.5"
                 android:gravity="center"
                 android:orientation="horizontal"

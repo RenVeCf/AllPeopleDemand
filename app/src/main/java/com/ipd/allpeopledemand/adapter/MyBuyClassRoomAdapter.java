@@ -57,7 +57,7 @@ public class MyBuyClassRoomAdapter extends BaseQuickAdapter<MyBuyClassRoomListBe
                 .setGone(R.id.tv_label, true)
                 .setBackgroundRes(R.id.tv_class_room_type, typeRes)
                 .setText(R.id.tv_class_room_title, item.getTitle())
-                .setText(R.id.tv_class_room_pay_fee, item.getMoney() + "元+" + item.getIntegral() + "积分")
-                .setText(R.id.tv_class_room_read_num, item.getPlayNum() + "观看");
+                .setText(R.id.tv_class_room_pay_fee, item.getMoney() + "元");// + item.getIntegral() + "积分")
+//                .setText(R.id.tv_class_room_read_num, item.getWatchNum() + "观看");
     }
 }

@@ -2,6 +2,7 @@ package com.ipd.allpeopledemand.activity;
 
 import android.content.Intent;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.allpeopledemand.R;
@@ -37,6 +38,8 @@ public class NickNameActivity extends BaseActivity<InformationContract.View, Inf
 
     @BindView(R.id.tv_modify_nickname)
     TopView tvModifyNickname;
+    @BindView(R.id.tv_top_title)
+    TextView tvTopTitle;
     @BindView(R.id.et_modify_nickname)
     EditText etModifyNickname;
 
@@ -65,10 +68,12 @@ public class NickNameActivity extends BaseActivity<InformationContract.View, Inf
         ImmersionBar.setTitleBar(this, tvModifyNickname);
 
         type = getIntent().getIntExtra("type", 0);
+        tvTopTitle.setText(type == 1? "修改昵称":"修改微信号");
+        etModifyNickname.setHint(type == 1? "请输入昵称":"请输入微信号");
 
         if (!"".equals(SPUtil.get(this, NAME, "") + "") && type == 1)
             etModifyNickname.setText(SPUtil.get(this, NAME, "") + "");
-        else if (!"".equals(SPUtil.get(this, NAME, "") + "") && type == 2)
+        else if (!"".equals(SPUtil.get(this, WECHAT_CODE, "") + "") && type == 2)
             etModifyNickname.setText(SPUtil.get(this, WECHAT_CODE, "") + "");
     }
 

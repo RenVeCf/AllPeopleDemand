@@ -202,11 +202,11 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
 //                    ivSortDistance.setImageResource(R.mipmap.ic_default_sc);
                     ivSortTime.setImageResource(R.mipmap.ic_default_sc);
 
-                    sort("purchaseNum", "asc", "1");
+                    sort("browseNum", "asc", "1");
                 } else if (getResources().getDrawable(R.mipmap.ic_asc).getConstantState().equals(drawableSortSalesVolume)) {
                     ivSortSalesVolume.setImageResource(R.mipmap.ic_desc);
 
-                    sort("purchaseNum", "desc", "1");
+                    sort("browseNum", "desc", "1");
                 } else {
                     ivSortSalesVolume.setImageResource(R.mipmap.ic_default_sc);
 
@@ -254,11 +254,11 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
                 for (int i = 0; i < data.getData().getReleaseList().size(); i++) {
                     data.getData().getReleaseList().get(i).setItemType(Integer.valueOf(data.getData().getReleaseList().get(i).getType()));
                 }
-                for (int i = 0; i < 10; i++) {
-                    if (data.getData().getReleaseList().size() < 10) {
-                        data.getData().getReleaseList().add(data.getData().getReleaseList().get(data.getData().getReleaseList().size() - 1));
-                    }
-                }
+//                for (int i = 0; i < 10; i++) {
+//                    if (data.getData().getReleaseList().size() < 10) {
+//                        data.getData().getReleaseList().add(data.getData().getReleaseList().get(data.getData().getReleaseList().size() - 1));
+//                    }
+//                }
                 if (pageNum == 1) {
                     if (isFirstPage) {
                         releaseListBean.clear();

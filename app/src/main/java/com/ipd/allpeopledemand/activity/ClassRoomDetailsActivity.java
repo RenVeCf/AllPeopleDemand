@@ -2,15 +2,22 @@ package com.ipd.allpeopledemand.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Build;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,6 +39,7 @@ import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.ClassRoomPagerContract;
 import com.ipd.allpeopledemand.presenter.ClassRoomPagerPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
+import com.ipd.allpeopledemand.utils.ToastUtil;
 
 import butterknife.BindView;
 import cn.jzvd.Jzvd;
@@ -79,6 +87,14 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
     private int integral;
     private double money;
 
+    /**
+     * 视频全屏参数
+     */
+    protected static final FrameLayout.LayoutParams COVER_SCREEN_PARAMS = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+    private View customView;
+    private FrameLayout fullscreenContainer;
+    private WebChromeClient.CustomViewCallback customViewCallback;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_class_room_details;
@@ -107,6 +123,7 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
 
         WebSettings settings = wvContent.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setAllowFileAccess(true); // 允许访问文件
         settings.setDomStorageEnabled(true);
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
@@ -118,16 +135,34 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
         }
 
         WebSettings webSettings = wvPlayer.getSettings();
-        webSettings.setJavaScriptEnabled(true);
+        // 网页内容的宽度是否可大于WebView控件的宽度
+        webSettings.setLoadWithOverviewMode(true);
+        // 保存表单数据
+        webSettings.setSaveFormData(true);
+        // 是否应该支持使用其屏幕缩放控件和手势缩放
         webSettings.setSupportZoom(true);
         webSettings.setBuiltInZoomControls(true);
+        webSettings.setDisplayZoomControls(false);
+        // 启动应用缓存
+        webSettings.setAppCacheEnabled(true);
+        // 设置缓存模式
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-        //支持自动加载图片
-        webSettings.setLoadsImagesAutomatically(true);
-        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);// 排版适应屏幕
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        webSettings.setJavaScriptEnabled(true);
+        // 页面加载好以后，再放开图片
+        webSettings.setBlockNetworkImage(false);
+        // 使用localStorage则必须打开
+        webSettings.setDomStorageEnabled(true);
+        // WebView是否新窗口打开(加了后可能打不开网页)
+        webSettings.setSupportMultipleWindows(false);
+
+        // webview从5.0开始默认不允许混合模式,https中不能加载http资源,需要设置开启。
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
+        } else {
+            settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
         }
+/** 设置字体默认缩放大小(改变网页字体大小,setTextSize api14被弃用)*/
+        webSettings.setTextZoom(100);
     }
 
     private String getHtmlData(String bodyHTML) {
@@ -221,6 +256,7 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
                         llAudioPlayer.setVisibility(View.GONE);
                         ivClassRoomDetails.setVisibility(View.GONE);
                         wvPlayer.loadUrl(roomDetailsBean.getVideoUrl());
+//                        wvPlayer.loadUrl("https://player.youku.com/embed/XMTkzODQ3NjU5Ng==?client_id=b598bfd8ec862716&password=&autoplay=false#www.vmovier.com");
 //                        jsVideoPlayer.setUp(roomDetailsBean.getVideoUrl(), roomDetailsBean.getTitle());
                         break;
                 }
@@ -230,7 +266,7 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
 
         tvClassRoomReadNum.setText(roomDetailsBean.getWatchNum() + "观看");
         tvClassRoomDate.setText(roomDetailsBean.getCreateTime().substring(0, 10));
-        tvClassRoomPayFee.setText(money + "元+" + integral + "积分");
+        tvClassRoomPayFee.setText(money + "元");// + integral + "积分");
     }
 
     @Override
@@ -260,6 +296,30 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
         });
 
         wvPlayer.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public View getVideoLoadingProgressView() {
+                FrameLayout frameLayout = new FrameLayout(ClassRoomDetailsActivity.this);
+                frameLayout.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+                return frameLayout;
+            }
+
+            @Override
+            public void onShowCustomView(View view, CustomViewCallback callback) {
+                showCustomView(view, callback);
+            }
+
+            @Override
+            public void onHideCustomView() {
+                hideCustomView();
+            }
+
+            @Override
+            public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+                ToastUtil.showLongToast(message);
+                result.confirm();
+                return true;
+            }
+
             //返回当前加载网页的进度
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
@@ -274,6 +334,65 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
         });
     }
 
+    /**
+     * 视频播放全屏
+     **/
+    private void showCustomView(View view, WebChromeClient.CustomViewCallback callback) {
+        // if a view already exists then immediately terminate the new one
+        if (customView != null) {
+            callback.onCustomViewHidden();
+            return;
+        }
+        setStatusBarVisibility(false);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        wvPlayer.setVisibility(View.INVISIBLE);
+        FrameLayout decor = (FrameLayout) getWindow().getDecorView();
+        fullscreenContainer = new FullscreenHolder(this);
+        fullscreenContainer.addView(view, COVER_SCREEN_PARAMS);
+        decor.addView(fullscreenContainer, COVER_SCREEN_PARAMS);
+        customView = view;
+        customViewCallback = callback;
+    }
+
+    /**
+     * 隐藏视频全屏
+     */
+    private void hideCustomView() {
+        if (customView == null) {
+            return;
+        }
+
+        setStatusBarVisibility(true);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        FrameLayout decor = (FrameLayout) getWindow().getDecorView();
+        decor.removeView(fullscreenContainer);
+        fullscreenContainer = null;
+        customView = null;
+        customViewCallback.onCustomViewHidden();
+        wvPlayer.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 全屏容器界面
+     */
+    static class FullscreenHolder extends FrameLayout {
+
+        public FullscreenHolder(Context ctx) {
+            super(ctx);
+            setBackgroundColor(ctx.getResources().getColor(android.R.color.black));
+        }
+
+        @Override
+        public boolean onTouchEvent(MotionEvent evt) {
+            return true;
+        }
+    }
+
+    private void setStatusBarVisibility(boolean visible) {
+        int flag = visible ? 0 : WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        getWindow().setFlags(flag, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -281,7 +400,21 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
     }
 
     @Override
+    protected void onDestroy() {
+        wvPlayer.destroy();
+        super.onDestroy();
+    }
+
+    @Override
     public void onBackPressed() {
+        /** 回退键 事件处理 优先级:视频播放全屏-网页回退-关闭页面 */
+        if (customView != null) {
+            hideCustomView();
+        } else if (wvPlayer.canGoBack()) {
+            wvPlayer.goBack();
+        } else {
+            super.onBackPressed();
+        }
         if (Jzvd.backPress()) {
             return;
         }

@@ -46,7 +46,7 @@ public abstract class ClassRoomPayPromptDialog extends Dialog implements View.On
         btCancel = (Button) findViewById(R.id.bt_cancel);
         btPay = (Button) findViewById(R.id.bt_pay);
 
-        tvContent.setText(Html.fromHtml("您需先支付<font color=\"#E71B64\">" + money + "元</font>+<font color=\"#E71B64\">" + integral + "积分</font>才可观看教程哦~"));
+        tvContent.setText(Html.fromHtml("您需先支付<font color=\"#E71B64\">" + money + "元</font>才可观看教程哦~"));
 
         btCancel.setOnClickListener(this);
         btPay.setOnClickListener(this);

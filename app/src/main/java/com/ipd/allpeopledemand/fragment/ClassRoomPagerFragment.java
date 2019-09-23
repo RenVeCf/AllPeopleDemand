@@ -18,7 +18,6 @@ import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.activity.ClassRoomDetailsActivity;
 import com.ipd.allpeopledemand.activity.LoginActivity;
 import com.ipd.allpeopledemand.activity.MainActivity;
-import com.ipd.allpeopledemand.activity.WebViewActivity;
 import com.ipd.allpeopledemand.adapter.ClassRoomPagerAdapter;
 import com.ipd.allpeopledemand.aliPay.AliPay;
 import com.ipd.allpeopledemand.base.BaseFragment;
@@ -29,7 +28,6 @@ import com.ipd.allpeopledemand.bean.ClassRoomPagerBean;
 import com.ipd.allpeopledemand.bean.ClassRoomWechatPayBean;
 import com.ipd.allpeopledemand.common.view.BottomPayDialog;
 import com.ipd.allpeopledemand.common.view.ClassRoomPayPromptDialog;
-import com.ipd.allpeopledemand.common.view.NotIntegralDialog;
 import com.ipd.allpeopledemand.contract.ClassRoomPagerContract;
 import com.ipd.allpeopledemand.presenter.ClassRoomPagerPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
@@ -275,13 +273,13 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
                                 startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean).putExtra("integral", roomListBean.get(classroomIdPosition).getIntegral()).putExtra("money", roomListBean.get(classroomIdPosition).getMoney()));
                                 break;
                             case "3":
-                                new NotIntegralDialog(getActivity()) {
-                                    @Override
-                                    public void goPayIntrgral() {
-                                        //积分不足跳积分规则
-                                        startActivity(new Intent(getContext(), WebViewActivity.class).putExtra("h5Type", 1));
-                                    }
-                                }.show();
+//                                new NotIntegralDialog(getActivity()) {
+//                                    @Override
+//                                    public void goPayIntrgral() {
+//                                        //积分不足跳积分规则
+//                                        startActivity(new Intent(getContext(), WebViewActivity.class).putExtra("h5Type", 1));
+//                                    }
+//                                }.show();
                                 break;
                             case "4":
                                 new ClassRoomPayPromptDialog(getActivity(), roomListBean.get(classroomIdPosition).getMoney(), roomListBean.get(classroomIdPosition).getIntegral()) {
@@ -290,10 +288,10 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
                                         new BottomPayDialog(getActivity(), data.getData().getBalance()) {
                                             @Override
                                             public void goPay(int payType) {
-                                                if (data.getData().getBalance() >= roomListBean.get(classroomIdPosition).getMoney()) {
-                                                    //余额直接支付
-                                                    payType(3, roomListBean.get(classroomIdPosition).getClassroomId());
-                                                } else {
+//                                                if (data.getData().getBalance() >= roomListBean.get(classroomIdPosition).getMoney()) {
+//                                                    余额直接支付
+//                                                    payType(3, roomListBean.get(classroomIdPosition).getClassroomId());
+//                                                } else {
                                                     switch (payType) {
                                                         case 1://支付宝
                                                             payType(1, roomListBean.get(classroomIdPosition).getClassroomId());
@@ -302,10 +300,10 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
                                                             payType(2, roomListBean.get(classroomIdPosition).getClassroomId());
                                                             break;
                                                         default:
-                                                            ToastUtil.showShortToast("余额不足，请选择支付方式！");
+                                                            ToastUtil.showShortToast("请选择支付方式！");
                                                             break;
                                                     }
-                                                }
+//                                                }
                                             }
                                         }.show();
                                     }
@@ -379,7 +377,7 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
         switch (data.getCode()) {
             case 200:
                 IWXAPI api = WXAPIFactory.createWXAPI(getContext(), null);
-                api.registerApp("wx57313d36c4b4d0d7");
+                api.registerApp("wxbb948d62bc17b798");
                 PayReq req = new PayReq();
                 req.appId = data.getData().getSign().getAppid();//你的微信appid
                 req.partnerId = data.getData().getSign().getPartnerid();//商户号

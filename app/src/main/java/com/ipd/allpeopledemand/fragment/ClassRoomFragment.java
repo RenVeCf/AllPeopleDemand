@@ -7,7 +7,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.allpeopledemand.R;
@@ -19,6 +18,7 @@ import com.ipd.allpeopledemand.base.BaseFragment;
 import com.ipd.allpeopledemand.bean.ClassRoomInicationBean;
 import com.ipd.allpeopledemand.bean.IsMsgBean;
 import com.ipd.allpeopledemand.common.view.NavitationFollowScrollLayoutText;
+import com.ipd.allpeopledemand.common.view.NoScrollViewPager;
 import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.ClassRoomInicationContract;
 import com.ipd.allpeopledemand.presenter.ClassRoomInicationPresenter;
@@ -59,7 +59,7 @@ public class ClassRoomFragment extends BaseFragment<ClassRoomInicationContract.V
     @BindView(R.id.nfsl_fragment_class_room)
     NavitationFollowScrollLayoutText nfslFragmentClassRoom;
     @BindView(R.id.vp_fragment_class_room)
-    ViewPager vpFragmentClassRoom;
+    NoScrollViewPager vpFragmentClassRoom;
 
     private String[] titles;
     private List<Fragment> fragments;
@@ -170,9 +170,10 @@ public class ClassRoomFragment extends BaseFragment<ClassRoomInicationContract.V
         viewPagerAdapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager(), fragments);
         vpFragmentClassRoom.setAdapter(viewPagerAdapter);
         vpFragmentClassRoom.setOffscreenPageLimit(titles.length);
+        vpFragmentClassRoom.setScanScroll(false);//禁止滑动
 
         //设置导航条
-        nfslFragmentClassRoom.setViewPager(getContext(), titles, vpFragmentClassRoom, R.color.tx_bottom_navigation, R.color.black, 16, 16, 24, true, R.color.black, 0, 0, 0, 80);
+        nfslFragmentClassRoom.setViewPager(getContext(), titles, vpFragmentClassRoom, R.color.tx_bottom_navigation, R.color.black, 16, 16, 24, false, R.color.black, 0, 0, 0, 80);
         nfslFragmentClassRoom.setBgLine(getContext(), 1, R.color.whitesmoke);
         nfslFragmentClassRoom.setNavLine(getActivity(), 3, R.color.colorAccent);
 

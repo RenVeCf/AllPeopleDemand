@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.WithdrawActivity">
+
+    <TextView
+        android:id="@+id/tv_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/x50"
+        android:layout_marginTop="@dimen/y50"
+        android:text="注：每日可提现一次，每次10-1000元"
+        android:textColor="@color/tx_bottom_navigation_select"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cl_2" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y30"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cl_1">
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x50"
+            android:layout_marginTop="@dimen/y50"
+            android:text="提现金额"
+            android:textColor="@color/tx_bottom_navigation"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x80"
+            android:layout_marginTop="@dimen/y50"
+            android:layout_marginBottom="@dimen/y50"
+            android:textColor="@color/tx_bottom_navigation"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_withdraw_fee" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+            android:id="@+id/tv_withdraw_fee"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/y250"
+            android:layout_marginTop="@dimen/y50"
+            android:backgroundTint="@color/input_color"
+            android:paddingStart="@dimen/x50"
+            android:paddingEnd="@dimen/x50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv1"
+            app:layout_constraintWidth_percent="0.9"
+            app:sCenterTextColor="@color/black"
+            app:sCenterTextIsBold="true"
+            app:sCenterTextSize="20sp"
+            app:sCenterViewGravity="left_center"
+            app:sEditTextHint="请输入提现金额"
+            app:sEditTextWidth="@dimen/x300"
+            app:sEnableEdit="true"
+            app:sLeftTextColor="@color/black"
+            app:sLeftTextIsBold="true"
+            app:sLeftTextSize="20sp"
+            app:sLeftTextString="¥"
+            app:sRightMaxEms="15"
+            app:sRightTextColor="@color/tx_bottom_navigation"
+            app:sRightTextString="10～1000元"
+            app:sUseShape="true" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_withdraw">
+
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x50"
+            android:layout_marginTop="@dimen/y50"
+            android:text="到账微信号"
+            android:textColor="@color/tx_bottom_navigation"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+            android:id="@+id/tv_is_wechat"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/y300"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv"
+            android:paddingStart="@dimen/x30"
+            android:visibility="gone"
+            android:paddingEnd="@dimen/x30"
+            app:sLeftIconRes="@mipmap/ic_wechat"
+            app:sLeftTextIsBold="true"
+            app:sLeftTextSize="18sp" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+            android:id="@+id/tv_bind_wechat"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/y300"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv"
+            android:paddingStart="@dimen/x30"
+            android:paddingEnd="@dimen/x30"
+            app:sLeftTextIsBold="true"
+            app:sLeftTextSize="18sp"
+            app:sLeftTextString="未绑定微信号"
+            app:sRightIconRes="@mipmap/ic_arrow_end"
+            app:sRightTextColor="@color/tx_bottom_navigation"
+            app:sRightTextString="立即绑定" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.ipd.allpeopledemand.common.view.TopView
+        android:id="@+id/tv_withdraw"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:gravity="bottom"
+        app:is_back="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="余额提现" />
+
+    <com.xuexiang.xui.widget.button.RippleView
+        android:id="@+id/rv_withdraw"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y100"
+        android:background="@drawable/bg_gradient_bt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_1"
+        app:layout_constraintWidth_percent="0.9"
+        app:rv_type="simpleRipple">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y150"
+            android:layout_gravity="center"
+            android:layout_marginStart="?attr/xui_config_content_spacing_horizontal"
+            android:layout_marginEnd="?attr/xui_config_content_spacing_horizontal"
+            android:gravity="center"
+            android:text="确认提现"
+            android:textColor="@color/xui_config_color_white"
+            android:textSize="18sp" />
+    </com.xuexiang.xui.widget.button.RippleView>
+</androidx.constraintlayout.widget.ConstraintLayout>

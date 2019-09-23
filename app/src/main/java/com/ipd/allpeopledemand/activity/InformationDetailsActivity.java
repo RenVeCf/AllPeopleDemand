@@ -409,7 +409,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
 
     //发短信
     private void sendMsg() {
-        Uri uri2 = Uri.parse("smsto:" + tvContactPhone.getText().toString().replaceAll("电话号码: ", ""));
+        Uri uri2 = Uri.parse("smsto:" + tvContactPhone.getText().toString().replaceAll("联系方式: ", ""));
         Intent intentMessage = new Intent(Intent.ACTION_VIEW, uri2);
         startActivity(intentMessage);
     }
@@ -417,7 +417,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
     //打电话
     private void callPhone() {
         Intent intent = new Intent(Intent.ACTION_CALL);
-        Uri data = Uri.parse("tel:" + tvContactPhone.getText().toString().replaceAll("电话号码: ", ""));
+        Uri data = Uri.parse("tel:" + tvContactPhone.getText().toString().replaceAll("联系方式: ", ""));
         intent.setData(data);
         if (ActivityCompat.checkSelfPermission(this, CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -517,7 +517,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
 
                 tvContactName.setText("联系人: " + data.getData().getRelease().getContacts());
                 tvContactWechat.setText("微信号: " + data.getData().getRelease().getWechatNumber());
-                tvContactPhone.setText("电话号码: " + data.getData().getRelease().getContactNumber());
+                tvContactPhone.setText("联系方式: " + data.getData().getRelease().getContactNumber());
                 break;
             case 900:
                 ToastUtil.showLongToast(data.getMsg());
@@ -542,7 +542,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                         llNotPay.setVisibility(View.GONE);
                         llPay.setVisibility(View.VISIBLE);
                     }
-                    tvPayFee.setText(data.getData().getPrice().getMoney() + "元 + " + data.getData().getPrice().getIntegral() + "积分");
+                    tvPayFee.setText(data.getData().getPrice().getMoney() + "元");
                 }
                 if (!isEmpty(data.getData().getRelease().getPicPath())) {
                     Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.ic_test_ad)).into(rivTitle);
@@ -580,7 +580,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
 
                 tvContactName.setText("联系人: " + data.getData().getRelease().getContacts());
                 tvContactWechat.setText("微信号: " + data.getData().getRelease().getWechatNumber());
-                tvContactPhone.setText("电话号码: " + data.getData().getRelease().getContactNumber());
+                tvContactPhone.setText("联系方式: " + data.getData().getRelease().getContactNumber());
                 break;
             case 900:
                 ToastUtil.showLongToast(data.getMsg());
@@ -626,7 +626,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
 
                 tvContactName.setText("联系人: " + data.getData().getDemandList().getContacts());
                 tvContactWechat.setText("微信号: " + data.getData().getDemandList().getWechatNumber());
-                tvContactPhone.setText("电话号码: " + data.getData().getDemandList().getContactNumber());
+                tvContactPhone.setText("联系方式: " + data.getData().getDemandList().getContactNumber());
                 break;
             case 900:
                 ToastUtil.showLongToast(data.getMsg());
@@ -706,7 +706,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
         switch (data.getCode()) {
             case 200:
                 IWXAPI api = WXAPIFactory.createWXAPI(this, null);
-                api.registerApp("wx57313d36c4b4d0d7");
+                api.registerApp("wxbb948d62bc17b798");
                 PayReq req = new PayReq();
                 req.appId = data.getData().getSign().getAppid();//你的微信appid
                 req.partnerId = data.getData().getSign().getPartnerid();//商户号

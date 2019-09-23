@@ -9,7 +9,7 @@
         android:id="@+id/iv_label"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y350"
-        android:scaleType="fitXY"
+        android:scaleType="center"
         android:src="@mipmap/ic_test_ad"
         app:label_backgroundColor="@color/tx_bottom_navigation_select"
         app:label_orientation="LEFT_TOP"

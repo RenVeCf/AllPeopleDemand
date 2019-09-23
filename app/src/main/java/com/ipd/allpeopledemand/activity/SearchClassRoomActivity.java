@@ -342,7 +342,7 @@ public class SearchClassRoomActivity extends BaseActivity<ClassRoomPagerContract
         switch (data.getCode()) {
             case 200:
                 IWXAPI api = WXAPIFactory.createWXAPI(SearchClassRoomActivity.this, null);
-                api.registerApp("wx57313d36c4b4d0d7");
+                api.registerApp("wxbb948d62bc17b798");
                 PayReq req = new PayReq();
                 req.appId = data.getData().getSign().getAppid();//你的微信appid
                 req.partnerId = data.getData().getSign().getPartnerid();//商户号

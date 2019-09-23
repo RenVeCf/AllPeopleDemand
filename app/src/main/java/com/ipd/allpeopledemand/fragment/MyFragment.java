@@ -22,6 +22,7 @@ import com.ipd.allpeopledemand.activity.MyBuyActivity;
 import com.ipd.allpeopledemand.activity.MyPushActivity;
 import com.ipd.allpeopledemand.activity.SettingActivity;
 import com.ipd.allpeopledemand.activity.ShareActivity;
+import com.ipd.allpeopledemand.activity.VipActivity;
 import com.ipd.allpeopledemand.base.BaseFragment;
 import com.ipd.allpeopledemand.bean.CheckInBean;
 import com.ipd.allpeopledemand.bean.CheckInLayoutBean;
@@ -34,6 +35,8 @@ import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.StringUtils;
 import com.ipd.allpeopledemand.utils.ToastUtil;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 import com.xuexiang.xui.widget.imageview.RadiusImageView;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
@@ -96,6 +99,7 @@ public class MyFragment extends BaseFragment<CheckInContract.View, CheckInContra
     private List<CheckInLayoutBean.DataBean.SignListBean> signListBean = new ArrayList<>();
     private int continueDays = 0;
     private String isSign = "";
+    private List<LocalMedia> medias = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -144,6 +148,10 @@ public class MyFragment extends BaseFragment<CheckInContract.View, CheckInContra
         getPresenter().getCheckInLayout(checkInLayoutMap, false, false);
 
         Glide.with(this).load(BASE_LOCAL_URL + SPUtil.get(getContext(), AVATAR, "")).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into(rivHead);
+        LocalMedia localMedia = new LocalMedia();
+        localMedia.setCompressed(true);
+        localMedia.setCompressPath(BASE_LOCAL_URL + SPUtil.get(getContext(), AVATAR, ""));
+        medias.add(localMedia);
         tvName.setText(SPUtil.get(getContext(), NAME, "") + "");
         tvAllPeopleCode.setText("(" + SPUtil.get(getContext(), ALL_PEOPLE, "") + ")");
         tvOnlineTime.setText("浏览时长：12小时");//TODO  后台没有,让写死
@@ -158,6 +166,11 @@ public class MyFragment extends BaseFragment<CheckInContract.View, CheckInContra
                 case REQUEST_CODE_92:
                     tvName.setText(SPUtil.get(getContext(), NAME, "") + "");
                     Glide.with(this).load(BASE_LOCAL_URL + SPUtil.get(getContext(), AVATAR, "")).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into(rivHead);
+                    medias.clear();
+                    LocalMedia localMedia = new LocalMedia();
+                    localMedia.setCompressed(true);
+                    localMedia.setCompressPath(BASE_LOCAL_URL + SPUtil.get(getContext(), AVATAR, ""));
+                    medias.add(localMedia);
                     break;
                 case REQUEST_CODE_96:
                     initData();
@@ -166,9 +179,15 @@ public class MyFragment extends BaseFragment<CheckInContract.View, CheckInContra
         }
     }
 
-    @OnClick({R.id.ib_check_in, R.id.stv_information, R.id.stv_account, R.id.stv_push, R.id.stv_attention, R.id.stv_buy, R.id.stv_share, R.id.stv_setting})
+    @OnClick({R.id.cl_no_vip, R.id.bt_go_vip, R.id.ib_check_in, R.id.stv_information, R.id.stv_account, R.id.stv_push, R.id.stv_attention, R.id.stv_buy, R.id.stv_share, R.id.stv_setting, R.id.riv_head})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.cl_no_vip:
+                startActivity(new Intent(getContext(), VipActivity.class));
+                break;
+            case R.id.bt_go_vip:
+                startActivity(new Intent(getContext(), VipActivity.class));
+                break;
             case R.id.ib_check_in:
                 //签到
                 startActivityForResult(new Intent(getContext(), CheckInActivity.class).putParcelableArrayListExtra("signListBean", (ArrayList<? extends Parcelable>) signListBean).putExtra("continueDays", continueDays).putExtra("isSign", isSign), REQUEST_CODE_96);
@@ -200,6 +219,9 @@ public class MyFragment extends BaseFragment<CheckInContract.View, CheckInContra
             case R.id.stv_setting:
                 //设置
                 startActivity(new Intent(getContext(), SettingActivity.class));
+                break;
+            case R.id.riv_head:
+                PictureSelector.create(getActivity()).themeStyle(R.style.picture_default_style).openExternalPreview(0, medias);
                 break;
         }
     }

@@ -71,7 +71,7 @@ public class AccountActivity extends BaseActivity<AccountContract.View, AccountC
     private List<AccountBean.DataBean.DetailedListBean> detailedListBean = new ArrayList<>();
     private PointsAccountAdapter pointsAccountAdapter;
     private int pageNum = 1;//页数
-    private int type = 1;//1.积分账户 2.奖励账户
+    private int type = 2;//1.积分账户 2.奖励账户
 
     @Override
     public int getLayoutId() {
@@ -144,7 +144,7 @@ public class AccountActivity extends BaseActivity<AccountContract.View, AccountC
         });
     }
 
-    @OnClick({R.id.rb_point, R.id.rb_reward})
+    @OnClick({R.id.rb_point, R.id.rb_reward, R.id.bt_withdraw})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rb_point:
@@ -160,6 +160,9 @@ public class AccountActivity extends BaseActivity<AccountContract.View, AccountC
                 type = 2;
                 pageNum = 1;
                 initData();
+                break;
+            case R.id.bt_withdraw:
+                startActivity(new Intent(this, WithdrawActivity.class));
                 break;
         }
     }

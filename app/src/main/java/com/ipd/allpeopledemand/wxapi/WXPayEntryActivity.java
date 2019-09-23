@@ -69,7 +69,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
         ivTopBack.setImageResource(R.mipmap.ic_back_white);
 
-        api = WXAPIFactory.createWXAPI(this, "wx57313d36c4b4d0d7");
+        api = WXAPIFactory.createWXAPI(this, "wxbb948d62bc17b798");
         api.handleIntent(getIntent(), this);
     }
 
