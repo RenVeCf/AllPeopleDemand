@@ -76,7 +76,7 @@
                         android:layout_marginEnd="@dimen/x20"
                         android:button="@null"
                         android:background="@drawable/select_is_top"
-                        android:text="￥ 10"
+                        android:text="￥ 1"
                         android:textColor="@drawable/tx_select_main" />
 
                     <RadioButton
@@ -89,7 +89,7 @@
                         android:layout_marginEnd="@dimen/x20"
                         android:button="@null"
                         android:background="@drawable/select_is_top"
-                        android:text="￥ 20"
+                        android:text="￥ 3"
                         android:textColor="@drawable/tx_select_main" />
 
                     <RadioButton
@@ -101,7 +101,7 @@
                         android:layout_marginStart="@dimen/x20"
                         android:button="@null"
                         android:background="@drawable/select_is_top"
-                        android:text="￥ 30"
+                        android:text="￥ 8"
                         android:textColor="@drawable/tx_select_main" />
                 </RadioGroup>
 

@@ -32,6 +32,7 @@ import static com.ipd.allpeopledemand.common.config.IConstants.AVATAR;
 import static com.ipd.allpeopledemand.common.config.IConstants.HOW_PAGE;
 import static com.ipd.allpeopledemand.common.config.IConstants.IS_LOGIN;
 import static com.ipd.allpeopledemand.common.config.IConstants.MARITAL_STATUS;
+import static com.ipd.allpeopledemand.common.config.IConstants.MEMBER;
 import static com.ipd.allpeopledemand.common.config.IConstants.NAME;
 import static com.ipd.allpeopledemand.common.config.IConstants.PHONE;
 import static com.ipd.allpeopledemand.common.config.IConstants.SEX;
@@ -144,6 +145,7 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
             SPUtil.put(this, AVATAR, data.getData().getUser().getAvatar());
             SPUtil.put(this, NAME, data.getData().getUser().getUserCall());
             SPUtil.put(this, PHONE, data.getData().getUser().getTelPhone());
+            SPUtil.put(this, MEMBER, data.getData().getUser().getMember() + "");
             SPUtil.put(this, ALL_PEOPLE, data.getData().getUser().getNationalNum());
             String sex = "";
             switch (data.getData().getUser().getSex()) {

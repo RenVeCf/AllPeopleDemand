@@ -2,11 +2,11 @@ package com.ipd.allpeopledemand.bean;
 
 import com.google.gson.annotations.SerializedName;
 
-public class PushBean {
+public class OpenMemberBean {
     /**
      * msg : 操作成功
      * code : 200
-     * data : {"sign":{"package":"Sign=WXPay","appid":"wx57313d36c4b4d0d7","sign":"5BA219D6E492A8A7CD017690B26918F0","partnerid":"1544550131","prepayid":"wx2910395101911151a649413f1005444200","noncestr":"1039493829","timestamp":1569724790}}
+     * data : {"sign2":"partner=\"2088531607992767\"&seller_id=\"454808413@qq.com\"&out_trade_no=\"190999355107\"&subject=\"全名需求\"&body=\"支付宝付款\"&total_fee=\"0.01\"&notify_url=\"http://47.93.126.235:8080/qmxq/appUser/member_order/alipayReturnUrl\"&service=\"mobile.securitypay.pay\"&payment_type=\"1\"&_input_charset=\"utf-8\"&it_b_pay=\"30m\"&return_url=\"m.alipay.com\"&sign=\"i0wYNf8%2Bo204pT%2BSBiHGKqYV8LWOdvLQyi6FAqWCJNN%2FPPJ%2FTBmyY5%2BFGqtmdLcf%2BPxN9bkY9FYXZ8zkYx4T9QVkJnhvWCunL8WZAw1UbaTkLcmT0H18h5jAECkROZvOnuQAzVVwhpXk11Ynw%2BepwadXFNulu5cLhFZ4bUhBLkk%3D\"&sign_type=\"RSA\""}
      */
 
     private String msg;
@@ -43,7 +43,7 @@ public class PushBean {
          * sign : {"package":"Sign=WXPay","appid":"wx57313d36c4b4d0d7","sign":"5BA219D6E492A8A7CD017690B26918F0","partnerid":"1544550131","prepayid":"wx2910395101911151a649413f1005444200","noncestr":"1039493829","timestamp":1569724790}
          */
 
-        private SignBean sign1;
+        private PushBean.DataBean.SignBean sign1;
         private String sign2;
 
         public String getSign2() {
@@ -54,11 +54,11 @@ public class PushBean {
             this.sign2 = sign2;
         }
 
-        public SignBean getSign1() {
+        public PushBean.DataBean.SignBean getSign1() {
             return sign1;
         }
 
-        public void setSign1(SignBean sign1) {
+        public void setSign1(PushBean.DataBean.SignBean sign1) {
             this.sign1 = sign1;
         }
 

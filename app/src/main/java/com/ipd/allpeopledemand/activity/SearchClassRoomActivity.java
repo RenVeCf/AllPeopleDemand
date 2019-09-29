@@ -50,6 +50,7 @@ import io.reactivex.ObservableTransformer;
 
 import static com.ipd.allpeopledemand.common.config.IConstants.IS_LOGIN;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
+import static com.ipd.allpeopledemand.common.config.IConstants.WECHAT_BT_TYPE;
 import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
 
 /**
@@ -324,7 +325,7 @@ public class SearchClassRoomActivity extends BaseActivity<ClassRoomPagerContract
     public void resultClassRoomAliPay(ClassRoomAliPayBean data) {
         switch (data.getCode()) {
             case 200:
-                new AliPay(SearchClassRoomActivity.this, data.getData().getSign());
+                new AliPay(SearchClassRoomActivity.this, data.getData().getSign(), 1);
                 break;
             case 900:
                 ToastUtil.showLongToast(data.getMsg());
@@ -341,8 +342,10 @@ public class SearchClassRoomActivity extends BaseActivity<ClassRoomPagerContract
     public void resultClassRoomWechatPay(ClassRoomWechatPayBean data) {
         switch (data.getCode()) {
             case 200:
+                SPUtil.put(this, WECHAT_BT_TYPE, 1);
+
                 IWXAPI api = WXAPIFactory.createWXAPI(SearchClassRoomActivity.this, null);
-                api.registerApp("wxbb948d62bc17b798");
+                api.registerApp("wx57313d36c4b4d0d7");
                 PayReq req = new PayReq();
                 req.appId = data.getData().getSign().getAppid();//你的微信appid
                 req.partnerId = data.getData().getSign().getPartnerid();//商户号

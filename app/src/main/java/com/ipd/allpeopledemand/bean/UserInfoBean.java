@@ -72,21 +72,29 @@ public class UserInfoBean {
              * remark : null
              * params : {}
              * userId : 4
-             * avatar : upload/2019/07/24/c1cf7757d0e93683856a29458f0b73ca.jpeg
+             * avatar : upload/2019/08/30/65ea1ed5da2c56230483916831b48071.jpeg
              * telPhone : 18502994087
              * password : 8cd53fc68f2dfba49e3c7871fac0443a
              * userCall : ooooo
              * parentId : 0
-             * balance : 70.0
+             * balance : 294.0
              * nationalNum : 20190724522
              * sex : 1
-             * age : 3
+             * age : 16
              * maritalStatus : 1
              * userType : 1
-             * integral : 66
+             * integral : 1
              * twoCode : upload/QRCode/20190724522.png
              * invitationCode : ao44dkem
-             * labelIds : 1,2
+             * labelIds : null
+             * userSource : null
+             * num : null
+             * visitTime : 2019-09-29 11:57:58
+             * wechatNumber : ijhggh
+             * notRelease : 1
+             * userNum : null
+             * member : 1
+             * stoptime : 2019-10-29
              */
 
             private Object searchValue;
@@ -111,7 +119,15 @@ public class UserInfoBean {
             private int integral;
             private String twoCode;
             private String invitationCode;
-            private String labelIds;
+            private Object labelIds;
+            private Object userSource;
+            private Object num;
+            private String visitTime;
+            private String wechatNumber;
+            private String notRelease;
+            private Object userNum;
+            private int member;
+            private String stoptime;
 
             public Object getSearchValue() {
                 return searchValue;
@@ -289,12 +305,76 @@ public class UserInfoBean {
                 this.invitationCode = invitationCode;
             }
 
-            public String getLabelIds() {
+            public Object getLabelIds() {
                 return labelIds;
             }
 
-            public void setLabelIds(String labelIds) {
+            public void setLabelIds(Object labelIds) {
                 this.labelIds = labelIds;
+            }
+
+            public Object getUserSource() {
+                return userSource;
+            }
+
+            public void setUserSource(Object userSource) {
+                this.userSource = userSource;
+            }
+
+            public Object getNum() {
+                return num;
+            }
+
+            public void setNum(Object num) {
+                this.num = num;
+            }
+
+            public String getVisitTime() {
+                return visitTime;
+            }
+
+            public void setVisitTime(String visitTime) {
+                this.visitTime = visitTime;
+            }
+
+            public String getWechatNumber() {
+                return wechatNumber;
+            }
+
+            public void setWechatNumber(String wechatNumber) {
+                this.wechatNumber = wechatNumber;
+            }
+
+            public String getNotRelease() {
+                return notRelease;
+            }
+
+            public void setNotRelease(String notRelease) {
+                this.notRelease = notRelease;
+            }
+
+            public Object getUserNum() {
+                return userNum;
+            }
+
+            public void setUserNum(Object userNum) {
+                this.userNum = userNum;
+            }
+
+            public int getMember() {
+                return member;
+            }
+
+            public void setMember(int member) {
+                this.member = member;
+            }
+
+            public String getStoptime() {
+                return stoptime;
+            }
+
+            public void setStoptime(String stoptime) {
+                this.stoptime = stoptime;
             }
 
             public static class ParamsBean {

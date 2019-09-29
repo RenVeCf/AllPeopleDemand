@@ -68,7 +68,7 @@ public class AccountActivity extends BaseActivity<AccountContract.View, AccountC
     @BindView(R.id.ll_reward_account)
     LinearLayout llRewardAccount;
 
-    private List<AccountBean.DataBean.DetailedListBean> detailedListBean = new ArrayList<>();
+    private List<AccountBean.DataBean.BalanceListBean> detailedListBean = new ArrayList<>();
     private PointsAccountAdapter pointsAccountAdapter;
     private int pageNum = 1;//页数
     private int type = 2;//1.积分账户 2.奖励账户
@@ -115,8 +115,9 @@ public class AccountActivity extends BaseActivity<AccountContract.View, AccountC
     public void initData() {
         TreeMap<String, String> accountMap = new TreeMap<>();
         accountMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-        accountMap.put("type", type + "");
         accountMap.put("pageNum", pageNum + "");
+        accountMap.put("orderByColumn", "");
+        accountMap.put("isAsc", "");
         accountMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(accountMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
         getPresenter().getAccount(accountMap, true, false);
     }
@@ -173,54 +174,54 @@ public class AccountActivity extends BaseActivity<AccountContract.View, AccountC
             case 200:
                 switch (type) {
                     case 1:
-                        tvTotalPoints.setText(data.getData().getIntegral() + "");
-
-                        if (data.getTotal() > 0) {
-                            if (pageNum == 1) {
-                                detailedListBean.clear();
-                                detailedListBean.addAll(data.getData().getDetailedList());
-                                pointsAccountAdapter = new PointsAccountAdapter(detailedListBean);
-                                rvPointsDetails.setAdapter(pointsAccountAdapter);
-                                pointsAccountAdapter.bindToRecyclerView(rvPointsDetails);
-                                pointsAccountAdapter.setEnableLoadMore(true);
-                                pointsAccountAdapter.openLoadAnimation();
-                                pointsAccountAdapter.disableLoadMoreIfNotFullPage();
-
-                                //上拉加载
-                                pointsAccountAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-                                    @Override
-                                    public void onLoadMoreRequested() {
-                                        rvPointsDetails.postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                initData();
-                                            }
-                                        }, 1000);
-                                    }
-                                }, rvPointsDetails);
-
-                                if (data.getTotal() > 10) {
-                                    pageNum += 1;
-                                } else {
-                                    pointsAccountAdapter.loadMoreEnd();
-                                }
-                            } else {
-                                if ((data.getTotal() - pageNum * 10) > 0) {
-                                    pageNum += 1;
-                                    pointsAccountAdapter.addData(data.getData().getDetailedList());
-                                    pointsAccountAdapter.loadMoreComplete(); //完成本次
-                                } else {
-                                    pointsAccountAdapter.addData(data.getData().getDetailedList());
-                                    pointsAccountAdapter.loadMoreEnd(); //完成所有加载
-                                }
-                            }
-                        } else {
-                            detailedListBean.clear();
-                            pointsAccountAdapter = new PointsAccountAdapter(detailedListBean);
-                            rvPointsDetails.setAdapter(pointsAccountAdapter);
-                            pointsAccountAdapter.loadMoreEnd(); //完成所有加载
-                            pointsAccountAdapter.setEmptyView(R.layout.null_data, rvPointsDetails);
-                        }
+//                        tvTotalPoints.setText(data.getData().getIntegral() + "");
+//
+//                        if (data.getTotal() > 0) {
+//                            if (pageNum == 1) {
+//                                detailedListBean.clear();
+//                                detailedListBean.addAll(data.getData().getDetailedList());
+//                                pointsAccountAdapter = new PointsAccountAdapter(detailedListBean);
+//                                rvPointsDetails.setAdapter(pointsAccountAdapter);
+//                                pointsAccountAdapter.bindToRecyclerView(rvPointsDetails);
+//                                pointsAccountAdapter.setEnableLoadMore(true);
+//                                pointsAccountAdapter.openLoadAnimation();
+//                                pointsAccountAdapter.disableLoadMoreIfNotFullPage();
+//
+//                                //上拉加载
+//                                pointsAccountAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+//                                    @Override
+//                                    public void onLoadMoreRequested() {
+//                                        rvPointsDetails.postDelayed(new Runnable() {
+//                                            @Override
+//                                            public void run() {
+//                                                initData();
+//                                            }
+//                                        }, 1000);
+//                                    }
+//                                }, rvPointsDetails);
+//
+//                                if (data.getTotal() > 10) {
+//                                    pageNum += 1;
+//                                } else {
+//                                    pointsAccountAdapter.loadMoreEnd();
+//                                }
+//                            } else {
+//                                if ((data.getTotal() - pageNum * 10) > 0) {
+//                                    pageNum += 1;
+//                                    pointsAccountAdapter.addData(data.getData().getDetailedList());
+//                                    pointsAccountAdapter.loadMoreComplete(); //完成本次
+//                                } else {
+//                                    pointsAccountAdapter.addData(data.getData().getDetailedList());
+//                                    pointsAccountAdapter.loadMoreEnd(); //完成所有加载
+//                                }
+//                            }
+//                        } else {
+//                            detailedListBean.clear();
+//                            pointsAccountAdapter = new PointsAccountAdapter(detailedListBean);
+//                            rvPointsDetails.setAdapter(pointsAccountAdapter);
+//                            pointsAccountAdapter.loadMoreEnd(); //完成所有加载
+//                            pointsAccountAdapter.setEmptyView(R.layout.null_data, rvPointsDetails);
+//                        }
                         break;
                     case 2:
                         tvTotalBalance.setText("¥ " + data.getData().getBalance() + "");
@@ -228,7 +229,7 @@ public class AccountActivity extends BaseActivity<AccountContract.View, AccountC
                         if (data.getTotal() > 0) {
                             if (pageNum == 1) {
                                 detailedListBean.clear();
-                                detailedListBean.addAll(data.getData().getDetailedList());
+                                detailedListBean.addAll(data.getData().getBalanceList());
                                 pointsAccountAdapter = new PointsAccountAdapter(detailedListBean);
                                 rvBalanceDetails.setAdapter(pointsAccountAdapter);
                                 pointsAccountAdapter.bindToRecyclerView(rvBalanceDetails);
@@ -257,10 +258,10 @@ public class AccountActivity extends BaseActivity<AccountContract.View, AccountC
                             } else {
                                 if ((data.getTotal() - pageNum * 10) > 0) {
                                     pageNum += 1;
-                                    pointsAccountAdapter.addData(data.getData().getDetailedList());
+                                    pointsAccountAdapter.addData(data.getData().getBalanceList());
                                     pointsAccountAdapter.loadMoreComplete(); //完成本次
                                 } else {
-                                    pointsAccountAdapter.addData(data.getData().getDetailedList());
+                                    pointsAccountAdapter.addData(data.getData().getBalanceList());
                                     pointsAccountAdapter.loadMoreEnd(); //完成所有加载
                                 }
                             }

@@ -1,7 +1,9 @@
 package com.ipd.allpeopledemand.fragment;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -32,11 +34,13 @@ import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.activity.LoginActivity;
 import com.ipd.allpeopledemand.activity.MainActivity;
 import com.ipd.allpeopledemand.adapter.FlowTagAdapter;
+import com.ipd.allpeopledemand.aliPay.AliPay;
 import com.ipd.allpeopledemand.base.BaseFragment;
 import com.ipd.allpeopledemand.bean.CityAddressBean;
 import com.ipd.allpeopledemand.bean.ClassIficationBean;
 import com.ipd.allpeopledemand.bean.PushBean;
 import com.ipd.allpeopledemand.bean.UploadImgBean;
+import com.ipd.allpeopledemand.common.view.BottomPayDialog;
 import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.PushContract;
 import com.ipd.allpeopledemand.presenter.PushPresenter;
@@ -50,6 +54,9 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 import com.xuexiang.xui.widget.button.RippleView;
 import com.xuexiang.xui.widget.edittext.MultiLineEditText;
@@ -77,6 +84,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static com.ipd.allpeopledemand.activity.InformationActivity.getImageRequestBody;
 import static com.ipd.allpeopledemand.common.config.IConstants.CITY;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
+import static com.ipd.allpeopledemand.common.config.IConstants.WECHAT_BT_TYPE;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_LOCAL_URL;
 import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
 import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
@@ -122,6 +130,7 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
     @BindView(R.id.rg_top)
     RadioGroup rgTop;
 
+    private ReceiveBroadCast receiveBroadCast;
     private FlowTagAdapter tagAdapter;
     private List<String> listData;
     private OptionsPickerView pvOptions; //条件选择器
@@ -134,7 +143,7 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
     private BDAbstractLocationListener myListener;
-    private int rbType = 1; //置顶
+    private int rbType = 0; //置顶
 
     @Override
     public int getLayoutId() {
@@ -171,7 +180,7 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
         int mTheme = R.style.DefaultCityPickerTheme;
         getActivity().setTheme(mTheme);
 
-        tvTopDescription.setText(Html.fromHtml("<font color=\"#E71B64\">注: </font>支付完毕后，我们在本类目进行排序的时候，按照30-20-10- vip-普通会员的阶梯来排，排序置顶周期为一周。"));
+        tvTopDescription.setText(Html.fromHtml("<font color=\"#E71B64\">注: </font>支付完毕后，我们在本类目进行排序的时候，按照8-3-1- vip-普通会员的阶梯来排，排序置顶周期为一周。"));
 
 //        mHotCities = new ArrayList<>();
 //        mHotCities.add(new HotCity("北京", "北京", "101010100"));
@@ -194,18 +203,18 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
         rgTop.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                switch (i){
+                switch (i) {
                     case R.id.rb_one:
-                        rbType = 1;
+                        rbType = 0;
                         break;
                     case R.id.rb_two:
-                        rbType = 2;
+                        rbType = 1;
                         break;
                     case R.id.rb_three:
-                        rbType = 3;
+                        rbType = 2;
                         break;
                     case R.id.rb_four:
-                        rbType = 4;
+                        rbType = 3;
                         break;
                 }
             }
@@ -274,6 +283,43 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
 
     private List<String> getClassificationData() {
         return classificationDataList;
+    }
+
+    class ReceiveBroadCast extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (receiveBroadCast != null)
+                getActivity().unregisterReceiver(receiveBroadCast);
+
+            int isClear = intent.getIntExtra("is_clear", 0);
+
+            if (isClear == 1) {
+                tvClassification.setText("选择分类");
+                etTitle.setText("");
+                etContact.setText("");
+                rivUpload.setImageResource(R.mipmap.bg_upload_class_room);
+                etContent.setContentText("");
+                etPhone.setText("");
+                tagAdapter.clearData();
+                tagAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        receiveBroadCast = new ReceiveBroadCast();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("clear_push");
+        getActivity().registerReceiver(receiveBroadCast, filter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (receiveBroadCast != null)
+            getActivity().unregisterReceiver(receiveBroadCast);
     }
 
     // 定位权限
@@ -505,6 +551,7 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
 //        }
 //    }
 
+
     @OnClick({R.id.ll_classification, R.id.ll_city, R.id.bt_add_key, R.id.riv_upload, R.id.rv_push})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -539,26 +586,98 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
                 break;
             case R.id.rv_push:
                 if (!"选择分类".equals(tvClassification) && !isEmpty(etTitle.getText().toString().trim()) && !"".equals(tvCity.getText().toString().trim()) && !isEmpty(etContact.getText().toString().trim()) && !isEmpty(etContent.getContentText().trim())) {
-                    TreeMap<String, String> pushMap = new TreeMap<>();
-                    pushMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
-                    pushMap.put("releaseClassId", releaseClassId + "");
-                    pushMap.put("title", etTitle.getText().toString().trim());
-                    pushMap.put("region", "全国".equals(tvCity.getText().toString().trim()) ? "0" : tvCity.getText().toString().trim());
-                    pushMap.put("contacts", etContact.getText().toString().trim());
-                    pushMap.put("contactNumber", etPhone.getText().toString().trim());//SPUtil.get(getContext(), PHONE, "") + "");
-                    pushMap.put("picPath", uploadImg);
-                    pushMap.put("details", etContent.getContentText().trim());
-                    StringBuilder str = new StringBuilder();
-                    for (int i = 0; i < tagAdapter.getCount(); i++) {
-                        if (i < tagAdapter.getCount() - 1 && tagAdapter.getCount() > 1) {
-                            str.append(tagAdapter.getItem(i) + ",");
-                        } else {
-                            str.append(tagAdapter.getItem(i));
+                    if (rbType > 0) {
+                        new BottomPayDialog(getActivity(), 0) {
+                            @Override
+                            public void goPay(int payType) {
+                                switch (payType) {
+                                    case 1://支付宝
+                                        TreeMap<String, String> pushMap = new TreeMap<>();
+                                        pushMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+                                        pushMap.put("releaseClassId", releaseClassId + "");
+                                        pushMap.put("title", etTitle.getText().toString().trim());
+                                        pushMap.put("region", "全国".equals(tvCity.getText().toString().trim()) ? "0" : tvCity.getText().toString().trim());
+                                        pushMap.put("contacts", etContact.getText().toString().trim());
+                                        pushMap.put("contactNumber", etPhone.getText().toString().trim());//SPUtil.get(getContext(), PHONE, "") + "");
+                                        pushMap.put("picPath", uploadImg);
+                                        pushMap.put("details", etContent.getContentText().trim());
+                                        pushMap.put("stick", rbType + "");
+                                        pushMap.put("payway", rbType == 0 ? "0" : "2");
+                                        pushMap.put("transactionId", "");
+                                        pushMap.put("payload", "");
+                                        pushMap.put("type", "");
+                                        StringBuilder str = new StringBuilder();
+                                        for (int i = 0; i < tagAdapter.getCount(); i++) {
+                                            if (i < tagAdapter.getCount() - 1 && tagAdapter.getCount() > 1) {
+                                                str.append(tagAdapter.getItem(i) + ",");
+                                            } else {
+                                                str.append(tagAdapter.getItem(i));
+                                            }
+                                        }
+                                        pushMap.put("keyword", tagAdapter.getCount() > 0 ? str.toString() : "");
+                                        pushMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(pushMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                                        getPresenter().getPush(pushMap, true, false);
+                                        break;
+                                    case 2://微信
+                                        TreeMap<String, String> pushMap1 = new TreeMap<>();
+                                        pushMap1.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+                                        pushMap1.put("releaseClassId", releaseClassId + "");
+                                        pushMap1.put("title", etTitle.getText().toString().trim());
+                                        pushMap1.put("region", "全国".equals(tvCity.getText().toString().trim()) ? "0" : tvCity.getText().toString().trim());
+                                        pushMap1.put("contacts", etContact.getText().toString().trim());
+                                        pushMap1.put("contactNumber", etPhone.getText().toString().trim());//SPUtil.get(getContext(), PHONE, "") + "");
+                                        pushMap1.put("picPath", uploadImg);
+                                        pushMap1.put("details", etContent.getContentText().trim());
+                                        pushMap1.put("stick", rbType + "");
+                                        pushMap1.put("payway", rbType == 0 ? "0" : "1");
+                                        pushMap1.put("transactionId", "");
+                                        pushMap1.put("payload", "");
+                                        pushMap1.put("type", "");
+                                        StringBuilder str1 = new StringBuilder();
+                                        for (int i = 0; i < tagAdapter.getCount(); i++) {
+                                            if (i < tagAdapter.getCount() - 1 && tagAdapter.getCount() > 1) {
+                                                str1.append(tagAdapter.getItem(i) + ",");
+                                            } else {
+                                                str1.append(tagAdapter.getItem(i));
+                                            }
+                                        }
+                                        pushMap1.put("keyword", tagAdapter.getCount() > 0 ? str1.toString() : "");
+                                        pushMap1.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(pushMap1.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                                        getPresenter().getPush(pushMap1, true, false);
+                                        break;
+                                    default:
+                                        ToastUtil.showShortToast("请选择支付方式！");
+                                        break;
+                                }
+                            }
+                        }.show();
+                    } else {
+                        TreeMap<String, String> pushMap = new TreeMap<>();
+                        pushMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+                        pushMap.put("releaseClassId", releaseClassId + "");
+                        pushMap.put("title", etTitle.getText().toString().trim());
+                        pushMap.put("region", "全国".equals(tvCity.getText().toString().trim()) ? "0" : tvCity.getText().toString().trim());
+                        pushMap.put("contacts", etContact.getText().toString().trim());
+                        pushMap.put("contactNumber", etPhone.getText().toString().trim());//SPUtil.get(getContext(), PHONE, "") + "");
+                        pushMap.put("picPath", uploadImg);
+                        pushMap.put("details", etContent.getContentText().trim());
+                        pushMap.put("stick", rbType + "");
+                        pushMap.put("payway", "0");
+                        pushMap.put("transactionId", "");
+                        pushMap.put("payload", "");
+                        pushMap.put("type", "");
+                        StringBuilder str = new StringBuilder();
+                        for (int i = 0; i < tagAdapter.getCount(); i++) {
+                            if (i < tagAdapter.getCount() - 1 && tagAdapter.getCount() > 1) {
+                                str.append(tagAdapter.getItem(i) + ",");
+                            } else {
+                                str.append(tagAdapter.getItem(i));
+                            }
                         }
+                        pushMap.put("keyword", tagAdapter.getCount() > 0 ? str.toString() : "");
+                        pushMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(pushMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                        getPresenter().getPush(pushMap, true, false);
                     }
-                    pushMap.put("keyword", tagAdapter.getCount() > 0 ? str.toString() : "");
-                    pushMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(pushMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-                    getPresenter().getPush(pushMap, true, false);
                 } else
                     ToastUtil.showShortToast("请将信息填写完整");
                 break;
@@ -570,14 +689,34 @@ public class PushFragment extends BaseFragment<PushContract.View, PushContract.P
         ToastUtil.showLongToast(data.getMsg());
         switch (data.getCode()) {
             case 200:
-                tvClassification.setText("选择分类");
-                etTitle.setText("");
-                etContact.setText("");
-                rivUpload.setImageResource(R.mipmap.bg_upload_class_room);
-                etContent.setContentText("");
-                etPhone.setText("");
-                tagAdapter.clearData();
-                tagAdapter.notifyDataSetChanged();
+                if (!isEmpty(data.getData().getSign2()))
+                    new AliPay(getActivity(), data.getData().getSign2(), 2);
+                else if (data.getData().getSign1() != null) {
+                    SPUtil.put(getContext(), WECHAT_BT_TYPE, 2);
+
+                    IWXAPI api = WXAPIFactory.createWXAPI(getContext(), null);
+                    api.registerApp("wx57313d36c4b4d0d7");
+                    PayReq req = new PayReq();
+                    req.appId = data.getData().getSign1().getAppid();//你的微信appid
+                    req.partnerId = data.getData().getSign1().getPartnerid();//商户号
+                    req.prepayId = data.getData().getSign1().getPrepayid();//预支付交易会话ID
+                    req.nonceStr = data.getData().getSign1().getNoncestr();//随机字符串
+                    req.timeStamp = data.getData().getSign1().getTimestamp() + "";//时间戳
+                    req.packageValue = data.getData().getSign1().getPackageX(); //扩展字段, 这里固定填写Sign = WXPay
+                    req.sign = data.getData().getSign1().getSign();//签名
+                    //  req.extData         = "app data"; // optional
+                    // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+                    api.sendReq(req);
+                } else {
+                    tvClassification.setText("选择分类");
+                    etTitle.setText("");
+                    etContact.setText("");
+                    rivUpload.setImageResource(R.mipmap.bg_upload_class_room);
+                    etContent.setContentText("");
+                    etPhone.setText("");
+                    tagAdapter.clearData();
+                    tagAdapter.notifyDataSetChanged();
+                }
                 break;
             case 900:
                 //清除所有临时储存

@@ -22,6 +22,7 @@ public interface IConstants {
     String USER_ID = "user_id"; //用户标识
     String NAME = "name"; //用户真实姓名
     String PHONE = "phone"; //用户手机号码
+    String MEMBER = "phone"; //是否是会员 0：不是，1：是
     String ALL_PEOPLE = "all_people"; //全民号码
     String WECHAT_CODE = "wechat_code"; //微信号码
     String AVATAR = "avatar"; //头像
@@ -29,6 +30,7 @@ public interface IConstants {
     String AGE = "age"; //年龄
     String MARITAL_STATUS = "marital_status"; //婚姻状况
     String CITY = "city"; //城市
+    String WECHAT_BT_TYPE = "wechat_bt_type"; //1:返回详情查看联系方式, 2:发布成功, 3:充值VIP成功
     String HOW_PAGE = "how_page"; //未登录时点击了首页的哪个Fragment，登录后就跳到哪个Fragment
 
 
@@ -47,7 +49,7 @@ public interface IConstants {
     int REQUEST_CODE_98 = 98;//我的关注 to 资讯详情
     int REQUEST_CODE_99 = 99;//我的购买 to 资讯详情
     int REQUEST_CODE_100 = 100;//更改微信号
-    int REQUEST_CODE_101 = 101;
+    int REQUEST_CODE_101 = 101;//开通会员回跳
     int REQUEST_CODE_102 = 102;
     int REQUEST_CODE_103 = 103;
     int REQUEST_CODE_104 = 104;
@@ -58,4 +60,10 @@ public interface IConstants {
      * 返回码
      */
     int RESULT_CODE = 0;
+
+    /**
+     *  appid
+     */
+    //wx57313d36c4b4d0d7
+//    wxbb948d62bc17b798
 }

@@ -17,27 +17,27 @@ import java.util.List;
  * Email ： 942685687@qq.com
  * Time ： 2019/6/23.
  */
-public class PointsAccountAdapter extends BaseQuickAdapter<AccountBean.DataBean.DetailedListBean, BaseViewHolder> {
+public class PointsAccountAdapter extends BaseQuickAdapter<AccountBean.DataBean.BalanceListBean, BaseViewHolder> {
     private SuperTextView stvPointsDetails;
 
-    public PointsAccountAdapter(@Nullable List<AccountBean.DataBean.DetailedListBean> data) {
+    public PointsAccountAdapter(@Nullable List<AccountBean.DataBean.BalanceListBean> data) {
         super(R.layout.adapter_points_account, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, AccountBean.DataBean.DetailedListBean item) {
+    protected void convert(BaseViewHolder helper, AccountBean.DataBean.BalanceListBean item) {
         stvPointsDetails = helper.getView(R.id.stv_points_details);
-        stvPointsDetails.setLeftTopString(item.getTitle())
-                .setLeftBottomString(item.getCreateTime());
-        if (!"".equals(item.getContent()))
-            stvPointsDetails.setLeftString(item.getContent());
-        switch (item.getAstype()) {
-            case "1":
-                stvPointsDetails.setRightString("+" + ("1".equals(item.getType()) ? item.getIntegralNum() : item.getMoney()))
+        stvPointsDetails
+                .setLeftBottomString(item.getCreatetime());
+        if (!"".equals(item.getTitle()))
+            stvPointsDetails.setLeftString(item.getTitle());
+        switch (item.getCategory()) {
+            case 1:
+                stvPointsDetails.setRightString("+" + item.getBalanceMoney())
                         .setRightTextColor(ApplicationUtil.getContext().getResources().getColor(R.color.tx_bottom_navigation_select));
                 break;
-            case "2":
-                stvPointsDetails.setRightString("-" + ("1".equals(item.getType()) ? item.getIntegralNum() : item.getMoney()))
+            case 2:
+                stvPointsDetails.setRightString("-" + item.getBalanceMoney())
                         .setRightTextColor(ApplicationUtil.getContext().getResources().getColor(R.color.black));
                 break;
         }

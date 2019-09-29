@@ -92,8 +92,8 @@ public abstract class BottomPayDialog extends Dialog implements View.OnClickList
                         ivAliPay.setImageResource(R.mipmap.ic_select_bt);
                         ivWechatPay.setImageResource(R.mipmap.ic_select_gray_bt);
                         payType = 1;
-                    } else if (activity.getResources().getDrawable(R.mipmap.ic_select_bt).getConstantState().equals(drawableAliPay)) {
-                        ivAliPay.setImageResource(R.mipmap.ic_select_gray_bt);
+//                    } else if (activity.getResources().getDrawable(R.mipmap.ic_select_bt).getConstantState().equals(drawableAliPay)) {
+//                        ivAliPay.setImageResource(R.mipmap.ic_select_gray_bt);
                     } else {
                         ivAliPay.setImageResource(R.mipmap.ic_select_bt);
                         payType = 1;
@@ -106,8 +106,8 @@ public abstract class BottomPayDialog extends Dialog implements View.OnClickList
                         ivAliPay.setImageResource(R.mipmap.ic_select_gray_bt);
                         ivWechatPay.setImageResource(R.mipmap.ic_select_bt);
                         payType = 2;
-                    } else if (activity.getResources().getDrawable(R.mipmap.ic_select_bt).getConstantState().equals(drawableWechatPay1)) {
-                        ivWechatPay.setImageResource(R.mipmap.ic_select_gray_bt);
+//                    } else if (activity.getResources().getDrawable(R.mipmap.ic_select_bt).getConstantState().equals(drawableWechatPay1)) {
+//                        ivWechatPay.setImageResource(R.mipmap.ic_select_gray_bt);
                     } else {
                         ivWechatPay.setImageResource(R.mipmap.ic_select_bt);
                         payType = 2;

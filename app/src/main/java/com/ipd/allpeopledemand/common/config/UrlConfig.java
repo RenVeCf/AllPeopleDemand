@@ -10,8 +10,10 @@ public interface UrlConfig {
     /**
      * 域名
      */
-    String BASE_URL = "http://47.93.126.235:8080/qmxq/";
-    String BASE_LOCAL_URL = "http://47.93.126.235:8080/";
+//    String BASE_URL = "http://47.93.126.235:8080/qmxq/";
+//    String BASE_LOCAL_URL = "http://47.93.126.235:8080/";
+    String BASE_URL = "http://xx.hanyu365.com.cn:8080/qmxq/";
+    String BASE_LOCAL_URL = "http://xx.hanyu365.com.cn:8080/";
 
     /**
      * 登陆
@@ -61,6 +63,7 @@ public interface UrlConfig {
     String UPLOAD_IMG = "appUser/util/upload"; //上传图片
     String INFORMATION = "appUser/User/updateUser"; //我的-个人资料修改
     String ACCOUNT = "appUser/myAccount/accountlist"; //我的账户列表
+    String ACCOUNT_LIST = "appUser/balance/getList"; //我的账户列表
     String MY_PUSH_LIST = "appUser/myRelease/list"; //我的发布列表
     String MY_PUSH_DETAILS = "appUser/myRelease/details"; //我的发布列表-详情
     String MY_PUSH_COLLECTION = "appUser/myRelease/collection"; //我的发布列表-详情-点击收藏
@@ -81,4 +84,6 @@ public interface UrlConfig {
     String MY_BUY_CLASS_ROOM_DETAILS = "appUser/myPurchase/classDetails"; //我的购买课堂-列表-详情
     String USER_INFO = "appUser/User/byUserId"; //我的-个人资料-通过用户id获取
     String CHECK_VERSION = "appUser/version/versionInfo"; //版本管理
+    String OPEN_MEMBER = "appUser/member_order/add"; //开通会员
+    String WITHDRAW = "appUser/withdraw/add"; //提现
 }

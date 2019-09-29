@@ -28,6 +28,100 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/y20"
+                android:background="@color/white"
+                android:padding="@dimen/x50">
+
+                <TextView
+                    android:id="@+id/tv_top"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="付费置顶:"
+                    android:textColor="@color/black"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textSize="16sp"/>
+
+                <RadioGroup
+                    android:id="@+id/rg_top"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/y250"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_top"
+                    android:paddingTop="@dimen/y50"
+                    android:paddingBottom="@dimen/y50">
+
+                    <RadioButton
+                        android:id="@+id/rb_one"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="@dimen/x20"
+                        android:checked="true"
+                        android:gravity="center"
+                        android:button="@null"
+                        android:background="@drawable/select_is_top"
+                        android:text="不置顶"
+                        android:textColor="@drawable/tx_select_main" />
+
+                    <RadioButton
+                        android:id="@+id/rb_two"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_marginStart="@dimen/x20"
+                        android:layout_marginEnd="@dimen/x20"
+                        android:button="@null"
+                        android:background="@drawable/select_is_top"
+                        android:text="￥ 1"
+                        android:textColor="@drawable/tx_select_main" />
+
+                    <RadioButton
+                        android:id="@+id/rb_three"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_marginStart="@dimen/x20"
+                        android:layout_marginEnd="@dimen/x20"
+                        android:button="@null"
+                        android:background="@drawable/select_is_top"
+                        android:text="￥ 3"
+                        android:textColor="@drawable/tx_select_main" />
+
+                    <RadioButton
+                        android:id="@+id/rb_four"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_marginStart="@dimen/x20"
+                        android:button="@null"
+                        android:background="@drawable/select_is_top"
+                        android:text="￥ 8"
+                        android:textColor="@drawable/tx_select_main" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/tv_top_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rg_top"
+                    android:textColor="@color/tx_bottom_navigation"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

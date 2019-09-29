@@ -70,6 +70,7 @@
             app:sEnableEdit="true"
             app:sLeftTextColor="@color/black"
             app:sLeftTextIsBold="true"
+            android:inputType="number"
             app:sLeftTextSize="20sp"
             app:sLeftTextString="¥"
             app:sRightMaxEms="15"
@@ -108,7 +109,8 @@
             android:paddingStart="@dimen/x30"
             android:visibility="gone"
             android:paddingEnd="@dimen/x30"
-            app:sLeftIconRes="@mipmap/ic_wechat"
+            app:sLeftIconHeight="@dimen/y180"
+            app:sLeftIconWidth="@dimen/x180"
             app:sLeftTextIsBold="true"
             app:sLeftTextSize="18sp" />
 

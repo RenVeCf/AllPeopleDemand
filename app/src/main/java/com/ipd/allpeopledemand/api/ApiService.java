@@ -35,6 +35,7 @@ import com.ipd.allpeopledemand.bean.MyPushDemandTypeBean;
 import com.ipd.allpeopledemand.bean.MyPushDetailsBean;
 import com.ipd.allpeopledemand.bean.MyPushEditBean;
 import com.ipd.allpeopledemand.bean.MyPushListBean;
+import com.ipd.allpeopledemand.bean.OpenMemberBean;
 import com.ipd.allpeopledemand.bean.PushBean;
 import com.ipd.allpeopledemand.bean.RegisterBean;
 import com.ipd.allpeopledemand.bean.ReportBean;
@@ -44,6 +45,8 @@ import com.ipd.allpeopledemand.bean.ShareListBean;
 import com.ipd.allpeopledemand.bean.SmsBean;
 import com.ipd.allpeopledemand.bean.UploadImgBean;
 import com.ipd.allpeopledemand.bean.UserInfoBean;
+import com.ipd.allpeopledemand.bean.WechatBindBean;
+import com.ipd.allpeopledemand.bean.WithdrawBean;
 
 import java.util.Map;
 
@@ -51,11 +54,13 @@ import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PartMap;
 
 import static com.ipd.allpeopledemand.common.config.UrlConfig.ACCOUNT;
+import static com.ipd.allpeopledemand.common.config.UrlConfig.ACCOUNT_LIST;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.ATTENTION_COLLECTION;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.ATTENTION_DETAILS;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.ATTENTION_LIST;
@@ -91,6 +96,7 @@ import static com.ipd.allpeopledemand.common.config.UrlConfig.MY_PUSH_DEMAND_TYP
 import static com.ipd.allpeopledemand.common.config.UrlConfig.MY_PUSH_DETAILS;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.MY_PUSH_EDIT;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.MY_PUSH_LIST;
+import static com.ipd.allpeopledemand.common.config.UrlConfig.OPEN_MEMBER;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.PUSH;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.REGISTER;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.REPORT;
@@ -100,6 +106,7 @@ import static com.ipd.allpeopledemand.common.config.UrlConfig.SHARE_LIST;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.SMS;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.UPLOAD_IMG;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.USER_INFO;
+import static com.ipd.allpeopledemand.common.config.UrlConfig.WITHDRAW;
 
 /**
  * Description ：请求配置
@@ -175,7 +182,7 @@ public interface ApiService {
 
     //我的账户列表
     @FormUrlEncoded
-    @POST(ACCOUNT)
+    @POST(ACCOUNT_LIST)
     Observable<AccountBean> getAccount(@FieldMap Map<String, String> map);
 
     //反馈-点击提交
@@ -331,4 +338,14 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(USER_INFO)
     Observable<UserInfoBean> getUserInfo(@FieldMap Map<String, String> map);
+
+    //开通会员
+    @FormUrlEncoded
+    @POST(OPEN_MEMBER)
+    Observable<OpenMemberBean> getOpenMember(@FieldMap Map<String, String> map);
+
+    //提现
+    @FormUrlEncoded
+    @POST(WITHDRAW)
+    Observable<WithdrawBean> getWithdraw(@FieldMap Map<String, String> map);
 }

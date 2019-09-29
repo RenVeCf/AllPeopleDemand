@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -52,6 +54,7 @@ import io.reactivex.ObservableTransformer;
 import static com.ipd.allpeopledemand.common.config.IConstants.ALL_PEOPLE;
 import static com.ipd.allpeopledemand.common.config.IConstants.AVATAR;
 import static com.ipd.allpeopledemand.common.config.IConstants.NAME;
+import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_101;
 import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_92;
 import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_96;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
@@ -95,6 +98,14 @@ public class MyFragment extends BaseFragment<CheckInContract.View, CheckInContra
     SuperTextView stvShare;
     @BindView(R.id.stv_setting)
     SuperTextView stvSetting;
+    @BindView(R.id.iv_vip)
+    ImageView ivVip;
+    @BindView(R.id.tv_vip_end_time)
+    TextView tvVipEndTime;
+    @BindView(R.id.cl_no_vip)
+    ConstraintLayout clNoVip;
+    @BindView(R.id.cl_is_vip)
+    ConstraintLayout clIsVip;
 
     private List<CheckInLayoutBean.DataBean.SignListBean> signListBean = new ArrayList<>();
     private int continueDays = 0;
@@ -173,20 +184,21 @@ public class MyFragment extends BaseFragment<CheckInContract.View, CheckInContra
                     medias.add(localMedia);
                     break;
                 case REQUEST_CODE_96:
+                case REQUEST_CODE_101:
                     initData();
                     break;
             }
         }
     }
 
-    @OnClick({R.id.cl_no_vip, R.id.bt_go_vip, R.id.ib_check_in, R.id.stv_information, R.id.stv_account, R.id.stv_push, R.id.stv_attention, R.id.stv_buy, R.id.stv_share, R.id.stv_setting, R.id.riv_head})
+    @OnClick({R.id.cl_no_vip, R.id.bt_go_vip, R.id.cl_is_vip, R.id.bt_go_vip1, R.id.ib_check_in, R.id.stv_information, R.id.stv_account, R.id.stv_push, R.id.stv_attention, R.id.stv_buy, R.id.stv_share, R.id.stv_setting, R.id.riv_head})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.cl_no_vip:
-                startActivity(new Intent(getContext(), VipActivity.class));
-                break;
             case R.id.bt_go_vip:
-                startActivity(new Intent(getContext(), VipActivity.class));
+            case R.id.cl_is_vip:
+            case R.id.bt_go_vip1:
+                startActivityForResult(new Intent(getContext(), VipActivity.class).putExtra("stop_time", tvVipEndTime.getText().toString().trim()), REQUEST_CODE_101);
                 break;
             case R.id.ib_check_in:
                 //签到
@@ -253,17 +265,27 @@ public class MyFragment extends BaseFragment<CheckInContract.View, CheckInContra
 
     @Override
     public void resultUserInfo(UserInfoBean data) {
-        if (data.getData().getUserLabel().size() > 0) {
-            if (data.getData().getUserLabel().size() < 2) {
-                tvRankLable.setText(data.getData().getUserLabel().get(0).getName());
-                tvCertificationLable.setVisibility(View.GONE);
-            } else if (data.getData().getUserLabel().size() < 3) {
-                tvRankLable.setText(data.getData().getUserLabel().get(0).getName());
-                tvCertificationLable.setText(data.getData().getUserLabel().get(1).getName());
-            }
-        } else {
+//        if (data.getData().getUserLabel().size() > 0) {
+//            if (data.getData().getUserLabel().size() < 2) {
+//                tvRankLable.setText(data.getData().getUserLabel().get(0).getName());
+//                tvCertificationLable.setVisibility(View.GONE);
+//            } else if (data.getData().getUserLabel().size() < 3) {
+//                tvRankLable.setText(data.getData().getUserLabel().get(0).getName());
+//                tvCertificationLable.setText(data.getData().getUserLabel().get(1).getName());
+//            }
+//        } else {
             tvRankLable.setVisibility(View.GONE);
             tvCertificationLable.setVisibility(View.GONE);
+//        }
+        if (data.getData().getUser().getMember() == 0) {
+            ivVip.setImageResource(R.mipmap.ic_no_vip);
+            clNoVip.setVisibility(View.VISIBLE);
+            clIsVip.setVisibility(View.GONE);
+        } else {
+            ivVip.setImageResource(R.mipmap.ic_vip);
+            clNoVip.setVisibility(View.GONE);
+            clIsVip.setVisibility(View.VISIBLE);
+            tvVipEndTime.setText(data.getData().getUser().getStoptime());
         }
     }
 

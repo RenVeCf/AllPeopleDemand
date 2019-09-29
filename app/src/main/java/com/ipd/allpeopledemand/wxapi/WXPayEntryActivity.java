@@ -17,6 +17,7 @@ import com.ipd.allpeopledemand.base.BaseView;
 import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
 import com.ipd.allpeopledemand.utils.L;
+import com.ipd.allpeopledemand.utils.SPUtil;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -25,6 +26,8 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.ipd.allpeopledemand.common.config.IConstants.WECHAT_BT_TYPE;
 
 public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandler {
 
@@ -43,6 +46,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
     private static final String TAG = "MicroMsg.SDKSample.WXPayEntryActivity";
     private IWXAPI api;
+    private int type;
 
     @Override
     public int getLayoutId() {
@@ -69,8 +73,22 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
         ivTopBack.setImageResource(R.mipmap.ic_back_white);
 
-        api = WXAPIFactory.createWXAPI(this, "wxbb948d62bc17b798");
+        api = WXAPIFactory.createWXAPI(this, "wx57313d36c4b4d0d7");
         api.handleIntent(getIntent(), this);
+
+        type = Integer.parseInt(SPUtil.get(this, WECHAT_BT_TYPE, 2) + "");
+        switch (type) {
+            case 1:
+                btConfirm.setText("返回详情查看联系方式");
+                break;
+            case 2:
+            case 3:
+                btConfirm.setText("发布成功");
+                break;
+            case 4:
+                btConfirm.setText("充值VIP成功");
+                break;
+        }
     }
 
     @Override
@@ -80,6 +98,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
     @Override
     public void initData() {
+
     }
 
     @Override
@@ -91,6 +110,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
     @Override
     public void onReq(BaseReq req) {
+
     }
 
     @SuppressLint("StringFormatInvalid")
@@ -128,12 +148,16 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_top_back:
-                setResult(RESULT_OK, new Intent().putExtra("pay_status", payStatus));
-                finish();
-                break;
             case R.id.bt_confirm:
-                setResult(RESULT_OK, new Intent().putExtra("pay_status", payStatus));
-                finish();
+                if (payStatus == 1 && type == 2) {
+                    Intent intent = new Intent("clear_push");
+                    intent.putExtra("is_clear", 1);
+                    this.sendBroadcast(intent);
+                    finish();
+                } else {
+                    setResult(RESULT_OK, new Intent().putExtra("pay_status", payStatus));
+                    finish();
+                }
                 break;
         }
     }

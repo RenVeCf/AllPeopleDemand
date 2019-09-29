@@ -15,6 +15,7 @@ import com.ipd.allpeopledemand.base.BasePresenter;
 import com.ipd.allpeopledemand.base.BaseView;
 import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
+import com.ipd.allpeopledemand.wxapi.WXEntryActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -39,6 +40,7 @@ public class PayStatusActivity extends BaseActivity {
     ImageView ivPay;
 
     private int payStatus = 0;//1 : 成功，2 :失败
+    private int btTx = 0;//1 : 返回详情查看联系方式，2 :发布成功, 3: 充值VIP成功
 
     @Override
     public int getLayoutId() {
@@ -65,6 +67,19 @@ public class PayStatusActivity extends BaseActivity {
 
         ivTopBack.setImageResource(R.mipmap.ic_back_white);
 
+        btTx = getIntent().getIntExtra("bt_tx", 0);
+        switch (btTx) {
+            case 1:
+                btConfirm.setText("返回详情查看联系方式");
+                break;
+            case 2:
+            case 3:
+                btConfirm.setText("发布成功");
+                break;
+            case 4:
+                btConfirm.setText("充值VIP成功");
+                break;
+        }
         payStatus = getIntent().getIntExtra("pay_status", 0);
         switch (payStatus) {
             case 1:
@@ -101,12 +116,16 @@ public class PayStatusActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_top_back:
-                setResult(RESULT_OK, new Intent().putExtra("pay_status", payStatus));
-                finish();
-                break;
             case R.id.bt_confirm:
-                setResult(RESULT_OK, new Intent().putExtra("pay_status", payStatus));
-                finish();
+                if (payStatus == 1 && btTx == 2) {
+                    Intent intent = new Intent("clear_push");
+                    intent.putExtra("is_clear", 1);
+                    this.sendBroadcast(intent);
+                    finish();
+                } else {
+                    setResult(RESULT_OK, new Intent().putExtra("pay_status", payStatus));
+                    finish();
+                }
                 break;
         }
     }

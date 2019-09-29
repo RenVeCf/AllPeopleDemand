@@ -58,7 +58,6 @@
         android:paddingEnd="@dimen/x50"
         android:paddingStart="@dimen/x50"
         android:paddingTop="@dimen/y20"
-        android:text="返回详情查看联系方式"
         android:textColor="@color/tx_bottom_navigation_select"
         android:textSize="16sp" />
 </LinearLayout>

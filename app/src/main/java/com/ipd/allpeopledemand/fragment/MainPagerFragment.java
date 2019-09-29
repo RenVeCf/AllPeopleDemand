@@ -145,12 +145,15 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
     private void sort(String orderByColumn, String isAsc, String pageNum) {
         TreeMap<String, String> classRoomPagerMap = new TreeMap<>();
         String userId = "";
-        if (SPUtil.get(getActivity(), USER_ID, "") == null)
+        if (SPUtil.contains(getActivity(), USER_ID)) {
+            if (SPUtil.get(getActivity(), USER_ID, "") == null)
+                userId = "0";
+            else if (isEmpty(SPUtil.get(getActivity(), USER_ID, "") + ""))
+                userId = "0";
+            else
+                userId = SPUtil.get(getActivity(), USER_ID, "") + "";
+        } else
             userId = "0";
-        else if (isEmpty(SPUtil.get(getActivity(), USER_ID, "") + ""))
-            userId = "0";
-        else
-            userId = SPUtil.get(getActivity(), USER_ID, "") + "";
 
         classRoomPagerMap.put("userId", userId);
         classRoomPagerMap.put("releaseClassId", releaseClassId);

@@ -72,6 +72,7 @@ import static android.Manifest.permission.SEND_SMS;
 import static android.text.TextUtils.TruncateAt.END;
 import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_90;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
+import static com.ipd.allpeopledemand.common.config.IConstants.WECHAT_BT_TYPE;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_LOCAL_URL;
 import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
 import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
@@ -688,7 +689,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
     public void resultMainAliPay(MainAliPayBean data) {
         switch (data.getCode()) {
             case 200:
-                new AliPay(InformationDetailsActivity.this, data.getData().getSign());
+                new AliPay(InformationDetailsActivity.this, data.getData().getSign(), 1);
                 break;
             case 900:
                 ToastUtil.showLongToast(data.getMsg());
@@ -705,8 +706,10 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
     public void resultMainWechatPay(MainWechatPayBean data) {
         switch (data.getCode()) {
             case 200:
+                SPUtil.put(this, WECHAT_BT_TYPE, 1);
+
                 IWXAPI api = WXAPIFactory.createWXAPI(this, null);
-                api.registerApp("wxbb948d62bc17b798");
+                api.registerApp("wx57313d36c4b4d0d7");
                 PayReq req = new PayReq();
                 req.appId = data.getData().getSign().getAppid();//你的微信appid
                 req.partnerId = data.getData().getSign().getPartnerid();//商户号
