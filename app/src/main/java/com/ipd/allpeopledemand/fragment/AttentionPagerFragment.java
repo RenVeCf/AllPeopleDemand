@@ -178,7 +178,7 @@ public class AttentionPagerFragment extends BaseFragment<AttentionListContract.V
                                             }
                                             break;
                                         case "2":
-                                            ToastUtil.showLongToast("该需求已下架！");
+                                            ToastUtil.showShortToast("该需求已下架！");
                                             break;
                                     }
                                 }
