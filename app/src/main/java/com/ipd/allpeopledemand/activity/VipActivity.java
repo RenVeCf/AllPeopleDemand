@@ -3,6 +3,7 @@ package com.ipd.allpeopledemand.activity;
 import android.content.Intent;
 import android.text.Html;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -66,6 +67,8 @@ public class VipActivity extends BaseActivity<OpenMemberContract.View, OpenMembe
     RadiusImageView ivHead;
     @BindView(R.id.name)
     TextView name;
+    @BindView(R.id.bt_vip)
+    Button btVip;
 
     private String stopTime;
 
@@ -93,12 +96,14 @@ public class VipActivity extends BaseActivity<OpenMemberContract.View, OpenMembe
 
         stopTime = getIntent().getStringExtra("stop_time");
         if (isEmpty(stopTime)) {
+            btVip.setText("立即开通");
             SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
             Calendar c = Calendar.getInstance();
             c.add(Calendar.DATE, 30);//计算30天后的时间
             String str2 = s.format(c.getTime());
             stopTime = str2;
-        }
+        } else
+            btVip.setText("续费VIP");
     }
 
     @Override

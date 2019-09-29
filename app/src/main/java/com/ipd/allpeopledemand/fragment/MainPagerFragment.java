@@ -1,6 +1,7 @@
 package com.ipd.allpeopledemand.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ import com.ipd.allpeopledemand.bean.MainListBean;
 import com.ipd.allpeopledemand.contract.MainPagerContract;
 import com.ipd.allpeopledemand.presenter.MainPagerPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
+import com.ipd.allpeopledemand.utils.L;
 import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.StringUtils;
@@ -53,6 +55,7 @@ import io.reactivex.functions.Consumer;
 import static com.ipd.allpeopledemand.common.config.IConstants.IS_LOGIN;
 import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_97;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
+import static com.ipd.allpeopledemand.utils.SPUtil.FILE_NAME;
 import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
 import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
 
@@ -131,6 +134,7 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
             @Override
             public void onRefresh() {
                 pageNum = 1;
+                isFirstPage = true;
                 initData();
                 srlMainPage.setRefreshing(false);
             }
@@ -145,7 +149,8 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
     private void sort(String orderByColumn, String isAsc, String pageNum) {
         TreeMap<String, String> classRoomPagerMap = new TreeMap<>();
         String userId = "";
-        if (SPUtil.contains(getActivity(), USER_ID)) {
+        if (getActivity().getSharedPreferences(FILE_NAME,
+                Context.MODE_PRIVATE) != null) {
             if (SPUtil.get(getActivity(), USER_ID, "") == null)
                 userId = "0";
             else if (isEmpty(SPUtil.get(getActivity(), USER_ID, "") + ""))
@@ -226,6 +231,7 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
             switch (requestCode) {
                 case REQUEST_CODE_97:
                     pageNum = 1;
+                    isFirstPage = true;
                     initData();
                     break;
             }

@@ -11,7 +11,7 @@ public class MyPushDemandTypeBean {
 
     private String msg;
     private int code;
-    private PushBean.DataBean data;
+    private DataBean data;
 
     public String getMsg() {
         return msg;
@@ -29,11 +29,11 @@ public class MyPushDemandTypeBean {
         this.code = code;
     }
 
-    public PushBean.DataBean getData() {
+    public DataBean getData() {
         return data;
     }
 
-    public void setData(PushBean.DataBean data) {
+    public void setData(DataBean data) {
         this.data = data;
     }
 
@@ -43,7 +43,7 @@ public class MyPushDemandTypeBean {
          * sign : {"package":"Sign=WXPay","appid":"wx57313d36c4b4d0d7","sign":"5BA219D6E492A8A7CD017690B26918F0","partnerid":"1544550131","prepayid":"wx2910395101911151a649413f1005444200","noncestr":"1039493829","timestamp":1569724790}
          */
 
-        private PushBean.DataBean.SignBean sign1;
+        private SignBean sign1;
         private String sign2;
 
         public String getSign2() {
@@ -54,11 +54,11 @@ public class MyPushDemandTypeBean {
             this.sign2 = sign2;
         }
 
-        public PushBean.DataBean.SignBean getSign1() {
+        public SignBean getSign1() {
             return sign1;
         }
 
-        public void setSign1(PushBean.DataBean.SignBean sign1) {
+        public void setSign1(SignBean sign1) {
             this.sign1 = sign1;
         }
 

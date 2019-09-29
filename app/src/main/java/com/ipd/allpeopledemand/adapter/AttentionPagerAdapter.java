@@ -39,7 +39,8 @@ public class AttentionPagerAdapter extends BaseMultiItemQuickAdapter<AttentionLi
                 helper.setText(R.id.tv_content, item.getTitle())
                         .setText(R.id.tv_name, item.getUserCall())
                         .setText(R.id.tv_time, FormatCurrentData.getTimeRange(item.getReleaseTime()))
-                        .setText(R.id.tv_label1, "1".equals(item.getNotPurchase()) ? "未购买" : "已购买")
+                        .setGone(R.id.tv_label1, false)
+//                        .setText(R.id.tv_label1, "1".equals(item.getNotPurchase()) ? "未购买" : "已购买")
                         .setText(R.id.tv_label2, item.getClassName())
                         .addOnClickListener(R.id.cb_collection);
                 break;

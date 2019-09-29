@@ -536,14 +536,14 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
         switch (data.getCode()) {
             case 200:
                 if (activityType != 2 && activityType != 4) {
-                    money = data.getData().getPrice().getMoney();
-                    balance = data.getData().getRelease().getBalance();
-                    IsPurchase = data.getData().getIsPurchase();
-                    if ("3".equals(IsPurchase)) {
+//                    money = data.getData().getPrice().getMoney();
+//                    balance = data.getData().getRelease().getBalance();
+//                    IsPurchase = data.getData().getIsPurchase();
+//                    if ("3".equals(IsPurchase)) {
                         llNotPay.setVisibility(View.GONE);
                         llPay.setVisibility(View.VISIBLE);
-                    }
-                    tvPayFee.setText(data.getData().getPrice().getMoney() + "元");
+//                    }
+//                    tvPayFee.setText(data.getData().getPrice().getMoney() + "元");
                 }
                 if (!isEmpty(data.getData().getRelease().getPicPath())) {
                     Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.ic_test_ad)).into(rivTitle);

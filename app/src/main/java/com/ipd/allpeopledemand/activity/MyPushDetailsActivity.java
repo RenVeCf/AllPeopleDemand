@@ -254,6 +254,18 @@ public class MyPushDetailsActivity extends BaseActivity<MyPushDetailsContract.Vi
                             }
                         }
                     }.show();
+                } else if (pushType == 1) {
+                    TreeMap<String, String> myPushDemandTypeMap = new TreeMap<>();
+                    myPushDemandTypeMap.put("userId", SPUtil.get(MyPushDetailsActivity.this, USER_ID, "") + "");
+                    myPushDemandTypeMap.put("releaseId", releaseId + "");
+                    myPushDemandTypeMap.put("status", "2");
+                    myPushDemandTypeMap.put("stick", "0");
+                    myPushDemandTypeMap.put("payway", "0");
+                    myPushDemandTypeMap.put("transactionId", "");
+                    myPushDemandTypeMap.put("payload", "");
+                    myPushDemandTypeMap.put("type", "0");
+                    myPushDemandTypeMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(myPushDemandTypeMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                    getPresenter().getMyPushDemandType(myPushDemandTypeMap, true, false);
                 } else {//不置顶
                     TreeMap<String, String> myPushDemandTypeMap = new TreeMap<>();
                     myPushDemandTypeMap.put("userId", SPUtil.get(MyPushDetailsActivity.this, USER_ID, "") + "");
@@ -337,39 +349,44 @@ public class MyPushDetailsActivity extends BaseActivity<MyPushDetailsContract.Vi
 
     @Override
     public void resultMyPushDemandType(MyPushDemandTypeBean data) {
-        ToastUtil.showShortToast(data.getMsg());
-        switch (data.getCode()) {
-            case 200:
-                if (!isEmpty(data.getData().getSign2()))
-                    new AliPay(this, data.getData().getSign2(), 3);
-                else if (data.getData().getSign1() != null) {
-                    SPUtil.put(this, WECHAT_BT_TYPE, 3);
+        try {
+            ToastUtil.showShortToast(data.getMsg());
+            switch (data.getCode()) {
+                case 200:
+                    if (!isEmpty(data.getData().getSign2()))
+                        new AliPay(this, data.getData().getSign2(), 3);
+                    else if (data.getData().getSign1() != null) {
+                        SPUtil.put(this, WECHAT_BT_TYPE, 3);
 
-                    IWXAPI api = WXAPIFactory.createWXAPI(this, null);
-                    api.registerApp("wx57313d36c4b4d0d7");
-                    PayReq req = new PayReq();
-                    req.appId = data.getData().getSign1().getAppid();//你的微信appid
-                    req.partnerId = data.getData().getSign1().getPartnerid();//商户号
-                    req.prepayId = data.getData().getSign1().getPrepayid();//预支付交易会话ID
-                    req.nonceStr = data.getData().getSign1().getNoncestr();//随机字符串
-                    req.timeStamp = data.getData().getSign1().getTimestamp() + "";//时间戳
-                    req.packageValue = data.getData().getSign1().getPackageX(); //扩展字段, 这里固定填写Sign = WXPay
-                    req.sign = data.getData().getSign1().getSign();//签名
-                    //  req.extData         = "app data"; // optional
-                    // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-                    api.sendReq(req);
-                } else {
-                    setResult(RESULT_OK, new Intent().putExtra("refresh", 1));
+                        IWXAPI api = WXAPIFactory.createWXAPI(this, null);
+                        api.registerApp("wx57313d36c4b4d0d7");
+                        PayReq req = new PayReq();
+                        req.appId = data.getData().getSign1().getAppid();//你的微信appid
+                        req.partnerId = data.getData().getSign1().getPartnerid();//商户号
+                        req.prepayId = data.getData().getSign1().getPrepayid();//预支付交易会话ID
+                        req.nonceStr = data.getData().getSign1().getNoncestr();//随机字符串
+                        req.timeStamp = data.getData().getSign1().getTimestamp() + "";//时间戳
+                        req.packageValue = data.getData().getSign1().getPackageX(); //扩展字段, 这里固定填写Sign = WXPay
+                        req.sign = data.getData().getSign1().getSign();//签名
+                        //  req.extData         = "app data"; // optional
+                        // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+                        api.sendReq(req);
+                    } else {
+                        setResult(RESULT_OK, new Intent().putExtra("refresh", 1));
+                        finish();
+                    }
+                    break;
+                case 900:
+                    //清除所有临时储存
+                    SPUtil.clear(ApplicationUtil.getContext());
+                    ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                    startActivity(new Intent(this, LoginActivity.class));
                     finish();
-                }
-                break;
-            case 900:
-                //清除所有临时储存
-                SPUtil.clear(ApplicationUtil.getContext());
-                ApplicationUtil.getManager().finishActivity(MainActivity.class);
-                startActivity(new Intent(this, LoginActivity.class));
-                finish();
-                break;
+                    break;
+            }
+        } catch (NullPointerException e) {
+            setResult(RESULT_OK, new Intent().putExtra("refresh", 1));
+            finish();
         }
     }
 
