@@ -126,7 +126,7 @@ public class ShareActivity extends BaseActivity<ShareContract.View, ShareContrac
         }
         oks.disableSSOWhenAuthorize();
         oks.setTitle(getString(R.string.app_name));
-        oks.setText("人人必备神器，发布资讯，招商引流，扩展人脉，解决需求，商机无限。");
+        oks.setText("如果你的梦想已经实现，\n请不要点开此链接");
         Bitmap bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ic_logo);//显示APP本身自带图片
         oks.setImageData(bitmap);//bitmap格式图片
         oks.setUrl(url);
@@ -142,7 +142,7 @@ public class ShareActivity extends BaseActivity<ShareContract.View, ShareContrac
         }
         //关闭sso授权
         oks.disableSSOWhenAuthorize();
-        oks.setTitle("人人必备神器，发布资讯，招商引流，扩展人脉，解决需求，商机无限。");
+        oks.setTitle("如果你的梦想已经实现，\n请不要点开此链接");
         // text是分享文本，所有平台都需要这个字段
         Bitmap bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ic_logo);//显示APP本身自带图片
         oks.setImageData(bitmap);//bitmap格式图片
