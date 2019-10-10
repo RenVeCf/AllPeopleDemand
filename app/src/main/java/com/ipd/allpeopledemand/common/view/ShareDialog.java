@@ -22,7 +22,7 @@ import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
  */
 public abstract class ShareDialog extends Dialog implements View.OnClickListener {
     private Activity activity;
-    private ImageButton ib_wechat, ib_moments;
+    private ImageButton ibWechat, ibMoments;
 
     public ShareDialog(Activity activity) {
         super(activity, R.style.MyDialogTheme);
@@ -34,11 +34,11 @@ public abstract class ShareDialog extends Dialog implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_share);
 
-        ib_wechat = (ImageButton) findViewById(R.id.ib_wechat);
-        ib_moments = (ImageButton) findViewById(R.id.ib_moments);
+        ibWechat = (ImageButton) findViewById(R.id.ib_wechat);
+        ibMoments = (ImageButton) findViewById(R.id.ib_moments);
 
-        ib_wechat.setOnClickListener(this);
-        ib_moments.setOnClickListener(this);
+        ibWechat.setOnClickListener(this);
+        ibMoments.setOnClickListener(this);
 
         setViewLocation();
         setCanceledOnTouchOutside(true);//外部点击取消
@@ -70,6 +70,7 @@ public abstract class ShareDialog extends Dialog implements View.OnClickListener
                 case R.id.ib_wechat:
                     goWechatShare();
                     this.cancel();
+                    break;
                 case R.id.ib_moments:
                     goMomentsShare();
                     this.cancel();

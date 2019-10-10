@@ -14,6 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="选择分享方式"
+        android:textSize="18sp"
         android:textColor="@color/black" />
 
     <LinearLayout
@@ -29,7 +30,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@null"
             android:src="@mipmap/ic_wechat" />
 
         <ImageButton
@@ -37,7 +37,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@null"
             android:src="@mipmap/ic_moments" />
     </LinearLayout>
 </LinearLayout>

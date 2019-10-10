@@ -124,13 +124,13 @@
                         android:id="@+id/cb_collection"
                         android:layout_width="@dimen/x100"
                         android:layout_height="@dimen/y100"
-                        android:layout_marginEnd="@dimen/x50"
                         android:button="@drawable/select_collection" />
 
                     <ImageButton
                         android:id="@+id/ib_share"
-                        android:layout_width="@dimen/x100"
-                        android:layout_height="@dimen/y100"
+                        android:layout_width="@dimen/x60"
+                        android:layout_height="@dimen/y60"
+                        android:scaleType="fitXY"
                         android:src="@mipmap/ic_share_white"/>
                 </LinearLayout>
             </LinearLayout>
