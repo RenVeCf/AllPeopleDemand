@@ -11,6 +11,7 @@ import com.ipd.allpeopledemand.bean.MainWechatPayBean;
 import com.ipd.allpeopledemand.bean.MyBuyDemandDetailsBean;
 import com.ipd.allpeopledemand.bean.ReportBean;
 import com.ipd.allpeopledemand.bean.ReportListBean;
+import com.ipd.allpeopledemand.bean.ShareBean;
 
 import java.util.TreeMap;
 
@@ -44,6 +45,8 @@ public interface AttentionContract {
 
         void resultMainBalancePay(MainBalancePayBean data);
 
+        void resultShare(ShareBean data);
+
         <T> ObservableTransformer<T, T> bindLifecycle();
     }
 
@@ -65,5 +68,7 @@ public interface AttentionContract {
         public abstract void getMainWechatPay(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
 
         public abstract void getMainBalancePay(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
+
+        public abstract void getShare(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
     }
 }

@@ -3,8 +3,10 @@ package com.ipd.allpeopledemand.activity;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.http.SslError;
 import android.os.Build;
 import android.view.MotionEvent;
@@ -33,20 +35,33 @@ import com.ipd.allpeopledemand.bean.ClassRoomBalancePayBean;
 import com.ipd.allpeopledemand.bean.ClassRoomDetailsBean;
 import com.ipd.allpeopledemand.bean.ClassRoomPagerBean;
 import com.ipd.allpeopledemand.bean.ClassRoomWechatPayBean;
+import com.ipd.allpeopledemand.bean.ShareBean;
 import com.ipd.allpeopledemand.common.view.JzvdStdMp3;
 import com.ipd.allpeopledemand.common.view.MyJzvdStd;
+import com.ipd.allpeopledemand.common.view.ShareDialog;
 import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.ClassRoomPagerContract;
 import com.ipd.allpeopledemand.presenter.ClassRoomPagerPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
+import com.ipd.allpeopledemand.utils.MD5Utils;
+import com.ipd.allpeopledemand.utils.SPUtil;
+import com.ipd.allpeopledemand.utils.StringUtils;
 import com.ipd.allpeopledemand.utils.ToastUtil;
 
+import java.util.TreeMap;
+
 import butterknife.BindView;
+import butterknife.OnClick;
 import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.wechat.friends.Wechat;
+import cn.sharesdk.wechat.moments.WechatMoments;
 import io.reactivex.ObservableTransformer;
 
+import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.common.config.UrlConfig.BASE_LOCAL_URL;
+import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
 
 /**
  * Description ：课堂详情
@@ -86,6 +101,7 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
     private ClassRoomDetailsBean.DataBean.RoomDetailsBean roomDetailsBean = new ClassRoomDetailsBean.DataBean.RoomDetailsBean();
     private int integral;
     private double money;
+    private String shareUrl = "", shareTitle = ""; //分享链接/标题
 
     /**
      * 视频全屏参数
@@ -173,6 +189,59 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
         return "<html>" + head + "<body>" + bodyHTML + "</body></html>";
     }
 
+    // 分享微信好友
+    private void showWeChatShare(String url, String platform) {
+        OnekeyShare oks = new OnekeyShare();
+        if (platform != null) {
+            oks.setPlatform(platform);
+        }
+        oks.disableSSOWhenAuthorize();
+        oks.setTitle(getString(R.string.app_name));
+        oks.setText(shareTitle);
+        Bitmap bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ic_logo);//显示APP本身自带图片
+        oks.setImageData(bitmap);//bitmap格式图片
+        oks.setUrl(url);
+        oks.setComment("很棒，值得分享！！");
+        oks.show(this);
+    }
+
+    // 分享微信朋友圈
+    private void showWechatMomentsShare(String url, String platform) {
+        OnekeyShare oks = new OnekeyShare();
+        if (platform != null) {
+            oks.setPlatform(platform);
+        }
+        //关闭sso授权
+        oks.disableSSOWhenAuthorize();
+        oks.setTitle(shareTitle);
+        // text是分享文本，所有平台都需要这个字段
+        Bitmap bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ic_logo);//显示APP本身自带图片
+        oks.setImageData(bitmap);//bitmap格式图片
+        // url仅在微信（包括好友和朋友圈）中使用
+        oks.setUrl(url);
+        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
+        oks.setComment("很棒，值得分享！！");
+        // 启动分享GUI
+        oks.show(this);
+    }
+
+    @OnClick(R.id.ib_share)
+    public void onViewClicked() {
+        new ShareDialog(this) {
+            @Override
+            public void goWechatShare() {
+                if (!isEmpty(shareUrl))
+                    showWeChatShare(shareUrl, Wechat.NAME);
+            }
+
+            @Override
+            public void goMomentsShare() {
+                if (!isEmpty(shareUrl))
+                    showWechatMomentsShare(shareUrl, WechatMoments.NAME);
+            }
+        }.show();
+    }
+
     static class MyWebViewClient extends WebViewClient {
         private Dialog dialog;
         private Activity activity;
@@ -214,6 +283,7 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
                 llAudioPlayer.setVisibility(View.GONE);
                 llVideoPlayer.setVisibility(View.GONE);
                 Glide.with(this).load(BASE_LOCAL_URL + roomDetailsBean.getThumbnail()).apply(new RequestOptions().placeholder(R.mipmap.bg_test_big_class_room)).into(ivClassRoomDetails);
+                shareTitle = roomDetailsBean.getTitle();
                 tvClassRoomTypeTitle.setText(roomDetailsBean.getTitle());
                 tvClassRoomType.setText("图文");
                 tvClassRoomType.setBackgroundResource(R.drawable.bg_class_room_text_label);
@@ -223,6 +293,7 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
                 llVideoPlayer.setVisibility(View.GONE);
                 ivClassRoomDetails.setVisibility(View.GONE);
                 wvContent.loadData(getHtmlData(roomDetailsBean.getContent()), "text/html;charset=utf-8", "utf-8");
+                shareTitle = roomDetailsBean.getTitle();
                 tvClassRoomTypeTitle.setText(roomDetailsBean.getTitle());
                 tvClassRoomType.setText("音频");
                 tvClassRoomType.setBackgroundResource(R.drawable.bg_class_room_audio_label);
@@ -244,6 +315,7 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
                 llAudioPlayer.setVisibility(View.GONE);
                 ivClassRoomDetails.setVisibility(View.GONE);
                 wvContent.loadData(getHtmlData(roomDetailsBean.getContent()), "text/html;charset=utf-8", "utf-8");
+                shareTitle = roomDetailsBean.getTitle();
                 tvClassRoomTypeTitle.setText(roomDetailsBean.getTitle());
                 tvClassRoomType.setText("视频");
                 tvClassRoomType.setBackgroundResource(R.drawable.bg_class_room_video_label);
@@ -267,6 +339,11 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
         tvClassRoomReadNum.setText(roomDetailsBean.getWatchNum() + "观看");
         tvClassRoomDate.setText(roomDetailsBean.getCreateTime().substring(0, 10));
         tvClassRoomPayFee.setText(money + "元");// + integral + "积分");
+
+        TreeMap<String, String> shareMap = new TreeMap<>();
+        shareMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+        shareMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(shareMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+        getPresenter().getShare(shareMap, false, false);
     }
 
     @Override
@@ -444,6 +521,23 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
     @Override
     public void resultClassRoomBalancePay(ClassRoomBalancePayBean data) {
 
+    }
+
+    @Override
+    public void resultShare(ShareBean data) {
+        switch (data.getCode()) {
+            case 200:
+                shareUrl = data.getData().getShareUrl() + "?" + "invitationCode=" + data.getData().getUser().getInvitationCode();
+                break;
+            case 900:
+                ToastUtil.showLongToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                break;
+        }
     }
 
     @Override

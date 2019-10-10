@@ -104,7 +104,14 @@
                 android:id="@+id/tv_class_room_pay_fee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/x50"
                 android:textColor="@color/tx_bottom_navigation_select" />
+
+            <ImageButton
+                android:id="@+id/ib_share"
+                android:layout_width="@dimen/x100"
+                android:layout_height="@dimen/y100"
+                android:src="@mipmap/ic_share_white"/>
         </LinearLayout>
     </LinearLayout>
 

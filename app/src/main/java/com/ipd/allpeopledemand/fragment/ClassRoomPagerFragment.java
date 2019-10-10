@@ -26,6 +26,7 @@ import com.ipd.allpeopledemand.bean.ClassRoomBalancePayBean;
 import com.ipd.allpeopledemand.bean.ClassRoomDetailsBean;
 import com.ipd.allpeopledemand.bean.ClassRoomPagerBean;
 import com.ipd.allpeopledemand.bean.ClassRoomWechatPayBean;
+import com.ipd.allpeopledemand.bean.ShareBean;
 import com.ipd.allpeopledemand.common.view.BottomPayDialog;
 import com.ipd.allpeopledemand.common.view.ClassRoomPayPromptDialog;
 import com.ipd.allpeopledemand.contract.ClassRoomPagerContract;
@@ -424,6 +425,11 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
                 getActivity().finish();
                 break;
         }
+    }
+
+    @Override
+    public void resultShare(ShareBean data) {
+
     }
 
     @Override

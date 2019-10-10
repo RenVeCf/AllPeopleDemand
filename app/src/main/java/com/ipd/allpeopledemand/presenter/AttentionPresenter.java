@@ -11,6 +11,7 @@ import com.ipd.allpeopledemand.bean.MainWechatPayBean;
 import com.ipd.allpeopledemand.bean.MyBuyDemandDetailsBean;
 import com.ipd.allpeopledemand.bean.ReportBean;
 import com.ipd.allpeopledemand.bean.ReportListBean;
+import com.ipd.allpeopledemand.bean.ShareBean;
 import com.ipd.allpeopledemand.contract.AttentionContract;
 import com.ipd.allpeopledemand.model.AttentionModel;
 import com.ipd.allpeopledemand.progress.ObserverResponseListener;
@@ -212,6 +213,27 @@ public class AttentionPresenter extends AttentionContract.Presenter {
                 //这一步是必须的，判断view是否已经被销毁
                 if (getView() != null) {
                     getView().resultMainBalancePay((MainBalancePayBean) o);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+                if (getView() != null) {
+                    //// TODO: 2017/12/28 自定义处理异常
+                    ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getShare(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
+        model.getShare(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+            @Override
+            public void onNext(Object o) {
+                //这一步是必须的，判断view是否已经被销毁
+                if (getView() != null) {
+                    getView().resultShare((ShareBean) o);
                 }
             }
 

@@ -3,6 +3,8 @@ package com.ipd.allpeopledemand.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.view.View;
@@ -38,8 +40,10 @@ import com.ipd.allpeopledemand.bean.MainWechatPayBean;
 import com.ipd.allpeopledemand.bean.MyBuyDemandDetailsBean;
 import com.ipd.allpeopledemand.bean.ReportBean;
 import com.ipd.allpeopledemand.bean.ReportListBean;
+import com.ipd.allpeopledemand.bean.ShareBean;
 import com.ipd.allpeopledemand.common.view.BottomPayDialog;
 import com.ipd.allpeopledemand.common.view.NotIntegralDialog;
+import com.ipd.allpeopledemand.common.view.ShareDialog;
 import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.AttentionContract;
 import com.ipd.allpeopledemand.presenter.AttentionPresenter;
@@ -64,6 +68,9 @@ import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.wechat.friends.Wechat;
+import cn.sharesdk.wechat.moments.WechatMoments;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.functions.Consumer;
 
@@ -135,6 +142,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
     private double money; //金额
     private double balance; //余额
     private String IsPurchase; //1积分不足，2未购买  3.购买了
+    private String shareUrl = "", shareTitle = ""; //分享链接/标题
 
     @Override
     public int getLayoutId() {
@@ -232,6 +240,11 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
         reportListMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
         reportListMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(reportListMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
         getPresenter().getReportList(reportListMap, false, false);
+
+        TreeMap<String, String> shareMap = new TreeMap<>();
+        shareMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+        shareMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(shareMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+        getPresenter().getShare(shareMap, false, false);
     }
 
     @Override
@@ -303,9 +316,60 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
         finish();
     }
 
-    @OnClick({R.id.ll_top_back, R.id.riv_title, R.id.cb_collection, R.id.bt_pay, R.id.bt_contact_msg, R.id.bt_contact_phone, R.id.bt_top_report})
+    // 分享微信好友
+    private void showWeChatShare(String url, String platform) {
+        OnekeyShare oks = new OnekeyShare();
+        if (platform != null) {
+            oks.setPlatform(platform);
+        }
+        oks.disableSSOWhenAuthorize();
+        oks.setTitle(getString(R.string.app_name));
+        oks.setText(shareTitle);
+        Bitmap bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ic_logo);//显示APP本身自带图片
+        oks.setImageData(bitmap);//bitmap格式图片
+        oks.setUrl(url);
+        oks.setComment("很棒，值得分享！！");
+        oks.show(this);
+    }
+
+    // 分享微信朋友圈
+    private void showWechatMomentsShare(String url, String platform) {
+        OnekeyShare oks = new OnekeyShare();
+        if (platform != null) {
+            oks.setPlatform(platform);
+        }
+        //关闭sso授权
+        oks.disableSSOWhenAuthorize();
+        oks.setTitle(shareTitle);
+        // text是分享文本，所有平台都需要这个字段
+        Bitmap bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ic_logo);//显示APP本身自带图片
+        oks.setImageData(bitmap);//bitmap格式图片
+        // url仅在微信（包括好友和朋友圈）中使用
+        oks.setUrl(url);
+        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
+        oks.setComment("很棒，值得分享！！");
+        // 启动分享GUI
+        oks.show(this);
+    }
+
+    @OnClick({R.id.ib_share, R.id.ll_top_back, R.id.riv_title, R.id.cb_collection, R.id.bt_pay, R.id.bt_contact_msg, R.id.bt_contact_phone, R.id.bt_top_report})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.ib_share:
+                new ShareDialog(this) {
+                    @Override
+                    public void goWechatShare() {
+                        if (!isEmpty(shareUrl))
+                            showWeChatShare(shareUrl, Wechat.NAME);
+                    }
+
+                    @Override
+                    public void goMomentsShare() {
+                        if (!isEmpty(shareUrl))
+                            showWechatMomentsShare(shareUrl, WechatMoments.NAME);
+                    }
+                }.show();
+                break;
             case R.id.ll_top_back:
                 if (isFastClick()) {
 //                    setResult(RESULT_OK, new Intent().putExtra("refresh", 1));
@@ -477,8 +541,8 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
 //                    balance = data.getData().getRelease().getBalance();
 //                    IsPurchase = data.getData().getIsPurchase();
 //                    if ("3".equals(IsPurchase)) {
-                        llNotPay.setVisibility(View.GONE);
-                        llPay.setVisibility(View.VISIBLE);
+                llNotPay.setVisibility(View.GONE);
+                llPay.setVisibility(View.VISIBLE);
 //                    }
 //                    tvPayFee.setText(data.getData().getPrice().getMoney() + "元 + " + data.getData().getPrice().getIntegral() + "积分");
 //                }
@@ -492,7 +556,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 } else
                     rivTitle.setVisibility(View.GONE);
                 Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getAvatar()).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into(rivHead);
-
+                shareTitle = data.getData().getRelease().getTitle();
                 tvSynopsis.setText(data.getData().getRelease().getTitle());
                 tvSynopsis.setOnExpandStateChangeListener(new ExpandableTextView.OnExpandStateChangeListener() {
                     @Override
@@ -540,8 +604,8 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
 //                    balance = data.getData().getRelease().getBalance();
 //                    IsPurchase = data.getData().getIsPurchase();
 //                    if ("3".equals(IsPurchase)) {
-                        llNotPay.setVisibility(View.GONE);
-                        llPay.setVisibility(View.VISIBLE);
+                    llNotPay.setVisibility(View.GONE);
+                    llPay.setVisibility(View.VISIBLE);
 //                    }
 //                    tvPayFee.setText(data.getData().getPrice().getMoney() + "元");
                 }
@@ -556,6 +620,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                     rivTitle.setVisibility(View.GONE);
                 Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getAvatar()).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into(rivHead);
 
+                shareTitle = data.getData().getRelease().getTitle();
                 tvSynopsis.setText(data.getData().getRelease().getTitle());
                 tvSynopsis.setOnExpandStateChangeListener(new ExpandableTextView.OnExpandStateChangeListener() {
                     @Override
@@ -609,6 +674,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                     rivTitle.setVisibility(View.GONE);
                 Glide.with(this).load(BASE_LOCAL_URL + data.getData().getDemandList().getAvatar()).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into(rivHead);
 
+                shareTitle = data.getData().getDemandList().getTitle();
                 tvSynopsis.setText(data.getData().getDemandList().getTitle());
                 tvSynopsis.setOnExpandStateChangeListener(new ExpandableTextView.OnExpandStateChangeListener() {
                     @Override
@@ -741,6 +807,23 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
                 startActivityForResult(new Intent(InformationDetailsActivity.this, PayStatusActivity.class).putExtra("pay_status", 1), REQUEST_CODE_90);
                 break;
             case 900:
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                break;
+        }
+    }
+
+    @Override
+    public void resultShare(ShareBean data) {
+        switch (data.getCode()) {
+            case 200:
+                shareUrl = data.getData().getShareUrl() + "?" + "invitationCode=" + data.getData().getUser().getInvitationCode();
+                break;
+            case 900:
+                ToastUtil.showLongToast(data.getMsg());
                 //清除所有临时储存
                 SPUtil.clear(ApplicationUtil.getContext());
                 ApplicationUtil.getManager().finishActivity(MainActivity.class);

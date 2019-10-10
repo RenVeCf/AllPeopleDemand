@@ -7,6 +7,7 @@ import com.ipd.allpeopledemand.bean.ClassRoomBalancePayBean;
 import com.ipd.allpeopledemand.bean.ClassRoomDetailsBean;
 import com.ipd.allpeopledemand.bean.ClassRoomPagerBean;
 import com.ipd.allpeopledemand.bean.ClassRoomWechatPayBean;
+import com.ipd.allpeopledemand.bean.ShareBean;
 
 import java.util.TreeMap;
 
@@ -32,6 +33,8 @@ public interface ClassRoomPagerContract {
 
         void resultClassRoomBalancePay(ClassRoomBalancePayBean data);
 
+        void resultShare(ShareBean data);
+
         <T> ObservableTransformer<T, T> bindLifecycle();
     }
 
@@ -45,5 +48,7 @@ public interface ClassRoomPagerContract {
         public abstract void getClassRoomWechatPay(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
 
         public abstract void getClassRoomBalancePay(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
+
+        public abstract void getShare(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
     }
 }
