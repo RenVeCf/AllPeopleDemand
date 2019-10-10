@@ -300,6 +300,7 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
                 switch (roomDetailsBean.getAudioType()) {
                     case "1":
                         jsAudioPlayer.setUp(BASE_LOCAL_URL + roomDetailsBean.getAudioFile(), roomDetailsBean.getTitle());
+                        wvPlayer.setVisibility(View.GONE);
                         break;
                     case "2":
                         llAudioPlayer.setVisibility(View.GONE);
@@ -322,6 +323,7 @@ public class ClassRoomDetailsActivity extends BaseActivity<ClassRoomPagerContrac
                 switch (roomDetailsBean.getVideoType()) {
                     case "1":
                         jsVideoPlayer.setUp(BASE_LOCAL_URL + roomDetailsBean.getVideoFile(), roomDetailsBean.getTitle());
+                        wvPlayer.setVisibility(View.GONE);
                         break;
                     case "2":
                         llVideoPlayer.setVisibility(View.GONE);
