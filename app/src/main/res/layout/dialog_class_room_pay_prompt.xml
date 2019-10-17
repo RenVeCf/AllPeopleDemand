@@ -27,7 +27,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/y100"
+        android:layout_marginTop="@dimen/y30"
+        android:layout_marginBottom="@dimen/y30"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -67,4 +68,25 @@
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_content_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/tx_bottom_navigation" />
+
+    <Button
+        android:id="@+id/bt_vip"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/y70"
+        android:paddingStart="@dimen/x50"
+        android:paddingEnd="@dimen/x50"
+        android:layout_marginTop="@dimen/y30"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/bg_gradient_bt"
+        android:gravity="center"
+        android:text="马上去开通VIP"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
 </LinearLayout>

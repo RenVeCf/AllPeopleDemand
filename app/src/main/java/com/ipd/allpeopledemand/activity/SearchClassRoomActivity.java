@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,6 +51,7 @@ import butterknife.BindView;
 import io.reactivex.ObservableTransformer;
 
 import static com.ipd.allpeopledemand.common.config.IConstants.IS_LOGIN;
+import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_101;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.common.config.IConstants.WECHAT_BT_TYPE;
 import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
@@ -124,8 +126,14 @@ public class SearchClassRoomActivity extends BaseActivity<ClassRoomPagerContract
         srlSearchClassRoom.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                pageNum = 1;
-                initData();
+                TreeMap<String, String> classRoomPagerMap = new TreeMap<>();
+                classRoomPagerMap.put("roomClassId", roomClassId + "");
+                classRoomPagerMap.put("orderByColumn", "");
+                classRoomPagerMap.put("isAsc", "");
+                classRoomPagerMap.put("pageNum", "1");
+                classRoomPagerMap.put("title", etTopLongSearchEd.getText().toString().trim());
+                classRoomPagerMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(classRoomPagerMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                getPresenter().getClassRoomPager(classRoomPagerMap, true, false);
                 srlSearchClassRoom.setRefreshing(false);
             }
         });
@@ -226,6 +234,25 @@ public class SearchClassRoomActivity extends BaseActivity<ClassRoomPagerContract
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            switch (requestCode) {
+                case REQUEST_CODE_101:
+                    TreeMap<String, String> classRoomPagerMap = new TreeMap<>();
+                    classRoomPagerMap.put("roomClassId", roomClassId + "");
+                    classRoomPagerMap.put("orderByColumn", "");
+                    classRoomPagerMap.put("isAsc", "");
+                    classRoomPagerMap.put("pageNum", "1");
+                    classRoomPagerMap.put("title", etTopLongSearchEd.getText().toString().trim());
+                    classRoomPagerMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(classRoomPagerMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                    getPresenter().getClassRoomPager(classRoomPagerMap, true, false);
+                    break;
+            }
+        }
+    }
+
+    @Override
     public void resultClassRoomDetails(ClassRoomDetailsBean data) {
         switch (data.getCode()) {
             case 200:
@@ -273,6 +300,11 @@ public class SearchClassRoomActivity extends BaseActivity<ClassRoomPagerContract
                                                 }
                                             }
                                         }.show();
+                                    }
+
+                                    @Override
+                                    public void goVip() {
+                                        startActivityForResult(new Intent(getContext(), VipActivity.class), REQUEST_CODE_101);
                                     }
                                 }.show();
                                 break;

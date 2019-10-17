@@ -30,7 +30,7 @@ public interface IConstants {
     String AGE = "age"; //年龄
     String MARITAL_STATUS = "marital_status"; //婚姻状况
     String CITY = "city"; //城市
-    String WECHAT_BT_TYPE = "wechat_bt_type"; //1:返回详情查看联系方式, 2:发布成功, 3:充值VIP成功
+    String WECHAT_BT_TYPE = "wechat_bt_type"; //1:返回详情查看联系方式, 2、3:发布成功, 4:充值VIP成功
     String HOW_PAGE = "how_page"; //未登录时点击了首页的哪个Fragment，登录后就跳到哪个Fragment
 
 

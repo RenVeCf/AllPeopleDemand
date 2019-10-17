@@ -89,7 +89,6 @@ public class ClassRoomFragment extends BaseFragment<ClassRoomInicationContract.V
         if (!hidden)
             ImmersionBar.with(this).statusBarDarkFont(true).init();
 
-
         TreeMap<String, String> isMsgMap = new TreeMap<>();
         isMsgMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
         isMsgMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(isMsgMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));

@@ -32,7 +32,7 @@ public class MyBuyClassRoomAdapter extends BaseQuickAdapter<MyBuyClassRoomListBe
 
     @Override
     protected void convert(BaseViewHolder helper, MyBuyClassRoomListBean.DataBean.RoomListBean item) {
-        Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + item.getThumbnail()).apply(new RequestOptions().placeholder(R.mipmap.bg_test_class_room)).into((RadiusImageView) helper.getView(R.id.iv_class_room));
+        Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + item.getThumbnail()).apply(new RequestOptions()).into((RadiusImageView) helper.getView(R.id.iv_class_room));
 
         switch (item.getType()) {
             case "1":

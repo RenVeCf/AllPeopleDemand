@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,7 @@ import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.activity.ClassRoomDetailsActivity;
 import com.ipd.allpeopledemand.activity.LoginActivity;
 import com.ipd.allpeopledemand.activity.MainActivity;
+import com.ipd.allpeopledemand.activity.VipActivity;
 import com.ipd.allpeopledemand.adapter.ClassRoomPagerAdapter;
 import com.ipd.allpeopledemand.aliPay.AliPay;
 import com.ipd.allpeopledemand.base.BaseFragment;
@@ -50,6 +52,7 @@ import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
 
 import static com.ipd.allpeopledemand.common.config.IConstants.IS_LOGIN;
+import static com.ipd.allpeopledemand.common.config.IConstants.REQUEST_CODE_101;
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.common.config.IConstants.WECHAT_BT_TYPE;
 import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
@@ -135,6 +138,19 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
                 srlClassRoomPager.setRefreshing(false);
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            switch (requestCode) {
+                case REQUEST_CODE_101:
+                    pageNum = 1;
+                    initData();
+                    break;
+            }
+        }
     }
 
     @OnClick({R.id.ll_sort_time, R.id.ll_sort_sales_volume})
@@ -269,8 +285,6 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
                         roomDetailsBean = data.getData().getRoomDetails();
                         switch (data.getData().getIsPurchase()) {
                             case "1":
-                                startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean).putExtra("integral", roomListBean.get(classroomIdPosition).getIntegral()).putExtra("money", roomListBean.get(classroomIdPosition).getMoney()));
-                                break;
                             case "2":
                                 startActivity(new Intent(getActivity(), ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean).putExtra("integral", roomListBean.get(classroomIdPosition).getIntegral()).putExtra("money", roomListBean.get(classroomIdPosition).getMoney()));
                                 break;
@@ -294,20 +308,25 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
 //                                                    余额直接支付
 //                                                    payType(3, roomListBean.get(classroomIdPosition).getClassroomId());
 //                                                } else {
-                                                    switch (payType) {
-                                                        case 1://支付宝
-                                                            payType(1, roomListBean.get(classroomIdPosition).getClassroomId());
-                                                            break;
-                                                        case 2://微信
-                                                            payType(2, roomListBean.get(classroomIdPosition).getClassroomId());
-                                                            break;
-                                                        default:
-                                                            ToastUtil.showShortToast("请选择支付方式！");
-                                                            break;
-                                                    }
+                                                switch (payType) {
+                                                    case 1://支付宝
+                                                        payType(1, roomListBean.get(classroomIdPosition).getClassroomId());
+                                                        break;
+                                                    case 2://微信
+                                                        payType(2, roomListBean.get(classroomIdPosition).getClassroomId());
+                                                        break;
+                                                    default:
+                                                        ToastUtil.showShortToast("请选择支付方式！");
+                                                        break;
+                                                }
 //                                                }
                                             }
                                         }.show();
+                                    }
+
+                                    @Override
+                                    public void goVip() {
+                                        startActivityForResult(new Intent(getContext(), VipActivity.class), REQUEST_CODE_101);
                                     }
                                 }.show();
                                 break;

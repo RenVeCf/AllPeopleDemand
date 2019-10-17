@@ -265,7 +265,9 @@ public class MyFragment extends BaseFragment<CheckInContract.View, CheckInContra
 
     @Override
     public void resultUserInfo(UserInfoBean data) {
-//        if (data.getData().getUserLabel().size() > 0) {
+        switch (data.getCode()) {
+            case 200:
+                //        if (data.getData().getUserLabel().size() > 0) {
 //            if (data.getData().getUserLabel().size() < 2) {
 //                tvRankLable.setText(data.getData().getUserLabel().get(0).getName());
 //                tvCertificationLable.setVisibility(View.GONE);
@@ -274,18 +276,28 @@ public class MyFragment extends BaseFragment<CheckInContract.View, CheckInContra
 //                tvCertificationLable.setText(data.getData().getUserLabel().get(1).getName());
 //            }
 //        } else {
-            tvRankLable.setVisibility(View.GONE);
-            tvCertificationLable.setVisibility(View.GONE);
+                tvRankLable.setVisibility(View.GONE);
+                tvCertificationLable.setVisibility(View.GONE);
 //        }
-        if (data.getData().getUser().getMember() == 0) {
-            ivVip.setImageResource(R.mipmap.ic_no_vip);
-            clNoVip.setVisibility(View.VISIBLE);
-            clIsVip.setVisibility(View.GONE);
-        } else {
-            ivVip.setImageResource(R.mipmap.ic_vip);
-            clNoVip.setVisibility(View.GONE);
-            clIsVip.setVisibility(View.VISIBLE);
-            tvVipEndTime.setText(data.getData().getUser().getStoptime());
+                if (data.getData().getUser().getMember() == 0) {
+                    ivVip.setImageResource(R.mipmap.ic_no_vip);
+                    clNoVip.setVisibility(View.VISIBLE);
+                    clIsVip.setVisibility(View.GONE);
+                } else {
+                    ivVip.setImageResource(R.mipmap.ic_vip);
+                    clNoVip.setVisibility(View.GONE);
+                    clIsVip.setVisibility(View.VISIBLE);
+                    tvVipEndTime.setText(data.getData().getUser().getStoptime());
+                }
+                break;
+            case 900:
+                ToastUtil.showLongToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                getActivity().finish();
+                break;
         }
     }
 

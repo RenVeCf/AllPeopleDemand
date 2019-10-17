@@ -136,7 +136,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="会员权益"
+                    android:text="VIP会员权益"
+                    android:textStyle="bold"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -145,6 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/y50"
                     android:text="会员分级"
+                    android:visibility="gone"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -152,12 +154,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/y30"
+                    android:visibility="gone"
                     android:text="普通会员/VIP会员"
                     android:textColor="@color/tx_bottom_navigation"
                     android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/y50"
                     android:text="升级条件"
@@ -167,6 +171,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/y30"
                     android:text="普通会员充值8元购买月会员，成为VIP会员"
                     android:textColor="@color/tx_bottom_navigation"
@@ -177,6 +182,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/y50"
                     android:text="VIP会员权益"
+                    android:visibility="gone"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -185,7 +191,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/y30"
                     android:text="发布资讯排序靠前"
-                    android:textColor="@color/tx_bottom_navigation"
+                    android:textColor="@color/bg_vip"
                     android:textSize="16sp" />
 
                 <TextView
@@ -193,15 +199,24 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/y30"
                     android:text="免费观看全部课程"
-                    android:textColor="@color/tx_bottom_navigation"
+                    android:textColor="@color/bg_vip"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/y30"
+                    android:text="邀请好友享受奖励, 充值续费奖金秒到个人账户"
+                    android:textColor="@color/bg_vip"
                     android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/y30"
-                    android:text="邀请好友享受奖励"
-                    android:textColor="@color/tx_bottom_navigation"
+                    android:text="普通会员充值8元购买月会员，成为VIP会员"
+                    android:textColor="@color/bg_vip"
                     android:textSize="16sp" />
             </LinearLayout>
 

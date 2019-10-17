@@ -160,5 +160,6 @@
     <color name="gray2">#999999</color> <!-- 时间、距离、购买量 -->
     <color name="bg_crude_line">#F5F5F5</color><!--粗线色 -->
     <color name="bg_fine_line">#CCCCCC</color><!--细线色 -->
+    <color name="bg_vip">#666666</color>
 
 </resources>

@@ -1,7 +1,11 @@
 package com.ipd.allpeopledemand.activity;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -15,6 +19,7 @@ import com.ipd.allpeopledemand.aliPay.AliPay;
 import com.ipd.allpeopledemand.base.BaseActivity;
 import com.ipd.allpeopledemand.bean.OpenMemberBean;
 import com.ipd.allpeopledemand.common.view.BottomPayDialog;
+import com.ipd.allpeopledemand.common.view.MyStyleSpan;
 import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.OpenMemberContract;
 import com.ipd.allpeopledemand.presenter.OpenMemberPresenter;
@@ -69,6 +74,8 @@ public class VipActivity extends BaseActivity<OpenMemberContract.View, OpenMembe
     TextView name;
     @BindView(R.id.bt_vip)
     Button btVip;
+    @BindView(R.id.tv_bold)
+    TextView tvBold;
 
     private String stopTime;
 
@@ -104,6 +111,12 @@ public class VipActivity extends BaseActivity<OpenMemberContract.View, OpenMembe
             stopTime = str2;
         } else
             btVip.setText("续费VIP");
+
+
+        SpannableStringBuilder ssb = new SpannableStringBuilder(Html.fromHtml("邀请好友享受奖励, <font color=\"#000000\">充值续费奖金秒到个人账户</font>"));
+        ssb.setSpan(new MyStyleSpan(Typeface.NORMAL), 10, 22, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tvBold.setText(ssb);
+        tvBold.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @Override

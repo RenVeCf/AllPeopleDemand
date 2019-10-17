@@ -53,7 +53,7 @@ public class MyBuyActivity extends BaseActivity<MyBuyContract.View, MyBuyContrac
 
     @BindView(R.id.tv_my_buy)
     TopView tvMyBuy;
-//    @BindView(R.id.rb_point)
+    //    @BindView(R.id.rb_point)
 //    RadioButton rbPoint;
 //    @BindView(R.id.rb_reward)
 //    RadioButton rbReward;
@@ -336,28 +336,34 @@ public class MyBuyActivity extends BaseActivity<MyBuyContract.View, MyBuyContrac
     public void resultMyBuyClassRoomDetails(MyBuyClassRoomDetailsBean data) {
         switch (data.getCode()) {
             case 200:
-                ClassRoomDetailsBean.DataBean.RoomDetailsBean roomDetailsBean = new ClassRoomDetailsBean.DataBean.RoomDetailsBean();
-                roomDetailsBean.setType(data.getData().getRoomDetails().getType());
-                roomDetailsBean.setThumbnail(data.getData().getRoomDetails().getThumbnail());
-                roomDetailsBean.setTitle(data.getData().getRoomDetails().getTitle());
-                roomDetailsBean.setContent(data.getData().getRoomDetails().getContent());
-                roomDetailsBean.setAudioType(data.getData().getRoomDetails().getAudioType());
-                roomDetailsBean.setAudioUrl(data.getData().getRoomDetails().getAudioUrl());
-                roomDetailsBean.setAudioFile(data.getData().getRoomDetails().getAudioFile());
-                roomDetailsBean.setVideoType(data.getData().getRoomDetails().getVideoType());
-                roomDetailsBean.setVideoUrl(data.getData().getRoomDetails().getVideoUrl());
-                roomDetailsBean.setAudioFile(data.getData().getRoomDetails().getAudioFile());
-                roomDetailsBean.setWatchNum(data.getData().getRoomDetails().getWatchNum());
-                roomDetailsBean.setCreateTime(data.getData().getRoomDetails().getCreateTime());
-                startActivity(new Intent(MyBuyActivity.this, ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean).putExtra("integral", roomListBean.get(pricePosition).getIntegral()).putExtra("money", roomListBean.get(pricePosition).getMoney()));
+                if (data.getData().getRoomDetails() != null) {
+                    ClassRoomDetailsBean.DataBean.RoomDetailsBean roomDetailsBean = new ClassRoomDetailsBean.DataBean.RoomDetailsBean();
+                    roomDetailsBean.setType(data.getData().getRoomDetails().getType());
+                    roomDetailsBean.setThumbnail(data.getData().getRoomDetails().getThumbnail());
+                    roomDetailsBean.setTitle(data.getData().getRoomDetails().getTitle());
+                    roomDetailsBean.setContent(data.getData().getRoomDetails().getContent());
+                    roomDetailsBean.setAudioType(data.getData().getRoomDetails().getAudioType());
+                    roomDetailsBean.setAudioUrl(data.getData().getRoomDetails().getAudioUrl());
+                    roomDetailsBean.setAudioFile(data.getData().getRoomDetails().getAudioFile());
+                    roomDetailsBean.setVideoType(data.getData().getRoomDetails().getVideoType());
+                    roomDetailsBean.setVideoUrl(data.getData().getRoomDetails().getVideoUrl());
+                    roomDetailsBean.setAudioFile(data.getData().getRoomDetails().getAudioFile());
+                    roomDetailsBean.setWatchNum(data.getData().getRoomDetails().getWatchNum());
+                    roomDetailsBean.setCreateTime(data.getData().getRoomDetails().getCreateTime());
+                    startActivity(new Intent(MyBuyActivity.this, ClassRoomDetailsActivity.class).putExtra("roomDetailsBean", roomDetailsBean).putExtra("integral", roomListBean.get(pricePosition).getIntegral()).putExtra("money", roomListBean.get(pricePosition).getMoney()));
+                } else
+                    ToastUtil.showShortToast("该课程已下架！");
                 break;
             case 900:
-                ToastUtil.showLongToast(data.getMsg());
+                ToastUtil.showShortToast(data.getMsg());
                 //清除所有临时储存
                 SPUtil.clear(ApplicationUtil.getContext());
                 ApplicationUtil.getManager().finishActivity(MainActivity.class);
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
+                break;
+            default:
+                ToastUtil.showShortToast(data.getMsg());
                 break;
         }
     }

@@ -24,8 +24,8 @@ import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
  * Time ： 2019/6/24.
  */
 public abstract class ClassRoomPayPromptDialog extends Dialog implements View.OnClickListener {
-    private TextView tvContent;
-    private Button btCancel, btPay;
+    private TextView tvContent, tvContent2;
+    private Button btCancel, btPay, btVip;
     private Activity activity;
     private double money = 0; //钱
     private int integral = 0; //积分
@@ -43,13 +43,17 @@ public abstract class ClassRoomPayPromptDialog extends Dialog implements View.On
         setContentView(R.layout.dialog_class_room_pay_prompt);
 
         tvContent = (TextView) findViewById(R.id.tv_content);
+        tvContent2 = (TextView) findViewById(R.id.tv_content_2);
         btCancel = (Button) findViewById(R.id.bt_cancel);
         btPay = (Button) findViewById(R.id.bt_pay);
+        btVip = (Button) findViewById(R.id.bt_vip);
 
         tvContent.setText(Html.fromHtml("您需先支付<font color=\"#E71B64\">" + money + "元</font>才可观看教程哦~"));
+        tvContent2.setText(Html.fromHtml("您还可以支付<font color=\"#E71B64\">" + money + "元</font>开通VIP全部课程包月"));
 
         btCancel.setOnClickListener(this);
         btPay.setOnClickListener(this);
+        btVip.setOnClickListener(this);
 
         setViewLocation();
         setCanceledOnTouchOutside(true);//外部点击取消
@@ -83,9 +87,15 @@ public abstract class ClassRoomPayPromptDialog extends Dialog implements View.On
                     goPay();
                     this.cancel();
                     break;
+                case R.id.bt_vip:
+                    goVip();
+                    this.cancel();
+                    break;
             }
         }
     }
 
     public abstract void goPay();
+
+    public abstract void goVip();
 }
