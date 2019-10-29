@@ -19,7 +19,7 @@ public class CustomUpdateParser implements IUpdateParser {
     @Override
     public UpdateEntity parseJson(String json) throws Exception {
         CheckVersionBean result = new Gson().fromJson(json, CheckVersionBean.class);
-        if (result != null) {
+        if (result != null && result.getCode() == 200) {
             boolean updateEntity = false;
             if (!getAppVersionName(ApplicationUtil.getContext(), PACKAGE_NAME).equals(result.getData().getVersion().getVersionNo())) {
                 updateEntity = true;

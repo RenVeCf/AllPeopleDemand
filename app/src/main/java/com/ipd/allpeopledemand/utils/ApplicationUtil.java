@@ -52,7 +52,7 @@ public class ApplicationUtil extends Application {
                     @Override
                     public void onFailure(UpdateError error) {
                         if (error.getCode() != CHECK_NO_NEW_VERSION) {          //对不同错误进行处理
-                            ToastUtil.showShortToast(error.toString());
+//                            ToastUtil.showShortToast(error.toString());
                         }
                     }
                 })

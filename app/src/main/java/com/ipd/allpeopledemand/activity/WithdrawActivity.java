@@ -1,9 +1,8 @@
 package com.ipd.allpeopledemand.activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,33 +13,27 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.base.BaseActivity;
 import com.ipd.allpeopledemand.bean.WechatBindBean;
-import com.ipd.allpeopledemand.bean.WechatUserInfoBean;
 import com.ipd.allpeopledemand.bean.WithdrawBean;
 import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.WithdrawContract;
 import com.ipd.allpeopledemand.presenter.WithdrawPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
-import com.ipd.allpeopledemand.utils.L;
 import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.StringUtils;
 import com.ipd.allpeopledemand.utils.ToastUtil;
-import com.tencent.mm.opensdk.modelmsg.SendAuth;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
-import java.io.IOException;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.wechat.friends.Wechat;
 import io.reactivex.ObservableTransformer;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 import static com.ipd.allpeopledemand.common.config.IConstants.USER_ID;
 import static com.ipd.allpeopledemand.utils.StringUtils.isEmpty;
@@ -52,7 +45,7 @@ import static com.ipd.allpeopledemand.utils.isClickUtil.isFastClick;
  * Email ： 942685687@qq.com
  * Time ： 2019/6/25.
  */
-public class WithdrawActivity extends BaseActivity<WithdrawContract.View, WithdrawContract.Presenter> implements WithdrawContract.View {
+public class WithdrawActivity extends BaseActivity<WithdrawContract.View, WithdrawContract.Presenter> implements WithdrawContract.View, PlatformActionListener {
 
     @BindView(R.id.tv_balance)
     TextView tvBalance;
@@ -65,8 +58,6 @@ public class WithdrawActivity extends BaseActivity<WithdrawContract.View, Withdr
     @BindView(R.id.tv_withdraw)
     TopView tvWithdraw;
 
-    private IWXAPI api;
-    private ReceiveBroadCast receiveBroadCast;
     private String openid;
 
     @Override
@@ -102,6 +93,32 @@ public class WithdrawActivity extends BaseActivity<WithdrawContract.View, Withdr
 
     }
 
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    Platform platform = (Platform) msg.obj;
+                    String response = platform.getDb().exportData();
+                    WechatBindBean jsonTopicsBean = new Gson().fromJson(response, WechatBindBean.class);
+
+                    openid = jsonTopicsBean.getOpenid();
+                    tvBindWechat.setVisibility(View.GONE);
+                    tvIsWechat.setVisibility(View.VISIBLE);
+                    tvIsWechat.setLeftString(platform.getDb().getUserName());
+                    Glide.with(ApplicationUtil.getContext()).load(platform.getDb().getUserIcon()).apply(new RequestOptions()).into(tvIsWechat.getLeftIconIV());
+                    break;
+                case 2:
+                    ToastUtil.showLongToast("授权失败");
+                    break;
+                case 3:
+                    ToastUtil.showLongToast("授权取消");
+                    break;
+            }
+        }
+    };
+
     @OnClick({R.id.rv_withdraw, R.id.tv_bind_wechat})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -114,7 +131,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawContract.View, Withdr
                             openMemberMap.put("openId", openid);
                             openMemberMap.put("money", tvWithdrawFee.getCenterEditValue());
                             openMemberMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(openMemberMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
-                            getPresenter().getWithdraw(openMemberMap, true, false);
+                            getPresenter().getWithdraw(openMemberMap, false, false);
                         } else
                             ToastUtil.showLongToast("提现金额为10-1000元");
                     } else
@@ -122,13 +139,28 @@ public class WithdrawActivity extends BaseActivity<WithdrawContract.View, Withdr
                 }
                 break;
             case R.id.tv_bind_wechat:
-                api = WXAPIFactory.createWXAPI(this, "wxbb948d62bc17b798", true);
-                SendAuth.Req req = new SendAuth.Req();
-                req.scope = "snsapi_userinfo";
-                req.state = "wx_withdraw";
-                api.sendReq(req);
+                Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
+                wechat.setPlatformActionListener(this);
+                wechat.SSOSetting(false);
+                if (!wechat.isClientValid())
+                    ToastUtil.showLongToast("微信未安装,请先安装微信");
+                authorize(wechat);
                 break;
         }
+    }
+
+    /**
+     * 授权
+     *
+     * @param platform
+     */
+    private void authorize(Platform platform) {
+        if (platform == null) {
+            return;
+        }
+        if (platform.isAuthValid()) //如果授权就删除授权资料
+            platform.removeAccount(true);
+        platform.showUser(null); //授权并获取用户信息
     }
 
     @Override
@@ -143,82 +175,28 @@ public class WithdrawActivity extends BaseActivity<WithdrawContract.View, Withdr
         finish();
     }
 
-    class ReceiveBroadCast extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            unregisterReceiver(receiveBroadCast);
-            String url = "code=" + intent.getStringExtra("code") + "&grant_type=authorization_code";
-            L.i("url = " + url);
-            Request r = new Request.Builder()
-                    .url("https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxbb948d62bc17b798&secret=7318c04d463f41c7e61226cd67cad1c8&" + url)
-                    .get()
-                    .build();
-            OkHttpClient client = new OkHttpClient();
-            client.newCall(r).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    ToastUtil.showShortToast(e + "");
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    WechatBindBean jsonTopicsBean = new Gson().fromJson(response.body().string(), WechatBindBean.class);
-                    openid = jsonTopicsBean.getOpenid();
-
-                    getPersonMessage(jsonTopicsBean.getAccess_token(), openid);
-                }
-            });
-        }
-    }
-
-    //获取微信个人资料
-    private void getPersonMessage(String access_token, String openid) {
-        String url = "https://api.weixin.qq.com/sns/userinfo?access_token="
-                + access_token
-                + "&openid="
-                + openid;
-
-        Request r = new Request.Builder()
-                .url(url)
-                .get()
-                .build();
-        OkHttpClient client = new OkHttpClient();
-        client.newCall(r).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                ToastUtil.showShortToast(e + "");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                WechatUserInfoBean jsonTopicsBean = new Gson().fromJson(response.body().string(), WechatUserInfoBean.class);
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        tvBindWechat.setVisibility(View.GONE);
-                        tvIsWechat.setVisibility(View.VISIBLE);
-                        tvIsWechat.setLeftString(jsonTopicsBean.getNickname());
-                        Glide.with(ApplicationUtil.getContext()).load(jsonTopicsBean.getHeadimgurl()).apply(new RequestOptions()).into(tvIsWechat.getLeftIconIV());
-                    }
-                });
-            }
-        });
+    @Override
+    public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+        Message message = Message.obtain();
+        message.what = 1;
+        message.obj = platform;
+        mHandler.sendMessage(message);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        receiveBroadCast = new ReceiveBroadCast();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("authlogin");
-        registerReceiver(receiveBroadCast, filter);
+    public void onError(Platform platform, int i, Throwable throwable) {
+        Message message = Message.obtain();
+        message.what = 2;
+        message.obj = platform;
+        mHandler.sendMessage(message);
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(receiveBroadCast);
+    public void onCancel(Platform platform, int i) {
+        Message message = Message.obtain();
+        message.what = 3;
+        message.obj = platform;
+        mHandler.sendMessage(message);
     }
 
     @Override

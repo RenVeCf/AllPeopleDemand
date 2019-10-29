@@ -15,7 +15,6 @@ import com.ipd.allpeopledemand.base.BasePresenter;
 import com.ipd.allpeopledemand.base.BaseView;
 import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
-import com.ipd.allpeopledemand.wxapi.WXEntryActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;

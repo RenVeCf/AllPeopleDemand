@@ -616,7 +616,7 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
 
     @Override
     public void resultMainADImg(MainADImgBean data) {
-        if (data.getCode() == 200 && !isEmpty(data.getData().getUpadvert().getPicPath())) {
+        if (data.getCode() == 200 && data.getData().getUpadvert() != null && !isEmpty(data.getData().getUpadvert().getPicPath())) {
             new MainADImgDialog(getActivity(), data.getData().getUpadvert().getPicPath()) {
                 @Override
                 public void goSee() {

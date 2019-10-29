@@ -33,7 +33,6 @@ import com.ipd.allpeopledemand.bean.MainListBean;
 import com.ipd.allpeopledemand.contract.MainPagerContract;
 import com.ipd.allpeopledemand.presenter.MainPagerPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
-import com.ipd.allpeopledemand.utils.L;
 import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.StringUtils;
@@ -92,7 +91,7 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
     private int pageNum = 1; //页数
     private String region = "";//搜索时的区域
     private String title = "";//搜索时的文本
-    private boolean isFirstPage = true;
+//    private boolean isFirstPage = true;
 
     @Override
     public int getLayoutId() {
@@ -134,7 +133,7 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
             @Override
             public void onRefresh() {
                 pageNum = 1;
-                isFirstPage = true;
+//                isFirstPage = true;
                 initData();
                 srlMainPage.setRefreshing(false);
             }
@@ -231,7 +230,7 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
             switch (requestCode) {
                 case REQUEST_CODE_97:
                     pageNum = 1;
-                    isFirstPage = true;
+//                    isFirstPage = true;
                     initData();
                     break;
             }
@@ -269,7 +268,7 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
 //                    }
 //                }
                 if (pageNum == 1) {
-                    if (isFirstPage) {
+//                    if (isFirstPage) {
                         releaseListBean.clear();
                         releaseListBean.addAll(data.getData().getReleaseList());
                         mainPagerAdapter = new MainPagerAdapter(releaseListBean);
@@ -278,10 +277,10 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
                         mainPagerAdapter.setEnableLoadMore(true);
                         mainPagerAdapter.openLoadAnimation();
                         mainPagerAdapter.disableLoadMoreIfNotFullPage();
-                        isFirstPage = false;
-                    } else {
-                        mainPagerAdapter.addData(data.getData().getReleaseList());
-                    }
+//                        isFirstPage = false;
+//                    } else {
+//                        mainPagerAdapter.addData(data.getData().getReleaseList());
+//                    }
                     mainPagerAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -356,11 +355,13 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
 
                     if (data.getTotal() > 10) {
                         pageNum += 1;
-                        mainPagerAdapter.loadMoreComplete(); //完成本次
+//                        mainPagerAdapter.addData(data.getData().getReleaseList());
+//                        mainPagerAdapter.loadMoreComplete(); //完成本次
                     } else {
-                        pageNum = 1;
-                        mainPagerAdapter.loadMoreComplete(); //完成本次
-//                        mainPagerAdapter.loadMoreEnd();
+//                        pageNum = 1;
+//                        mainPagerAdapter.loadMoreComplete(); //完成本次
+//                        mainPagerAdapter.addData(data.getData().getReleaseList());
+                        mainPagerAdapter.loadMoreEnd();
                     }
                 } else {
                     if ((data.getTotal() - pageNum * 10) > 0) {
@@ -368,10 +369,10 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
                         mainPagerAdapter.addData(data.getData().getReleaseList());
                         mainPagerAdapter.loadMoreComplete(); //完成本次
                     } else {
-                        pageNum = 1;
+//                        pageNum = 1;
                         mainPagerAdapter.addData(data.getData().getReleaseList());
-                        mainPagerAdapter.loadMoreComplete(); //完成本次
-//                        mainPagerAdapter.loadMoreEnd(); //完成所有加载
+//                        mainPagerAdapter.loadMoreComplete(); //完成本次
+                        mainPagerAdapter.loadMoreEnd(); //完成所有加载
                     }
                 }
             } else {
