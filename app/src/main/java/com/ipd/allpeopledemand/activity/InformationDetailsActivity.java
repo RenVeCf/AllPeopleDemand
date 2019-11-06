@@ -549,7 +549,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
 //                    tvPayFee.setText(data.getData().getPrice().getMoney() + "元 + " + data.getData().getPrice().getIntegral() + "积分");
 //                }
                 if (!isEmpty(data.getData().getRelease().getPicPath())) {
-                    Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.ic_test_ad)).into(rivTitle);
+                    Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getPicPath()).apply(new RequestOptions()).into(rivTitle);
                     medias.clear();
                     LocalMedia localMedia = new LocalMedia();
                     localMedia.setCompressed(true);
@@ -612,7 +612,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
 //                    tvPayFee.setText(data.getData().getPrice().getMoney() + "元");
                 }
                 if (!isEmpty(data.getData().getRelease().getPicPath())) {
-                    Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.ic_test_ad)).into(rivTitle);
+                    Glide.with(this).load(BASE_LOCAL_URL + data.getData().getRelease().getPicPath()).apply(new RequestOptions()).into(rivTitle);
                     medias.clear();
                     LocalMedia localMedia = new LocalMedia();
                     localMedia.setCompressed(true);
@@ -666,7 +666,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
         switch (data.getCode()) {
             case 200:
                 if (!isEmpty(data.getData().getDemandList().getPicPath())) {
-                    Glide.with(this).load(BASE_LOCAL_URL + data.getData().getDemandList().getPicPath()).apply(new RequestOptions().placeholder(R.mipmap.ic_test_ad)).into(rivTitle);
+                    Glide.with(this).load(BASE_LOCAL_URL + data.getData().getDemandList().getPicPath()).apply(new RequestOptions()).into(rivTitle);
                     medias.clear();
                     LocalMedia localMedia = new LocalMedia();
                     localMedia.setCompressed(true);

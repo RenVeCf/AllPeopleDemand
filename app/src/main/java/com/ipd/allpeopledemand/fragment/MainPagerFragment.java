@@ -353,7 +353,7 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
                         }
                     }, rvMainPage);
 
-                    if (data.getTotal() > 10) {
+                    if (data.getTotal() > 5) {
                         pageNum += 1;
 //                        mainPagerAdapter.addData(data.getData().getReleaseList());
 //                        mainPagerAdapter.loadMoreComplete(); //完成本次
@@ -364,7 +364,7 @@ public class MainPagerFragment extends BaseFragment<MainPagerContract.View, Main
                         mainPagerAdapter.loadMoreEnd();
                     }
                 } else {
-                    if ((data.getTotal() - pageNum * 10) > 0) {
+                    if ((data.getTotal() - pageNum * 5) > 0) {
                         pageNum += 1;
                         mainPagerAdapter.addData(data.getData().getReleaseList());
                         mainPagerAdapter.loadMoreComplete(); //完成本次
