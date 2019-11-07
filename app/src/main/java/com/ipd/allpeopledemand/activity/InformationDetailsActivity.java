@@ -342,7 +342,7 @@ public class InformationDetailsActivity extends BaseActivity<AttentionContract.V
         //关闭sso授权
         oks.disableSSOWhenAuthorize();
 //        oks.setTitle(shareTitle);
-        oks.setText("《安卓版》注册即拥百万\n粉丝广告随便发");
+        oks.setTitle("《安卓版》注册即拥百万\n粉丝广告随便发");
         // text是分享文本，所有平台都需要这个字段
         Bitmap bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ic_logo);//显示APP本身自带图片
         oks.setImageData(bitmap);//bitmap格式图片
