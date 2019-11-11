@@ -182,7 +182,7 @@ public class ShareActivity extends BaseActivity<ShareContract.View, ShareContrac
 //                tvAverageShareNum.setText("推荐邀请好友平均值: " + data.getData().getInvAverage());
                 Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + data.getData().getUser().getAvatar()).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into(stvTitle.getLeftIconIV());
                 stvTitle.setLeftString(data.getData().getUser().getUserCall());
-                createQRCodeWithLogo(null, data.getData().getShareUrl());
+                createQRCodeWithLogo(null, shareUrl);
                 break;
             case 900:
                 ToastUtil.showLongToast(data.getMsg());
