@@ -40,11 +40,21 @@ public class UserInfoBean {
     public static class DataBean {
         /**
          * userLabel : [{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":"2019-07-26 19:25:19","remark":null,"params":{},"labelId":1,"name":"创始股东01","flag":false},{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":"2019-07-26 19:25:30","remark":null,"params":{},"labelId":2,"name":"芝麻信用","flag":false}]
+         * fettle : 1
          * user : {"searchValue":null,"createBy":null,"createTime":"2019-07-24 14:18:48","updateBy":null,"updateTime":null,"remark":null,"params":{},"userId":4,"avatar":"upload/2019/07/24/c1cf7757d0e93683856a29458f0b73ca.jpeg","telPhone":"18502994087","password":"8cd53fc68f2dfba49e3c7871fac0443a","userCall":"ooooo","parentId":0,"balance":70,"nationalNum":"20190724522","sex":"1","age":3,"maritalStatus":"1","userType":"1","integral":66,"twoCode":"upload/QRCode/20190724522.png","invitationCode":"ao44dkem","labelIds":"1,2"}
          */
 
         private UserBean user;
+        private int fettle;
         private List<UserLabelBean> userLabel;
+
+        public int getFettle() {
+            return fettle;
+        }
+
+        public void setFettle(int fettle) {
+            this.fettle = fettle;
+        }
 
         public UserBean getUser() {
             return user;
@@ -115,6 +125,7 @@ public class UserInfoBean {
             private String sex;
             private int age;
             private String maritalStatus;
+            private int levels;
             private String userType;
             private int integral;
             private String twoCode;
@@ -128,6 +139,14 @@ public class UserInfoBean {
             private Object userNum;
             private int member;
             private String stoptime;
+
+            public int getLevels() {
+                return levels;
+            }
+
+            public void setLevels(int levels) {
+                this.levels = levels;
+            }
 
             public Object getSearchValue() {
                 return searchValue;

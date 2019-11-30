@@ -47,6 +47,7 @@
 
                 <ImageView
                     android:id="@+id/iv_vip"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -76,15 +77,6 @@
                         android:textColor="@color/white"
                         android:textSize="18sp" />
 
-                    <TextView
-                        android:id="@+id/tv_all_people_code"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/x20"
-                        android:layout_weight="2"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
-
                     <ImageButton
                         android:id="@+id/ib_check_in"
                         android:layout_width="0dp"
@@ -97,6 +89,14 @@
                         android:paddingBottom="@dimen/y150"
                         android:src="@mipmap/ic_check_in" />
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_all_people_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -183,6 +183,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_no_vip"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="@dimen/y300">
 
                 <ImageView
@@ -243,8 +244,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_is_vip"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/y300"
-                android:visibility="gone">
+                android:layout_height="@dimen/y300">
 
                 <ImageView
                     android:layout_width="0dp"
@@ -268,12 +268,12 @@
                     app:riv_is_circle="true" />
 
                 <TextView
+                    android:id="@+id/tv_levels"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginTop="@dimen/y50"
                     android:layout_marginStart="@dimen/x50"
-                    android:text="VIP用户"
                     android:textStyle="bold"
                     android:textColor="#AF4A17"
                     android:textSize="18sp"
@@ -300,7 +300,7 @@
                     android:layout_marginEnd="@dimen/x100"
                     android:layout_width="@dimen/x200"
                     android:layout_height="@dimen/y90"
-                    android:text="续费VIP" />
+                    android:text="续费会员" />
 
                 <ImageView
                     android:layout_width="wrap_content"

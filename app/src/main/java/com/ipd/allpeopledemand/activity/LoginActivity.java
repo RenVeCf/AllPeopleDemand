@@ -65,6 +65,8 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
     @BindView(R.id.ll_login)
     LinearLayout llLogin;
 
+    private long firstTime = 0;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_login;
@@ -100,9 +102,13 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
+        long secondTime = System.currentTimeMillis();
+        if (secondTime - firstTime > 2000) {
+            ToastUtil.showShortToast(getResources().getString(R.string.click_out_again));
+            firstTime = secondTime;
+        } else {
+            ApplicationUtil.getManager().exitApp();
+        }
     }
 
     @OnClick({R.id.ll_top_back, R.id.tv_forget_pwd, R.id.tv_register, R.id.rv_login})
@@ -120,7 +126,8 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
                 break;
             case R.id.tv_register:
                 if (isFastClick())
-                    startActivity(new Intent(this, RegisterActivity.class));
+                    ToastUtil.showShortToast("仅供邀请用户使用");
+//                    startActivity(new Intent(this, RegisterActivity.class));
                 break;
             case R.id.rv_login:
                 if (isFastClick()) {
@@ -168,8 +175,10 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
                     break;
             }
             SPUtil.put(this, MARITAL_STATUS, maritalStatus);
-
-            startActivity(new Intent(this, MainActivity.class).putExtra("howFragment", Integer.parseInt(SPUtil.get(this, HOW_PAGE, "0") + "")));
+            if (data.getData().getUser().getMember() != 0)
+                startActivity(new Intent(this, MainActivity.class).putExtra("howFragment", Integer.parseInt(SPUtil.get(this, HOW_PAGE, "0") + "")));
+            else
+                startActivity(new Intent(this, VipActivity.class));
             SPUtil.put(this, IS_LOGIN, "is_login");
             finish();
         } else

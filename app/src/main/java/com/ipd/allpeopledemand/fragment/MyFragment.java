@@ -106,6 +106,8 @@ public class MyFragment extends BaseFragment<CheckInContract.View, CheckInContra
     ConstraintLayout clNoVip;
     @BindView(R.id.cl_is_vip)
     ConstraintLayout clIsVip;
+    @BindView(R.id.tv_levels)
+    TextView tvLevels;
 
     private List<CheckInLayoutBean.DataBean.SignListBean> signListBean = new ArrayList<>();
     private int continueDays = 0;
@@ -164,7 +166,7 @@ public class MyFragment extends BaseFragment<CheckInContract.View, CheckInContra
         localMedia.setCompressPath(BASE_LOCAL_URL + SPUtil.get(getContext(), AVATAR, ""));
         medias.add(localMedia);
         tvName.setText(SPUtil.get(getContext(), NAME, "") + "");
-        tvAllPeopleCode.setText("(" + SPUtil.get(getContext(), ALL_PEOPLE, "") + ")");
+        tvAllPeopleCode.setText("全民号：" + SPUtil.get(getContext(), ALL_PEOPLE, ""));
         tvOnlineTime.setText("浏览时长：12小时");//TODO  后台没有,让写死
         tvOnlineTime.setVisibility(View.INVISIBLE);//暂时去掉该功能
     }
@@ -198,7 +200,7 @@ public class MyFragment extends BaseFragment<CheckInContract.View, CheckInContra
             case R.id.bt_go_vip:
             case R.id.cl_is_vip:
             case R.id.bt_go_vip1:
-                startActivityForResult(new Intent(getContext(), VipActivity.class).putExtra("stop_time", tvVipEndTime.getText().toString().trim()), REQUEST_CODE_101);
+                startActivityForResult(new Intent(getContext(), VipActivity.class).putExtra("stop_time", tvVipEndTime.getText().toString().trim().replaceAll("到期时间：", "")), REQUEST_CODE_101);
                 break;
             case R.id.ib_check_in:
                 //签到
@@ -279,16 +281,53 @@ public class MyFragment extends BaseFragment<CheckInContract.View, CheckInContra
                 tvRankLable.setVisibility(View.GONE);
                 tvCertificationLable.setVisibility(View.GONE);
 //        }
-                if (data.getData().getUser().getMember() == 0) {
-                    ivVip.setImageResource(R.mipmap.ic_no_vip);
-                    clNoVip.setVisibility(View.VISIBLE);
-                    clIsVip.setVisibility(View.GONE);
-                } else {
-                    ivVip.setImageResource(R.mipmap.ic_vip);
-                    clNoVip.setVisibility(View.GONE);
-                    clIsVip.setVisibility(View.VISIBLE);
-                    tvVipEndTime.setText(data.getData().getUser().getStoptime());
+//                if (data.getData().getUser().getMember() == 0) {
+//                    ivVip.setImageResource(R.mipmap.ic_no_vip);
+//                    clNoVip.setVisibility(View.VISIBLE);
+//                    clIsVip.setVisibility(View.GONE);
+//                } else {
+                if (data.getData().getFettle() == 0) {
+                    ToastUtil.showLongToast(data.getMsg());
+                    //清除所有临时储存
+                    SPUtil.clear(ApplicationUtil.getContext());
+                    ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                    startActivity(new Intent(getContext(), LoginActivity.class));
+                    getActivity().finish();
                 }
+                ivVip.setImageResource(R.mipmap.ic_vip);
+                clNoVip.setVisibility(View.GONE);
+                clIsVip.setVisibility(View.VISIBLE);
+                tvVipEndTime.setText("到期时间：" + data.getData().getUser().getStoptime());
+                switch (data.getData().getUser().getLevels()) {
+                    case 1:
+                        tvLevels.setText("工兵");
+                        break;
+                    case 2:
+                        tvLevels.setText("班长");
+                        break;
+                    case 3:
+                        tvLevels.setText("排长");
+                        break;
+                    case 4:
+                        tvLevels.setText("连长");
+                        break;
+                    case 5:
+                        tvLevels.setText("营长");
+                        break;
+                    case 6:
+                        tvLevels.setText("团长");
+                        break;
+                    case 7:
+                        tvLevels.setText("旅长");
+                        break;
+                    case 8:
+                        tvLevels.setText("军长");
+                        break;
+                    case 9:
+                        tvLevels.setText("司令");
+                        break;
+                }
+//                }
                 break;
             case 900:
                 ToastUtil.showLongToast(data.getMsg());

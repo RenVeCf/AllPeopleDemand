@@ -30,6 +30,7 @@ import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.activity.LoginActivity;
+import com.ipd.allpeopledemand.activity.MainActivity;
 import com.ipd.allpeopledemand.activity.MsgActivity;
 import com.ipd.allpeopledemand.activity.SearchMainActivity;
 import com.ipd.allpeopledemand.activity.WebViewActivity;
@@ -46,6 +47,7 @@ import com.ipd.allpeopledemand.common.view.NavitationFollowScrollLayoutText;
 import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.MainPagerContract;
 import com.ipd.allpeopledemand.presenter.MainPagerPresenter;
+import com.ipd.allpeopledemand.utils.ApplicationUtil;
 import com.ipd.allpeopledemand.utils.LocationService;
 import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
@@ -637,16 +639,27 @@ public class MainFragment extends BaseFragment<MainPagerContract.View, MainPager
 
     @Override
     public void resultIsMsg(IsMsgBean data) {
-        if (data.getCode() == 200)
-            if (data.getData().getUreads() == 1) {
-                mBadges.add(new BadgeView(getContext()).bindTarget(ibTopMsg).setBadgeText("1").setBadgeTextSize(6, true)
-                        .setBadgeBackgroundColor(getResources().getColor(R.color.red)).setBadgeTextColor(getResources().getColor(R.color.red))
-                        .setBadgePadding(0, true));
-            } else {
-                for (Badge badge : mBadges) {
-                    badge.hide(true);
+        switch (data.getCode()) {
+            case 200:
+                if (data.getData().getUreads() == 1) {
+                    mBadges.add(new BadgeView(getContext()).bindTarget(ibTopMsg).setBadgeText("1").setBadgeTextSize(6, true)
+                            .setBadgeBackgroundColor(getResources().getColor(R.color.red)).setBadgeTextColor(getResources().getColor(R.color.red))
+                            .setBadgePadding(0, true));
+                } else {
+                    for (Badge badge : mBadges) {
+                        badge.hide(true);
+                    }
                 }
-            }
+                break;
+            case 900:
+                ToastUtil.showLongToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                getActivity().finish();
+                break;
+        }
     }
 
     @Override

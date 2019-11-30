@@ -3,6 +3,7 @@ package com.ipd.allpeopledemand.presenter;
 import android.content.Context;
 
 import com.ipd.allpeopledemand.bean.OpenMemberBean;
+import com.ipd.allpeopledemand.bean.UserInfoBean;
 import com.ipd.allpeopledemand.contract.OpenMemberContract;
 import com.ipd.allpeopledemand.model.OpenMemberModel;
 import com.ipd.allpeopledemand.progress.ObserverResponseListener;
@@ -35,6 +36,27 @@ public class OpenMemberPresenter extends OpenMemberContract.Presenter {
                 //这一步是必须的，判断view是否已经被销毁
                 if (getView() != null) {
                     getView().resultOpenMember((OpenMemberBean) o);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+                if (getView() != null) {
+                    //// TODO: 2017/12/28 自定义处理异常
+                    ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getUserInfo(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
+        model.getUserInfo(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+            @Override
+            public void onNext(Object o) {
+                //这一步是必须的，判断view是否已经被销毁
+                if (getView() != null) {
+                    getView().resultUserInfo((UserInfoBean) o);
                 }
             }
 

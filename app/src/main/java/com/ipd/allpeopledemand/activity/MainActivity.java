@@ -22,14 +22,10 @@ import com.ipd.allpeopledemand.fragment.MyFragment;
 import com.ipd.allpeopledemand.fragment.PushFragment;
 import com.ipd.allpeopledemand.presenter.CheckVersionPresenter;
 import com.ipd.allpeopledemand.utils.ApplicationUtil;
-import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.NavigationBarUtil;
 import com.ipd.allpeopledemand.utils.SPUtil;
-import com.ipd.allpeopledemand.utils.StringUtils;
 import com.ipd.allpeopledemand.utils.ToastUtil;
 import com.xuexiang.xupdate.XUpdate;
-
-import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -125,12 +121,12 @@ public class MainActivity extends BaseActivity<CheckVersionContract.View, CheckV
         //上一层界面跳过来时，要求显示对的碎片
         switch (getIntent().getIntExtra("howFragment", 0)) {
             case 0:
-                rbNavigationMain.setChecked(true);
-                switchFragment(mainFragment).commit();
-                break;
-            case 1:
                 rbNavigationClassRoom.setChecked(true);
                 switchFragment(classRoomFragment).commit();
+                break;
+            case 1:
+                rbNavigationMain.setChecked(true);
+                switchFragment(mainFragment).commit();
                 break;
             case 2:
                 rbNavigationPush.setChecked(true);
@@ -192,7 +188,6 @@ public class MainActivity extends BaseActivity<CheckVersionContract.View, CheckV
             firstTime = secondTime;
         } else {
             ApplicationUtil.getManager().exitApp();
-
         }
     }
 

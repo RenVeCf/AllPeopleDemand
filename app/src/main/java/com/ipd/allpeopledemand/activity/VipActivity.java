@@ -18,6 +18,7 @@ import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.aliPay.AliPay;
 import com.ipd.allpeopledemand.base.BaseActivity;
 import com.ipd.allpeopledemand.bean.OpenMemberBean;
+import com.ipd.allpeopledemand.bean.UserInfoBean;
 import com.ipd.allpeopledemand.common.view.BottomPayDialog;
 import com.ipd.allpeopledemand.common.view.MyStyleSpan;
 import com.ipd.allpeopledemand.common.view.TopView;
@@ -76,8 +77,11 @@ public class VipActivity extends BaseActivity<OpenMemberContract.View, OpenMembe
     Button btVip;
     @BindView(R.id.tv_bold)
     TextView tvBold;
+    @BindView(R.id.tv_levels)
+    TextView tvLevels;
 
     private String stopTime;
+    private int isBack = 0;
 
     @Override
     public int getLayoutId() {
@@ -121,6 +125,11 @@ public class VipActivity extends BaseActivity<OpenMemberContract.View, OpenMembe
 
     @Override
     public void initData() {
+        TreeMap<String, String> userInfoMap = new TreeMap<>();
+        userInfoMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+        userInfoMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(userInfoMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+        getPresenter().getUserInfo(userInfoMap, false, false);
+
         Glide.with(this).load(BASE_LOCAL_URL + SPUtil.get(this, AVATAR, "")).apply(new RequestOptions().placeholder(R.mipmap.ic_default_head)).into(ivHead);
         name.setText(SPUtil.get(this, NAME, "") + "");
         fee.setText("8.0元/月");
@@ -136,17 +145,23 @@ public class VipActivity extends BaseActivity<OpenMemberContract.View, OpenMembe
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        setResult(RESULT_OK, new Intent().putExtra("refresh", 1));
-        finish();
+//        super.onBackPressed();
+        isBack = 1;
+        TreeMap<String, String> userInfoMap = new TreeMap<>();
+        userInfoMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+        userInfoMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(userInfoMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+        getPresenter().getUserInfo(userInfoMap, false, false);
     }
 
     @OnClick({R.id.ll_top_back, R.id.bt_vip, R.id.tv_protocol})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_top_back:
-                setResult(RESULT_OK, new Intent().putExtra("refresh", 1));
-                finish();
+                isBack = 1;
+                TreeMap<String, String> userInfoMap = new TreeMap<>();
+                userInfoMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+                userInfoMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(userInfoMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
+                getPresenter().getUserInfo(userInfoMap, false, false);
                 break;
             case R.id.bt_vip:
                 if (cbProtocol.isChecked()) {
@@ -209,6 +224,61 @@ public class VipActivity extends BaseActivity<OpenMemberContract.View, OpenMembe
                 }
                 break;
             case 900:
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                break;
+        }
+    }
+
+    @Override
+    public void resultUserInfo(UserInfoBean data) {
+        switch (data.getCode()) {
+            case 200:
+                if (isBack == 1) {
+                    if (data.getData().getUser().getMember() == 0) {
+                        //清除所有临时储存
+                        SPUtil.clear(ApplicationUtil.getContext());
+                        ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                        startActivity(new Intent(this, LoginActivity.class));
+                    } else
+                        setResult(RESULT_OK, new Intent().putExtra("refresh", 1));
+                    finish();
+                }
+                switch (data.getData().getUser().getLevels()) {
+                    case 1:
+                        tvLevels.setText("工兵");
+                        break;
+                    case 2:
+                        tvLevels.setText("班长");
+                        break;
+                    case 3:
+                        tvLevels.setText("排长");
+                        break;
+                    case 4:
+                        tvLevels.setText("连长");
+                        break;
+                    case 5:
+                        tvLevels.setText("营长");
+                        break;
+                    case 6:
+                        tvLevels.setText("团长");
+                        break;
+                    case 7:
+                        tvLevels.setText("旅长");
+                        break;
+                    case 8:
+                        tvLevels.setText("军长");
+                        break;
+                    case 9:
+                        tvLevels.setText("司令");
+                        break;
+                }
+                break;
+            case 900:
+                ToastUtil.showLongToast(data.getMsg());
                 //清除所有临时储存
                 SPUtil.clear(ApplicationUtil.getContext());
                 ApplicationUtil.getManager().finishActivity(MainActivity.class);

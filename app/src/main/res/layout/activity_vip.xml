@@ -231,12 +231,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/fee" />
 
             <TextView
-                android:id="@+id/tv"
+                android:id="@+id/tv_levels"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/x150"
                 android:layout_marginTop="@dimen/y100"
-                android:text="VIP会员"
                 android:textColor="#8C6420"
                 android:textSize="22sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -262,7 +261,7 @@
                 android:textColor="#8C6420"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_levels" />
 
             <com.xuexiang.xui.widget.imageview.RadiusImageView
                 android:id="@+id/iv_head"

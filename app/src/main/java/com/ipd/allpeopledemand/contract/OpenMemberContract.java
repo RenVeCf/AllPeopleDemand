@@ -3,6 +3,7 @@ package com.ipd.allpeopledemand.contract;
 import com.ipd.allpeopledemand.base.BasePresenter;
 import com.ipd.allpeopledemand.base.BaseView;
 import com.ipd.allpeopledemand.bean.OpenMemberBean;
+import com.ipd.allpeopledemand.bean.UserInfoBean;
 
 import java.util.TreeMap;
 
@@ -20,10 +21,14 @@ public interface OpenMemberContract {
         //不同的Bean单独处理
         void resultOpenMember(OpenMemberBean data);
 
+        void resultUserInfo(UserInfoBean data);
+
         <T> ObservableTransformer<T, T> bindLifecycle();
     }
 
     abstract class Presenter extends BasePresenter<View> {
         public abstract void getOpenMember(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
+
+        public abstract void getUserInfo(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
     }
 }

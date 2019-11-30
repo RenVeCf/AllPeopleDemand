@@ -125,7 +125,7 @@ public class MyPushDetailsActivity extends BaseActivity<MyPushDetailsContract.Vi
         pushType = getIntent().getIntExtra("push_type", 0);
         releaseId = getIntent().getIntExtra("releaseId", 0);
 
-        tvTopDescription.setText(Html.fromHtml("<font color=\"#E71B64\">注: </font>支付完毕后，我们在本类目进行排序的时候，按照8-3-1- vip-普通会员的阶梯来排，排序置顶周期为一周。"));
+        tvTopDescription.setText(Html.fromHtml("<font color=\"#E71B64\">注: </font>支付完毕后，我们在本类目进行排序的时候，按照8-3-1- vip-的阶梯来排，排序置顶周期为一周。"));
 
         switch (pushType) {
             case 1:

@@ -23,6 +23,8 @@ import java.util.TreeMap;
 import io.reactivex.ObservableTransformer;
 
 import static com.ipd.allpeopledemand.common.config.IConstants.FIRST_APP;
+import static com.ipd.allpeopledemand.common.config.IConstants.IS_LOGIN;
+import static com.ipd.allpeopledemand.common.config.IConstants.MEMBER;
 
 /**
  * Description ：启动页
@@ -172,7 +174,10 @@ public class SplashActivity extends BaseActivity<LoadingContract.View, LoadingCo
                     startActivity(new Intent(SplashActivity.this, LoadingActivity.class).putParcelableArrayListExtra("usertGuides", (ArrayList<? extends Parcelable>) guidePageListBean));
                     finish();
                 } else {
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    if ("1".equals(SPUtil.get(SplashActivity.this, MEMBER, "") + ""))
+                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    else
+                        startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                     finish();
                 }
             }
@@ -186,7 +191,10 @@ public class SplashActivity extends BaseActivity<LoadingContract.View, LoadingCo
             if (data.getData().getGuidePageList().size() > 0) {
                 guidePageListBean.addAll(data.getData().getGuidePageList());
             } else {
-                startActivity(new Intent(this, MainActivity.class));
+                if ("1".equals(SPUtil.get(SplashActivity.this, MEMBER, "") + ""))
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                else
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 finish();
             }
         } else

@@ -19,7 +19,6 @@
         android:id="@+id/nfsl_fragment_class_room"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:visibility="gone"
         android:background="@color/white" />
 
     <com.ipd.allpeopledemand.common.view.NoScrollViewPager

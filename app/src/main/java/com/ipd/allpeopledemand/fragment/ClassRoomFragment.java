@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.allpeopledemand.R;
 import com.ipd.allpeopledemand.activity.LoginActivity;
+import com.ipd.allpeopledemand.activity.MainActivity;
 import com.ipd.allpeopledemand.activity.MsgActivity;
 import com.ipd.allpeopledemand.activity.SearchClassRoomActivity;
 import com.ipd.allpeopledemand.adapter.ViewPagerAdapter;
@@ -22,9 +23,11 @@ import com.ipd.allpeopledemand.common.view.NoScrollViewPager;
 import com.ipd.allpeopledemand.common.view.TopView;
 import com.ipd.allpeopledemand.contract.ClassRoomInicationContract;
 import com.ipd.allpeopledemand.presenter.ClassRoomInicationPresenter;
+import com.ipd.allpeopledemand.utils.ApplicationUtil;
 import com.ipd.allpeopledemand.utils.MD5Utils;
 import com.ipd.allpeopledemand.utils.SPUtil;
 import com.ipd.allpeopledemand.utils.StringUtils;
+import com.ipd.allpeopledemand.utils.ToastUtil;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 import com.xuexiang.xui.widget.textview.badge.Badge;
 import com.xuexiang.xui.widget.textview.badge.BadgeView;
@@ -169,10 +172,10 @@ public class ClassRoomFragment extends BaseFragment<ClassRoomInicationContract.V
         viewPagerAdapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager(), fragments);
         vpFragmentClassRoom.setAdapter(viewPagerAdapter);
         vpFragmentClassRoom.setOffscreenPageLimit(titles.length);
-        vpFragmentClassRoom.setScanScroll(false);//禁止滑动
+//        vpFragmentClassRoom.setScanScroll(false);//禁止滑动
 
         //设置导航条
-        nfslFragmentClassRoom.setViewPager(getContext(), titles, vpFragmentClassRoom, R.color.tx_bottom_navigation, R.color.black, 16, 16, 24, false, R.color.black, 0, 0, 0, 80);
+        nfslFragmentClassRoom.setViewPager(getContext(), titles, vpFragmentClassRoom, R.color.tx_bottom_navigation, R.color.black, 16, 16, 24, true, R.color.black, 0, 0, 0, 80);
         nfslFragmentClassRoom.setBgLine(getContext(), 1, R.color.whitesmoke);
         nfslFragmentClassRoom.setNavLine(getActivity(), 3, R.color.colorAccent);
 
@@ -196,16 +199,27 @@ public class ClassRoomFragment extends BaseFragment<ClassRoomInicationContract.V
 
     @Override
     public void resultIsMsg(IsMsgBean data) {
-        if (data.getCode() == 200)
-            if (data.getData().getUreads() == 1) {
-                mBadges.add(new BadgeView(getContext()).bindTarget(ibTopMsg).setBadgeText("1").setBadgeTextSize(6, true)
-                        .setBadgeBackgroundColor(getResources().getColor(R.color.red)).setBadgeTextColor(getResources().getColor(R.color.red))
-                        .setBadgePadding(0, true));
-            } else {
-                for (Badge badge : mBadges) {
-                    badge.hide(true);
+        switch (data.getCode()) {
+            case 200:
+                if (data.getData().getUreads() == 1) {
+                    mBadges.add(new BadgeView(getContext()).bindTarget(ibTopMsg).setBadgeText("1").setBadgeTextSize(6, true)
+                            .setBadgeBackgroundColor(getResources().getColor(R.color.red)).setBadgeTextColor(getResources().getColor(R.color.red))
+                            .setBadgePadding(0, true));
+                } else {
+                    for (Badge badge : mBadges) {
+                        badge.hide(true);
+                    }
                 }
-            }
+                break;
+            case 900:
+                ToastUtil.showLongToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                getActivity().finish();
+                break;
+        }
     }
 
     @OnClick({R.id.ib_top_msg, R.id.et_top_long_search})
