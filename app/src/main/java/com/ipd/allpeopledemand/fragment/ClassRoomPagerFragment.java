@@ -198,6 +198,7 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
         classRoomPagerMap.put("roomClassId", isEmpty(roomClassId) ? this.roomClassId : roomClassId);
         classRoomPagerMap.put("orderByColumn", orderByColumn);
         classRoomPagerMap.put("isAsc", isAsc);
+        classRoomPagerMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
         classRoomPagerMap.put("pageNum", pageNum);
         classRoomPagerMap.put("title", title);
         classRoomPagerMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(classRoomPagerMap.toString().replaceAll(" ", "") + "F9A75BB045D75998E1509B75ED3A5225")));
@@ -207,6 +208,15 @@ public class ClassRoomPagerFragment extends BaseFragment<ClassRoomPagerContract.
     @Override
     public void resultClassRoomPager(ClassRoomPagerBean data) {
         if (data.getCode() == 200) {
+            if (data.getData().getFettle() == 0) {
+                ToastUtil.showLongToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                getActivity().finish();
+            }
+
             if (data.getTotal() > 0) {
                 if (pageNum == 1) {
                     roomListBean.clear();

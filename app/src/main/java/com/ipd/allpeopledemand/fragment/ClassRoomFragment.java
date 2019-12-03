@@ -7,6 +7,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.allpeopledemand.R;
@@ -62,7 +63,7 @@ public class ClassRoomFragment extends BaseFragment<ClassRoomInicationContract.V
     @BindView(R.id.nfsl_fragment_class_room)
     NavitationFollowScrollLayoutText nfslFragmentClassRoom;
     @BindView(R.id.vp_fragment_class_room)
-    NoScrollViewPager vpFragmentClassRoom;
+    ViewPager vpFragmentClassRoom;
 
     private String[] titles;
     private List<Fragment> fragments;

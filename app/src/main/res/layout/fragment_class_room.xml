@@ -21,7 +21,14 @@
         android:layout_height="50dp"
         android:background="@color/white" />
 
-    <com.ipd.allpeopledemand.common.view.NoScrollViewPager
+<!-- 不滑动 -->
+<!--    <com.ipd.allpeopledemand.common.view.NoScrollViewPager-->
+<!--        android:id="@+id/vp_fragment_class_room"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_weight="1" />-->
+
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp_fragment_class_room"
         android:layout_width="match_parent"
         android:layout_height="0dp"

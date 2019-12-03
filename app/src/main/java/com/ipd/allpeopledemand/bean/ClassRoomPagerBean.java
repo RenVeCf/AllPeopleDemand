@@ -14,7 +14,7 @@ public class ClassRoomPagerBean {
      * msg : 操作成功
      * total : 3
      * code : 200
-     * data : {"roomList":[{"classroomId":3,"roomClassId":2,"title":"掌握了这25个叠衣服和整理衣柜的生活窍门，你的妈妈一定会夸你","playNum":0,"type":"3","content":"<p>掌握了这25个叠衣服和整理衣柜的生活窍门，你的妈妈一定会夸你<\/p>","purchaseNum":0,"thumbnail":"upload/2019/08/01/10cb466e19f686c5c7a5399d7eacd7b4.png","status":"1","videoDate":"","createTime":"2019-08-01 14:08:55","updateTime":null,"watchNum":35,"videoUrl":"http://player.youku.com/embed/XNDEzODgyODc4OA==","videoFile":"","audioFile":"","videoType":"2","audioUrl":"","audioType":"","orderId":null,"payStatus":null,"userId":null,"money":10,"integral":10},{"classroomId":2,"roomClassId":2,"title":"爆笑恶作剧，创意DIY食用的生活窍门，海绵小妙招你肯定不知道","playNum":0,"type":"3","content":"<p>爆笑恶作剧，创意DIY食用的生活窍门，海绵小妙招你肯定不知道<\/p>","purchaseNum":0,"thumbnail":"upload/2019/08/01/4774325b8d38c88fb38098d1cdb28d7f.png","status":"1","videoDate":"","createTime":"2019-08-01 14:01:05","updateTime":null,"watchNum":58,"videoUrl":"http://player.youku.com/embed/XNDI3NjI3MDUwNA==","videoFile":"","audioFile":"","videoType":"2","audioUrl":"","audioType":"","orderId":null,"payStatus":null,"userId":null,"money":10,"integral":10},{"classroomId":1,"roomClassId":2,"title":"十分钟快速发面的窍门","playNum":0,"type":"3","content":"<p>十分钟快速发面的窍门<\/p>","purchaseNum":0,"thumbnail":"upload/2019/08/01/edf2cb2c01f789a1906ff978e0009a79.png","status":"1","videoDate":"","createTime":"2019-08-01 11:43:44","updateTime":"2019-08-01 13:42:15","watchNum":69,"videoUrl":"http://player.youku.com/embed/XNDI2MDk3ODgwNA==","videoFile":"","audioFile":"","videoType":"2","audioUrl":"","audioType":"","orderId":null,"payStatus":null,"userId":null,"money":10,"integral":10}]}
+     * data : {"fettle":1, "roomList":[{"classroomId":3,"roomClassId":2,"title":"掌握了这25个叠衣服和整理衣柜的生活窍门，你的妈妈一定会夸你","playNum":0,"type":"3","content":"<p>掌握了这25个叠衣服和整理衣柜的生活窍门，你的妈妈一定会夸你<\/p>","purchaseNum":0,"thumbnail":"upload/2019/08/01/10cb466e19f686c5c7a5399d7eacd7b4.png","status":"1","videoDate":"","createTime":"2019-08-01 14:08:55","updateTime":null,"watchNum":35,"videoUrl":"http://player.youku.com/embed/XNDEzODgyODc4OA==","videoFile":"","audioFile":"","videoType":"2","audioUrl":"","audioType":"","orderId":null,"payStatus":null,"userId":null,"money":10,"integral":10},{"classroomId":2,"roomClassId":2,"title":"爆笑恶作剧，创意DIY食用的生活窍门，海绵小妙招你肯定不知道","playNum":0,"type":"3","content":"<p>爆笑恶作剧，创意DIY食用的生活窍门，海绵小妙招你肯定不知道<\/p>","purchaseNum":0,"thumbnail":"upload/2019/08/01/4774325b8d38c88fb38098d1cdb28d7f.png","status":"1","videoDate":"","createTime":"2019-08-01 14:01:05","updateTime":null,"watchNum":58,"videoUrl":"http://player.youku.com/embed/XNDI3NjI3MDUwNA==","videoFile":"","audioFile":"","videoType":"2","audioUrl":"","audioType":"","orderId":null,"payStatus":null,"userId":null,"money":10,"integral":10},{"classroomId":1,"roomClassId":2,"title":"十分钟快速发面的窍门","playNum":0,"type":"3","content":"<p>十分钟快速发面的窍门<\/p>","purchaseNum":0,"thumbnail":"upload/2019/08/01/edf2cb2c01f789a1906ff978e0009a79.png","status":"1","videoDate":"","createTime":"2019-08-01 11:43:44","updateTime":"2019-08-01 13:42:15","watchNum":69,"videoUrl":"http://player.youku.com/embed/XNDI2MDk3ODgwNA==","videoFile":"","audioFile":"","videoType":"2","audioUrl":"","audioType":"","orderId":null,"payStatus":null,"userId":null,"money":10,"integral":10}]}
      */
 
     private String msg;
@@ -55,7 +55,17 @@ public class ClassRoomPagerBean {
     }
 
     public static class DataBean {
+
+        private int fettle;
         private List<RoomListBean> roomList;
+
+        public int getFettle() {
+            return fettle;
+        }
+
+        public void setFettle(int fettle) {
+            this.fettle = fettle;
+        }
 
         public List<RoomListBean> getRoomList() {
             return roomList;
