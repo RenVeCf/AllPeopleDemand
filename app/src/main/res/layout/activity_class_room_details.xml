@@ -104,6 +104,7 @@
                 android:id="@+id/tv_class_room_pay_fee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginEnd="@dimen/x50"
                 android:textColor="@color/tx_bottom_navigation_select" />
 

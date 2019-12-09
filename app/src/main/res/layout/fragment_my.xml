@@ -391,6 +391,7 @@
                 app:sLeftIconRes="@mipmap/ic_buy"
                 app:sLeftTextColor="@color/black"
                 app:sLeftTextSize="18sp"
+                android:visibility="gone"
                 app:sLeftTextString="我的购买"
                 app:sRightIconRes="@mipmap/ic_arrow_end"
                 app:sShapeCornersRadius="6dp"
