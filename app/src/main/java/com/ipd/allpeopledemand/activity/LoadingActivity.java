@@ -107,7 +107,7 @@ public class LoadingActivity extends BaseActivity<LoadingContract.View, LoadingC
             @Override
             public void onJumpClick() {
                 if (isFastClick()) {
-                    startActivity(new Intent(LoadingActivity.this, MainActivity.class));
+                    startActivity(new Intent(LoadingActivity.this, LoginActivity.class));
                     finish();
                 }
             }
